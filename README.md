@@ -1,4 +1,4 @@
 NuLog
 =====
 
-Powerfully Simple Logging
+Powerfully Simple Logging. Period.
