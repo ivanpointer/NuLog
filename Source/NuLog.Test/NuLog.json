@@ -1,0 +1,32 @@
+﻿{
+    "targets": [{
+        "name": "console",
+        "type": "NuLog.Targets.ConsoleTarget",
+        "colorRules": [{
+            "tags": ["red", "error", "fail*"],
+            "color": "White",
+            "background": "Red"
+        }]
+    /*},{
+        name: "file",
+        type: "NuLog.Targets.RollingFileTarget",
+        layout: "${longdate}|${tags}|${message}",
+        file: "log.txt",
+        rollingStyle: "size", // or "date"
+        maxFiles: 10,
+        maxFileSize: "100KB"*/
+    }],
+    "rules": [{
+        "include": ["NuLog*", "info"],
+        "writeTo": ["console"],
+        "final": false
+    }],
+    "tagGroups": {
+        "trace": ["debug", "info", "warn", "error", "fatal"],
+        "debug": ["info", "warn", "error", "fatal"],
+        "info": ["warn", "error", "fatal"],
+        "warn": ["error", "fatal"],
+        "error": ["fatal"]
+    },
+    "watch": true
+}
