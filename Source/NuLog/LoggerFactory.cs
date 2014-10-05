@@ -151,7 +151,7 @@ namespace NuLog
                     if (tags.Contains(loggerName) == false)
                         tags.Add(loggerName);
 
-                    var logger = new SimpleLogger(Instance.Value.LogEventDispatcher, tags);
+                    var logger = new DefaultLogger(Instance.Value.LogEventDispatcher, tags);
                     Instance.Value.NamedLoggers[loggerName] = logger;
                     return logger;
                 }
@@ -177,7 +177,7 @@ namespace NuLog
             if (tags.Contains(declaringFullName) == false)
                 tags.Add(declaringFullName);
 
-            return new SimpleLogger(Instance.Value.LogEventDispatcher, tags)
+            return new DefaultLogger(Instance.Value.LogEventDispatcher, tags)
             {
                 MetaDataProvider = metaDataProvider
             };

@@ -1,10 +1,12 @@
 ﻿using NuLog.Dispatch;
 using NuLog.MetaData;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NuLog.Logger
@@ -34,7 +36,7 @@ namespace NuLog.Logger
                 ? new StackFrame(1)
                 : null;
 
-            Task.Factory.StartNew(() =>
+            Dispatcher.Enqueue(() =>
             {
                 logEventInfo.LoggingStackFrame = stackFrame;
                 logEventInfo.Tags = GetTags(logEventInfo.Tags, stackFrame, logEventInfo.Exception != null);
@@ -48,7 +50,7 @@ namespace NuLog.Logger
                 ? new StackFrame(1)
                 : null;
 
-            Task.Factory.StartNew(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -63,7 +65,7 @@ namespace NuLog.Logger
                 ? new StackFrame(1)
                 : null;
 
-            Task.Factory.StartNew(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -75,7 +77,7 @@ namespace NuLog.Logger
         public void Log(string message, Exception exception, params string[] tags)
         {
             var stackFrame = new StackFrame(1);
-            Task.Factory.StartNew(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -88,7 +90,7 @@ namespace NuLog.Logger
         public void Log(string message, Exception exception, IDictionary<string, object> metaData, params string[] tags)
         {
             var stackFrame = new StackFrame(1);
-            Task.Factory.StartNew(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,

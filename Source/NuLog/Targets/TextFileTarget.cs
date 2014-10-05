@@ -1,7 +1,9 @@
 ﻿using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using NuLog.Configuration.Targets;
+using NuLog.Dispatch;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -36,42 +38,29 @@ namespace NuLog.Targets
             _sw.Restart();
         }
 
-        protected override void QueueWorkerThread()
+        protected override void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
         {
             LogEvent logEvent;
-
-            while (!DoShutdown)
-            {
-                if (LogQueue.IsEmpty == false)
-                {
-                    lock (_fileLock)
-                        using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
-                            while (LogQueue.IsEmpty == false)
+            lock (_fileLock)
+                using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
+                    while (logQueue.IsEmpty == false)
+                    {
+                        if (logQueue.TryDequeue(out logEvent))
+                        {
+                            try
                             {
-                                if (LogQueue.TryDequeue(out logEvent))
-                                {
-                                    try
-                                    {
-                                        fileStream.Write(Layout.FormatLogEvent(logEvent));
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        if (Dispatcher != null)
-                                            Dispatcher.HandleException(e, logEvent);
-                                        else
-                                            throw e;
-                                    }
-                                }
+                                fileStream.Write(Layout.FormatLogEvent(logEvent));
                             }
-                    _sw.Restart();
-                }
-
-                Thread.Yield();
-                if (!DoShutdown)
-                    Thread.Sleep(AsyncWriteWait);
-            }
-
-            IsThreadShutdown = true;
+                            catch (Exception e)
+                            {
+                                if (dispatcher != null)
+                                    dispatcher.HandleException(e, logEvent);
+                                else
+                                    throw e;
+                            }
+                        }
+                    }
+            _sw.Restart();
         }
 
         public void RollFile()

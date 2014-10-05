@@ -80,34 +80,39 @@ namespace NuLog.Targets
                 Log(logEvent);
         }
 
-        protected virtual void QueueWorkerThread()
+        protected void QueueWorkerThread()
         {
-            LogEvent logEvent;
-
             while (!DoShutdown)
             {
-                while (LogQueue.IsEmpty == false)
-                {
-                    if (LogQueue.TryDequeue(out logEvent))
-                    {
-                        try
-                        {
-                            Log(logEvent);
-                        }
-                        catch (Exception e)
-                        {
-                            if (Dispatcher != null)
-                                Dispatcher.HandleException(e, logEvent);
-                            else
-                                throw e;
-                        }
-                    }
-                }
+                if (LogQueue.IsEmpty == false)
+                    ProcessLogQueue(LogQueue, Dispatcher);
 
                 Thread.Yield();
             }
 
             IsThreadShutdown = true;
+        }
+
+        protected virtual void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
+        {
+            LogEvent logEvent;
+            while (logQueue.IsEmpty == false)
+            {
+                if (logQueue.TryDequeue(out logEvent))
+                {
+                    try
+                    {
+                        Log(logEvent);
+                    }
+                    catch (Exception e)
+                    {
+                        if (dispatcher != null)
+                            dispatcher.HandleException(e, logEvent);
+                        else
+                            throw e;
+                    }
+                }
+            }
         }
 
         public virtual void Initialize(TargetConfig targetConfig, bool? synchronous = null)

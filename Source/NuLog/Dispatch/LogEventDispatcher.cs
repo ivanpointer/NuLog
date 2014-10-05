@@ -33,7 +33,9 @@ namespace NuLog.Dispatch
 
         private IDictionary<string, ICollection<TargetBase>> TargetDictionary { get; set; }
 
+        internal ConcurrentQueue<Action> ActionQueue { get; set; }
         internal ConcurrentQueue<LogEvent> LogQueue { get; set; }
+
         internal Thread _queueWorkerThread;
         internal bool _doShutdownThread;
         internal bool _isThreadShutdown;
@@ -67,6 +69,7 @@ namespace NuLog.Dispatch
             RuleKeeper = new RuleKeeper(TagKeeper);
             TargetDictionary = new Dictionary<string, ICollection<TargetBase>>();
 
+            ActionQueue = new ConcurrentQueue<Action>();
             LogQueue = new ConcurrentQueue<LogEvent>();
 
             _doShutdownThread = false;
@@ -128,12 +131,26 @@ namespace NuLog.Dispatch
             LogQueue.Enqueue(logEvent);
         }
 
+        public void Enqueue(Action action)
+        {
+            ActionQueue.Enqueue(action);
+        }
+
         private void QueueWorkerThread()
         {
+            Action action;
             LogEvent logEvent;
 
             while (!DoShutdown)
             {
+                while (ActionQueue.IsEmpty == false)
+                {
+                    if (ActionQueue.TryDequeue(out action))
+                    {
+                        action();
+                    }
+                }
+
                 while (LogQueue.IsEmpty == false)
                 {
                     if (LogQueue.TryDequeue(out logEvent))

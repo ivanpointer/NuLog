@@ -1,0 +1,14 @@
+﻿{
+	"targets": [{
+		"name": "console",
+		"type": "NuLog.Targets.SimpleConsoleTarget",
+		"layout": "${Tags} - ${Message}\r\n"
+	}],
+	"rules": [{
+		"include": ["console"],
+		"writeTo": [ "console" ],
+		"synchronous": true,
+		"final": true
+	}],
+	"watch": true
+}
