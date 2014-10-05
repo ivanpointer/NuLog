@@ -1,5 +1,6 @@
 ﻿using NuLog.Configuration.Layouts;
 using NuLog.Configuration.Targets;
+using NuLog.Dispatch;
 using NuLog.Targets.Layouts;
 using System;
 using System.Collections.Generic;
@@ -42,13 +43,13 @@ namespace NuLog.Targets
             BCC = new List<MailAddress>();
         }
 
-        public override void Initialize(TargetConfig targetConfig, bool? synchronous = null)
+        public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
             lock (_configLock)
             {
                 if (targetConfig != null)
                 {
-                    base.Initialize(targetConfig, synchronous);
+                    base.Initialize(targetConfig, dispatcher, synchronous);
 
                     // Check target config type here then get it into a SmtpTargetConfig
                     if (typeof(SmtpTargetConfig).IsAssignableFrom(targetConfig.GetType()))

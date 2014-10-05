@@ -108,9 +108,10 @@ namespace NuLog.Targets
             }
         }
 
-        public virtual void Initialize(TargetConfig targetConfig, bool? synchronous = null)
+        public virtual void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
             BaseTargetConfig = targetConfig;
+            Dispatcher = dispatcher;
 
             if (targetConfig != null)
             {

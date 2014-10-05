@@ -23,9 +23,11 @@ namespace NuLog.ConsoleTest
         private static readonly IList<Tuple<string, Action<string[]>>> TestOptions = new List<Tuple<string, Action<string[]>>>
         {
             new Tuple<string, Action<string[]>>("Async Console Test", TestAsyncConsole)
+            ,new Tuple<string, Action<string[]>>("LogNow Console Test", TestLogNowConsole)
             ,new Tuple<string, Action<string[]>>("Sync Console Test", TestSyncConsole)
+            ,new Tuple<string, Action<string[]>>("Async Color Console Test", TestAsyncColorConsole)
             ,new Tuple<string, Action<string[]>>("Async File Test", TestAsyncFile)
-            ,new Tuple<string, Action<string[]>>("Sync File Test", TestSyncFile)
+            ,new Tuple<string, Action<string[]>>("LogNow File Test", TestSyncFile)
         };
 
         static void Main(string[] args)
@@ -125,7 +127,7 @@ namespace NuLog.ConsoleTest
 
         #endregion
 
-        private static void TestSyncConsole(string[] args)
+        private static void TestLogNowConsole(string[] args)
         {
             int testTimes = GetIntFromUser("Number of test log events", DefaultPerformanceTestTimes);
 
@@ -140,6 +142,29 @@ namespace NuLog.ConsoleTest
             logSW.Start();
             for (int lp = 0; lp < testTimes; lp++)
                 logger.LogNow("Entry " + lp);
+            logSW.Stop();
+
+            Trace.WriteLine(String.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+            Trace.WriteLine(String.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+            Trace.WriteLine(String.Format("Total Messages: {0}", testTimes));
+            Trace.WriteLine(String.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+        }
+
+        private static void TestSyncConsole(string[] args)
+        {
+            int testTimes = GetIntFromUser("Number of test log events", DefaultPerformanceTestTimes);
+
+            Stopwatch initializeSW = new Stopwatch();
+
+            initializeSW.Start();
+            LoggerFactory.Initialize(@"Configs\SyncConsole.json");
+            LoggerBase logger = LoggerFactory.GetLogger("console", "console");
+            initializeSW.Stop();
+
+            Stopwatch logSW = new Stopwatch();
+            logSW.Start();
+            for (int lp = 0; lp < testTimes; lp++)
+                logger.Log("Entry " + lp);
             logSW.Stop();
 
             Trace.WriteLine(String.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
@@ -209,6 +234,29 @@ namespace NuLog.ConsoleTest
             logSW.Start();
             for (int lp = 0; lp < testTimes; lp++)
                 logger.LogNow("Entry " + lp);
+            logSW.Stop();
+
+            Trace.WriteLine(String.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+            Trace.WriteLine(String.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+            Trace.WriteLine(String.Format("Total Messages: {0}", testTimes));
+            Trace.WriteLine(String.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+        }
+
+        private static void TestAsyncColorConsole(string[] args)
+        {
+            int testTimes = GetIntFromUser("Number of test log events", DefaultPerformanceTestTimes);
+
+            Stopwatch initializeSW = new Stopwatch();
+
+            initializeSW.Start();
+            LoggerFactory.Initialize(@"Configs\ColorConsole.json");
+            LoggerBase logger = LoggerFactory.GetLogger("console", "console");
+            initializeSW.Stop();
+
+            Stopwatch logSW = new Stopwatch();
+            logSW.Start();
+            for (int lp = 0; lp < testTimes; lp++)
+                logger.Log("Entry " + lp);
             logSW.Stop();
 
             Trace.WriteLine(String.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));

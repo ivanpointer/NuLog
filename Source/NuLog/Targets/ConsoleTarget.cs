@@ -1,4 +1,5 @@
 ﻿using NuLog.Configuration.Targets;
+using NuLog.Dispatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
-    public class ConsoleTarget : SimpleConsoleTarget
+    public class ConsoleTarget : LayoutTargetBase
     {
         public const string MetaForeground = "ConsoleForeground";
         public const string MetaBackground = "ConsoleBackground";
@@ -20,9 +21,9 @@ namespace NuLog.Targets
             ColorRules = new List<ConsoleColorRule>();
         }
 
-        public override void Initialize(TargetConfig targetConfig, bool? synchronous = null)
+        public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
-            base.Initialize(targetConfig, synchronous.HasValue ? synchronous : true); // Default to synchronous
+            base.Initialize(targetConfig, dispatcher, synchronous.HasValue ? synchronous : true); // Default to synchronous
 
             if (targetConfig != null)
             {
@@ -104,7 +105,7 @@ namespace NuLog.Targets
                         Console.ForegroundColor = foregroundColor;
                         Console.BackgroundColor = backgroundColor;
 
-                        base.Log(logEvent);
+                        Console.Write(Layout.FormatLogEvent(logEvent));
                     }
                     finally
                     {
@@ -114,9 +115,10 @@ namespace NuLog.Targets
             }
             else
             {
-                base.Log(logEvent);
+                Console.Write(Layout.FormatLogEvent(logEvent));
             }
 
         }
+
     }
 }

@@ -4,10 +4,13 @@
 		"type": "NuLog.Targets.BufferedConsoleTarget",
 		"layout": "${Tags} - ${Message}\r\n"
 	}],
-	"rules": [{
-		"include": ["console"],
-		"writeTo": [ "console" ],
-		"final": true
-	}],
+	"rules": [
+		{
+			"include": [ "console" ],
+			"writeTo": [ "console" ],
+			"final": true
+		}
+	],
+	"synchronous": true,
 	"watch": true
 }

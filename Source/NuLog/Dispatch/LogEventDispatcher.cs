@@ -29,6 +29,7 @@ namespace NuLog.Dispatch
 
         public TargetBase RootTarget { get; set; }
 
+        public bool Synchronous { get; set; }
         public bool Debug { get; set; }
 
         private IDictionary<string, ICollection<TargetBase>> TargetDictionary { get; set; }
@@ -65,7 +66,7 @@ namespace NuLog.Dispatch
             ExceptionHandler = exceptionHandler;
 
             TagKeeper = new TagKeeper();
-            TargetKeeper = new TargetKeeper();
+            TargetKeeper = new TargetKeeper(this);
             RuleKeeper = new RuleKeeper(TagKeeper);
             TargetDictionary = new Dictionary<string, ICollection<TargetBase>>();
 
@@ -74,13 +75,6 @@ namespace NuLog.Dispatch
 
             _doShutdownThread = false;
             _isThreadShutdown = false;
-
-            _queueWorkerThread = new Thread(new ThreadStart(this.QueueWorkerThread))
-            {
-                IsBackground = true
-            };
-
-            _queueWorkerThread.Start();
 
             InitializeStaticMetaDataProviders();
 
@@ -96,44 +90,82 @@ namespace NuLog.Dispatch
         {
             lock (LoggingLock)
             {
-                bool result = false;
-                if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
-                {
-                    _doShutdownThread = true;
-
-                    Trace.WriteLine("Shutting down dispatcher, waiting for all log evbents to flush");
-
-                    var sw = new Stopwatch();
-                    sw.Start();
-                    while (_queueWorkerThread.IsAlive && sw.ElapsedMilliseconds <= timeout)
-                    {
-                        if (IsShutdown)
-                        {
-                            result = true;
-                            break;
-                        }
-                        Thread.Yield();
-                    }
-                }
-                else
-                {
-                    result = true;
-                }
+                bool threadResult = ShutdownThread(timeout);
 
                 TargetKeeper.Shutdown();
 
-                return result;
+                return threadResult;
             }
+        }
+
+        private void StartupThread()
+        {
+            if (_queueWorkerThread == null || _queueWorkerThread.IsAlive == false)
+            {
+                _queueWorkerThread = new Thread(new ThreadStart(this.QueueWorkerThread))
+                {
+                    IsBackground = true,
+                    Priority = ThreadPriority.Lowest,
+                    Name = "NuLog event dispatcher queue thread"
+                };
+                _queueWorkerThread.Start();
+            }
+        }
+
+        private bool ShutdownThread(int timeout = DefaultShutdownTimeout, Stopwatch stopwatch = null)
+        {
+            bool result = false;
+            if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
+            {
+                _doShutdownThread = true;
+
+                Trace.WriteLine("Shutting down dispatcher, waiting for all log evbents to flush");
+
+                if (stopwatch == null)
+                {
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                }
+                while (_queueWorkerThread.IsAlive && stopwatch.ElapsedMilliseconds <= timeout)
+                {
+                    if (IsShutdown)
+                    {
+                        result = true;
+                        break;
+                    }
+                    Thread.Yield();
+                }
+            }
+            else
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public void Log(LogEvent logEvent)
         {
-            LogQueue.Enqueue(logEvent);
+            if (Synchronous)
+            {
+                LogNow(logEvent);
+            }
+            else
+            {
+                LogQueue.Enqueue(logEvent);
+            }
         }
 
         public void Enqueue(Action action)
         {
-            ActionQueue.Enqueue(action);
+            if (Synchronous)
+            {
+                action();
+            }
+            else
+            {
+                ActionQueue.Enqueue(action);
+            }
         }
 
         private void QueueWorkerThread()
@@ -190,9 +222,12 @@ namespace NuLog.Dispatch
                 }
         }
 
-        private void NewConfig(LoggingConfig loggingConfig)
+        public void NewConfig(LoggingConfig loggingConfig)
         {
+            Synchronous = loggingConfig.Synchronous;
             Debug = loggingConfig.Debug;
+
+            ConfigureThread(Synchronous);
 
             lock (LoggingLock)
             {
@@ -200,6 +235,18 @@ namespace NuLog.Dispatch
                 TargetKeeper.NotifyNewConfig(loggingConfig);
                 RuleKeeper.NotifyNewConfig(loggingConfig);
                 TargetDictionary.Clear();
+            }
+        }
+
+        private void ConfigureThread(bool synchronous)
+        {
+            if (synchronous)
+            {
+                ShutdownThread();
+            }
+            else
+            {
+                StartupThread();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using NuLog.Configuration.Layouts;
 using NuLog.Configuration.Targets;
+using NuLog.Dispatch;
 using NuLog.Targets.Layouts;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace NuLog.Targets
         private static readonly object _configLock = new object();
         public ILayout Layout { get; protected set; }
 
-        public override void Initialize(TargetConfig targetConfig, bool? synchronous = null)
+        public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
-            base.Initialize(targetConfig, synchronous);
+            base.Initialize(targetConfig, dispatcher, synchronous);
             if (targetConfig != null)
             {
                 lock (_configLock)

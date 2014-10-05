@@ -83,7 +83,7 @@
     <Compile Include="Targets\Layouts\LayoutParameter.cs" />
     <Compile Include="Targets\Layouts\StandardLayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
-    <Compile Include="Targets\SimpleConsoleTarget.cs" />
+    <Compile Include="Targets\BufferedConsoleTarget.cs" />
     <Compile Include="Targets\SmtpAttachment.cs" />
     <Compile Include="Targets\SmtpTarget.cs" />
     <Compile Include="Targets\TargetBase.cs" />

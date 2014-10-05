@@ -181,9 +181,9 @@ namespace NuLog.Targets
                 File.Delete(fileName);
         }
 
-        public override void Initialize(TargetConfig targetConfig, bool? synchronous = null)
+        public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
-            base.Initialize(targetConfig, synchronous);
+            base.Initialize(targetConfig, dispatcher, synchronous);
 
             if (targetConfig != null)
                 Config = targetConfig is TextFileTargetConfig

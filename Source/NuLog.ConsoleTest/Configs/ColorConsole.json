@@ -1,0 +1,24 @@
+﻿{
+    "targets": [
+        {
+            "name": "console",
+            "type": "NuLog.Targets.ConsoleTarget",
+            "layout": "${Tags} - ${Message}\r\n",
+            "colorRules": [
+                {
+                    "tags": [ "console" ],
+                    "color": "White",
+                    "background": "DarkRed"
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "include": [ "console" ],
+            "writeTo": [ "console" ],
+            "final": true
+        }
+    ],
+    "watch": true
+}

@@ -116,9 +116,12 @@ namespace NuLog
                         Instance.Value.LoggingConfig = new LoggingConfig();
                     }
 
-                    Instance.Value.LogEventDispatcher = dispatcher != null
-                        ? dispatcher
-                        : new LogEventDispatcher(Instance.Value.LoggingConfig, Instance.Value.ExceptionHandler);
+                    if (Instance.Value.LogEventDispatcher == null)
+                    {
+                        Instance.Value.LogEventDispatcher = new LogEventDispatcher(Instance.Value.LoggingConfig, Instance.Value.ExceptionHandler);
+                    } else {
+                        Instance.Value.LogEventDispatcher.NewConfig(Instance.Value.LoggingConfig);
+                    }
 
                     Instance.Value.LoggingConfig.RegisterObserver(Instance.Value.LogEventDispatcher);
 

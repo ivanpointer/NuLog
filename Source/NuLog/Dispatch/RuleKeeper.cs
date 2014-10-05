@@ -23,14 +23,14 @@ namespace NuLog.Dispatch
             _routeCache = new Dictionary<string, ICollection<string>>();
         }
 
-        public ICollection<string> GetTargetsForTags(ICollection<string> tags, bool routeCache = true)
+        public ICollection<string> GetTargetsForTags(ICollection<string> tags)
         {
             ICollection<string> targets = new List<string>();
 
             lock (_ruleLock)
             {
-                var route = routeCache ? FlattenTags(tags) : null;
-                if (routeCache && _routeCache.ContainsKey(route))
+                var route = FlattenTags(tags);
+                if (_routeCache.ContainsKey(route))
                 {
                     targets = _routeCache[route];
                 }
@@ -59,14 +59,10 @@ namespace NuLog.Dispatch
                         }
                     }
 
-                    if (routeCache)
-                    {
-                        if (_routeCache.Count > _routeCacheLimit)
-                            _routeCache.Remove(_routeCache.Keys.First());
+                    if (_routeCache.Count > _routeCacheLimit)
+                        _routeCache.Remove(_routeCache.Keys.First());
 
-                        _routeCache[route] = targets;
-                    }
-
+                    _routeCache[route] = targets;
                 }
             }
 
@@ -95,9 +91,9 @@ namespace NuLog.Dispatch
 
         #region Helpers
 
-        private static string FlattenTags(ICollection<string> tags)
+        private static string FlattenTags(IEnumerable<string> tags)
         {
-            return String.Join(",", tags.OrderBy(_ => _).ToArray());
+            return String.Join(",", tags);
         }
 
         #endregion

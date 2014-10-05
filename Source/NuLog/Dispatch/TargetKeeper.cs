@@ -41,10 +41,11 @@ namespace NuLog.Dispatch
 
         public TargetBase RootTarget { get; private set; }
 
-        public TargetKeeper()
+        public TargetKeeper(LogEventDispatcher dispatcher)
         {
             _targets = new Dictionary<string, TargetBase>();
             _compiledTargets = new Dictionary<string, ICollection<TargetBase>>();
+            Dispatcher = dispatcher;
         }
 
         public ICollection<TargetBase> GetTargets(ICollection<string> targets)
@@ -143,7 +144,7 @@ namespace NuLog.Dispatch
                                 {
                                     constructorInfo = targetType.GetConstructor(new Type[] { });
                                     newTarget = (TargetBase)constructorInfo.Invoke(null);
-                                    newTarget.Initialize(targetConfig);
+                                    newTarget.Initialize(targetConfig, Dispatcher, loggingConfig.Synchronous ? (bool?) true : null);
 
                                     RegisterTarget(newTarget);
                                 }

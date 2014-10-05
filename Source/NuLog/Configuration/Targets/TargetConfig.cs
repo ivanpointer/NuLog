@@ -23,7 +23,7 @@ namespace NuLog.Configuration.Targets
         public TargetConfig(JToken jToken, bool? synchronous = null)
         {
             Config = jToken;
-            Type = typeof(SimpleConsoleTarget).FullName;
+            Type = typeof(BufferedConsoleTarget).FullName;
             Synchronous = synchronous;
 
             if (jToken != null)

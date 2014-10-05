@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
-    public class SimpleConsoleTarget : LayoutTargetBase
+    public class BufferedConsoleTarget : LayoutTargetBase
     {
         public override void Log(LogEvent logEvent)
         {

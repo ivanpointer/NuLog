@@ -38,6 +38,7 @@ namespace NuLog.Configuration
             }
         }
 
+        public bool Synchronous { get; set; }
         public bool Debug { get; set; }
         public bool Watch { get; set; }
 
@@ -155,6 +156,11 @@ namespace NuLog.Configuration
                         var debugJson = jsonConfig["debug"];
                         if (debugJson != null)
                             Debug = debugJson.Value<bool>();
+
+                        Synchronous = false;
+                        var synchronousJson = jsonConfig["synchronous"];
+                        if (synchronousJson != null)
+                            Synchronous = synchronousJson.Value<bool>();
                     }
 
                     NotifyObservers();
