@@ -37,14 +37,12 @@ namespace NuLog.Test.TestHarness
             }
         }
 
-        public override bool Shutdown(int timeout = DefaultShutdownTimeout)
+        public override bool Shutdown()
         {
             lock (_listLock)
-            {
                 _logEvents.Clear();
-            }
 
-            return base.Shutdown(timeout);
+            return true;
         }
 
     }

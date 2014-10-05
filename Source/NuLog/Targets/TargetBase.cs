@@ -60,13 +60,6 @@ namespace NuLog.Targets
 
             DoShutdownThread = false;
             IsThreadShutdown = false;
-
-            _queueWorkerThread = new Thread(new ThreadStart(QueueWorkerThread))
-            {
-                IsBackground = true
-            };
-
-            _queueWorkerThread.Start();
         }
 
         public void Enqueue(LogEvent logEvent)
@@ -136,7 +129,19 @@ namespace NuLog.Targets
                     : DefaultSynchronousSetting;
             }
 
-            _queueWorkerThread.Name = String.Format("{0} Queue Worker Thread", Name);
+            ConfigureWorkerThread(Synchronous);
+        }
+
+        private void ConfigureWorkerThread(bool synchronous)
+        {
+            if (synchronous)
+            {
+                ShutdownThread();
+            }
+            else
+            {
+                StartupThread();
+            }
         }
 
         public virtual void NotifyNewConfig(TargetConfig targetConfig)
@@ -146,7 +151,32 @@ namespace NuLog.Targets
 
         public abstract void Log(LogEvent logEvent);
 
-        public virtual bool Shutdown(int timeout = DefaultShutdownTimeout)
+        public bool ShutdownInternal(int timeout = DefaultShutdownTimeout)
+        {
+            bool shutdownThreadResult = ShutdownThread(timeout);
+
+            return Shutdown() && shutdownThreadResult;
+        }
+
+        public virtual bool Shutdown()
+        {
+            return true;
+        }
+
+        private void StartupThread()
+        {
+            if (_queueWorkerThread == null || _queueWorkerThread.IsAlive == false)
+            {
+                _queueWorkerThread = new Thread(new ThreadStart(QueueWorkerThread))
+                {
+                    IsBackground = true,
+                    Name = String.Format("{0} Queue Worker Thread", Name)
+                };
+                _queueWorkerThread.Start();
+            }
+        }
+
+        private bool ShutdownThread(int timeout = DefaultShutdownTimeout, Stopwatch stopwatch = null)
         {
             if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
             {
@@ -154,11 +184,17 @@ namespace NuLog.Targets
 
                 Trace.WriteLine(String.Format("Shutting down target \"{0}\", waiting for log queue to flush", Name));
 
-                var sw = new Stopwatch();
-                sw.Start();
-                while (_queueWorkerThread.IsAlive && sw.ElapsedMilliseconds <= timeout)
+                if (stopwatch == null)
+                {
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                }
+
+                while (_queueWorkerThread.IsAlive && stopwatch.ElapsedMilliseconds <= timeout)
                     if (IsShutdown)
                         return true;
+
+                _queueWorkerThread.Abort();
             }
             else
             {

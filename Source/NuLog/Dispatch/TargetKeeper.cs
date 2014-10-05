@@ -91,7 +91,7 @@ namespace NuLog.Dispatch
                 {
                     try
                     {
-                        target.Shutdown();
+                        target.ShutdownInternal();
                     }
                     finally
                     {
@@ -209,7 +209,7 @@ namespace NuLog.Dispatch
                     {
                         try
                         {
-                            target.Shutdown();
+                            target.ShutdownInternal();
                         }
                         catch (Exception e)
                         {

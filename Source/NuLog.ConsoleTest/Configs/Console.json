@@ -7,7 +7,6 @@
 	"rules": [{
 		"include": ["console"],
 		"writeTo": [ "console" ],
-		"synchronous": true,
 		"final": true
 	}],
 	"watch": true
