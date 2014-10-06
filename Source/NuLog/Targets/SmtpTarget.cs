@@ -45,12 +45,18 @@ namespace NuLog.Targets
 
         public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
+            base.Initialize(targetConfig, dispatcher, synchronous);
+
             lock (_configLock)
             {
+                FromAddress = null;
+                ReplyTo.Clear();
+                To.Clear();
+                CC.Clear();
+                BCC.Clear();
+
                 if (targetConfig != null)
                 {
-                    base.Initialize(targetConfig, dispatcher, synchronous);
-
                     // Check target config type here then get it into a SmtpTargetConfig
                     if (typeof(SmtpTargetConfig).IsAssignableFrom(targetConfig.GetType()))
                     {
@@ -87,22 +93,6 @@ namespace NuLog.Targets
                         foreach (var bccAddress in Config.BCC)
                             BCC.Add(new MailAddress(bccAddress));
                 }
-            }
-        }
-
-        public override void NotifyNewConfig(TargetConfig targetConfig)
-        {
-            base.NotifyNewConfig(targetConfig);
-
-            lock (_configLock)
-            {
-                FromAddress = null;
-                ReplyTo.Clear();
-                To.Clear();
-                CC.Clear();
-                BCC.Clear();
-
-                Initialize(targetConfig);
             }
         }
 

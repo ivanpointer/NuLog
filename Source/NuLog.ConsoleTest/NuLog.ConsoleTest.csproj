@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Configs\SyncColorConsole.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Configs\ColorConsole.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

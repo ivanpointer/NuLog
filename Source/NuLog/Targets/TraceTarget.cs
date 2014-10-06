@@ -1,5 +1,7 @@
-﻿using NuLog.Targets.Layouts;
+﻿using NuLog.Dispatch;
+using NuLog.Targets.Layouts;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,24 +12,9 @@ namespace NuLog.Targets
 {
     public class TraceTarget : LayoutTargetBase
     {
-        public TraceTarget()
-        {
-            Initialize();
-        }
+        public TraceTarget() : base() { }
 
-        public TraceTarget(string name = "target", string layout = null, bool? synchronous = false)
-        {
-            Initialize(name, layout, synchronous);
-        }
-
-        internal void Initialize(string name = "target", string layout = null, bool? synchronous = false)
-        {
-            Name = name;
-            Synchronous = synchronous.HasValue
-                ? synchronous.Value
-                : false;
-            Layout = new StandardLayout(layout);
-        }
+        public TraceTarget(string name) : base() { Name = name; }
 
         public override void Log(LogEvent logEvent)
         {

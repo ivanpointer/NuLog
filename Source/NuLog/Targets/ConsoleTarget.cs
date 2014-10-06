@@ -16,9 +16,12 @@ namespace NuLog.Targets
         private static readonly object ConsoleLock = new object();
         private ICollection<ConsoleColorRule> ColorRules { get; set; }
 
+        private IDictionary<string, Tuple<ConsoleColor?, ConsoleColor?>> RuleCache { get; set; }
+
         public ConsoleTarget()
         {
             ColorRules = new List<ConsoleColorRule>();
+            RuleCache = new Dictionary<string, Tuple<ConsoleColor?, ConsoleColor?>>();
         }
 
         public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
@@ -32,6 +35,7 @@ namespace NuLog.Targets
                     : new ConsoleTargetConfig(targetConfig.Config);
 
                 ColorRules = consoleConfig.ColorRules;
+                RuleCache.Clear();
             }
         }
 
@@ -44,34 +48,22 @@ namespace NuLog.Targets
         {
             ConsoleColor foregroundColor = Console.ForegroundColor;
             ConsoleColor backgroundColor = Console.BackgroundColor;
+
             bool match = false;
 
-            if (ColorRules != null && ColorRules.Count > 0)
+            var rulesColor = GetConsoleColors(logEvent);
+            if (rulesColor.Item1.HasValue)
             {
-                var tagKeeper = Dispatcher.TagKeeper;
-                foreach (var colorRule in ColorRules)
-                {
-                    if (tagKeeper.CheckMatch(logEvent.Tags, colorRule.Tags))
-                    {
-                        if (colorRule.Color != null)
-                        {
-                            foregroundColor = colorRule.Color.Value;
-                            match = true;
-                        }
-
-                        if (colorRule.BackgroundColor != null)
-                        {
-                            backgroundColor = colorRule.BackgroundColor.Value;
-                            match = true;
-                        }
-
-                        if (match)
-                            break;
-                    }
-                }
+                backgroundColor = rulesColor.Item1.Value;
+                match = true;
+            }
+            if (rulesColor.Item2.HasValue)
+            {
+                foregroundColor = rulesColor.Item2.Value;
+                match = true;
             }
 
-            if (logEvent.MetaData != null)
+            if (logEvent.MetaData != null && logEvent.MetaData.Count > 0)
             {
                 if (logEvent.MetaData.ContainsKey(MetaForeground))
                 {
@@ -118,6 +110,55 @@ namespace NuLog.Targets
                 Console.Write(Layout.FormatLogEvent(logEvent));
             }
 
+        }
+
+        private Tuple<ConsoleColor?, ConsoleColor?> GetConsoleColors(LogEvent logEvent)
+        {
+            string flattenedTags = FlattenTags(logEvent.Tags);
+            if (RuleCache.ContainsKey(flattenedTags))
+            {
+                return RuleCache[flattenedTags];
+            }
+            else
+            {
+                var tagKeeper = Dispatcher.TagKeeper;
+                ConsoleColor? backgroundColor = null;
+                ConsoleColor? foregroundColor = null;
+
+                if (ColorRules != null && ColorRules.Count > 0)
+                {
+                    bool match = false;
+                    foreach (var colorRule in ColorRules)
+                    {
+                        if (tagKeeper.CheckMatch(logEvent.Tags, colorRule.Tags))
+                        {
+                            if (colorRule.Color != null)
+                            {
+                                foregroundColor = colorRule.Color.Value;
+                                match = true;
+                            }
+
+                            if (colorRule.BackgroundColor != null)
+                            {
+                                backgroundColor = colorRule.BackgroundColor.Value;
+                                match = true;
+                            }
+
+                            if (match)
+                                break;
+                        }
+                    }
+                }
+
+                var consoleColors = new Tuple<ConsoleColor?, ConsoleColor?>(backgroundColor, foregroundColor);
+                RuleCache[flattenedTags] = consoleColors;
+                return consoleColors;
+            }
+        }
+
+        private static string FlattenTags(IEnumerable<string> tags)
+        {
+            return String.Join(",", tags);
         }
 
     }
