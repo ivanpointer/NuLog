@@ -132,9 +132,9 @@ namespace NuLog.Targets
                     {
                         if (tagKeeper.CheckMatch(logEvent.Tags, colorRule.Tags))
                         {
-                            if (colorRule.Color != null)
+                            if (colorRule.ForegroundColor != null)
                             {
-                                foregroundColor = colorRule.Color.Value;
+                                foregroundColor = colorRule.ForegroundColor.Value;
                                 match = true;
                             }
 

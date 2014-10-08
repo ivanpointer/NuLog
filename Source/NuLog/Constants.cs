@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace NuLog
 {
-    public class Constants
+    /// <summary>
+    /// A set of constants used in the framework.
+    /// These values are congegrated here, instead of hard-coding these
+    /// values and sprinkling them throughout the rest of the code.
+    /// </summary>
+    public class ConstantsX
     {
         public class TraceLogger
         {

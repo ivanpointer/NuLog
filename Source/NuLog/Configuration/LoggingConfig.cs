@@ -1,4 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/6/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
+
+using Newtonsoft.Json.Linq;
 using NuLog.Configuration.Targets;
 using System;
 using System.Collections.Generic;
@@ -7,52 +14,98 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NuLog.Configuration
 {
+    /// <summary>
+    /// Represents the whole configuration for the logging framework
+    /// </summary>
     public class LoggingConfig
     {
+        #region Constants
         public const string ConfigLoadFailedMessage = "Exception while loading config";
+        private const string ConfigurationFileNotFoundMessage = "Configuration file \"{0}\" for NuLog not found";
 
         private const string DefaultConfigurationFile = "NuLog.json";
         private const string ConfigurationAppSetting = "NuLog.File";
 
+        private const string TargetsTokenName = "targets";
+        private const string RulesTokenName = "rules";
+        private const string TagGroupsTokenName = "tagGroups";
+        private const string WatchTokenName = "watch";
+        private const string DebugTokenName = "debug";
+        private const string SynchronousTokenName = "synchronous";
+
+        private const string TargetNameTokenName = "name";
+        private const string TargetTypeTokenName = "type";
+
+        private const string RuleIncludeTokenName = "include";
+        private const string RuleStrictIncludeTokenName = "strictInclude";
+        private const string RuleExcludeTokenName = "exclude";
+        private const string RuleWriteToTokenName = "writeTo";
+        private const string RuleFinalTokenName = "final";
+        #endregion
+
         private static readonly object _configLock = new object();
+        public string ConfigFile { get; private set; }
 
         // The file watcher for some reason fires two system events right on top of eachother
-        //   we prevent this by having a minimum amount of time before reloads
+        //   when a file is changed.  We adjust for this this by having a minimum
+        //    amount of time between reloads
         private DateTime LastChange { get; set; }
         private const long ChangeLimitInMilliseconds = 1000;
         private string WatchFile { get; set; }
         private FileSystemWatcher FileSystemWatcher { get; set; }
 
-        private string _configFile;
-        public string ConfigFile
-        {
-            get
-            {
-                return _configFile;
-            }
-        }
-
+        /// <summary>
+        /// The list of target configurations defining the targets to be used
+        /// </summary>
+        public IList<TargetConfig> Targets { get; set; }
+        /// <summary>
+        /// The list of rules defining how log events are to be dispatched to the defined targets
+        /// </summary>
+        public IList<RuleConfig> Rules { get; set; }
+        /// <summary>
+        /// The list of tag groups used to group tags together under a single tag
+        /// </summary>
+        public IList<TagGroupConfig> TagGroups { get; set; }
+        /// <summary>
+        /// A flag indicating whether the framework should be running in "synchronous" mode or not.  If the synchronous
+        /// flag is set, no background or worker threads will be used to log.  Control will not return to the logging
+        /// application until the log event has been logged to each of the configured targets.
+        /// </summary>
         public bool Synchronous { get; set; }
+        /// <summary>
+        /// A flag indicating whether or not debug information is to be included in the log events.  This is specifically
+        /// the stack frame information of the logging method.
+        /// </summary>
         public bool Debug { get; set; }
+        /// <summary>
+        /// A flag indicating whether or not the file from which the configuration was loaded is to be watched for changes or not.
+        /// This property only applies to configurations loaded from file and not runtime configurations.
+        /// </summary>
         public bool Watch { get; set; }
 
-        public IList<TargetConfig> Targets { get; set; }
-
-        public IList<RuleConfig> Rules { get; set; }
-
-        public IList<TagGroupConfig> TagGroups { get; set; }
-
+        // We use an observer pattern here to keep observers informed of configuration changes
         private static readonly object _observerLock = new object();
         private ICollection<IConfigObserver> ConfigObservers { get; set; }
 
+        /// <summary>
+        /// An optional exception handler can be assigned for debugging purposes.  If assigned, exceptions that occur
+        /// inside of the logging framework will be sent to this exception handler.  Otherwise, exceptions will be
+        /// logged to Trace (and will not bubble up through the frameork into the logging framework)
+        /// </summary>
         public Action<Exception, string> ExceptionHandler { get; set; }
 
+        /// <summary>
+        /// Builds the logging configuration using the values provided.
+        /// </summary>
+        /// <param name="configFile">The configuration file from which to load the configuration from.
+        /// If no value is provided, the system looks for "NuLog.json", and if found, uses it
+        /// to build this configuration.  Otherwise, a confgiuration built in which a trace target
+        /// is created and all log events are sent to trace.</param>
+        /// <param name="loadConfig">Whether or not to load the configuration</param>
         public LoggingConfig(string configFile = null, bool loadConfig = true)
         {
             Targets = new List<TargetConfig>();
@@ -66,6 +119,10 @@ namespace NuLog.Configuration
                 LoadConfig(configFile);
         }
 
+        /// <summary>
+        /// Registers an observer of this configuration (Using the observer pattern)
+        /// </summary>
+        /// <param name="observer">The observer to register to this configuration</param>
         public void RegisterObserver(IConfigObserver observer)
         {
             lock (_observerLock)
@@ -73,6 +130,10 @@ namespace NuLog.Configuration
                     ConfigObservers.Add(observer);
         }
 
+        /// <summary>
+        /// Unregisters an observer from this configuration (Using the observer pattern)
+        /// </summary>
+        /// <param name="observer">The observer to unregister from this configuration</param>
         public void UnregisterObserver(IConfigObserver observer)
         {
             lock (_observerLock)
@@ -80,6 +141,9 @@ namespace NuLog.Configuration
                     ConfigObservers.Remove(observer);
         }
 
+        /// <summary>
+        /// Shuts down this configuration.  This includes clearing any observers and shutting down the file watcher.
+        /// </summary>
         public void Shutdown()
         {
             lock (_observerLock)
@@ -93,6 +157,9 @@ namespace NuLog.Configuration
             }
         }
 
+        /// <summary>
+        /// Notifies the observers of this configuration of a configuration change
+        /// </summary>
         public void NotifyObservers()
         {
             LoggingConfig readOnlyCopy = ReadOnlyCopy();
@@ -101,12 +168,17 @@ namespace NuLog.Configuration
                     observer.NotifyNewConfig(readOnlyCopy);
         }
 
+        /// <summary>
+        /// Loads the configuration from the given file
+        /// </summary>
+        /// <param name="configFile">The configuration file from which to load the configuration</param>
         public void LoadConfig(string configFile = null)
         {
             try
             {
+                // Establish the correct path of the configuration file to be loaded
                 configFile = GetConfigFile(configFile);
-                _configFile = configFile;
+                ConfigFile = configFile;
 
                 // Make sure that the path is rooted
                 //  In the case of ASP MVC, the default behavior
@@ -123,27 +195,39 @@ namespace NuLog.Configuration
                     configFile = Path.Combine(Path.GetDirectoryName(path), configFileName);
                 }
 
+                // Make sure that the configuration file from which we are to load the configuration
+                //  exists
                 if (File.Exists(configFile))
                 {
+                    // Pull the file into a JSON object
                     string jsonString = ReadFileText(configFile);
                     JObject jsonConfig = JObject.Parse(jsonString);
 
                     lock (_configLock)
                     {
-                        var targetsJson = jsonConfig["targets"].Children().ToList();
+                        // Load the targets
+                        var targetsJson = jsonConfig[TargetsTokenName].Children().ToList();
                         Targets = LoadTargetConfigs(targetsJson);
 
-                        var rulesJson = jsonConfig["rules"].Children().ToList();
+                        // Load the rules
+                        var rulesJson = jsonConfig[RulesTokenName].Children().ToList();
                         Rules = LoadRuleConfigs(rulesJson);
 
-                        var tagGroupsJson = jsonConfig["tagGroups"];
+                        // Load the tag groups
+                        var tagGroupsJson = jsonConfig[TagGroupsTokenName];
                         TagGroups = tagGroupsJson != null
                             ? LoadTagGroupConfigs(tagGroupsJson)
                             : new List<TagGroupConfig>();
 
-                        Watch = false;
+                        // Synchronous flag
+                        Synchronous = false;
+                        var synchronousJson = jsonConfig[SynchronousTokenName];
+                        if (synchronousJson != null)
+                            Synchronous = synchronousJson.Value<bool>();
 
-                        var watchJson = jsonConfig["watch"];
+                        // Watch flag
+                        Watch = false;
+                        var watchJson = jsonConfig[WatchTokenName];
                         if (watchJson != null)
                             Watch = watchJson.Value<bool>();
 
@@ -152,22 +236,20 @@ namespace NuLog.Configuration
                         else
                             ShutdownFileWatcher();
 
+                        // Debug flag
                         Debug = false;
-                        var debugJson = jsonConfig["debug"];
+                        var debugJson = jsonConfig[DebugTokenName];
                         if (debugJson != null)
                             Debug = debugJson.Value<bool>();
-
-                        Synchronous = false;
-                        var synchronousJson = jsonConfig["synchronous"];
-                        if (synchronousJson != null)
-                            Synchronous = synchronousJson.Value<bool>();
                     }
 
+                    // Notify the observers of the new configuration
                     NotifyObservers();
                 }
                 else
                 {
-                    throw new LoggingException(String.Format("Configuration file \"{0}\" for NuLog not found", Path.GetFullPath(configFile)));
+                    // The file we are supposed to load from doesn't exist
+                    throw new LoggingException(String.Format(ConfigurationFileNotFoundMessage, Path.GetFullPath(configFile)));
                 }
             }
             catch (Exception e)
@@ -178,16 +260,23 @@ namespace NuLog.Configuration
             }
         }
 
+        /// <summary>
+        /// The event handler for when the file changes
+        /// </summary>
+        /// <param name="source">The source of the event</param>
+        /// <param name="e">Details of the event</param>
         private void ConfigurationChanged(object source, FileSystemEventArgs e)
         {
             // The file watcher for some reason fires two system events right on top of eachother
             //   we prevent this by having a minimum amount of time before reloads
 
+            // Record the change
             var myLastChange = DateTime.Now;
             LastChange = myLastChange;
 
             lock (_configLock)
             {
+                // Wait until at least 100 milliseconds have passed since the last change
                 var futureLimit = myLastChange.AddMilliseconds(ChangeLimitInMilliseconds);
                 while (LastChange == myLastChange && futureLimit > DateTime.Now)
                 {
@@ -195,10 +284,12 @@ namespace NuLog.Configuration
                     Thread.Sleep(100);
                 }
 
+                // If this instance of the event is the last one that changed the file
                 if (LastChange == myLastChange)
                 {
                     try
                     {
+                        // Reload the configuration
                         LoadConfig(e.FullPath);
                     }
                     catch (Exception ex)
@@ -216,6 +307,11 @@ namespace NuLog.Configuration
 
         #region Tag Group Config
 
+        /// <summary>
+        /// Loads the tag groups from the configuration JSON token provided
+        /// </summary>
+        /// <param name="tagGroupsJson">The JSON token containing the tag groups configuration</param>
+        /// <returns></returns>
         private static IList<TagGroupConfig> LoadTagGroupConfigs(JToken tagGroupsJson)
         {
             var tagGroups = new List<TagGroupConfig>();
@@ -234,6 +330,11 @@ namespace NuLog.Configuration
             return tagGroups;
         }
 
+        /// <summary>
+        /// Loads the targets from the configuration JSON tokens provided
+        /// </summary>
+        /// <param name="targetsJson">The JSON tokens from which to load the target configurations</param>
+        /// <returns></returns>
         private static IList<TargetConfig> LoadTargetConfigs(ICollection<JToken> targetsJson)
         {
             var targets = new List<TargetConfig>();
@@ -242,8 +343,8 @@ namespace NuLog.Configuration
             {
                 targets.Add(new TargetConfig
                 {
-                    Name = targetJson["name"].Value<string>(),
-                    Type = targetJson["type"].Value<string>(),
+                    Name = targetJson[TargetNameTokenName].Value<string>(),
+                    Type = targetJson[TargetTypeTokenName].Value<string>(),
                     Config = targetJson
                 });
             }
@@ -251,6 +352,11 @@ namespace NuLog.Configuration
             return targets;
         }
 
+        /// <summary>
+        /// Loads the rules from the configuration JSON tokens provided
+        /// </summary>
+        /// <param name="rulesJson">The JSON tokens from which to load the rules</param>
+        /// <returns></returns>
         private static IList<RuleConfig> LoadRuleConfigs(ICollection<JToken> rulesJson)
         {
             var rules = new List<RuleConfig>();
@@ -265,22 +371,22 @@ namespace NuLog.Configuration
             {
                 newRule = new RuleConfig();
 
-                include = ruleJson["include"];
+                include = ruleJson[RuleIncludeTokenName];
                 if (include != null)
                     newRule.Include = include.Values<string>().ToList();
 
-                strictInclude = ruleJson["strictInclude"];
+                strictInclude = ruleJson[RuleStrictIncludeTokenName];
                 newRule.StrictInclude = strictInclude != null && strictInclude.Value<bool>();
 
-                exclude = ruleJson["exclude"];
+                exclude = ruleJson[RuleExcludeTokenName];
                 if (exclude != null)
                     newRule.Exclude = exclude.Values<string>().ToList();
 
-                writeTo = ruleJson["writeTo"];
+                writeTo = ruleJson[RuleWriteToTokenName];
                 if (writeTo != null)
                     newRule.WriteTo = writeTo.Values<string>().ToList();
 
-                final = ruleJson["final"];
+                final = ruleJson[RuleFinalTokenName];
                 newRule.Final = final != null && final.Value<bool>();
 
                 rules.Add(newRule);
@@ -291,6 +397,11 @@ namespace NuLog.Configuration
 
         #endregion
 
+        /// <summary>
+        /// Reads the text from the file
+        /// </summary>
+        /// <param name="configFile">The file from which to read the text</param>
+        /// <returns>The text contents of the configuration file</returns>
         private static string ReadFileText(string configFile)
         {
             using (var fileStream = File.Open(configFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -298,6 +409,11 @@ namespace NuLog.Configuration
                 return streamReader.ReadToEnd();
         }
 
+        /// <summary>
+        /// Determines the correct configuration file name from the given configuration file name
+        /// </summary>
+        /// <param name="configFile">The original configuration file name to check</param>
+        /// <returns>The corrected configuration file name from which to load the configuration from</returns>
         private static string GetConfigFile(string configFile = null)
         {
             configFile =
@@ -313,6 +429,10 @@ namespace NuLog.Configuration
             return configFile;
         }
 
+        /// <summary>
+        /// Creates a read-only copy of this configuration
+        /// </summary>
+        /// <returns>A read-only copy of this configuration</returns>
         private LoggingConfig ReadOnlyCopy()
         {
             lock (_configLock)
@@ -331,7 +451,7 @@ namespace NuLog.Configuration
 
                 return new LoggingConfig(loadConfig: false)
                 {
-                    _configFile = this._configFile,
+                    ConfigFile = this.ConfigFile,
                     Watch = this.Watch,
                     Targets = new ReadOnlyCollection<TargetConfig>(this.Targets),
                     Rules = new ReadOnlyCollection<RuleConfig>(this.Rules),
@@ -340,14 +460,21 @@ namespace NuLog.Configuration
             }
         }
 
+        /// <summary>
+        /// Starts a file watcher for the given file
+        /// </summary>
+        /// <param name="watchFile">The file to watch</param>
         private void InitializeFileWatcher(string watchFile)
         {
             lock (_configLock)
             {
+                // If the file is not yet being watched
                 if (String.IsNullOrEmpty(WatchFile) || watchFile != WatchFile)
                 {
+                    // Shut down any existing watchers, we only want to watch one at a time
                     ShutdownFileWatcher();
 
+                    // Setup the new file watcher
                     WatchFile = watchFile;
                     FileSystemWatcher = new FileSystemWatcher
                     {
@@ -355,14 +482,15 @@ namespace NuLog.Configuration
                         NotifyFilter = NotifyFilters.LastWrite,
                         Filter = Path.GetFileName(watchFile)
                     };
-
                     FileSystemWatcher.Changed += new FileSystemEventHandler(ConfigurationChanged);
-
                     FileSystemWatcher.EnableRaisingEvents = true;
                 }
             }
         }
 
+        /// <summary>
+        /// Shuts down any running file system watchers
+        /// </summary>
         private void ShutdownFileWatcher()
         {
             lock (_configLock)

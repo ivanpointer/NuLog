@@ -32,11 +32,11 @@ namespace NuLog.Logger
 
         public void Log(LogEvent logEventInfo)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
-            Dispatcher.Enqueue(() =>
+            Dispatcher.Log(() =>
             {
                 logEventInfo.LoggingStackFrame = stackFrame;
                 logEventInfo.Tags = GetTags(logEventInfo.Tags, stackFrame, logEventInfo.Exception != null);
@@ -46,11 +46,11 @@ namespace NuLog.Logger
 
         public void Log(string message, params string[] tags)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
-            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Log(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -61,11 +61,11 @@ namespace NuLog.Logger
 
         public void Log(string message, IDictionary<string, object> metaData, params string[] tags)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
-            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Log(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -77,7 +77,7 @@ namespace NuLog.Logger
         public void Log(string message, Exception exception, params string[] tags)
         {
             var stackFrame = new StackFrame(1);
-            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Log(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -90,7 +90,7 @@ namespace NuLog.Logger
         public void Log(string message, Exception exception, IDictionary<string, object> metaData, params string[] tags)
         {
             var stackFrame = new StackFrame(1);
-            Dispatcher.Enqueue(() => Dispatcher.Log(new LogEvent
+            Dispatcher.Log(() => Dispatcher.Log(new LogEvent
             {
                 Message = message,
                 LoggingStackFrame = stackFrame,
@@ -102,7 +102,7 @@ namespace NuLog.Logger
 
         public void LogNow(LogEvent logEventInfo)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
@@ -113,7 +113,7 @@ namespace NuLog.Logger
 
         public void LogNow(string message, params string[] tags)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
@@ -128,7 +128,7 @@ namespace NuLog.Logger
 
         public void LogNow(string message, IDictionary<string, object> metaData, params string[] tags)
         {
-            var stackFrame = Dispatcher.Debug
+            var stackFrame = Dispatcher.LoggingConfig.Debug
                 ? new StackFrame(1)
                 : null;
 
