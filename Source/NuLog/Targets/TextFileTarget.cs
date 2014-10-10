@@ -120,8 +120,13 @@ namespace NuLog.Targets
         public override void Log(LogEvent logEvent)
         {
             lock (_fileLock)
+            {
+                if (QuickRollCheck())
+                    RollFile();
+
                 using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
                     fileStream.Write(Layout.FormatLogEvent(logEvent));
+            }
 
             _sw.Restart();
         }
@@ -131,7 +136,7 @@ namespace NuLog.Targets
             LogEvent logEvent;
             lock (_fileLock)
                 using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
-                    while (logQueue.IsEmpty == false)
+                    while (logQueue.IsEmpty == false && !QuickRollCheck())
                     {
                         if (logQueue.TryDequeue(out logEvent))
                         {
@@ -148,6 +153,10 @@ namespace NuLog.Targets
                             }
                         }
                     }
+
+            if (QuickRollCheck())
+                RollFile();
+
             _sw.Restart();
         }
 
@@ -156,15 +165,17 @@ namespace NuLog.Targets
         #region Rollover, Cleanup and Utility
 
         // Performs a quick check to see if a rollover is needed, and if it is, performs a rollover
-        private void QuickRollCheck()
+        private bool QuickRollCheck()
         {
             if (Config.RolloverPolicy == RolloverPolicy.Day)
             {
                 if (_lastWrite != null && _lastWrite.Day != GetDateTime().Day)
                 {
-                    RollFile();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         // Rolls the log file based on the configured rollover policy
