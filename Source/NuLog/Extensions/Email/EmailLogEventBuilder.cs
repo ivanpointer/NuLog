@@ -8,7 +8,7 @@ using NuLog.Targets;
 using System;
 using System.Collections.Generic;
 
-namespace NuLog.Extensions.SMTP
+namespace NuLog.Extensions.Email
 {
     /// <summary>
     /// A helper class for building a log event with meta data information specific to
