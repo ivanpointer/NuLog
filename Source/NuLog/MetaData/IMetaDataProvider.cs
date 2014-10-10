@@ -1,13 +1,22 @@
-﻿using System;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/7/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.MetaData
 {
+    /// <summary>
+    /// Defines the expected behavior of a meta data provider
+    /// </summary>
     public interface IMetaDataProvider
     {
+        /// <summary>
+        /// Provides meta data
+        /// </summary>
+        /// <returns>Meta data</returns>
         IDictionary<string, object> ProvideMetaData();
     }
 }

@@ -61,8 +61,8 @@
     <Compile Include="Configuration\Layouts\LayoutConfig.cs" />
     <Compile Include="Configuration\Targets\ConsoleTargetConfigBuilder.cs" />
     <Compile Include="Configuration\Targets\LayoutTargetConfig.cs" />
-    <Compile Include="Configuration\Targets\SmtpTargetConfig.cs" />
-    <Compile Include="Configuration\Targets\SmtpTargetConfigBuilder.cs" />
+    <Compile Include="Configuration\Targets\EmailTargetConfig.cs" />
+    <Compile Include="Configuration\Targets\EmailTargetConfigBuilder.cs" />
     <Compile Include="Configuration\Targets\TargetConfig.cs" />
     <Compile Include="Configuration\Targets\TextFileTargetConfig.cs" />
     <Compile Include="Dispatch\LogEventDispatcher.cs" />
@@ -84,12 +84,11 @@
     <Compile Include="Targets\Layouts\StandardLayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
     <Compile Include="Targets\BufferedConsoleTarget.cs" />
-    <Compile Include="Targets\SmtpAttachment.cs" />
-    <Compile Include="Targets\SmtpTarget.cs" />
+    <Compile Include="Targets\EmailAttachment.cs" />
+    <Compile Include="Targets\EmailTarget.cs" />
     <Compile Include="Targets\TargetBase.cs" />
     <Compile Include="Targets\TextFileTarget.cs" />
     <Compile Include="Targets\TraceTarget.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="MetaData\MetaDataParser.cs" />
   </ItemGroup>
   <ItemGroup>

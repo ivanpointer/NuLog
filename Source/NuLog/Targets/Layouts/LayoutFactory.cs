@@ -1,17 +1,28 @@
-﻿using NuLog.Configuration.Layouts;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/8/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
+using NuLog.Configuration.Layouts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.Targets.Layouts
 {
+    /// <summary>
+    /// Responsible for building layouts based on their config
+    /// </summary>
     public class LayoutFactory
     {
+        /// <summary>
+        /// Builds a concrete instance of a layout using the given layout config
+        /// </summary>
+        /// <param name="layoutConfig"></param>
+        /// <returns></returns>
         public static ILayout BuildLayout(LayoutConfig layoutConfig)
         {
+            // Default to a "StandardLayout".  Check for a provided layout type and build it using reflection
             if (layoutConfig != null)
             {
                 if (String.IsNullOrEmpty(layoutConfig.Type) || layoutConfig.Type == typeof(StandardLayout).FullName)

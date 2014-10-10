@@ -10,38 +10,38 @@ using System.Collections.Generic;
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
-    /// Used to build a smtp target config at runtime
+    /// Used to build a email target config at runtime
     /// </summary>
-    public class SmtpTargetConfigBuilder
+    public class EmailTargetConfigBuilder
     {
         /// <summary>
         /// The config being built
         /// </summary>
-        protected SmtpTargetConfig Config { get; set; }
+        protected EmailTargetConfig Config { get; set; }
 
         /// <summary>
         /// The private instantiation
         /// </summary>
-        private SmtpTargetConfigBuilder()
+        private EmailTargetConfigBuilder()
         {
-            Config = new SmtpTargetConfig();
+            Config = new EmailTargetConfig();
         }
 
         /// <summary>
         /// Creates a new instance of this builder
         /// </summary>
         /// <returns>A new instance of this builder</returns>
-        public static SmtpTargetConfigBuilder Create()
+        public static EmailTargetConfigBuilder Create()
         {
-            return new SmtpTargetConfigBuilder();
+            return new EmailTargetConfigBuilder();
         }
 
         /// <summary>
         /// Sets the name of the target in the config
         /// </summary>
         /// <param name="name">The name to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetName(string name)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetName(string name)
         {
             Config.Name = name;
             return this;
@@ -51,8 +51,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the synchronous flag of the target in the config
         /// </summary>
         /// <param name="synchronous">The synchronous flag to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetSynchronous(bool synchronous)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetSynchronous(bool synchronous)
         {
             Config.Synchronous = synchronous;
             return this;
@@ -62,8 +62,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the host of the target in the config
         /// </summary>
         /// <param name="host">The host to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetHost(string host)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetHost(string host)
         {
             Config.Host = host;
             return this;
@@ -73,8 +73,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the port of the target in the config
         /// </summary>
         /// <param name="port">The port to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetPort(int port)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetPort(int port)
         {
             Config.Port = port;
             return this;
@@ -84,8 +84,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the user name of the target in the config
         /// </summary>
         /// <param name="userName">The user name to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetUserName(string userName)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetUserName(string userName)
         {
             Config.UserName = userName;
             return this;
@@ -95,8 +95,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the password of the target in the config
         /// </summary>
         /// <param name="password">The password to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetPassword(string password)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetPassword(string password)
         {
             Config.Password = password;
             return this;
@@ -106,8 +106,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the ssl flag of the target in the config
         /// </summary>
         /// <param name="enableSSL">The ssl flag to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetEnableSSL(bool enableSSL)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetEnableSSL(bool enableSSL)
         {
             Config.EnableSSL = enableSSL;
             return this;
@@ -117,8 +117,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the from address of the target in the config
         /// </summary>
         /// <param name="fromAddress">The from address to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetFromAddress(string fromAddress)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetFromAddress(string fromAddress)
         {
             Config.FromAddress = fromAddress;
             return this;
@@ -128,8 +128,8 @@ namespace NuLog.Configuration.Targets
         /// Adds a reply-to address to the target in the config
         /// </summary>
         /// <param name="reployTo">The reply-to address to add</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder AddReplyTo(string reployTo)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder AddReplyTo(string reployTo)
         {
             if (Config.ReplyTo == null)
                 Config.ReplyTo = new List<string>();
@@ -143,8 +143,8 @@ namespace NuLog.Configuration.Targets
         /// Adds a to address to the target in the config
         /// </summary>
         /// <param name="to">The to address to add</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder AddTo(string to)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder AddTo(string to)
         {
             if (Config.To == null)
                 Config.To = new List<string>();
@@ -158,8 +158,8 @@ namespace NuLog.Configuration.Targets
         /// Adds a CC address to the target in the config
         /// </summary>
         /// <param name="cc">The CC address to add</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder AddCC(string cc)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder AddCC(string cc)
         {
             if (Config.CC == null)
                 Config.CC = new List<string>();
@@ -173,8 +173,8 @@ namespace NuLog.Configuration.Targets
         /// Adds a BCC address to the target in the config
         /// </summary>
         /// <param name="bcc">The BCC address to add</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder AddBCC(string bcc)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder AddBCC(string bcc)
         {
             if (Config.BCC == null)
                 Config.BCC = new List<string>();
@@ -188,8 +188,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the subject of the target in the config
         /// </summary>
         /// <param name="subject">The subject to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetSubject(string subject)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetSubject(string subject)
         {
             Config.Subject = subject;
 
@@ -200,8 +200,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the subject layout to the target in the config
         /// </summary>
         /// <param name="subjectLayout">The subject layout to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetSubjectLayout(LayoutConfig subjectLayout)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetSubjectLayout(LayoutConfig subjectLayout)
         {
             Config.SubjectLayout = subjectLayout;
 
@@ -213,7 +213,7 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         /// <param name="bodyLayout">The body layout to set</param>
         /// <returns></returns>
-        public SmtpTargetConfigBuilder SetBodyLayout(LayoutConfig bodyLayout)
+        public EmailTargetConfigBuilder SetBodyLayout(LayoutConfig bodyLayout)
         {
             Config.BodyLayout = bodyLayout;
 
@@ -224,8 +224,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the body file to the target in the config
         /// </summary>
         /// <param name="bodyFile">The body file to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetBodyFile(string bodyFile)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetBodyFile(string bodyFile)
         {
             Config.BodyFile = bodyFile;
 
@@ -236,8 +236,8 @@ namespace NuLog.Configuration.Targets
         /// Sets the "is body HTML" flag to the target in the config
         /// </summary>
         /// <param name="isBodyHtml">The "is body HTML" flag to set</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder SetIsBodyHtml(bool isBodyHtml)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetIsBodyHtml(bool isBodyHtml)
         {
             Config.IsBodyHtml = isBodyHtml;
 
@@ -249,8 +249,8 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         /// <param name="name">The name of the header to add</param>
         /// <param name="value">The value of the header to add</param>
-        /// <returns>This SmtpTargetCofigBuilder</returns>
-        public SmtpTargetConfigBuilder AddHeader(string name, string value)
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder AddHeader(string name, string value)
         {
             if (Config.Headers == null)
                 Config.Headers = new Dictionary<string, string>();
@@ -264,7 +264,7 @@ namespace NuLog.Configuration.Targets
         /// Returns the built config
         /// </summary>
         /// <returns>The built config</returns>
-        public SmtpTargetConfig Build()
+        public EmailTargetConfig Build()
         {
             return Config;
         }

@@ -13,9 +13,9 @@ using System.Linq;
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
-    /// The configuration that represents a SMTP target
+    /// The configuration that represents an email target
     /// </summary>
-    public class SmtpTargetConfig : TargetConfig
+    public class EmailTargetConfig : TargetConfig
     {
         #region Constants
 
@@ -41,6 +41,7 @@ namespace NuLog.Configuration.Targets
         private const string HeaderValueTokenName = "value";
         private const string BodyFileTokenName = "bodyFile";
         private const string IsBodyHTMLTokenName = "isBodyHtml";
+        private const string AttachmentTokenName = "attachment";
 
         // Default Values
         private const string DefaultHost = "localhost";
@@ -118,6 +119,10 @@ namespace NuLog.Configuration.Targets
         /// Any additional headers to be set on email messages sent from the target
         /// </summary>
         public IDictionary<string, string> Headers { get; set; }
+        /// <summary>
+        /// The file name/path to a file to attach to the email.
+        /// </summary>
+        public string Attachment { get; set; }
 
         #endregion
 
@@ -125,7 +130,7 @@ namespace NuLog.Configuration.Targets
         /// Builds a SMTP target config using the passed JSON token
         /// </summary>
         /// <param name="jToken">The JSON token to be used to build the SMTP target config</param>
-        public SmtpTargetConfig(JToken jToken = null)
+        public EmailTargetConfig(JToken jToken = null)
         {
             // Set the default values
             Defaults();
@@ -199,6 +204,8 @@ namespace NuLog.Configuration.Targets
 
                 BodyFile = GetValue<string>(jToken, BodyFileTokenName, BodyFile);
                 IsBodyHtml = GetValue<bool>(jToken, IsBodyHTMLTokenName, IsBodyHtml);
+
+                Attachment = GetValue<string>(jToken, AttachmentTokenName, Attachment);
             }
         }
 

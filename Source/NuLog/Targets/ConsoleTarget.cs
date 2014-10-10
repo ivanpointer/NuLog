@@ -1,33 +1,55 @@
-﻿using NuLog.Configuration.Targets;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/8/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
+using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
     public class ConsoleTarget : LayoutTargetBase
     {
+
+        #region Constants
+        
         public const string MetaForeground = "ConsoleForeground";
         public const string MetaBackground = "ConsoleBackground";
 
-        private static readonly object ConsoleLock = new object();
-        private ICollection<ConsoleColorRule> ColorRules { get; set; }
+        #endregion
 
+        #region Members, Constructors, Initialization and Configuration
+
+        private static readonly object ConsoleLock = new object();
+
+        // The parsed color rules and a cache: we cache the results of processing the rules, as it is expensive
+        private ICollection<ConsoleColorRule> ColorRules { get; set; }
         private IDictionary<string, Tuple<ConsoleColor?, ConsoleColor?>> RuleCache { get; set; }
 
+        /// <summary>
+        /// Sets up the default console target
+        /// </summary>
         public ConsoleTarget()
         {
             ColorRules = new List<ConsoleColorRule>();
             RuleCache = new Dictionary<string, Tuple<ConsoleColor?, ConsoleColor?>>();
         }
 
+        /// <summary>
+        /// Initializes the target with the given targe tconfig, dispatcher and synchronous flag
+        /// </summary>
+        /// <param name="targetConfig">The configuration to build this target with</param>
+        /// <param name="dispatcher">The dispatcher that this target is attached to</param>
+        /// <param name="synchronous">The synchronous flag, used to overwrite the synchronous behavior in the configuration</param>
         public override void Initialize(TargetConfig targetConfig, LogEventDispatcher dispatcher = null, bool? synchronous = null)
         {
-            base.Initialize(targetConfig, dispatcher, synchronous.HasValue ? synchronous : true); // Default to synchronous
+            // Default to synchronous
+            base.Initialize(targetConfig, dispatcher, synchronous.HasValue ? synchronous : true);
 
+            // Parse out the target configuration
             if (targetConfig != null)
             {
                 ConsoleTargetConfig consoleConfig = typeof(ConsoleTargetConfig).IsAssignableFrom(targetConfig.GetType())
@@ -35,22 +57,37 @@ namespace NuLog.Targets
                     : new ConsoleTargetConfig(targetConfig.Config);
 
                 ColorRules = consoleConfig.ColorRules;
+
+                // The rules may have changed, reset the cache
                 RuleCache.Clear();
             }
         }
 
+        /// <summary>
+        /// The observer hook for a new target configuration
+        /// </summary>
+        /// <param name="targetConfig">The new target configuration</param>
         public override void NotifyNewConfig(TargetConfig targetConfig)
         {
             Initialize(targetConfig);
         }
 
+        #endregion
+
+        #region Logging
+
+        /// <summary>
+        /// Logs the given log event to console, using the console color rules or overriding meta data to set the color
+        /// </summary>
+        /// <param name="logEvent">The log event to log</param>
         public override void Log(LogEvent logEvent)
         {
+            // Default out the colors to the "current" colors of the console
             ConsoleColor foregroundColor = Console.ForegroundColor;
             ConsoleColor backgroundColor = Console.BackgroundColor;
-
             bool match = false;
 
+            // Check the configured color rules for colors
             var rulesColor = GetConsoleColors(logEvent);
             if (rulesColor.Item1.HasValue)
             {
@@ -63,6 +100,7 @@ namespace NuLog.Targets
                 match = true;
             }
 
+            // Check the meta data for colors
             if (logEvent.MetaData != null && logEvent.MetaData.Count > 0)
             {
                 if (logEvent.MetaData.ContainsKey(MetaForeground))
@@ -88,8 +126,10 @@ namespace NuLog.Targets
                 }
             }
 
+            // If colors are found, set them then write, otherwise, just write
             if (match)
             {
+                // Synchronize the actual writing, we don't want the colors to get all messed up
                 lock (ConsoleLock)
                 {
                     try
@@ -112,21 +152,32 @@ namespace NuLog.Targets
 
         }
 
+        #endregion
+
+        #region Helpers
+
+        // Looks up the colors using the rules in the configuration and leverages a cache so that the rules don't have
+        //  to be parsed multiple times
         private Tuple<ConsoleColor?, ConsoleColor?> GetConsoleColors(LogEvent logEvent)
         {
+            // The cache is based on the tags associated to the log event
+            //  The same tags will result in the same colors, every time
             string flattenedTags = FlattenTags(logEvent.Tags);
             if (RuleCache.ContainsKey(flattenedTags))
             {
+                // Return the cached results
                 return RuleCache[flattenedTags];
             }
             else
             {
-                var tagKeeper = Dispatcher.TagKeeper;
                 ConsoleColor? backgroundColor = null;
                 ConsoleColor? foregroundColor = null;
 
+                // Iterate over the color rules, looking for a match based on 
+                //  the tag keeper assocaited with the dispatcher.
                 if (ColorRules != null && ColorRules.Count > 0)
                 {
+                    var tagKeeper = Dispatcher.TagKeeper;
                     bool match = false;
                     foreach (var colorRule in ColorRules)
                     {
@@ -144,22 +195,27 @@ namespace NuLog.Targets
                                 match = true;
                             }
 
+                            // break as soon as a match is found
                             if (match)
                                 break;
                         }
                     }
                 }
 
+                // Cache and return the results
                 var consoleColors = new Tuple<ConsoleColor?, ConsoleColor?>(backgroundColor, foregroundColor);
                 RuleCache[flattenedTags] = consoleColors;
                 return consoleColors;
             }
         }
 
+        // Flatten the tags into a string so that the results can be cached
         private static string FlattenTags(IEnumerable<string> tags)
         {
             return String.Join(",", tags);
         }
+
+        #endregion
 
     }
 }
