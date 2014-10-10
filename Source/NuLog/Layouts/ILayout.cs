@@ -6,7 +6,7 @@
  */
 using NuLog.Configuration.Layouts;
 
-namespace NuLog.Targets.Layouts
+namespace NuLog.Layouts
 {
     /// <summary>
     /// Defines the expected behavior of a lyout

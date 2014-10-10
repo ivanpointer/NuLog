@@ -78,10 +78,10 @@
     <Compile Include="MetaData\IMetaDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Targets\ConsoleTarget.cs" />
-    <Compile Include="Targets\Layouts\ILayout.cs" />
-    <Compile Include="Targets\Layouts\LayoutFactory.cs" />
-    <Compile Include="Targets\Layouts\LayoutParameter.cs" />
-    <Compile Include="Targets\Layouts\StandardLayout.cs" />
+    <Compile Include="Layouts\ILayout.cs" />
+    <Compile Include="Layouts\LayoutFactory.cs" />
+    <Compile Include="Layouts\LayoutParameter.cs" />
+    <Compile Include="Layouts\StandardLayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
     <Compile Include="Targets\BufferedConsoleTarget.cs" />
     <Compile Include="Targets\EmailAttachment.cs" />

@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NuLog.Targets.Layouts
+namespace NuLog.Layouts
 {
     /// <summary>
     /// The default/standard layout for the framework

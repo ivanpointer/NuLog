@@ -7,7 +7,7 @@
 using NuLog.Configuration.Layouts;
 using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
-using NuLog.Targets.Layouts;
+using NuLog.Layouts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

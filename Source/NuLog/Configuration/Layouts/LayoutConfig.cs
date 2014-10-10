@@ -5,7 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 using Newtonsoft.Json.Linq;
-using NuLog.Targets.Layouts;
+using NuLog.Layouts;
 using System;
 
 namespace NuLog.Configuration.Layouts
