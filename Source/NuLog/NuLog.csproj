@@ -69,7 +69,7 @@
     <Compile Include="Dispatch\RuleKeeper.cs" />
     <Compile Include="Dispatch\TagKeeper.cs" />
     <Compile Include="Dispatch\TargetKeeper.cs" />
-    <Compile Include="Extensions\SMTP\SmtpLogEventBuilder.cs" />
+    <Compile Include="Extensions\SMTP\EmailLogEventBuilder.cs" />
     <Compile Include="LogEvent.cs" />
     <Compile Include="LoggerFactory.cs" />
     <Compile Include="Logger\LoggerBase.cs" />

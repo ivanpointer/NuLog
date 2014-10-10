@@ -1,16 +1,24 @@
-﻿using NuLog.Configuration;
-using System;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/10/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
+using NuLog.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.Legacy
 {
+    /// <summary>
+    /// A configuration extender that adds tag groups to the configuration to simulate the log levels of
+    /// traditional logging frameworks
+    /// </summary>
     [Export(typeof(ILoggingConfigExtender))]
     public class LogLevelsConfigExtender : ILoggingConfigExtender
     {
+        // The collection of tag groups to add to the configuration
         private static readonly ICollection<TagGroupConfig> _tagGroupConfigs = new List<TagGroupConfig>
         {
             new TagGroupConfig("trace", "debug", "info", "warn", "error", "fatal"),
@@ -20,6 +28,10 @@ namespace NuLog.Legacy
             new TagGroupConfig("error", "fatal")
         };
 
+        /// <summary>
+        /// Updates the given configuration, adding the traditional log levels as tag groups to the configuration
+        /// </summary>
+        /// <param name="loggingConfig">The logging config to update</param>
         public void UpdateConfig(LoggingConfig loggingConfig)
         {
             if (loggingConfig != null)
