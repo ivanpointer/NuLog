@@ -8,7 +8,7 @@ using NuLog.Configuration.Layouts;
 using System;
 using System.Reflection;
 
-namespace NuLog.Targets.Layouts
+namespace NuLog.Layouts
 {
     /// <summary>
     /// Responsible for building layouts based on their config

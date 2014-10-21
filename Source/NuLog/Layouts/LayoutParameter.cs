@@ -6,7 +6,7 @@
  */
 using System.Collections.Generic;
 
-namespace NuLog.Targets.Layouts
+namespace NuLog.Layouts
 {
     /// <summary>
     /// Represents a single paramater within a standard layout.  Designed specifically for the StandardLayout, but can be used by other layouts.
