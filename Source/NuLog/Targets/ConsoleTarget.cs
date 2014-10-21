@@ -82,55 +82,54 @@ namespace NuLog.Targets
         /// <param name="logEvent">The log event to log</param>
         public override void Log(LogEvent logEvent)
         {
-            // Default out the colors to the "current" colors of the console
-            ConsoleColor foregroundColor = Console.ForegroundColor;
-            ConsoleColor backgroundColor = Console.BackgroundColor;
-            bool match = false;
+            lock (ConsoleLock)
+            {
+                // Default out the colors to the "current" colors of the console
+                ConsoleColor foregroundColor = Console.ForegroundColor;
+                ConsoleColor backgroundColor = Console.BackgroundColor;
+                bool match = false;
 
-            // Check the configured color rules for colors
-            var rulesColor = GetConsoleColors(logEvent);
-            if (rulesColor.Item1.HasValue)
-            {
-                backgroundColor = rulesColor.Item1.Value;
-                match = true;
-            }
-            if (rulesColor.Item2.HasValue)
-            {
-                foregroundColor = rulesColor.Item2.Value;
-                match = true;
-            }
-
-            // Check the meta data for colors
-            if (logEvent.MetaData != null && logEvent.MetaData.Count > 0)
-            {
-                if (logEvent.MetaData.ContainsKey(MetaForeground))
+                // Check the configured color rules for colors
+                var rulesColor = GetConsoleColors(logEvent);
+                if (rulesColor.Item1.HasValue)
                 {
-                    var foregroundRaw = logEvent.MetaData[MetaForeground];
-                    if (foregroundRaw != null)
-                        if (typeof(ConsoleColor).IsAssignableFrom(foregroundRaw.GetType()))
-                        {
-                            foregroundColor = (ConsoleColor)foregroundRaw;
-                            match = true;
-                        }
+                    backgroundColor = rulesColor.Item1.Value;
+                    match = true;
+                }
+                if (rulesColor.Item2.HasValue)
+                {
+                    foregroundColor = rulesColor.Item2.Value;
+                    match = true;
                 }
 
-                if (logEvent.MetaData.ContainsKey(MetaBackground))
+                // Check the meta data for colors
+                if (logEvent.MetaData != null && logEvent.MetaData.Count > 0)
                 {
-                    var backgroundRaw = logEvent.MetaData[MetaBackground];
-                    if (backgroundRaw != null)
-                        if (typeof(ConsoleColor).IsAssignableFrom(backgroundRaw.GetType()))
-                        {
-                            backgroundColor = (ConsoleColor)backgroundRaw;
-                            match = true;
-                        }
-                }
-            }
+                    if (logEvent.MetaData.ContainsKey(MetaForeground))
+                    {
+                        var foregroundRaw = logEvent.MetaData[MetaForeground];
+                        if (foregroundRaw != null)
+                            if (typeof(ConsoleColor).IsAssignableFrom(foregroundRaw.GetType()))
+                            {
+                                foregroundColor = (ConsoleColor)foregroundRaw;
+                                match = true;
+                            }
+                    }
 
-            // If colors are found, set them then write, otherwise, just write
-            if (match)
-            {
-                // Synchronize the actual writing, we don't want the colors to get all messed up
-                lock (ConsoleLock)
+                    if (logEvent.MetaData.ContainsKey(MetaBackground))
+                    {
+                        var backgroundRaw = logEvent.MetaData[MetaBackground];
+                        if (backgroundRaw != null)
+                            if (typeof(ConsoleColor).IsAssignableFrom(backgroundRaw.GetType()))
+                            {
+                                backgroundColor = (ConsoleColor)backgroundRaw;
+                                match = true;
+                            }
+                    }
+                }
+
+                // If colors are found, set them then write, otherwise, just write
+                if (match)
                 {
                     try
                     {
@@ -144,12 +143,11 @@ namespace NuLog.Targets
                         Console.ResetColor();
                     }
                 }
+                else
+                {
+                    Console.Write(Layout.FormatLogEvent(logEvent));
+                }
             }
-            else
-            {
-                Console.Write(Layout.FormatLogEvent(logEvent));
-            }
-
         }
 
         #endregion
