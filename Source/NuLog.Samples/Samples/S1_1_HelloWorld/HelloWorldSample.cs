@@ -30,8 +30,8 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
         // Logging example
         public override void ExecuteSample(Arguments args)
         {
-            _logger.LogNow("Log Now!");
             _logger.Log("Log Later!");
+            _logger.LogNow("Log Now!");
         }
         
     }

@@ -1,7 +1,12 @@
 ﻿{
     "targets": [{
         "name": "console",
-        "type": "NuLog.Targets.ConsoleTarget"
+        "type": "NuLog.Targets.ConsoleTarget",
+        "colorRules": [{
+            "tags": ["red", "error", "fail*"],
+            "color": "White",
+            "background": "Red"
+        }]
     }],
     "rules": [{
         "include": ["*"],
