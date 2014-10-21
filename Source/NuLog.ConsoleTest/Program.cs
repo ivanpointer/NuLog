@@ -1,10 +1,12 @@
-﻿using NuLog;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/20/2014
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.ConsoleTest
 {
