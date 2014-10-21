@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace NuLog.Logger
+namespace NuLog
 {
     /// <summary>
     /// Defines the basic, common functions for loggers.  The base logger.

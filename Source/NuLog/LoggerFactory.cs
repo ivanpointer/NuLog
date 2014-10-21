@@ -6,7 +6,7 @@
  */
 using NuLog.Configuration;
 using NuLog.Dispatch;
-using NuLog.Logger;
+using NuLog.Loggers;
 using NuLog.MetaData;
 using System;
 using System.Collections.Generic;

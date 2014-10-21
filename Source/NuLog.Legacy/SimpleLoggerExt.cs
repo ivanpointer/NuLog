@@ -4,7 +4,7 @@
  * License: MIT (http://opensource.org/licenses/MIT)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
-using NuLog.Logger;
+using NuLog.Loggers;
 using System;
 using System.Collections.Generic;
 

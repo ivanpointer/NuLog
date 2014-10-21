@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog", "NuLog\NuLog.csproj", "{4390FDE4-942C-4A64-AE05-899F60F6B5E5}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Legacy", "NuLog.Legacy\NuLog.Legacy.csproj", "{ACE77CC8-B7A8-42A9-A8AA-8A238B5CDA73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.ConsoleTest", "NuLog.ConsoleTest\NuLog.ConsoleTest.csproj", "{5A75F592-EC12-47BE-A299-FABD8EF3BE6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Samples", "NuLog.Samples\NuLog.Samples.csproj", "{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5A75F592-EC12-47BE-A299-FABD8EF3BE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A75F592-EC12-47BE-A299-FABD8EF3BE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A75F592-EC12-47BE-A299-FABD8EF3BE6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

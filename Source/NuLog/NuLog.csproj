@@ -72,8 +72,8 @@
     <Compile Include="Extensions\Email\EmailLogEventBuilder.cs" />
     <Compile Include="LogEvent.cs" />
     <Compile Include="LoggerFactory.cs" />
-    <Compile Include="Logger\LoggerBase.cs" />
-    <Compile Include="Logger\DefaultLogger.cs" />
+    <Compile Include="LoggerBase.cs" />
+    <Compile Include="Loggers\DefaultLogger.cs" />
     <Compile Include="LoggingException.cs" />
     <Compile Include="MetaData\IMetaDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

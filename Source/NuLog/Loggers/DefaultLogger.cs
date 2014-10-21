@@ -7,7 +7,7 @@
 using NuLog.Dispatch;
 using System.Collections.Generic;
 
-namespace NuLog.Logger
+namespace NuLog.Loggers
 {
     /// <summary>
     /// The most basic logger implementation, the default implementation for the framework

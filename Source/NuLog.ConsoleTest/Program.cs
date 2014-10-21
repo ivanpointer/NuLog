@@ -1,4 +1,4 @@
-﻿using NuLog.Logger;
+﻿using NuLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +10,8 @@ namespace NuLog.ConsoleTest
 {
     class Program
     {
+        #region Constants
+
         private const string ExitOption = "x";
         private const string ExitOptionText = "Exit";
         private const string TestListItemFormat = "\t{0}. {1}\r\n";
@@ -19,6 +21,8 @@ namespace NuLog.ConsoleTest
         private const string TestOptionDoneMessage = "\r\n---\r\nTest option \"{0}\" done.  Press [Enter] to continue.";
 
         private const int DefaultPerformanceTestTimes = 10000;
+
+        #endregion
 
         private static readonly IList<Tuple<string, Action<string[]>>> TestOptions = new List<Tuple<string, Action<string[]>>>
         {
