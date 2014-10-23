@@ -1,7 +1,7 @@
 # NuLog
 _Powerfully Simple Logging. Period._
 
-Documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki)  
+Documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
 NuLog is (will be) provided as a NuGet package.  
 The source and samples are available here on GitHub.
 
