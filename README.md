@@ -16,3 +16,8 @@ Code samples and documentation are in process of being written.  Samples for bas
 
 ## NuGet Release
 NuLog RC1 will be released to NuGet.
+
+## Donate
+If you would like to donate as a thanks for this framework, I have provided some links below:  
+[Donate to me on PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ivan%40pointerplace%2eus&lc=US&item_name=NuLog&item_number=NuLog&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)  
+[Donate to me on Dwolla](https://www.dwolla.com/send) _(My Dwolla ID is 812-255-9992)_
