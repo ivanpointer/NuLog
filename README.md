@@ -1,5 +1,6 @@
 # NuLog
-_Powerfully Simple Logging. Period._
+_Powerfully Simple Logging. Period._  
+_Written in C# for .NET_
 
 Documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
 NuLog is (will be) provided as a NuGet package.  
