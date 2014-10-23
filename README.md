@@ -1,6 +1,9 @@
 # NuLog
+_Powerfully Simple Logging. Period._
 
-Powerfully Simple Logging. Period.
+Documentation can be found in the [Wiki](https://github.com/ivanpointer/NuLog/wiki)  
+NuLog is (will be) provided as a NuGet package.  
+The source and samples are available here on GitHub.
 
 ## NuLog RC1 Release
 The initial release candidate has been comitted to the repository.  This first release is titled "NuLog RC1"
