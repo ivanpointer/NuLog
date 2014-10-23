@@ -1,0 +1,34 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.ConsoleTarget"
+            },
+            {
+                "name": "trace",
+                "type": "NuLog.Targets.TraceTarget"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "NuLog.Samples.Samples.S1_2_TagBasics.*" ],
+                "writeTo": [ "trace" ],
+                "final": false
+            },
+            {
+                "include": [ "mytag" ],
+                "writeTo": [ "console" ],
+                "final": false
+            }
+        ],
+        "tagGroups": {
+            "fruit": [ "banana", "orange", "strawberry", "tomato", "grape" ],
+            "animals": [ "dog", "cat", "fish", "giraffe" ],
+            "errors": [ "exception", "failure", "fail", "fault" ]
+        },
+        "debug": false,
+        "watch": true,
+        "synchronous": false
+    }
+

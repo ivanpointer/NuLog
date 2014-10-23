@@ -55,7 +55,7 @@ namespace NuLog.Configuration.Targets
         {
             // Setup
             Config = jToken;
-            Type = typeof(BufferedConsoleTarget).FullName;
+            Type = typeof(SimpleConsoleTarget).FullName;
             Synchronous = synchronous;
 
             // If the token is provided

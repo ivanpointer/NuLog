@@ -12,10 +12,14 @@ using System.IO;
 namespace NuLog.Targets
 {
     /// <summary>
-    /// A console target that buffers writing when logging multiple log events asynchronously
+    /// A simple console target that buffers writing when logging multiple log events asynchronously
     /// </summary>
-    public class BufferedConsoleTarget : LayoutTargetBase
+    public class SimpleConsoleTarget : LayoutTargetBase
     {
+        /// <summary>
+        /// Log the given log event
+        /// </summary>
+        /// <param name="logEvent">The log event to log</param>
         public override void Log(LogEvent logEvent)
         {
             Console.Write(Layout.FormatLogEvent(logEvent));

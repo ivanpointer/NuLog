@@ -1,6 +1,6 @@
 ﻿{
     "layout": {
-        "type": "NuLog.Targets.Layouts.StandardLayout",
+        "type": "NuLog.Layouts.StandardLayout",
         "format": "${?DateTime:'{0:yyyyMMdd}'} | ${Message}"
     }
 }

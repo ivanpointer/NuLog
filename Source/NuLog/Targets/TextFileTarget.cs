@@ -268,12 +268,13 @@ namespace NuLog.Targets
 
                 // Get a hold of the files to delete, and delete them (making sure not to delete the current log file)
                 //  Delete the oldest of the files
-                var files = Directory.GetFiles(path, pattern);
-                var orderedFiles = files.OrderByDescending(_ => (new FileInfo(_)).CreationTime);
+                var file = new FileInfo(path);
+                var files = file.Directory.GetFiles(pattern);
+                var orderedFiles = files.OrderByDescending(_ => _.CreationTime);
                 var deleteFiles = files.Take(orderedFiles.Count() - Config.OldFileLimit - countOffset);
                 foreach (var deleteFile in deleteFiles)
-                    if (Path.GetFileName(deleteFile) != Path.GetFileName(Config.FileName))
-                        File.Delete(deleteFile);
+                    if (deleteFile.Name != Path.GetFileName(Config.FileName))
+                        deleteFile.Delete();
             }
         }
 

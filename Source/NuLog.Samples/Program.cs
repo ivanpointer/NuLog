@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 using NuLog.Samples.Samples.S1_1_HelloWorld;
+using NuLog.Samples.Samples.S1_2_TagBasics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,21 +38,18 @@ namespace NuLog.Samples
 
         #endregion
 
-        #region Constants
+        #region Constants and Menu
 
         // Constants for printing and formatting the samples into their
         //  sections in the menu
         public const string Section1 = "  1. The Basics";
         public const string SampleIndent = "    ";
 
-        #endregion
-
-        #region Constructors and Members
-
         // The ordered list of samples in the menu
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
         {
-            new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World")
+            new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World"),
+            new TagBasicsSample(Section1, SampleIndent + "1.2 Tag Basics")
         };
 
         #endregion

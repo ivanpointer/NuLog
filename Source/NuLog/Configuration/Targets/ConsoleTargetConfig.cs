@@ -21,8 +21,8 @@ namespace NuLog.Configuration.Targets
         // Tokens
         private const string ColorRulesTokenName = "colorRules";
         private const string TagsTokenName = "tags";
-        private const string ForeColorTokenName = "foreColor";
-        private const string BackColorTokenName = "backColor";
+        private const string ForeColorTokenName = "foreground";
+        private const string BackColorTokenName = "background";
 
         // Functional Values
         private const string TraceConfigCategory = "config";

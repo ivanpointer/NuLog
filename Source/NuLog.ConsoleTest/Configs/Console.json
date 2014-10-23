@@ -1,7 +1,7 @@
 ﻿{
 	"targets": [{
 		"name": "console",
-		"type": "NuLog.Targets.BufferedConsoleTarget",
+		"type": "NuLog.Targets.SimpleConsoleTarget",
 		"layout": "${Tags} - ${Message}\r\n"
 	}],
 	"rules": [{
