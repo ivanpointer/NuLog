@@ -5,7 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 using NuLog.Samples.Samples.S1_1_HelloWorld;
-using NuLog.Samples.Samples.S1_2_TagBasics;
+using NuLog.Samples.Samples.S1_2_TagsRules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +49,7 @@ namespace NuLog.Samples
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
         {
             new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World"),
-            new TagBasicsSample(Section1, SampleIndent + "1.2 Tag Basics")
+            new TagsRulesSample(Section1, SampleIndent + "1.2 Tags")
         };
 
         #endregion

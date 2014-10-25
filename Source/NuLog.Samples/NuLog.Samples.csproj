@@ -55,7 +55,7 @@
     <Compile Include="SampleBase.cs" />
     <Compile Include="Samples\Presentation\EmailLogEventBuilderSample.cs" />
     <Compile Include="Samples\S1_1_HelloWorld\HelloWorldSample.cs" />
-    <Compile Include="Samples\S1_2_TagBasics\TagBasicsSample.cs" />
+    <Compile Include="Samples\S1_2_TagsRules\TagsRulesSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -66,7 +66,7 @@
     <None Include="Samples\Presentation\NuLog.Presentation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Samples\S1_2_TagBasics\NuLog.json">
+    <None Include="Samples\S1_2_TagsRules\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -388,33 +388,41 @@ namespace NuLog
             {
                 var instance = Instance.Value;
 
+                // Get the distinct default tags
+                var tags = defaultTags.Distinct().ToList();
+
+                // Make sure that the logger includes the requesting class' full name
+                //  as a tag
+                if (tags.Contains(reqClassFullName) == false)
+                    tags.Add(reqClassFullName);
+
+                // Make sure that the logger includes the name of the logger as a tag
+                if (tags.Contains(loggerName) == false)
+                    tags.Add(loggerName);
+
                 // Check to see if we need to create a new instance of the logger
                 if (instance.NamedLoggers.ContainsKey(loggerName) == false)
                 {
-                    // We need to create a new instance
-
-                    // Get the distinct default tags
-                    var tags = defaultTags.Distinct().ToList();
-
-                    // Make sure that the logger includes the requesting class' full name
-                    //  as a tag
-                    if (tags.Contains(reqClassFullName) == false)
-                        tags.Add(reqClassFullName);
-
-                    // Make sure that the logger includes the name of the logger as a tag
-                    if (tags.Contains(loggerName) == false)
-                        tags.Add(loggerName);
-
                     // Create and return a new instance of the logger
                     //  using the determined default tags
+
                     var logger = new DefaultLogger(instance.LogEventDispatcher, tags);
                     instance.NamedLoggers[loggerName] = logger;
                     return logger;
                 }
                 else
                 {
-                    // We already have an instance of the logger, return it
-                    return instance.NamedLoggers[loggerName];
+                    // We already have an instance of the logger
+                    //  Let's make sure that the logger has the default tags
+                    //  we have recieved and then return it
+
+                    var logger = instance.NamedLoggers[loggerName];
+
+                    foreach (var tag in tags)
+                        if (logger.DefaultTags.Contains(tag) == false)
+                            logger.DefaultTags.Add(tag);
+
+                    return logger;
                 }
             }
         }

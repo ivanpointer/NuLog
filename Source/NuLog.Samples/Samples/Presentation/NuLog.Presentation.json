@@ -12,7 +12,7 @@
         ],
         "rules": [
             {
-                "include": [ "NuLog.Samples.Samples.S1_2_TagBasics.*" ],
+                "include": [ "NuLog.Samples.Samples.S1_2_TagsRules.*" ],
                 "writeTo": [ "trace" ],
                 "final": false
             },

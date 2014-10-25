@@ -12,7 +12,13 @@
         ],
         "rules": [
             {
-                "include": [ "NuLog.Samples.Samples.S1_2_TagBasics.*" ],
+                "include": [ "consoleonly" ],
+                "writeTo": [ "console" ],
+                "final": true
+            },
+            {
+                "include": [ "NuLog.Samples.Samples.S1_2_TagsRules.*" ],
+                "exclude": [ "notrace" ],
                 "writeTo": [ "trace" ],
                 "final": false
             },
@@ -21,14 +27,7 @@
                 "writeTo": [ "console" ],
                 "final": false
             }
-        ],
-        "tagGroups": {
-            "fruit": [ "banana", "orange", "strawberry", "tomato", "grape" ],
-            "animals": [ "dog", "cat", "fish", "giraffe" ],
-            "errors": [ "exception", "failure", "fail", "fault" ]
-        },
-        "debug": false,
-        "watch": true,
-        "synchronous": false
+        ]
     }
+
 
