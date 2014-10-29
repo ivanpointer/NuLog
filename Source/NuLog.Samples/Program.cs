@@ -1,11 +1,14 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/20/2014
+ * Date: 10/28/2014
  * License: MIT (http://opensource.org/licenses/MIT)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
+using NuLog.Samples.Samples.S1_3_MetaData;
+using NuLog.Samples.Samples.S1_4_SynchronousLogging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +52,9 @@ namespace NuLog.Samples
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
         {
             new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World"),
-            new TagsRulesSample(Section1, SampleIndent + "1.2 Tags")
+            new TagsRulesSample(Section1, SampleIndent + "1.2 Tags and Rules"),
+            new MetaDataSample(Section1, SampleIndent + "1.3 Meta Data"),
+            new SynchronousLoggingSample(Section1, SampleIndent + "1.4 Synchronous Logging")
         };
 
         #endregion

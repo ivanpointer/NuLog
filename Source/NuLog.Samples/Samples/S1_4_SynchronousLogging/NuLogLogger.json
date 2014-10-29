@@ -1,0 +1,15 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.ConsoleTarget"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }

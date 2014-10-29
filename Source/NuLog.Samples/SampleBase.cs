@@ -13,6 +13,12 @@ namespace NuLog.Samples
     /// </summary>
     public abstract class SampleBase
     {
+        #region Constants
+
+        private const string PauseMessage = "Press [Enter] to continue...";
+
+        #endregion
+
         /// <summary>
         /// Creates a sample instance in the given section with the given sample name
         /// </summary>
@@ -97,6 +103,16 @@ namespace NuLog.Samples
             }
 
             return new Tuple<bool, T>(false, defaultValue);
+        }
+
+        /// <summary>
+        /// Pauses the sample, prompting the user to press [Enter] to continue
+        /// </summary>
+        protected void PauseSample()
+        {
+            Console.WriteLine(PauseMessage);
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 }

@@ -5,12 +5,6 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace NuLog.Samples.Samples.S1_2_TagsRules
 {
     /// <summary>

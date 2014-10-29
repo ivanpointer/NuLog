@@ -1,0 +1,22 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "consoleAsync",
+                "type": "NuLog.Targets.ConsoleTarget",
+                "layout": "ASYNC: ${Message}\r\n"
+            },{
+                "name": "consoleSync",
+                "type": "NuLog.Targets.ConsoleTarget",
+                "layout":  "SYNC: ${Message}\r\n",
+                "synchronous": true
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "consoleAsync", "consoleSync" ]
+            }
+        ]
+    }
+

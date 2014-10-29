@@ -1,0 +1,18 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.ConsoleTarget",
+                "layout": "${Message} | ${Hello}\r\n"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }
+
+
