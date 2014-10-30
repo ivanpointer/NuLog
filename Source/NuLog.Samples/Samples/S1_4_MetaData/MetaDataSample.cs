@@ -7,12 +7,12 @@
 
 using System.Collections.Generic;
 
-namespace NuLog.Samples.Samples.S1_3_MetaData
+namespace NuLog.Samples.Samples.S1_4_MetaData
 {
     /// <summary>
     /// A simple sample illustrating the most basic implementation of meta data.  The narration
     ///   of this sample can be found at:
-    ///   https://github.com/ivanpointer/NuLog/wiki/1.3-Meta-Data
+    ///   https://github.com/ivanpointer/NuLog/wiki/1.4-Meta-Data
     /// </summary>
     public class MetaDataSample : SampleBase
     {
@@ -28,7 +28,7 @@ namespace NuLog.Samples.Samples.S1_3_MetaData
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            LoggerFactory.Initialize("Samples/S1_3_MetaData/NuLog.json");
+            LoggerFactory.Initialize("Samples/S1_4_MetaData/NuLog.json");
             LoggerBase logger = LoggerFactory.GetLogger();
 
             // Setup the meta data
