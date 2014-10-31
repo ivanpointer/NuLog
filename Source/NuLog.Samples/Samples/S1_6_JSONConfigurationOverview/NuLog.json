@@ -12,7 +12,7 @@
         ],
         "rules": [
             {
-                "include": [ "NuLog.S1_5_JSONConfigurationOverview.*" ],
+                "include": [ "NuLog.S1_6_JSONConfigurationOverview.*" ],
                 "writeTo": [ "trace" ],
                 "final": false
             },

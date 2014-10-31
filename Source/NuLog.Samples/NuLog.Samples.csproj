@@ -56,6 +56,7 @@
     <Compile Include="Samples\Presentation\EmailLogEventBuilderSample.cs" />
     <Compile Include="Samples\S1_1_HelloWorld\HelloWorldSample.cs" />
     <Compile Include="Samples\S1_2_TagsRules\TagsRulesSample.cs" />
+    <Compile Include="Samples\S1_3_TagGroups\TagGroupsSample.cs" />
     <Compile Include="Samples\S1_4_MetaData\MetaDataSample.cs" />
     <Compile Include="Samples\S1_5_SynchronousLogging\SynchronousLoggingSample.cs" />
   </ItemGroup>
@@ -69,6 +70,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Samples\S1_2_TagsRules\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\S1_3_TagGroups\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Samples\S1_4_MetaData\NuLog.json">
@@ -94,7 +98,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Samples\S1_3_TagGroups\" />
     <Folder Include="Samples\S1_7_RuntimeConfigurationOverview\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

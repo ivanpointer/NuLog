@@ -7,6 +7,7 @@
 
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
+using NuLog.Samples.Samples.S1_3_TagGroups;
 using NuLog.Samples.Samples.S1_4_MetaData;
 using NuLog.Samples.Samples.S1_5_SynchronousLogging;
 using System;
@@ -53,6 +54,7 @@ namespace NuLog.Samples
         {
             new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World"),
             new TagsRulesSample(Section1, SampleIndent + "1.2 Tags and Rules"),
+            new TagGroupsSample(Section1, SampleIndent + "1.3 Tag Groups"),
             new MetaDataSample(Section1, SampleIndent + "1.4 Meta Data"),
             new SynchronousLoggingSample(Section1, SampleIndent + "1.5 Synchronous Logging")
         };
