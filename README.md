@@ -2,7 +2,8 @@
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
 
-Documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
+For a quick start, see the [Developer Implementation Guide](https://github.com/ivanpointer/NuLog/wiki/Developer-Implementation-Guide-(Quick-Start)).  
+Full documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
 NuLog is (will be) provided as a NuGet package.  
 The source and samples are available here on GitHub.
 
