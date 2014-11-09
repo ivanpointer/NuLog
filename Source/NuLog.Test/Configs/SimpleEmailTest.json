@@ -1,7 +1,7 @@
 ﻿{
     "targets": [{
         "name": "email",
-        "type": "NuLog.Targets.SmtpTarget",
+        "type": "NuLog.Targets.EmailTarget",
         "host": "localhost",
         "fromAddress": "noreply@nulog.info",
         "to": ["noreply@nulog.info"]
