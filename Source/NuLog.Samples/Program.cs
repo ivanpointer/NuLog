@@ -10,6 +10,10 @@ using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
 using NuLog.Samples.Samples.S1_4_MetaData;
 using NuLog.Samples.Samples.S1_5_SynchronousLogging;
+using NuLog.Samples.Samples.S1_8_RuntimeConfigurationOverview;
+using NuLog.Samples.Samples.S3_1_TraceTarget;
+using NuLog.Samples.Samples.S3_2_SimpleConsoleTarget;
+using NuLog.Samples.Samples.S3_3_ConsoleTarget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +51,7 @@ namespace NuLog.Samples
         // Constants for printing and formatting the samples into their
         //  sections in the menu
         public const string Section1 = "  1. The Basics";
+        public const string Section3 = "  3. Standard Targets";
         public const string SampleIndent = "    ";
 
         // The ordered list of samples in the menu
@@ -56,7 +61,11 @@ namespace NuLog.Samples
             new TagsRulesSample(Section1, SampleIndent + "1.2 Tags and Rules"),
             new TagGroupsSample(Section1, SampleIndent + "1.3 Tag Groups"),
             new MetaDataSample(Section1, SampleIndent + "1.4 Meta Data"),
-            new SynchronousLoggingSample(Section1, SampleIndent + "1.5 Synchronous Logging")
+            new SynchronousLoggingSample(Section1, SampleIndent + "1.5 Synchronous Logging"),
+            new RuntimeConfigurationSample(Section1, SampleIndent + "1.8 Runtime Configuration"),
+            new TraceTargetSample(Section3, SampleIndent + "3.1 Trace Target"),
+            new SimpleConsoleTargetSample(Section3, SampleIndent + "3.2 Simple Console Target"),
+            new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target")
         };
 
         #endregion

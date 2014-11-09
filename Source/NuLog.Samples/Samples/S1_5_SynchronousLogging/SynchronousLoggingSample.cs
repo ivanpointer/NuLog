@@ -14,6 +14,7 @@ namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
     /// </summary>
     public class SynchronousLoggingSample : SampleBase
     {
+
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)

@@ -63,12 +63,16 @@
     <Compile Include="Configuration\Targets\LayoutTargetConfig.cs" />
     <Compile Include="Configuration\Targets\EmailTargetConfig.cs" />
     <Compile Include="Configuration\Targets\EmailTargetConfigBuilder.cs" />
+    <Compile Include="Configuration\Targets\SimpleConsoleTargetConfig.cs" />
     <Compile Include="Configuration\Targets\TargetConfig.cs" />
     <Compile Include="Configuration\Targets\TextFileTargetConfig.cs" />
+    <Compile Include="Configuration\Targets\TextFileTargetConfigBuilder.cs" />
+    <Compile Include="Configuration\Targets\TraceTargetConfig.cs" />
     <Compile Include="Dispatch\LogEventDispatcher.cs" />
     <Compile Include="Dispatch\RuleKeeper.cs" />
     <Compile Include="Dispatch\TagKeeper.cs" />
     <Compile Include="Dispatch\TargetKeeper.cs" />
+    <Compile Include="Extensions\Console\ConsoleLoggerExt.cs" />
     <Compile Include="Extensions\Email\EmailLogEventBuilder.cs" />
     <Compile Include="Layouts\ILayout.cs" />
     <Compile Include="Layouts\LayoutFactory.cs" />

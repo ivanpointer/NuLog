@@ -152,7 +152,14 @@ namespace NuLog
                     catch (Exception e)
                     {
                         // Report the exception
-                        Trace.WriteLine(e, TraceConfigCategory);
+                        if (exceptionHandler != null)
+                        {
+                            exceptionHandler(e, ConfigurationFailedUsingDefaultsMessage);
+                        }
+                        else
+                        {
+                            Trace.WriteLine(e, TraceConfigCategory);                        
+                        }
 
                         // Load the default config to get us off the ground!!
                         Instance.Value.LoggingConfig = new LoggingConfig();
@@ -278,6 +285,11 @@ namespace NuLog
                     // Wire up a new default one
                     LogEventDispatcher = new LogEventDispatcher(LoggingConfig, ExceptionHandler);
                     LoggingConfig.RegisterObserver(LogEventDispatcher);
+                }
+                else
+                {
+                    // Notify of new config if we already have a dispatcher
+                    LogEventDispatcher.NotifyNewConfig(LoggingConfig);
                 }
             }
         }

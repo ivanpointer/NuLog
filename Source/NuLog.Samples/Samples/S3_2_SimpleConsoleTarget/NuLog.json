@@ -1,0 +1,18 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.SimpleConsoleTarget",
+                "layout": "JSON File: ${Message}\r\n",
+                "synchronous": false
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }
+
