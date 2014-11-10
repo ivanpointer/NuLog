@@ -6,13 +6,7 @@
  */
 
 using NuLog.Configuration;
-using NuLog.Configuration.Layouts;
 using NuLog.Configuration.Targets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuLog.Samples.Samples.S3_4_TextFileTarget
 {
