@@ -1,0 +1,32 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "file",
+                "type": "NuLog.Targets.TextFileTarget",
+                "layout": "JSON File: ${Message}\r\n",
+                "synchronous": false,
+
+                "fileName": "sample.log",
+                "oldFileNamePattern": "sample{0:.yyyy.MM.dd.hh.mm.ss}.log",
+
+                //"rolloverPolicy": "Size",
+                //"rolloverTrigger": "1KB",
+
+                "rolloverPolicy": "Day",
+                "rolloverTrigger": "2",
+
+                "oldFileLimit": 3,
+                "compressOldFiles": true,
+                "compressionLevel": 3,
+                "compressionPassword": "helloworld"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "file" ]
+            }
+        ]
+    }
+

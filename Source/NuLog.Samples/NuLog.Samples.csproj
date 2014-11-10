@@ -63,6 +63,7 @@
     <Compile Include="Samples\S3_1_TraceTarget\TraceTargetSample.cs" />
     <Compile Include="Samples\S3_2_SimpleConsoleTarget\SimpleConsoleTargetSample.cs" />
     <Compile Include="Samples\S3_3_ConsoleTarget\ConsoleTargetSample.cs" />
+    <Compile Include="Samples\S3_4_TextFileTarget\TextFileTargetSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -101,6 +102,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Samples\S3_3_ConsoleTarget\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\S3_4_TextFileTarget\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

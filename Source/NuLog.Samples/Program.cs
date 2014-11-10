@@ -14,6 +14,7 @@ using NuLog.Samples.Samples.S1_8_RuntimeConfigurationOverview;
 using NuLog.Samples.Samples.S3_1_TraceTarget;
 using NuLog.Samples.Samples.S3_2_SimpleConsoleTarget;
 using NuLog.Samples.Samples.S3_3_ConsoleTarget;
+using NuLog.Samples.Samples.S3_4_TextFileTarget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,8 @@ namespace NuLog.Samples
             new RuntimeConfigurationSample(Section1, SampleIndent + "1.8 Runtime Configuration"),
             new TraceTargetSample(Section3, SampleIndent + "3.1 Trace Target"),
             new SimpleConsoleTargetSample(Section3, SampleIndent + "3.2 Simple Console Target"),
-            new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target")
+            new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target"),
+            new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target")
         };
 
         #endregion

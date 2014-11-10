@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
+using NuLog.Configuration.Layouts;
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
@@ -32,6 +33,30 @@ namespace NuLog.Configuration.Targets
         public static TextFileTargetConfigBuilder Create()
         {
             return new TextFileTargetConfigBuilder();
+        }
+
+        /// <summary>
+        /// Sets the layout config to a standard layout with the given layout format
+        /// </summary>
+        /// <param name="layoutFormat">The layout format to use for the new layout config</param>
+        /// <returns>This TextFileTargetConfigBuilder</returns>
+        public TextFileTargetConfigBuilder SetLayoutConfig(string layoutFormat)
+        {
+            Config.LayoutConfig = new LayoutConfig(layoutFormat);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the layout config to the provided layout config
+        /// </summary>
+        /// <param name="layoutConfig">The layout config to use</param>
+        /// <returns>This TextFileTargetConfigBuilder</returns>
+        public TextFileTargetConfigBuilder SetLayoutConfig(LayoutConfig layoutConfig)
+        {
+            Config.LayoutConfig = layoutConfig;
+
+            return this;
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 using Newtonsoft.Json.Linq;
+using NuLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,6 +41,7 @@ namespace NuLog.Configuration.Targets
         public ConsoleTargetConfig()
             : base(synchronous: true)
         {
+            Type = typeof(ConsoleTarget).FullName;
             ColorRules = new List<ConsoleColorRule>();
         }
 

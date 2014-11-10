@@ -76,6 +76,17 @@ namespace NuLog.Configuration.Targets
         }
 
         /// <summary>
+        /// Sets a standard layout with the given layout format
+        /// </summary>
+        /// <param name="layoutFormat">The layout format to use for the new standard layout config</param>
+        /// <returns>This console target config builder instance</returns>
+        public ConsoleTargetConfigBuilder SetLayoutConfig(string layoutFormat)
+        {
+            LayoutConfig = new LayoutConfig(layoutFormat);
+            return this;
+        }
+
+        /// <summary>
         /// Sets the layout configuration
         /// </summary>
         /// <param name="layoutConfig">The layout configuration to use</param>

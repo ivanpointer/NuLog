@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 using Newtonsoft.Json.Linq;
+using NuLog.Targets;
 using System;
 
 namespace NuLog.Configuration.Targets
@@ -52,6 +53,8 @@ namespace NuLog.Configuration.Targets
         public const long KBMultiplier = 1024;
         public const long ZeroTrigger = 0L;
 
+        public const string DefaultName = "file";
+        public static readonly string DefaultType = typeof(TextFileTarget).FullName;
         public const string DefaultRolloverTriggerString = "1MB";
         public const long DefaultRolloverTrigger = 10 * MBMultiplier;
         public const int DefaultOldFileLimit = 10;
@@ -172,6 +175,8 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         private void Defaults()
         {
+            Name = DefaultName;
+            Type = DefaultType;
             FileName = DefaultFileName;
             OldFileNamePattern = DefaultLoadFileNamePattern;
             RolloverPolicy = DefaultRolloverPolicy;
