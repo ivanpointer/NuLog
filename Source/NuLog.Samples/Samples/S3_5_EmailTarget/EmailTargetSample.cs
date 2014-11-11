@@ -57,7 +57,7 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
                     .SetPort(587)
                     .SetEnableSSL(true)
                     .SetUserName("postmaster@mg.pointerplace.us")
-                    .SetPassword("9cb02cdb9eb03c79e9b5849bee6f37de")
+                    .SetPassword("censored")
 
                     .SetFromAddress("test@mg.pointerplace.us")
                     .AddReplyTo("reply@mg.pointerplace.us")

@@ -16,6 +16,7 @@ using NuLog.Samples.Samples.S3_2_SimpleConsoleTarget;
 using NuLog.Samples.Samples.S3_3_ConsoleTarget;
 using NuLog.Samples.Samples.S3_4_TextFileTarget;
 using NuLog.Samples.Samples.S3_5_EmailTarget;
+using NuLog.Samples.Samples.S4_1_LegacyLoggingExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,7 @@ namespace NuLog.Samples
         //  sections in the menu
         public const string Section1 = "  1. The Basics";
         public const string Section3 = "  3. Standard Targets";
+        public const string Section4 = "  4. Appendix A: Legacy Logging Extension";
         public const string SampleIndent = "    ";
 
         // The ordered list of samples in the menu
@@ -69,7 +71,8 @@ namespace NuLog.Samples
             new SimpleConsoleTargetSample(Section3, SampleIndent + "3.2 Simple Console Target"),
             new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target"),
             new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target"),
-            new EmailTargetSample(Section3, SampleIndent + "3.5 Email Target")
+            new EmailTargetSample(Section3, SampleIndent + "3.5 Email Target"),
+            new LegacyLoggingExtensionSample(Section4, SampleIndent + "4.1 Using the Legacy Logging Extension")
         };
 
         #endregion

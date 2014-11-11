@@ -9,7 +9,7 @@
             "port": 587,
             "enableSSL": true,
             "userName": "postmaster@mg.pointerplace.us",
-            "password": "9cb02cdb9eb03c79e9b5849bee6f37de",
+            "password": "censored",
 
             "fromAddress": "test@mg.pointerplace.us",
             "replyTo": "reply@mg.pointerplace.us",

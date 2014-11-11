@@ -65,6 +65,7 @@
     <Compile Include="Samples\S3_3_ConsoleTarget\ConsoleTargetSample.cs" />
     <Compile Include="Samples\S3_4_TextFileTarget\TextFileTargetSample.cs" />
     <Compile Include="Samples\S3_5_EmailTarget\EmailTargetSample.cs" />
+    <Compile Include="Samples\S4_1_LegacyLoggingExtension\LegacyLoggingExtensionSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -111,8 +112,15 @@
     <None Include="Samples\S3_5_EmailTarget\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Samples\S4_1_LegacyLoggingExtension\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NuLog.Legacy\NuLog.Legacy.csproj">
+      <Project>{ace77cc8-b7a8-42a9-a8aa-8a238b5cda73}</Project>
+      <Name>NuLog.Legacy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
       <Project>{4390fde4-942c-4a64-ae05-899f60f6b5e5}</Project>
       <Name>NuLog</Name>
