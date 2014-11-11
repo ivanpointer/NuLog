@@ -197,6 +197,18 @@ namespace NuLog.Configuration.Targets
         }
 
         /// <summary>
+        /// Sets the subject layout to a standard layout with the given layout format
+        /// </summary>
+        /// <param name="layoutFormat">The layout format for the standard layout</param>
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetSubjectLayout(string layoutFormat)
+        {
+            Config.SubjectLayout = new LayoutConfig(layoutFormat);
+
+            return this;
+        }
+
+        /// <summary>
         /// Sets the subject layout to the target in the config
         /// </summary>
         /// <param name="subjectLayout">The subject layout to set</param>
@@ -207,12 +219,24 @@ namespace NuLog.Configuration.Targets
 
             return this;
         }
-        
+
+        /// <summary>
+        /// Sets the body layout to a standard layout with the given layout format
+        /// </summary>
+        /// <param name="layoutFormat">The layout format for the new standard layout</param>
+        /// <returns>This EmailTargetConfigBuilder</returns>
+        public EmailTargetConfigBuilder SetBodyLayout(string layoutFormat)
+        {
+            Config.BodyLayout = new LayoutConfig(layoutFormat);
+
+            return this;
+        }
+
         /// <summary>
         /// Sets the body layout to the target in the config
         /// </summary>
         /// <param name="bodyLayout">The body layout to set</param>
-        /// <returns></returns>
+        /// <returns>This EmailTargetConfigBuilder</returns>
         public EmailTargetConfigBuilder SetBodyLayout(LayoutConfig bodyLayout)
         {
             Config.BodyLayout = bodyLayout;

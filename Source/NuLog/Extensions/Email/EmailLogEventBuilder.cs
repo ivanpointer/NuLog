@@ -197,10 +197,7 @@ namespace NuLog.Extensions.Email
         /// <returns>This SmtpLogEventBuilder</returns>
         public EmailLogEventBuilder AddAttachment(string fileName)
         {
-            Attachments.Add(new EmailAttachment
-            {
-                AttachmentFileName = fileName
-            });
+            Attachments.Add(new EmailAttachment(fileName));
             return this;
         }
 
@@ -259,7 +256,7 @@ namespace NuLog.Extensions.Email
             if (LogEvent.MetaData == null)
                 LogEvent.MetaData = new Dictionary<string, object>();
 
-            if (String.IsNullOrEmpty(Subject))
+            if (String.IsNullOrEmpty(Subject) == false)
                 LogEvent.MetaData[EmailTarget.MetaSubject] = Subject;
 
             if (Attachments.Count > 0)

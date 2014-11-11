@@ -64,6 +64,7 @@
     <Compile Include="Samples\S3_2_SimpleConsoleTarget\SimpleConsoleTargetSample.cs" />
     <Compile Include="Samples\S3_3_ConsoleTarget\ConsoleTargetSample.cs" />
     <Compile Include="Samples\S3_4_TextFileTarget\TextFileTargetSample.cs" />
+    <Compile Include="Samples\S3_5_EmailTarget\EmailTargetSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,6 +108,9 @@
     <None Include="Samples\S3_4_TextFileTarget\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Samples\S3_5_EmailTarget\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
@@ -114,7 +118,14 @@
       <Name>NuLog</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Samples\S3_5_EmailTarget\bodytemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\S3_5_EmailTarget\TestAttachment.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

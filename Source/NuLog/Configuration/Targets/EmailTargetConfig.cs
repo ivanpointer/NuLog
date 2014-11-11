@@ -6,6 +6,7 @@
  */
 using Newtonsoft.Json.Linq;
 using NuLog.Configuration.Layouts;
+using NuLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace NuLog.Configuration.Targets
     {
         #region Constants
 
-        private const string DefaultSubjectLayout = "${Subject}";
+        private const string DefaultName = "email";
+        private static readonly string DefaultType = typeof(EmailTarget).FullName;
+
+        private const string DefaultSubjectLayout = "${EmailSubject}";
         private const string DefaultBodyLayout = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
 
         // JSON tokens
@@ -176,31 +180,8 @@ namespace NuLog.Configuration.Targets
 
                 // Load the additional headers from the JSON array
                 var headersToken = jToken[HeadersTokenName];
-                if (headersToken != null)
-                {
-                    var headers = headersToken.Children();
-                    Headers = new Dictionary<string, string>();
-                    JToken nameToken;
-                    string name;
-
-                    JToken valueToken;
-                    string value;
-                    foreach (var header in headers)
-                    {
-                        nameToken = header[HeaderNameTokenName];
-                        name = nameToken != null
-                            ? nameToken.Value<string>()
-                            : null;
-
-                        valueToken = header[HeaderValueTokenName];
-                        value = valueToken != null
-                            ? valueToken.Value<string>()
-                            : null;
-
-                        if (String.IsNullOrEmpty(name) == false)
-                            Headers[name] = value;
-                    }
-                }
+                if (headersToken != null && headersToken.Type == JTokenType.Object)
+                    Headers = headersToken.ToObject<Dictionary<string, string>>();
 
                 BodyFile = GetValue<string>(jToken, BodyFileTokenName, BodyFile);
                 IsBodyHtml = GetValue<bool>(jToken, IsBodyHTMLTokenName, IsBodyHtml);
@@ -214,6 +195,9 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         private void Defaults()
         {
+            Name = DefaultName;
+            Type = DefaultType;
+
             Host = DefaultHost;
             Port = DefaultPort;
             UserName = null;

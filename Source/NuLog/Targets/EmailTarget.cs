@@ -297,10 +297,12 @@ namespace NuLog.Targets
                         {
                             if(File.Exists(emailAttachment.PhysicalFileName))
                             {
-                                mailMessage.Attachments.Add(new Attachment(
-                                String.IsNullOrEmpty(emailAttachment.AttachmentFileName)
-                                    ? emailAttachment.PhysicalFileName
-                                    : emailAttachment.AttachmentFileName));
+                                mailMessage.Attachments.Add(new Attachment(emailAttachment.PhysicalFileName)
+                                {
+                                    Name = String.IsNullOrEmpty(emailAttachment.AttachmentFileName)
+                                        ? Path.GetFileName(emailAttachment.PhysicalFileName)
+                                        : emailAttachment.AttachmentFileName
+                                });
                             }
                             else
                             {
@@ -333,7 +335,7 @@ namespace NuLog.Targets
         {
             if (childList != null)
                 foreach (var address in childList)
-                    if (!masterList.Any(_ => _.Address == address) == false)
+                    if (masterList.Any(_ => _.Address == address) == false)
                         try
                         {
                             masterList.Add(new MailAddress(address));

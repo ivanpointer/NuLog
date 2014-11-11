@@ -15,6 +15,7 @@ using NuLog.Samples.Samples.S3_1_TraceTarget;
 using NuLog.Samples.Samples.S3_2_SimpleConsoleTarget;
 using NuLog.Samples.Samples.S3_3_ConsoleTarget;
 using NuLog.Samples.Samples.S3_4_TextFileTarget;
+using NuLog.Samples.Samples.S3_5_EmailTarget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,8 @@ namespace NuLog.Samples
             new TraceTargetSample(Section3, SampleIndent + "3.1 Trace Target"),
             new SimpleConsoleTargetSample(Section3, SampleIndent + "3.2 Simple Console Target"),
             new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target"),
-            new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target")
+            new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target"),
+            new EmailTargetSample(Section3, SampleIndent + "3.5 Email Target")
         };
 
         #endregion
