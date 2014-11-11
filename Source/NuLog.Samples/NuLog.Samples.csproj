@@ -53,6 +53,10 @@
     <Compile Include="CustomizeSamples\S1_1_BasicAnatomyOfATarget\ColorConsoleTarget.cs" />
     <Compile Include="CustomizeSamples\S1_2_ASimpleTarget\ASimpleTargetSample.cs" />
     <Compile Include="CustomizeSamples\S1_2_ASimpleTarget\ColorConsoleTarget.cs" />
+    <Compile Include="CustomizeSamples\S1_3_MakingALayoutTarget\MakingALayoutTargetSample.cs" />
+    <Compile Include="CustomizeSamples\S1_3_MakingALayoutTarget\ColorConsoleTarget.cs" />
+    <Compile Include="CustomizeSamples\S2_1_AddingColor\ColorConsoleTarget.cs" />
+    <Compile Include="CustomizeSamples\S2_1_AddingColor\AddingColorSample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleBase.cs" />
@@ -73,6 +77,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="CustomizeSamples\S1_2_ASimpleTarget\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CustomizeSamples\S1_3_MakingALayoutTarget\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CustomizeSamples\S2_1_AddingColor\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NuLog.json">

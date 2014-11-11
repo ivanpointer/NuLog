@@ -1,0 +1,17 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "colorConsole",
+                "type": "NuLog.Samples.CustomizeSamples.S1_3_MakingALayoutTarget.ColorConsoleTarget, NuLog.Samples"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "colorConsole" ]
+            }
+        ]
+    }
+
+

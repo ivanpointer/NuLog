@@ -6,6 +6,8 @@
  */
 
 using NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget;
+using NuLog.Samples.CustomizeSamples.S1_3_MakingALayoutTarget;
+using NuLog.Samples.CustomizeSamples.S2_1_AddingColor;
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
@@ -60,28 +62,30 @@ namespace NuLog.Samples
         public const string Section4 = "  4. Appendix A: Legacy Logging Extension";
         
         public const string CustomSection1 = "  C.1. Building a Simple Target";
-
+        public const string CustomSection2 = "  C.2. Building an \"Advanced\" Target: Adding a Splash of Color";
 
         // The ordered list of samples in the menu
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
         {
-            new HelloWorldSample(Section1, SampleIndent + "1.1 Hello World"),
-            new TagsRulesSample(Section1, SampleIndent + "1.2 Tags and Rules"),
-            new TagGroupsSample(Section1, SampleIndent + "1.3 Tag Groups"),
-            new MetaDataSample(Section1, SampleIndent + "1.4 Meta Data"),
-            new SynchronousLoggingSample(Section1, SampleIndent + "1.5 Synchronous Logging"),
-            new RuntimeConfigurationSample(Section1, SampleIndent + "1.8 Runtime Configuration"),
-            new TraceTargetSample(Section3, SampleIndent + "3.1 Trace Target"),
-            new SimpleConsoleTargetSample(Section3, SampleIndent + "3.2 Simple Console Target"),
-            new ConsoleTargetSample(Section3, SampleIndent + "3.3 Console Target"),
-            new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target"),
-            new EmailTargetSample(Section3, SampleIndent + "3.5 Email Target"),
-            new LegacyLoggingExtensionSample(Section4, SampleIndent + "4.1 Using the Legacy Logging Extension")
+            new HelloWorldSample(Section1, "1.1 Hello World"),
+            new TagsRulesSample(Section1, "1.2 Tags and Rules"),
+            new TagGroupsSample(Section1, "1.3 Tag Groups"),
+            new MetaDataSample(Section1, "1.4 Meta Data"),
+            new SynchronousLoggingSample(Section1, "1.5 Synchronous Logging"),
+            new RuntimeConfigurationSample(Section1, "1.8 Runtime Configuration"),
+            new TraceTargetSample(Section3, "3.1 Trace Target"),
+            new SimpleConsoleTargetSample(Section3, "3.2 Simple Console Target"),
+            new ConsoleTargetSample(Section3, "3.3 Console Target"),
+            new TextFileTargetSample(Section3, "3.4 Text File Target"),
+            new EmailTargetSample(Section3, "3.5 Email Target"),
+            new LegacyLoggingExtensionSample(Section4, "4.1 Using the Legacy Logging Extension")
         };
 
         private static readonly IList<SampleBase> CustomSamplesMenu = new List<SampleBase>()
         {
-            new ASimpleTargetSample(CustomSection1, SampleIndent + "C.1.2 A Simple Target")
+            new ASimpleTargetSample(CustomSection1, "C.1.2 A Simple Target"),
+            new MakingALayoutTargetSample(CustomSection1, "C.1.3 Making a Layout Target"),
+            new AddingColorSample(CustomSection2, "C.2.1 Adding Color")
         };
 
         #endregion
@@ -138,7 +142,7 @@ namespace NuLog.Samples
                     section = sample.SectionName;
                     Console.WriteLine(section);
                 }
-                Console.WriteLine(sample.SampleName);
+                Console.WriteLine(SampleIndent + sample.SampleName);
             }
 
             // Some fluff
