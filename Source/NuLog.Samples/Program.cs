@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
+using NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget;
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
@@ -53,10 +54,13 @@ namespace NuLog.Samples
 
         // Constants for printing and formatting the samples into their
         //  sections in the menu
+        public const string SampleIndent = "    ";
         public const string Section1 = "  1. The Basics";
         public const string Section3 = "  3. Standard Targets";
         public const string Section4 = "  4. Appendix A: Legacy Logging Extension";
-        public const string SampleIndent = "    ";
+        
+        public const string CustomSection1 = "  C.1. Building a Simple Target";
+
 
         // The ordered list of samples in the menu
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
@@ -73,6 +77,11 @@ namespace NuLog.Samples
             new TextFileTargetSample(Section3, SampleIndent + "3.4 Text File Target"),
             new EmailTargetSample(Section3, SampleIndent + "3.5 Email Target"),
             new LegacyLoggingExtensionSample(Section4, SampleIndent + "4.1 Using the Legacy Logging Extension")
+        };
+
+        private static readonly IList<SampleBase> CustomSamplesMenu = new List<SampleBase>()
+        {
+            new ASimpleTargetSample(CustomSection1, SampleIndent + "C.1.2 A Simple Target")
         };
 
         #endregion
@@ -111,16 +120,18 @@ namespace NuLog.Samples
         #region Helpers
 
         // Prints out the samples menu, but first clears the console
-        private static void PrintSamplesMenu(bool clear = true)
+        private static void PrintSamplesMenu(string menuHeader, IList<SampleBase> samples, bool clear = false)
         {
             // Clear the console
             if(clear)
                 Console.Clear();
             Console.WriteLine(String.Empty);
 
+            Console.WriteLine(String.Format("{0}:", menuHeader));
+
             // Print the samples, adding in the section headers for each of the sections
             string section = null;
-            foreach (var sample in SamplesMenu)
+            foreach (var sample in samples)
             {
                 if (String.Equals(section, sample.SectionName) == false)
                 {
@@ -139,7 +150,8 @@ namespace NuLog.Samples
         {
             // Print the menu menu
             Console.WriteLine("Which sample would you like to execute?");
-            PrintSamplesMenu();
+            PrintSamplesMenu("Standard Implementation", SamplesMenu, true);
+            PrintSamplesMenu("Customizing NuLog", CustomSamplesMenu);
 
             // Challenge the user for a sample number
             Console.Write("Enter a sample number, or [Enter] to exit: ");
@@ -155,6 +167,9 @@ namespace NuLog.Samples
             {
                 userSelection = userSelection.Trim();
                 selectedSample = SamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
+
+                if(selectedSample == null)
+                    selectedSample = CustomSamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
 
                 if (selectedSample == null)
                     Console.WriteLine(String.Format("Sample for \"{0}\" not found", userSelection));
