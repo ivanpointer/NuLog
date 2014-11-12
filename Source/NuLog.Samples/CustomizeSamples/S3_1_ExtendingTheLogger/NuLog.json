@@ -1,0 +1,27 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "colorConsoleRed",
+                "type": "NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger.ColorConsoleTarget, NuLog.Samples",
+                "backgroundColor": "DarkRed",
+                "foregroundColor": "White"
+            },{
+                "name": "colorConsoleBlue",
+                "type": "NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger.ColorConsoleTarget, NuLog.Samples",
+                "backgroundColor": "DarkBlue",
+                "foregroundColor": "White"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "consoleColorRed" ],
+                "writeTo": [ "colorConsoleRed" ],
+                "final": true
+            },{
+                "include": [ "*" ],
+                "writeTo": [ "colorConsoleBlue" ]
+            }
+        ]
+    }
+

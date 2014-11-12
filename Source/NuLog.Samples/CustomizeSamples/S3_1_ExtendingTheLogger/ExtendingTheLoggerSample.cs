@@ -9,33 +9,33 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
+namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
 {
     /// <summary>
     /// An example illustarting a very simple implementaion of a custom target.  The narration
     /// of this example can be found at:
-    /// https://github.com/ivanpointer/NuLog/wiki/2.5-Asynchronous-Logging-in-the-Target
+    /// https://github.com/ivanpointer/NuLog/wiki/3.1-Extending-the-Logger
     /// </summary>
-    public class AsynchronousLoggingTargetSample : SampleBase
+    public class ExtendingTheLoggerSample : SampleBase
     {
 
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
-        public AsynchronousLoggingTargetSample(string section, string sample) : base(section, sample) { }
+        public ExtendingTheLoggerSample(string section, string sample) : base(section, sample) { }
 
         #endregion
 
         // Logging example
         public override void ExecuteSample(Arguments args)
         {
-            // Load this sample's configuration
-            LoggerFactory.Initialize("CustomizeSamples/S2_5_AsynchronousLoggingInTheTarget/NuLog.json");
+            // Load the configuration
+            LoggerFactory.Initialize("CustomizeSamples/S3_1_ExtendingTheLogger/NuLog.json");
             var logger = LoggerFactory.GetLogger();
 
-            // Showcase our asynchronous logging
-            for (int lp = 0; lp < 100; lp++)
-                logger.Log(String.Format("Message {0}", lp), lp % 2 == 0 ? "consoleColorBlue" : "consoleColorRed");
+            // Test the extension method
+            logger.LogNow("I will be the default blue", "consoleColorBlue");
+            logger.LogNow("I will be an overriden green", ConsoleColor.DarkGreen, ConsoleColor.White, "consoleColorBlue");
         }
     }
 }

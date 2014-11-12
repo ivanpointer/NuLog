@@ -69,6 +69,10 @@
     <Compile Include="CustomizeSamples\S2_5_AsynchronousLoggingInTheTarget\ColorConsoleTarget.cs" />
     <Compile Include="CustomizeSamples\S2_5_AsynchronousLoggingInTheTarget\ColorConsoleTargetConfig.cs" />
     <Compile Include="CustomizeSamples\S2_5_AsynchronousLoggingInTheTarget\AsynchronousLoggingTargetSample.cs" />
+    <Compile Include="CustomizeSamples\S3_1_ExtendingTheLogger\ColorConsoleLogerExt.cs" />
+    <Compile Include="CustomizeSamples\S3_1_ExtendingTheLogger\ExtendingTheLoggerSample.cs" />
+    <Compile Include="CustomizeSamples\S3_1_ExtendingTheLogger\ColorConsoleTarget.cs" />
+    <Compile Include="CustomizeSamples\S3_1_ExtendingTheLogger\ColorConsoleTargetConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleBase.cs" />
@@ -107,6 +111,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="CustomizeSamples\S2_5_AsynchronousLoggingInTheTarget\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CustomizeSamples\S3_1_ExtendingTheLogger\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NuLog.json">

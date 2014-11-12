@@ -12,6 +12,7 @@ using NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration;
 using NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData;
 using NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget;
 using NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget;
+using NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger;
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
@@ -67,6 +68,7 @@ namespace NuLog.Samples
         
         public const string CustomSection1 = "  C.1. Building a Simple Target";
         public const string CustomSection2 = "  C.2. Building an \"Advanced\" Target: Adding a Splash of Color";
+        public const string CustomSection3 = "  C.3. Extending the Logger";
 
         // The ordered list of samples in the menu
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
@@ -93,7 +95,8 @@ namespace NuLog.Samples
             new AddingConfigurationSample(CustomSection2, "C.2.2 Adding Configuration"),
             new AddingMetaDataSample(CustomSection2, "C.2.3 Adding Meta Data"),
             new ShuttingDownTheTargetSample(CustomSection2, "C.2.4 Shutting Down the Target"),
-            new AsynchronousLoggingTargetSample(CustomSection2, "C.2.5 Asynchronous Logging in the Target")
+            new AsynchronousLoggingTargetSample(CustomSection2, "C.2.5 Asynchronous Logging in the Target"),
+            new ExtendingTheLoggerSample(CustomSection3, "C.3.1 Extending The Logger")
         };
 
         #endregion
