@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.ConsoleTest", "NuLog.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Samples", "NuLog.Samples\NuLog.Samples.csproj", "{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.MVC", "NuLog.MVC\NuLog.MVC.csproj", "{72DA8BFA-0B69-4BCA-BAA3-88D584C69925}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE9BD83F-7B17-4232-BB0E-9ABECD9985C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72DA8BFA-0B69-4BCA-BAA3-88D584C69925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72DA8BFA-0B69-4BCA-BAA3-88D584C69925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72DA8BFA-0B69-4BCA-BAA3-88D584C69925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72DA8BFA-0B69-4BCA-BAA3-88D584C69925}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
