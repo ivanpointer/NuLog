@@ -27,6 +27,7 @@ namespace NuLog.Configuration.Targets
 
         // Functional Values
         private const string TraceConfigCategory = "config";
+        private static readonly Type ConsoleColorType = typeof(ConsoleColor);
 
         #endregion
 
@@ -65,7 +66,6 @@ namespace NuLog.Configuration.Targets
                     // Prepare to parse the rules
                     var colorRulesTokens = colorRulesToken.Children();
                     ConsoleColorRule colorRule;
-                    Type ConsoleColorType = typeof(ConsoleColor);
                     JToken tags;
                     JToken foreColorToken;
                     JToken backColorToken;

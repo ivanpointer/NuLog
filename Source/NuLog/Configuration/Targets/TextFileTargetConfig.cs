@@ -103,6 +103,9 @@ namespace NuLog.Configuration.Targets
         public TextFileTargetConfig()
             : base()
         {
+            Name = DefaultName;
+            Type = DefaultType;
+
             Defaults();
         }
 
@@ -175,8 +178,6 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         private void Defaults()
         {
-            Name = DefaultName;
-            Type = DefaultType;
             FileName = DefaultFileName;
             OldFileNamePattern = DefaultLoadFileNamePattern;
             RolloverPolicy = DefaultRolloverPolicy;

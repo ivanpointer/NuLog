@@ -8,6 +8,7 @@
 using NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget;
 using NuLog.Samples.CustomizeSamples.S1_3_MakingALayoutTarget;
 using NuLog.Samples.CustomizeSamples.S2_1_AddingColor;
+using NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration;
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
@@ -85,7 +86,8 @@ namespace NuLog.Samples
         {
             new ASimpleTargetSample(CustomSection1, "C.1.2 A Simple Target"),
             new MakingALayoutTargetSample(CustomSection1, "C.1.3 Making a Layout Target"),
-            new AddingColorSample(CustomSection2, "C.2.1 Adding Color")
+            new AddingColorSample(CustomSection2, "C.2.1 Adding Color"),
+            new AddingConfigurationSample(CustomSection2, "C.2.2. Adding Configuration")
         };
 
         #endregion
