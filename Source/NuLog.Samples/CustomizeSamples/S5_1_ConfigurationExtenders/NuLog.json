@@ -1,0 +1,18 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "trace",
+                "type": "NuLog.Targets.TraceTarget"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "trace" ]
+            }
+        ],
+
+        "configurationExtenders": [ "NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders.JSONConfigurationExtender, NuLog.Samples" ]
+    }
+

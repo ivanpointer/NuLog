@@ -292,63 +292,57 @@ namespace NuLog
 
         private void LoadConfigExtenders()
         {
-            if (!Initialized)
+            ConfigExtenders = new List<ILoggingConfigExtender>();
+
+            // Load MEF Extenders
+            try
             {
-                ConfigExtenders = new List<ILoggingConfigExtender>();
+                AggregateCatalog aggregateCatalogue = new AggregateCatalog();
+                aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
 
-                // Load MEF Extenders
-                try
+                CompositionContainer container = new CompositionContainer(aggregateCatalogue);
+                container.ComposeParts(this);
+
+                foreach (var extender in MEFConfigExtenders)
+                    ConfigExtenders.Add(extender);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
+            }
+
+            // Iterate over the list of static meta data providers and use
+            //  reflection to instantiate them
+            if (LoggingConfig.ConfigurationExtenders != null && LoggingConfig.ConfigurationExtenders.Count > 0)
+            {
+                Type extenderType;
+                ConstructorInfo constructorInfo;
+                ILoggingConfigExtender configExtender;
+
+                foreach (string configurationExtender in LoggingConfig.ConfigurationExtenders)
                 {
-                    AggregateCatalog aggregateCatalogue = new AggregateCatalog();
-                    aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
-
-                    CompositionContainer container = new CompositionContainer(aggregateCatalogue);
-                    container.ComposeParts(this);
-
-                    foreach (var extender in MEFConfigExtenders)
-                        ConfigExtenders.Add(extender);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
-                }
-
-                // Iterate over the list of static meta data providers and use
-                //  reflection to instantiate them
-                if (LoggingConfig.ConfigurationExtenders != null && LoggingConfig.ConfigurationExtenders.Count > 0)
-                {
-                    Type extenderType;
-                    ConstructorInfo constructorInfo;
-                    ILoggingConfigExtender configExtender;
-
-                    foreach (string providerFullName in LoggingConfig.StaticMetaDataProviders)
+                    try
                     {
-                        try
+                        // Pull the type and and constructor for the extender, by name
+                        extenderType = Type.GetType(configurationExtender);
+                        if (extenderType != null)
                         {
-                            // Pull the type and and constructor for the provider, by name
-                            extenderType = Type.GetType(providerFullName);
-                            if (extenderType != null)
-                            {
-                                constructorInfo = extenderType.GetConstructor(new Type[] { });
-                                configExtender = (ILoggingConfigExtender)constructorInfo.Invoke(null);
-                                ConfigExtenders.Add(configExtender);
-                            }
-                            else
-                            {
-                                throw new LoggingException(String.Format(TypeNotFoundMessage, providerFullName));
-                            }
+                            constructorInfo = extenderType.GetConstructor(new Type[] { });
+                            configExtender = (ILoggingConfigExtender)constructorInfo.Invoke(null);
+                            ConfigExtenders.Add(configExtender);
                         }
-                        catch (Exception exception)
+                        else
                         {
-                            // Handle the failure
-                            HandleException(exception);
+                            throw new LoggingException(String.Format(TypeNotFoundMessage, configurationExtender));
                         }
+                    }
+                    catch (Exception exception)
+                    {
+                        // Handle the failure
+                        HandleException(exception);
                     }
                 }
             }
-
-
-
         }
 
         /// <summary>

@@ -140,15 +140,18 @@ namespace NuLog.MetaData
             // Check the cache to see if we already have property info for the type\
             //  Otherwise, get and cache the property info for the type
 
-            if (TypeCache.ContainsKey(objectType))
+            lock (TypeCache)
             {
-                return TypeCache[objectType];                
-            }
-            else
-            {
-                var propertyInfo = objectType.GetProperties();
-                TypeCache[objectType] = propertyInfo;
-                return propertyInfo;
+                if (TypeCache.ContainsKey(objectType))
+                {
+                    return TypeCache[objectType];
+                }
+                else
+                {
+                    var propertyInfo = objectType.GetProperties();
+                    TypeCache[objectType] = propertyInfo;
+                    return propertyInfo;
+                }
             }
         }
 

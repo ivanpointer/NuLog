@@ -15,7 +15,7 @@ namespace NuLog.Samples
     {
         #region Constants
 
-        private const string PauseMessage = "Press [Enter] to continue...";
+        private const string PauseMessage = "\r\nPress [Enter] to continue...";
 
         #endregion
 
