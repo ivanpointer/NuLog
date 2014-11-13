@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomizeSamples\S4_3_StaticMetaDataProviders\StaticMetaDataProvider.cs" />
+    <Compile Include="CustomizeSamples\S4_3_StaticMetaDataProviders\MEFMetaDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NuLog\NuLog.csproj">

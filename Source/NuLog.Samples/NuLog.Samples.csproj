@@ -76,6 +76,7 @@
     <Compile Include="CustomizeSamples\S3_1_ExtendingTheLogger\ColorConsoleTargetConfig.cs" />
     <Compile Include="CustomizeSamples\S4_2_RuntimeMetaDataProviders\RuntimeMetaDataProvidersSample.cs" />
     <Compile Include="CustomizeSamples\S4_2_RuntimeMetaDataProviders\RuntimeMetaDataProvider.cs" />
+    <Compile Include="CustomizeSamples\S4_3_StaticMetaDataProviders\StaticMetaDataProvider.cs" />
     <Compile Include="CustomizeSamples\S4_3_StaticMetaDataProviders\StaticMetaDataProvidersSample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -177,10 +178,6 @@
     <ProjectReference Include="..\NuLog.Legacy\NuLog.Legacy.csproj">
       <Project>{ace77cc8-b7a8-42a9-a8aa-8a238b5cda73}</Project>
       <Name>NuLog.Legacy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NuLog.SamplesLib\NuLog.SamplesLib.csproj">
-      <Project>{90d6c611-525c-47f4-911e-1953a4a2257d}</Project>
-      <Name>NuLog.SamplesLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
       <Project>{4390fde4-942c-4a64-ae05-899f60f6b5e5}</Project>

@@ -7,20 +7,19 @@
 
 using NuLog.MetaData;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
-namespace NuLog.SamplesLib.CustomizeSamples.S4_3_StaticMetaDataProviders
+namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
 {
     /// <summary>
     /// Shows an example of a static meta data provider.  For the narration
     /// of this code, see the article:
     /// https://github.com/ivanpointer/NuLog/wiki/4.3-Static-Meta-Data-Providers
     /// </summary>
-    [Export(typeof(IMetaDataProvider))]
     public class StaticMetaDataProvider : IMetaDataProvider
     {
-
         #region Constants
 
         // Constants for our meta data keys

@@ -29,6 +29,9 @@
             "errors": [ "exception", "failure", "fail", "fault" ]
         },
 
+        "configurationExtenders": [ "..." ],
+
+        "staticMetaDataProviders": [ "..." ],
 
         "debug": false,
         "watch": true,

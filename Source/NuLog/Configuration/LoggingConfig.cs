@@ -34,7 +34,7 @@ namespace NuLog.Configuration
         private const string RulesTokenName = "rules";
         private const string TagGroupsTokenName = "tagGroups";
         private const string ConfigurationExtendersTokenName = "configurationExtenders";
-        private const string StaticMetaDataProvidersTokenName = "StaticMetaDataProviders";
+        private const string StaticMetaDataProvidersTokenName = "staticMetaDataProviders";
         private const string WatchTokenName = "watch";
         private const string DebugTokenName = "debug";
         private const string SynchronousTokenName = "synchronous";
