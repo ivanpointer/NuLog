@@ -1,17 +1,20 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/7/2014
+ * Updated: 11/13/2014
+ * Changes: Removed MEF functionality for static meta dat aproviders and added it to the configuration.
+ *   This allows developers to only activate the static meta data providers they whish
+ *   to be active, as opposed to getting all of the ones in scope.
  * License: MIT (http://opensource.org/licenses/MIT)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using NuLog.Configuration;
 using NuLog.MetaData;
 using NuLog.Targets;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -35,6 +38,8 @@ namespace NuLog.Dispatch
         #region Constants
         // Messages
         private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
+        private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
+        private const string TypeNotFoundMessage = "Type not found for \"{0}\"";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
@@ -105,8 +110,7 @@ namespace NuLog.Dispatch
 
         // The static metadata providers are used to automatically append static
         //  information to the log events, such as machine name or environment
-        [ImportMany(typeof(IMetaDataProvider))]
-        private IEnumerable<IMetaDataProvider> StaticMetaDataProviders { get; set; }
+        private IList<IMetaDataProvider> StaticMetaDataProviders { get; set; }
         private bool StaticMetaDataProvidersLoaded { get; set; }
 
         /// <summary>
@@ -125,9 +129,6 @@ namespace NuLog.Dispatch
 
             ActionQueue = new ConcurrentQueue<Action>();
             LogQueue = new ConcurrentQueue<LogEvent>();
-
-            // Wire up using MEF
-            InitializeStaticMetaDataProviders();
 
             // Wire up the configuration
             NewConfig(initialConfig);
@@ -343,8 +344,12 @@ namespace NuLog.Dispatch
             LoggingConfig = loggingConfig;
 
             // Start or stop the thread depending on the configuration
-            ConfigureThread(LoggingConfig.Synchronous);
+            ConfigureThread();
 
+            // Load Our Static Meta Data Providers
+            LoadStaticMetaDataProviders();
+
+            // Notify our dependants of the new config
             lock (LoggingLock)
             {
                 // Notify the different keepers of the new config
@@ -358,9 +363,9 @@ namespace NuLog.Dispatch
         }
 
         // Decides whether to startup the thread or to stop it based on the passed "synchronous" flag
-        private void ConfigureThread(bool synchronous)
+        private void ConfigureThread()
         {
-            if (!synchronous)
+            if (!LoggingConfig.Synchronous)
             {
                 // Startup the worker thread if we are not configured to be synchronous
                 StartupThread();
@@ -376,35 +381,48 @@ namespace NuLog.Dispatch
 
         #region Meta Data Providers
 
-        // Loads the meta data providers that are exported using MEF
-        private void InitializeStaticMetaDataProviders()
+        // Loads the static meta data providers
+        private void LoadStaticMetaDataProviders()
         {
-            bool loaded = false;
-            try
+            StaticMetaDataProviders = new List<IMetaDataProvider>();
+            // Iterate over the list of static meta data providers and use
+            //  reflection to instantiate them
+            if (LoggingConfig.StaticMetaDataProviders != null && LoggingConfig.StaticMetaDataProviders.Count > 0)
             {
-                // MEF Magic!
-                var aggregateCatalogue = new AggregateCatalog();
-                aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+                Type providerType;
+                ConstructorInfo constructorInfo;
+                IMetaDataProvider metaDataProvider;
 
-                var container = new CompositionContainer(aggregateCatalogue);
-                container.ComposeParts(this);
-
-                loaded = true;
+                foreach (string providerFullName in LoggingConfig.StaticMetaDataProviders)
+                {
+                    try
+                    {
+                        // Pull the type and and constructor for the provider, by name
+                        providerType = Type.GetType(providerFullName);
+                        if (providerType != null)
+                        {
+                            constructorInfo = providerType.GetConstructor(new Type[] { });
+                            metaDataProvider = (IMetaDataProvider)constructorInfo.Invoke(null);
+                            StaticMetaDataProviders.Add(metaDataProvider);
+                        }
+                        else
+                        {
+                            throw new LoggingException(String.Format(TypeNotFoundMessage, providerFullName));
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        // Handle the failure
+                        HandleException(exception);
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(String.Format("Failure loading static metadata providers: {0}:\r\n{1}", ex.Message, ex.StackTrace), TraceConfigCategory);
-            }
-
-            // Signal if the providers are loaded
-            StaticMetaDataProvidersLoaded = loaded && StaticMetaDataProviders != null && StaticMetaDataProviders.Any();
         }
 
         // Executes the meta data providers against the log event
         private void ExecuteStaticMetaDataProviders(LogEvent logEvent)
         {
-            // Make sure that the providers are loaded, and if they are, execute them against the log event
-            if (StaticMetaDataProvidersLoaded)
+            if (StaticMetaDataProviders != null && StaticMetaDataProviders.Count > 0)
             {
                 foreach (var staticMetaDataProvider in StaticMetaDataProviders)
                 {
@@ -466,7 +484,9 @@ namespace NuLog.Dispatch
         public void HandleException(Exception e, LogEvent logEventInfo = null)
         {
             // Format the exception
-            string message = String.Format(FailedToLogMessage, logEventInfo != null ? logEventInfo.Message : "[null]", e);
+            string message = logEventInfo != null
+                ? String.Format(FailedToLogMessage, logEventInfo.Message, e)
+                : String.Format(ExceptionInNuLogMessage, e);
 
             // Pass the exception to the exception handler, if we have one, otherwise write it out to trace
             if (ExceptionHandler != null)

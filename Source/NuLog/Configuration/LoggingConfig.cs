@@ -33,6 +33,8 @@ namespace NuLog.Configuration
         private const string TargetsTokenName = "targets";
         private const string RulesTokenName = "rules";
         private const string TagGroupsTokenName = "tagGroups";
+        private const string ConfigurationExtendersTokenName = "configurationExtenders";
+        private const string StaticMetaDataProvidersTokenName = "StaticMetaDataProviders";
         private const string WatchTokenName = "watch";
         private const string DebugTokenName = "debug";
         private const string SynchronousTokenName = "synchronous";
@@ -70,6 +72,14 @@ namespace NuLog.Configuration
         /// The list of tag groups used to group tags together under a single tag
         /// </summary>
         public IList<TagGroupConfig> TagGroups { get; set; }
+        /// <summary>
+        /// A list of configuration extenders for the framework
+        /// </summary>
+        public IList<string> ConfigurationExtenders { get; set; }
+        /// <summary>
+        /// A list of static meta data providers for the framework
+        /// </summary>
+        public IList<string> StaticMetaDataProviders { get; set; }
         /// <summary>
         /// A flag indicating whether the framework should be running in "synchronous" mode or not.  If the synchronous
         /// flag is set, no background or worker threads will be used to log.  Control will not return to the logging
@@ -219,6 +229,14 @@ namespace NuLog.Configuration
                             ? LoadTagGroupConfigs(tagGroupsJson)
                             : new List<TagGroupConfig>();
 
+                        // Configuration Extenders
+                        var configExtendersJson = jsonConfig[ConfigurationExtendersTokenName];
+                        ConfigurationExtenders = LoadConfigurationExtenders(configExtendersJson);
+
+                        // Static Meta Data Providers
+                        var staticMetaDataProvidersJson = jsonConfig[StaticMetaDataProvidersTokenName];
+                        StaticMetaDataProviders = LoadStaticMetaDataProviders(staticMetaDataProvidersJson);
+
                         // Synchronous flag
                         Synchronous = false;
                         var synchronousJson = jsonConfig[SynchronousTokenName];
@@ -311,7 +329,7 @@ namespace NuLog.Configuration
         /// Loads the tag groups from the configuration JSON token provided
         /// </summary>
         /// <param name="tagGroupsJson">The JSON token containing the tag groups configuration</param>
-        /// <returns></returns>
+        /// <returns>A list of the tag groups configurations</returns>
         private static IList<TagGroupConfig> LoadTagGroupConfigs(JToken tagGroupsJson)
         {
             var tagGroups = new List<TagGroupConfig>();
@@ -328,6 +346,30 @@ namespace NuLog.Configuration
             }
 
             return tagGroups;
+        }
+
+        /// <summary>
+        /// Loads the configuration extenders from the configuration JSON token provided
+        /// </summary>
+        /// <param name="configExtendersJson">The JSON token containing the configuration extenders</param>
+        /// <returns>A list of names of configuration extenders</returns>
+        private static IList<string> LoadConfigurationExtenders(JToken configExtendersJson)
+        {
+            return configExtendersJson != null && configExtendersJson.Type == JTokenType.Array
+                ? configExtendersJson.Values<string>().ToList<string>()
+                : new List<string>();
+        }
+
+        /// <summary>
+        /// Loads the static meta data providers from the configuration JSON token provided
+        /// </summary>
+        /// <param name="staticMetaDataProvidersJson">The JSON token containing the static meta data providers</param>
+        /// <returns>A list of names of static meta data providers</returns>
+        private static IList<string> LoadStaticMetaDataProviders(JToken staticMetaDataProvidersJson)
+        {
+            return staticMetaDataProvidersJson != null && staticMetaDataProvidersJson.Type == JTokenType.Array
+                ? staticMetaDataProvidersJson.Values<string>().ToList<string>()
+                : new List<string>();
         }
 
         /// <summary>

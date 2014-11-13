@@ -1,9 +1,12 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/5/2014
+ * Updated: 11/13/2014
+ * Changes: Added the ability to load configuration extenders explicitly, wihtout using MEF
  * License: MIT (http://opensource.org/licenses/MIT)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using NuLog.Configuration;
 using NuLog.Dispatch;
 using NuLog.Loggers;
@@ -34,6 +37,9 @@ namespace NuLog
         private const string ConfigLoadFailureMessage = "Failure loading config: {0}:\r\n{1}";
         private const string ShutdownDispatcherFailureMessage = "Failed to shutdown the existing dispatcher due to error {0}";
         private const string ConfigExtendersLoadFailedMessage = "Failure loading configuration extenders: {1}:\r\n{2}";
+        private const string TypeNotFoundMessage = "Type not found for \"{0}\"";
+        private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
+        private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
@@ -54,7 +60,8 @@ namespace NuLog
         /// well, extend the configuration.
         /// </summary>
         [ImportMany(typeof(ILoggingConfigExtender))]
-        private IEnumerable<ILoggingConfigExtender> ConfigExtenders { get; set; }
+        private IEnumerable<ILoggingConfigExtender> MEFConfigExtenders { get; set; }
+        private IList<ILoggingConfigExtender> ConfigExtenders { get; set; }
 
         /// <summary>
         /// The single primary configuration used for all of the components
@@ -283,6 +290,67 @@ namespace NuLog
             }
         }
 
+        private void LoadConfigExtenders()
+        {
+            if (!Initialized)
+            {
+                ConfigExtenders = new List<ILoggingConfigExtender>();
+
+                // Load MEF Extenders
+                try
+                {
+                    AggregateCatalog aggregateCatalogue = new AggregateCatalog();
+                    aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+
+                    CompositionContainer container = new CompositionContainer(aggregateCatalogue);
+                    container.ComposeParts(this);
+
+                    foreach (var extender in MEFConfigExtenders)
+                        ConfigExtenders.Add(extender);
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
+                }
+
+                // Iterate over the list of static meta data providers and use
+                //  reflection to instantiate them
+                if (LoggingConfig.ConfigurationExtenders != null && LoggingConfig.ConfigurationExtenders.Count > 0)
+                {
+                    Type extenderType;
+                    ConstructorInfo constructorInfo;
+                    ILoggingConfigExtender configExtender;
+
+                    foreach (string providerFullName in LoggingConfig.StaticMetaDataProviders)
+                    {
+                        try
+                        {
+                            // Pull the type and and constructor for the provider, by name
+                            extenderType = Type.GetType(providerFullName);
+                            if (extenderType != null)
+                            {
+                                constructorInfo = extenderType.GetConstructor(new Type[] { });
+                                configExtender = (ILoggingConfigExtender)constructorInfo.Invoke(null);
+                                ConfigExtenders.Add(configExtender);
+                            }
+                            else
+                            {
+                                throw new LoggingException(String.Format(TypeNotFoundMessage, providerFullName));
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            // Handle the failure
+                            HandleException(exception);
+                        }
+                    }
+                }
+            }
+
+
+
+        }
+
         /// <summary>
         /// Executes any loaded configuration extenders.
         /// These are not used in the base implementation of the framework,
@@ -293,43 +361,19 @@ namespace NuLog
         /// </summary>
         private void ExecuteConfigExtenders()
         {
-            var instance = Instance.Value;
-            bool loaded = false;
+            LoadConfigExtenders();
 
-            if (!instance.Initialized)
+            foreach (var configExtender in ConfigExtenders)
             {
                 try
                 {
-                    AggregateCatalog aggregateCatalogue = new AggregateCatalog();
-                    aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
-
-                    CompositionContainer container = new CompositionContainer(aggregateCatalogue);
-                    container.ComposeParts(this);
-
-                    loaded = true;
+                    configExtender.UpdateConfig(LoggingConfig);
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
+                    Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, configExtender.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
                 }
             }
-            else
-            {
-                loaded = true;
-            }
-
-            if (loaded && instance.ConfigExtenders != null)
-                foreach (var configExtender in instance.ConfigExtenders)
-                {
-                    try
-                    {
-                        configExtender.UpdateConfig(instance.LoggingConfig);
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, configExtender.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
-                    }
-                }
         }
 
         /// <summary>
@@ -463,6 +507,25 @@ namespace NuLog
             {
                 MetaDataProvider = metaDataProvider
             };
+        }
+
+        #endregion
+
+        #region Helpers
+
+        // Internal function for handing exceptions thrown within the scope of the dispatcher
+        public void HandleException(Exception e, LogEvent logEventInfo = null)
+        {
+            // Format the exception
+            string message = logEventInfo != null
+                ? String.Format(FailedToLogMessage, logEventInfo.Message, e)
+                : String.Format(ExceptionInNuLogMessage, e);
+
+            // Pass the exception to the exception handler, if we have one, otherwise write it out to trace
+            if (ExceptionHandler != null)
+                ExceptionHandler.Invoke(e, message);
+            else
+                Trace.WriteLine(message);
         }
 
         #endregion
