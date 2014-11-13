@@ -1,0 +1,17 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.SimpleConsoleTarget",
+                "layout": "Machine: ${MachineName} | CPU: ${CPUUsage} | RAM: ${RAMUsage} | ${Message}\r\n"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }
+

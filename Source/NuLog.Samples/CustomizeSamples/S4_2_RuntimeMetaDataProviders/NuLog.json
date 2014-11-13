@@ -1,0 +1,17 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.SimpleConsoleTarget",
+                "layout": "Sample Count: ${SampleCount} | ${Message}\r\n"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }
+
