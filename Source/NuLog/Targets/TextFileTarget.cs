@@ -1,17 +1,18 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/9/2014
+ * Updated 11/15/2014: Removed dependency on SharpZipLib because of an incompatiblity
+ *   with licensing.  Updated to use .NET framework instead.
  * License: MIT (http://opensource.org/licenses/MIT)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -283,23 +284,16 @@ namespace NuLog.Targets
         {
             // zip up the file, taking the compression level and password from the configuration
             var zipFileName = String.Format(ZipPattern, fileName);
-            using (FileStream zipFileStream = File.Create(zipFileName))
-            using (ZipOutputStream zipStream = new ZipOutputStream(zipFileStream))
+
+            using (var fileStream = File.OpenRead(fileName))
+            using (var destFile = File.Create(zipFileName))
+            using (var compStream = new GZipStream(destFile, CompressionLevel.Optimal))
             {
-                zipStream.SetLevel(Config.CompressionLevel);
-
-                if (String.IsNullOrEmpty(Config.CompressionPassword) == false)
-                    zipStream.Password = Config.CompressionPassword;
-
-                var newEntry = new ZipEntry(fileName);
-                zipStream.PutNextEntry(newEntry);
-
-                var buffer = new byte[ZipBufferSize];
-                using (FileStream streamReader = File.OpenRead(fileName))
-                    StreamUtils.Copy(streamReader, zipStream, buffer);
-
-                zipStream.CloseEntry();
-                zipStream.IsStreamOwner = true;
+                int theByte = fileStream.ReadByte();
+                while(theByte != -1) {
+                    compStream.WriteByte((byte)theByte);
+                    theByte = fileStream.ReadByte();
+                }
             }
 
             if (deleteFile)

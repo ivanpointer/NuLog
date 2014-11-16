@@ -6,6 +6,7 @@
  */
 
 using NuLog.Configuration.Layouts;
+using System.IO.Compression;
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
@@ -143,7 +144,7 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         /// <param name="compressionLevel">The compression level to use for compressing rotated log files</param>
         /// <returns>This TextFileTargetConfigBuilder</returns>
-        public TextFileTargetConfigBuilder SetCompressionLevel(int compressionLevel)
+        public TextFileTargetConfigBuilder SetCompressionLevel(CompressionLevel compressionLevel)
         {
             Config.CompressionLevel = compressionLevel;
             return this;

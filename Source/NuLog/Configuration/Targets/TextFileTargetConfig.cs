@@ -7,6 +7,8 @@
 using Newtonsoft.Json.Linq;
 using NuLog.Targets;
 using System;
+using System.Collections.Generic;
+using System.IO.Compression;
 
 namespace NuLog.Configuration.Targets
 {
@@ -61,7 +63,15 @@ namespace NuLog.Configuration.Targets
         public const string DefaultFileName = "log.log";
         public const string DefaultLoadFileNamePattern = "log{0:.yyyy.MM.dd.hh.mm.ss}.log";
         public const RolloverPolicy DefaultRolloverPolicy = RolloverPolicy.None;
-        public const int DefaultCompressionLevel = 3;
+        public const CompressionLevel DefaultCompressionLevel = CompressionLevel.Optimal;
+
+        public static readonly IDictionary<int, CompressionLevel> CompressionLevelMap = new Dictionary<int, CompressionLevel>
+        {
+            { 1, CompressionLevel.NoCompression },
+            { 2, CompressionLevel.Fastest },
+            { 3, CompressionLevel.Optimal }
+        };
+
         #endregion
 
         /// <summary>
@@ -91,7 +101,7 @@ namespace NuLog.Configuration.Targets
         /// <summary>
         /// The compression leve to use for compressing the files
         /// </summary>
-        public int CompressionLevel { get; set; }
+        public CompressionLevel CompressionLevel { get; set; }
         /// <summary>
         /// An optional password to apply to the compressed log file
         /// </summary>
@@ -168,7 +178,10 @@ namespace NuLog.Configuration.Targets
                 // Parse the other settings
                 OldFileLimit = GetValue<int>(jToken, OldFileLimitTokenName, OldFileLimit);
                 CompressOldFiles = GetValue<bool>(jToken, CompressOldFilesTokenName, CompressOldFiles);
-                CompressionLevel = GetValue<int>(jToken, CompressionLevelTokenName, CompressionLevel);
+                var intCompressionLevel = GetValue<int>(jToken, CompressionLevelTokenName, -1);
+                CompressionLevel = CompressionLevelMap.ContainsKey(intCompressionLevel)
+                    ? CompressionLevelMap[intCompressionLevel]
+                    : DefaultCompressionLevel;
                 CompressionPassword = GetValue<string>(jToken, CompressionPasswordTokenName, CompressionPassword);
             }
         }
