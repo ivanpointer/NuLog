@@ -49,6 +49,7 @@
     <Compile Include="Configuration\IConfigObserver.cs" />
     <Compile Include="Configuration\ILoggingConfigBuilder.cs" />
     <Compile Include="Configuration\ILoggingConfigExtender.cs" />
+    <Compile Include="Configuration\Layouts\StandardLayoutConfig.cs" />
     <Compile Include="Configuration\LoggingConfig.cs" />
     <Compile Include="Configuration\LoggingConfigBuilder.cs" />
     <Compile Include="Configuration\RuleConfig.cs" />

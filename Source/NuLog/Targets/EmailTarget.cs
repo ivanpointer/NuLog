@@ -28,6 +28,7 @@ namespace NuLog.Targets
 
         public const string ParseEmailAddressFailureMessage = "Failed to parse email address \"{0}\"";
         public const string AttachmentNotFoundMessage = "Cannot attach \"{0}\", not found";
+        public const string FailedToLoadBodyFileMessage = "Failed to load body layout file \"{0}\" because of exception {1}";
 
         public const string MetaSubject = "EmailSubject";
         public const string MetaHeaders = "EmailHeaders";
@@ -102,11 +103,25 @@ namespace NuLog.Targets
                     SubjectLayout = LayoutFactory.BuildLayout(Config.SubjectLayout);
 
                     // Make sure body layout is setup correctly
-                    if (Config.BodyLayout == null)
-                        Config.BodyLayout = new LayoutConfig();
-                    if (String.IsNullOrEmpty(Config.BodyFile) == false && File.Exists(Config.BodyFile))
-                        Config.BodyLayout.Format = File.ReadAllText(Config.BodyFile);
-                    BodyLayout = LayoutFactory.BuildLayout(Config.BodyLayout);
+                    //  If the body file is specified, load a StandardLayout with the contents of the file as the format
+                    //  Otherwise, use the layout factory to build our layout
+                    if (String.IsNullOrEmpty(Config.BodyFile))
+                    {
+                        BodyLayout = LayoutFactory.BuildLayout(Config.BodyLayout);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            string fileContent = File.ReadAllText(Config.BodyFile);
+                            BodyLayout = new StandardLayout(fileContent);
+                        }
+                        catch(Exception cause)
+                        {
+                            Trace.WriteLine(String.Format(FailedToLoadBodyFileMessage, Config.BodyFile, cause));
+                            BodyLayout = new StandardLayout();
+                        }
+                    }
 
                     // Parse out the addresses
                     FromAddress = new MailAddress(Config.FromAddress);

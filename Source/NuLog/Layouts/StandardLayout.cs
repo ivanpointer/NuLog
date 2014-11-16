@@ -79,7 +79,7 @@ namespace NuLog.Layouts
         private IDictionary<string, LayoutParameter[]> LayoutCache { get; set; }
 
         // The layout configuration for this layout
-        private LayoutConfig Config { get; set; }
+        private StandardLayoutConfig Config { get; set; }
 
         /// <summary>
         /// The default constructor creating an empty standard layout
@@ -88,7 +88,7 @@ namespace NuLog.Layouts
         {
             TypeCache = new Dictionary<Type, PropertyInfo[]>();
             LayoutCache = new Dictionary<string, LayoutParameter[]>();
-            Config = new LayoutConfig();
+            Config = new StandardLayoutConfig();
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace NuLog.Layouts
         {
             TypeCache = new Dictionary<Type, PropertyInfo[]>();
             LayoutCache = new Dictionary<string, LayoutParameter[]>();
-            Config = new LayoutConfig(format);
+            Config = new StandardLayoutConfig(format);
         }
 
         /// <summary>
@@ -119,7 +119,11 @@ namespace NuLog.Layouts
         /// <param name="layoutConfig">The layout config to initialize this standard layout with</param>
         public void Initialize(LayoutConfig layoutConfig)
         {
-            Config = layoutConfig;
+            Config = layoutConfig == null
+                ? new StandardLayoutConfig()
+                : layoutConfig is StandardLayoutConfig
+                    ? (StandardLayoutConfig)layoutConfig
+                    : new StandardLayoutConfig(layoutConfig.Config);
             LayoutCache.Clear();
         }
 
