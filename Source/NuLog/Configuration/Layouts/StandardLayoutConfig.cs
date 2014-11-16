@@ -29,6 +29,7 @@ namespace NuLog.Configuration.Layouts
         public StandardLayoutConfig()
             : base()
         {
+            Type = typeof(StandardLayout).FullName;
             Format = DefaultFormat;
         }
 
@@ -39,7 +40,6 @@ namespace NuLog.Configuration.Layouts
         public StandardLayoutConfig(string format)
             : base()
         {
-            Config = null;
             Type = typeof(StandardLayout).FullName;
             Format = format;
         }
@@ -47,6 +47,7 @@ namespace NuLog.Configuration.Layouts
         public StandardLayoutConfig(JToken jsonConfig)
             : base(jsonConfig)
         {
+            Type = typeof(StandardLayout).FullName;
             Format = DefaultFormat;
 
             // If the JSON object is provided
@@ -66,4 +67,5 @@ namespace NuLog.Configuration.Layouts
             }
         }
     }
+
 }

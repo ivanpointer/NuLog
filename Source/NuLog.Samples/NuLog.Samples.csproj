@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -81,6 +77,8 @@
     <Compile Include="CustomizeSamples\S5_1_ConfigurationExtenders\MEFConfigurationExtender.cs" />
     <Compile Include="CustomizeSamples\S5_1_ConfigurationExtenders\JSONConfigurationExtender.cs" />
     <Compile Include="CustomizeSamples\S5_1_ConfigurationExtenders\ConfigurationExtendersSample.cs" />
+    <Compile Include="CustomizeSamples\S6_1_CustomLayout\CustomLayoutSample.cs" />
+    <Compile Include="CustomizeSamples\S6_1_CustomLayout\JSONLayout.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleBase.cs" />
@@ -131,6 +129,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="CustomizeSamples\S5_1_ConfigurationExtenders\NuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CustomizeSamples\S6_1_CustomLayout\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NuLog.json">

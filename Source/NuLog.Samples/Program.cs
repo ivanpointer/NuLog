@@ -16,6 +16,7 @@ using NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger;
 using NuLog.Samples.CustomizeSamples.S4_2_RuntimeMetaDataProviders;
 using NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders;
 using NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders;
+using NuLog.Samples.CustomizeSamples.S6_1_CustomLayout;
 using NuLog.Samples.Samples.S1_1_HelloWorld;
 using NuLog.Samples.Samples.S1_2_TagsRules;
 using NuLog.Samples.Samples.S1_3_TagGroups;
@@ -74,6 +75,7 @@ namespace NuLog.Samples
         public const string CustomSection3 = "  C.3. Extending the Logger";
         public const string CustomSection4 = "  C.4. Meta Data Providers";
         public const string CustomSection5 = "  C.5. Configuration Extenders";
+        public const string CustomSection6 = "  C.6. Creating a Custom Layout";
 
         // The ordered list of samples in the menu
         private static readonly IList<SampleBase> SamplesMenu = new List<SampleBase>()
@@ -104,7 +106,8 @@ namespace NuLog.Samples
             new ExtendingTheLoggerSample(CustomSection3, "C.3.1 Extending The Logger"),
             new RuntimeMetaDataProvidersSample(CustomSection4, "C.4.2 Runtime Meta Data Providers"),
             new StaticMetaDataProvidersSample(CustomSection4, "C.4.3 Static Meta Data Providers"),
-            new ConfigurationExtendersSample(CustomSection5, "C.5.1 Implementing a Configuration Extender")
+            new ConfigurationExtendersSample(CustomSection5, "C.5.1 Implementing a Configuration Extender"),
+            new CustomLayoutSample(CustomSection6, "C.6.1 Creating a Custom Layout")
         };
 
         #endregion

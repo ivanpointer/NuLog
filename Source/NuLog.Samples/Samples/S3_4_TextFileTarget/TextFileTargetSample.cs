@@ -7,6 +7,7 @@
 
 using NuLog.Configuration;
 using NuLog.Configuration.Targets;
+using System.IO.Compression;
 
 namespace NuLog.Samples.Samples.S3_4_TextFileTarget
 {
@@ -61,7 +62,7 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
 
                     .SetOldFileLimit(5)
                     .SetCompressOldFiles(true)
-                    .SetCompressionLevel(3)
+                    .SetCompressionLevel(CompressionLevel.Optimal)
                     .SetCompressionPassword("helloworld")
                     
                     .Build());
