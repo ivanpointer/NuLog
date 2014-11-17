@@ -2,10 +2,11 @@
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
 
-For a quick start, see the [Developer Implementation Guide](https://github.com/ivanpointer/NuLog/wiki#developer-implementation-quick-start-guide).  
-Full documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
-NuLog is (will be) provided as a NuGet package.  
-The source and samples are available here on GitHub.
+**Quick Start:** For a quick start, see the [Developer Implementation Guide](https://github.com/ivanpointer/NuLog/wiki#developer-implementation-quick-start-guide).  
+**Full Documentation:** Full documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
+**NuGet:** NuLog is (will be) provided as a NuGet package.  
+**Downloads:** Downloads are hosted at [http://www.nulog.info/downloads/](http://www.nulog.info/downloads/).  
+**Source:** The source and samples are available here on GitHub (see above).  
 
 ## NuLog RC1 Release
 The initial release candidate will be commited to the repository as "RC1".  RC1 will also be released to the master NuGet repository.
