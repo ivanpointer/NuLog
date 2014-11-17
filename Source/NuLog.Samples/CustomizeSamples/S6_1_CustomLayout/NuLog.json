@@ -1,17 +1,19 @@
-﻿{
-    "targets": [
-        {
-            "name": "console",
-            "type": "NuLog.Targets.ConsoleTarget",
-            "layout": { 
-                "type": "NuLog.Samples.CustomizeSamples.S6_1_CustomLayout.JSONLayout, NuLog.Samples"
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.ConsoleTarget",
+                "layout": { 
+                    "type": "NuLog.Samples.CustomizeSamples.S6_1_CustomLayout.JSONLayout, NuLog.Samples"
+                }
             }
-        }
-    ],
-    "rules": [
-        {
-            "include": [ "*" ],
-            "writeTo": [ "console" ]
-        }
-    ]
-}
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "writeTo": [ "console" ]
+            }
+        ]
+    }
+

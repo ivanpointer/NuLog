@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,6 +80,8 @@
     <Compile Include="CustomizeSamples\S5_1_ConfigurationExtenders\ConfigurationExtendersSample.cs" />
     <Compile Include="CustomizeSamples\S6_1_CustomLayout\CustomLayoutSample.cs" />
     <Compile Include="CustomizeSamples\S6_1_CustomLayout\JSONLayout.cs" />
+    <Compile Include="CustomizeSamples\S7_1_CustomConfigurationBuilder\CustomConfigBuilderSample.cs" />
+    <Compile Include="CustomizeSamples\S7_1_CustomConfigurationBuilder\MyCustomConfigBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleBase.cs" />
