@@ -1,9 +1,10 @@
 ﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Author: Ivan Pointer (ivan@pointerplace.us)
  * Date: 10/5/2014
- * Updated: 11/13/2014
- * Changes: Added the ability to load configuration extenders explicitly, wihtout using MEF
+ * Updated 11/16/2014: Ivan Pointer: Added the ability to set a default configuration builder using MEF
+ * Updated 11/13/2014: Ivan Pointer: Added the ability to load configuration extenders explicitly, wihtout using MEF
  * License: MIT (http://opensource.org/licenses/MIT)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -32,7 +33,7 @@ namespace NuLog
         #region Constants
 
         // Messages
-        private const string FailedConfigBuilderMessage = "Failed to configure using the provided config builder {0}";
+        private const string FailedConfigBuilderMessage = "Failed to configure using the provided config builder {0}, cause: {1}";
         private const string ConfigurationFailedUsingDefaultsMessage = "Configuration failed, using default configuration";
         private const string ConfigLoadFailureMessage = "Failure loading config: {0}:\r\n{1}";
         private const string ShutdownDispatcherFailureMessage = "Failed to shutdown the existing dispatcher due to error {0}";
@@ -40,6 +41,7 @@ namespace NuLog
         private const string TypeNotFoundMessage = "Type not found for \"{0}\"";
         private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
         private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
+        private const string LoadMEFFailureMessage = "Failed to load MEF components, cause: {0}";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
@@ -62,6 +64,15 @@ namespace NuLog
         [ImportMany(typeof(ILoggingConfigExtender))]
         private IEnumerable<ILoggingConfigExtender> MEFConfigExtenders { get; set; }
         private IList<ILoggingConfigExtender> ConfigExtenders { get; set; }
+
+        /// <summary>
+        /// The default configuration builder for the factory.
+        /// It is intended to be loaded using MEF.  See the article
+        /// https://github.com/ivanpointer/NuLog/wiki/7.1-Creating-a-Custom-Configuration-Builder
+        /// for more information
+        /// </summary>
+        [Import(typeof(ILoggingConfigBuilder), AllowDefault = true)]
+        private ILoggingConfigBuilder DefaultConfigBuilder { get; set; }
 
         /// <summary>
         /// The single primary configuration used for all of the components
@@ -123,17 +134,28 @@ namespace NuLog
         /// <param name="force">Whether or not to force the re-configuration if the framework has alredy been intiaizlied</param>
         public static void Initialize(ILoggingConfigBuilder configBuilder, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
         {
+            LoggingConfig config = null;
+
+            // Try to load the config from the given builder
             try
             {
-                var config = configBuilder.Build();
-                Initialize(config, dispatcher, exceptionHandler, force);
+                config = configBuilder.Build();
             }
-            catch
+            catch (Exception cause)
             {
-                // Failed to configure using the provided configuration builder
-                Trace.WriteLine(String.Format(FailedConfigBuilderMessage, configBuilder == null ? NullString : configBuilder.GetType().FullName));
-                Initialize(config: null, dispatcher: dispatcher, force: force);
+                // Report the exception
+                string message = String.Format(FailedConfigBuilderMessage, configBuilder == null ? NullString : configBuilder.GetType().FullName, cause);
+                if (exceptionHandler != null)
+                {
+                    exceptionHandler(cause, message);
+                }
+                else
+                {
+                    Trace.WriteLine(message, TraceConfigCategory);
+                }
             }
+
+            Initialize(config, dispatcher, exceptionHandler, force);
         }
 
         /// <summary>
@@ -145,36 +167,27 @@ namespace NuLog
         /// <param name="force">Whether or not to force the re-configuration if the framework has alredy been intiaizlied</param>
         public static void Initialize(string configFile, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
         {
-            lock (_factoryLock)
+            LoggingConfig config = null;
+
+            // Try to load the config from the given file
+            try
             {
-                if (force || !Instance.Value.Initialized)
+                config = new LoggingConfig(configFile);
+            }
+            catch (Exception cause)
+            {
+                // Report the exception
+                if (exceptionHandler != null)
                 {
-                    if (Instance.Value.Initialized)
-                        Instance.Value.LoggingConfig.Shutdown();
-
-                    try
-                    {
-                        Instance.Value.LoggingConfig = new LoggingConfig(configFile);
-                    }
-                    catch (Exception e)
-                    {
-                        // Report the exception
-                        if (exceptionHandler != null)
-                        {
-                            exceptionHandler(e, ConfigurationFailedUsingDefaultsMessage);
-                        }
-                        else
-                        {
-                            Trace.WriteLine(e, TraceConfigCategory);                        
-                        }
-
-                        // Load the default config to get us off the ground!!
-                        Instance.Value.LoggingConfig = new LoggingConfig();
-                    }
-
-                    Initialize(Instance.Value.LoggingConfig, dispatcher, exceptionHandler, force);
+                    exceptionHandler(cause, ConfigurationFailedUsingDefaultsMessage);
+                }
+                else
+                {
+                    Trace.WriteLine(cause, TraceConfigCategory);
                 }
             }
+
+            Initialize(config, dispatcher, exceptionHandler, force);
         }
 
         /// <summary>
@@ -193,14 +206,15 @@ namespace NuLog
                 // We only want to configure if we haven't yet, or if it is marked to override (force) the initialization
                 if (force || !instance.Initialized)
                 {
+                    // Shutdown existing config if it exists
+                    if (instance.Initialized)
+                        instance.LoggingConfig.Shutdown();
+
                     // Wire up the exception handler
                     instance.ExceptionHandler = exceptionHandler;
 
                     // Setup the logging config
                     instance.InitializeConfig(config);
-
-                    // Update the config with the config extenders (if any)
-                    instance.ExecuteConfigExtenders();
 
                     // Setup the dispatcher
                     instance.InitializeDispatcher(dispatcher);
@@ -215,6 +229,25 @@ namespace NuLog
         }
 
         /// <summary>
+        /// Load in the MEF extension components
+        /// </summary>
+        private void InitializeMEF()
+        {
+            try
+            {
+                AggregateCatalog aggregateCatalogue = new AggregateCatalog();
+                aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+
+                CompositionContainer container = new CompositionContainer(aggregateCatalogue);
+                container.ComposeParts(this);
+            }
+            catch (Exception cause)
+            {
+                Trace.WriteLine(String.Format(LoadMEFFailureMessage, cause), TraceConfigCategory);
+            }
+        }
+
+        /// <summary>
         /// An internal function for initializing the logging config for the factory
         /// </summary>
         /// <param name="config">The config to use for initialization. If none(null) provided, the default logging config will be loaded (from NuLog.json)</param>
@@ -225,22 +258,32 @@ namespace NuLog
             if (Initialized)
                 LoggingConfig.Shutdown();
 
+            // Make sure that the MEF extensions are loaded in
+            InitializeMEF();
+
             try
             {
-                // Load using the supplied config, or the default config (from file)
+                // Load using the supplied config,
+                //  or the default config from the default config builder
+                //  or the default config as defined by LoggingConfig
                 LoggingConfig = config != null
                     ? config
-                    : new LoggingConfig();
+                    : DefaultConfigBuilder != null
+                        ? DefaultConfigBuilder.Build()
+                        : new LoggingConfig();
             }
-            catch (Exception e)
+            catch (Exception cause)
             {
                 // Report the exception
                 Trace.WriteLine(ConfigurationFailedUsingDefaultsMessage);
-                Trace.WriteLine(String.Format(ConfigLoadFailureMessage, e.Message, e.StackTrace), TraceConfigCategory);
+                Trace.WriteLine(String.Format(ConfigLoadFailureMessage, cause.Message, cause.StackTrace), TraceConfigCategory);
 
                 // Load the default config to get us off the ground!!
                 LoggingConfig = new LoggingConfig(loadConfig: false);
             }
+
+            // Execute the config extenders against the configuration
+            ExecuteConfigExtenders();
         }
 
         /// <summary>
@@ -290,6 +333,7 @@ namespace NuLog
             }
         }
 
+        // Loads in the configuration extenders from MEF and from the set configuration
         private void LoadConfigExtenders()
         {
             ConfigExtenders = new List<ILoggingConfigExtender>();
@@ -297,12 +341,6 @@ namespace NuLog
             // Load MEF Extenders
             try
             {
-                AggregateCatalog aggregateCatalogue = new AggregateCatalog();
-                aggregateCatalogue.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
-
-                CompositionContainer container = new CompositionContainer(aggregateCatalogue);
-                container.ComposeParts(this);
-
                 foreach (var extender in MEFConfigExtenders)
                     ConfigExtenders.Add(extender);
             }
