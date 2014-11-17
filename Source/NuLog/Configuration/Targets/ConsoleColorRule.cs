@@ -64,6 +64,9 @@ namespace NuLog.Configuration.Targets
             Tags = tags != null
                 ? tags.ToList()
                 : new List<string>();
+
+            BackgroundColor = GetConsoleColor(backgroundColor);
+            ForegroundColor = GetConsoleColor(foregroundColor);
         }
 
         /// <summary>
