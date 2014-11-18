@@ -1,7 +1,8 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 11/11/2014
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -25,7 +26,7 @@ namespace NuLog.Samples.Samples.S4_1_LegacyLoggingExtension
         #endregion
 
         // Example using the legacy logging extension
-        public override void ExecuteSample(Arguments args)
+        public override void ExecuteSample()
         {
             LoggerFactory.Initialize("Samples/S4_1_LegacyLoggingExtension/NuLog.json");
             var logger = LoggerFactory.GetLogger();

@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/30/2014
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
 
 namespace NuLog.Samples.Samples.S1_3_TagGroups
 {
+    /// <summary>
+    /// A sample showing how tag groups work.  The narration of this sample can be found at:
+    /// https://github.com/ivanpointer/NuLog/wiki/1.3-Tag-Groups
+    /// </summary>
     public class TagGroupsSample : SampleBase
     {
         #region Sample Wiring
@@ -15,7 +21,8 @@ namespace NuLog.Samples.Samples.S1_3_TagGroups
 
         #endregion
 
-        public override void ExecuteSample(Arguments args)
+        // Execute our sample
+        public override void ExecuteSample()
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample

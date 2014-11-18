@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.cs" />
     <Compile Include="CustomizeSamples\S1_1_BasicAnatomyOfATarget\ColorConsoleTarget.cs" />
     <Compile Include="CustomizeSamples\S1_2_ASimpleTarget\ASimpleTargetSample.cs" />
     <Compile Include="CustomizeSamples\S1_2_ASimpleTarget\ColorConsoleTarget.cs" />
@@ -142,6 +141,9 @@
     </None>
     <None Include="packages.config" />
     <None Include="Samples\Presentation\NuLog.Presentation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\S1_1_HelloWorld\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Samples\S1_2_TagsRules\ExceptionNuLog.json">

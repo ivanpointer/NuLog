@@ -1,7 +1,8 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/28/2014
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -119,9 +120,6 @@ namespace NuLog.Samples
         // Mainly main stuff ;)
         static void Main(string[] args)
         {
-            // Parse out the arguments coming in from the command line
-            var arguments = new Arguments(args);
-
             // Execute the samples the end user selects until the user indicates to exit
             SampleSelection selection;
             bool exit = false;
@@ -133,7 +131,7 @@ namespace NuLog.Samples
                 {
                     Console.Clear();
                     Console.WriteLine(String.Format("Executing sample \"{0}\":" + System.Environment.NewLine, selection.Sample.SampleName.Trim()));
-                    selection.Sample.ExecuteSample(arguments);
+                    selection.Sample.ExecuteSample();
                     Console.WriteLine(System.Environment.NewLine + "Press [Enter] to continue");
                     Console.ReadLine();
                 }

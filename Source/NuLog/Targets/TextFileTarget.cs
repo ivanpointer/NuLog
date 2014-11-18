@@ -3,9 +3,11 @@
  * Date: 10/9/2014
  * Updated 11/15/2014: Removed dependency on SharpZipLib because of an incompatiblity
  *   with licensing.  Updated to use .NET framework instead.
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using System;

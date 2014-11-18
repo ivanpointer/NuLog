@@ -5,7 +5,8 @@
  * Changes: Removed MEF functionality for static meta dat aproviders and added it to the configuration.
  *   This allows developers to only activate the static meta data providers they whish
  *   to be active, as opposed to getting all of the ones in scope.
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 

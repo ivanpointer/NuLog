@@ -1,7 +1,7 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 11/16/2014
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 

@@ -3,7 +3,7 @@
  * Date: 10/5/2014
  * Updated 11/16/2014: Ivan Pointer: Added the ability to set a default configuration builder using MEF
  * Updated 11/13/2014: Ivan Pointer: Added the ability to load configuration extenders explicitly, wihtout using MEF
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
  * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */

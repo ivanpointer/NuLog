@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
+ * Date: 10/20/2014
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
+ * GitHub: https://github.com/ivanpointer/NuLog
+ */
+
 using NuLog.Extensions.Email;
 using NuLog.Targets;
 
@@ -12,7 +15,7 @@ namespace NuLog.Samples.Samples.Presentation
     {
         public EmailLogEventBuilderSample(string section, string sample) : base(section, sample) { }
 
-        public override void ExecuteSample(Arguments args)
+        public override void ExecuteSample()
         {
 
             var logger = LoggerFactory.GetLogger();

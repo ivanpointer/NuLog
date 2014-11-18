@@ -1,7 +1,8 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/28/2014
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -23,7 +24,7 @@ namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
         #endregion
 
         // Logging Example
-        public override void ExecuteSample(Arguments args)
+        public override void ExecuteSample()
         {
             LoggerSample();
 

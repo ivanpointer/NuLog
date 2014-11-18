@@ -2,7 +2,8 @@
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 11/08/2014
  * Updated 11/16/2014 - Added a couple extra constructors for building out the rule, including one to parse a string value into a ConsoleColor value.
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 

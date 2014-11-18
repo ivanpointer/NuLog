@@ -1,7 +1,8 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 11/11/2014
- * License: MIT (http://opensource.org/licenses/MIT)
+ * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
+ * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -27,7 +28,7 @@ namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
         #endregion
 
         // Logging example
-        public override void ExecuteSample(Arguments args)
+        public override void ExecuteSample()
         {
             // Load the configuration
             LoggerFactory.Initialize("CustomizeSamples/S3_1_ExtendingTheLogger/NuLog.json");
