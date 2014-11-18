@@ -494,13 +494,23 @@ namespace NuLog.Configuration
                     ? new List<TagGroupConfig>()
                     : this.TagGroups;
 
+                this.ConfigurationExtenders = this.ConfigurationExtenders == null
+                    ? new List<string>()
+                    : this.ConfigurationExtenders;
+
+                this.StaticMetaDataProviders = this.StaticMetaDataProviders == null
+                    ? new List<string>()
+                    : this.StaticMetaDataProviders;
+
                 return new LoggingConfig(loadConfig: false)
                 {
                     ConfigFile = this.ConfigFile,
                     Watch = this.Watch,
                     Targets = new ReadOnlyCollection<TargetConfig>(this.Targets),
                     Rules = new ReadOnlyCollection<RuleConfig>(this.Rules),
-                    TagGroups = new ReadOnlyCollection<TagGroupConfig>(this.TagGroups)
+                    TagGroups = new ReadOnlyCollection<TagGroupConfig>(this.TagGroups),
+                    ConfigurationExtenders = new ReadOnlyCollection<string>(this.ConfigurationExtenders),
+                    StaticMetaDataProviders = new ReadOnlyCollection<string>(this.StaticMetaDataProviders)
                 };
             }
         }
