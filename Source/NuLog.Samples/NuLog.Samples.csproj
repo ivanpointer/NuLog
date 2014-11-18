@@ -144,6 +144,9 @@
     <None Include="Samples\Presentation\NuLog.Presentation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Samples\S1_2_TagsRules\ExceptionNuLog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Samples\S1_2_TagsRules\NuLog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

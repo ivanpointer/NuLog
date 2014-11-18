@@ -1,0 +1,26 @@
+﻿
+    {
+        "targets": [
+            {
+                "name": "console",
+                "type": "NuLog.Targets.ConsoleTarget"
+            },
+            {
+                "name": "trace",
+                "type": "NuLog.Targets.TraceTarget"
+            }
+        ],
+        "rules": [
+            {
+                "include": [ "*" ],
+                "exclude": [ "exception" ],
+                "writeTo": [ "console" ]
+            },
+            {
+                "include": [ "*" ],
+                "writeTo": [ "trace" ]
+            }
+        ]
+    }
+
+

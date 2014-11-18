@@ -5,6 +5,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
+using System;
 namespace NuLog.Samples.Samples.S1_2_TagsRules
 {
     /// <summary>
@@ -24,6 +25,15 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
         // Logging Example
         public override void ExecuteSample(Arguments args)
         {
+            ExecuteTagsAndRules();
+
+            PauseSample();
+
+            ExecuteExceptionExample();
+        }
+
+        public void ExecuteTagsAndRules()
+        {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
             LoggerFactory.Initialize("Samples/S1_2_TagsRules/NuLog.json");
@@ -42,6 +52,27 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
 
             // Clean up for when we run again
             logger.DefaultTags.Remove("consoleonly");
+        }
+
+        public void ExecuteExceptionExample()
+        {
+            // Initialize here because the samples are constructed only once
+            //  We want to be running on the configuration for this sample
+            LoggerFactory.Initialize("Samples/S1_2_TagsRules/ExceptionNuLog.json");
+            LoggerBase logger = LoggerFactory.GetLogger();
+
+            // Normal log message
+            logger.LogNow("No exception, all is well here");
+
+            // Exception log message
+            try
+            {
+                throw new Exception("I am an error!");
+            }
+            catch(Exception cause)
+            {
+                logger.LogNow("I caught an exception!", cause);
+            }
         }
     }
 }
