@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NuLog.Legacy")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The Legacy Extension for the NuLog framework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NuLog.Legacy")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright ©  2014 Ivan Andrew Pointer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

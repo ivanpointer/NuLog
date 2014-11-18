@@ -63,7 +63,7 @@ namespace NuLog.Configuration.Targets
         public const long DefaultRolloverTrigger = 10 * MBMultiplier;
         public const int DefaultOldFileLimit = 10;
         public const string DefaultFileName = "log.log";
-        public const string DefaultLoadFileNamePattern = "log{0:.yyyy.MM.dd.hh.mm.ss}.log";
+        public const string DefaultOldFileNamePattern = "log{0:.yyyy.MM.dd.hh.mm.ss}.log";
         public const RolloverPolicy DefaultRolloverPolicy = RolloverPolicy.None;
         public const CompressionLevel DefaultCompressionLevel = CompressionLevel.Optimal;
 
@@ -194,7 +194,7 @@ namespace NuLog.Configuration.Targets
         private void Defaults()
         {
             FileName = DefaultFileName;
-            OldFileNamePattern = DefaultLoadFileNamePattern;
+            OldFileNamePattern = DefaultOldFileNamePattern;
             RolloverPolicy = DefaultRolloverPolicy;
             RolloverTrigger = DefaultRolloverTrigger;
             OldFileLimit = DefaultOldFileLimit;
