@@ -122,6 +122,8 @@ namespace NuLog.Configuration
             Targets = new List<TargetConfig>();
             Rules = new List<RuleConfig>();
             TagGroups = new List<TagGroupConfig>();
+            ConfigurationExtenders = new List<string>();
+            StaticMetaDataProviders = new List<string>();
 
             LastChange = DateTime.MinValue;
             ConfigObservers = new List<IConfigObserver>();
