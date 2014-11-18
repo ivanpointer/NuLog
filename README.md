@@ -9,7 +9,7 @@ _Written in C# for .NET_
 **Source:** The source and samples are available here on GitHub (see above).  
 
 ## NuLog RC1 Release
-The initial release candidate will be commited to the repository as "RC1".  RC1 will also be released to the master NuGet repository.
+RC1 has been released!  Look for NuLog in NuGet, or see the donwloads page on the NuLog.info site.
 
 ## Donate
 You can donate to me as a "thank you" on the NuLog info site:
