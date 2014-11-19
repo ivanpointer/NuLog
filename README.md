@@ -9,6 +9,8 @@ _Written in C# for .NET_
 **Source:** The source and samples are available here on GitHub.  
 
 ## NuLog RC1 Release
+**Please Note:** There are a handful of known issues with RC1.  I will be releasing RC1.0.1 in the next day or two which will address these issues.  Take a look at the [issues](https://github.com/ivanpointer/NuLog/issues) page for details on the known issues.  Please note that I will close the issues as I address them in the source code, not when I release.  This is a practice that I might change.
+
 RC1 has been released!  Search for NuLog in NuGet, or see the donwloads page on the NuLog info site.
 
 ## Donate
