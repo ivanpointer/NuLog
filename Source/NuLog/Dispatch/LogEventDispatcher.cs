@@ -436,7 +436,7 @@ namespace NuLog.Dispatch
                             if (logEvent.MetaData != null)
                             {
                                 foreach (var key in metaData.Keys)
-                                    logEvent.MetaData[key] = metaData[key];
+                                    logEvent.MetaData[key] = MergeMetaData(logEvent.MetaData, metaData, key);
                             }
                             else
                             {
@@ -449,6 +449,20 @@ namespace NuLog.Dispatch
                     }
                 }
             }
+        }
+
+        // Merges the two values, favoring the primary if secondary is null
+        private static object MergeMetaData(IDictionary<string, object> primary, IDictionary<string, object> secondary, string key)
+        {
+            var primaryValue = primary.ContainsKey(key)
+                ? primary[key]
+                : null;
+
+            var secondaryValue = secondary[key];
+
+            return secondaryValue == null
+                ? primaryValue
+                : secondaryValue;
         }
 
         #endregion
