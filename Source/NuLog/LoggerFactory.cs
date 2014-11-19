@@ -219,9 +219,6 @@ namespace NuLog
                     // Setup the dispatcher
                     instance.InitializeDispatcher(dispatcher);
                     
-                    // Notify the configuration observers of a new configuration
-                    instance.LoggingConfig.NotifyObservers();
-
                     // Mark us as initialized
                     instance.Initialized = true;
                 }
