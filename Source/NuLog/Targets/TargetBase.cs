@@ -318,7 +318,7 @@ namespace NuLog.Targets
         {
             //  After the shutdown flag is set, we break out of the loop and signal that we are shutdown
 
-            while (!DoShutdown)
+            while (!DoShutdown || LogQueue.IsEmpty == false)
             {
                 if (LogQueue.IsEmpty == false)
                     ProcessLogQueue(LogQueue, Dispatcher);

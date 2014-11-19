@@ -146,14 +146,11 @@ namespace NuLog.Dispatch
         /// <returns>Whether or not the dispatcher successfully shut down in the time allocated</returns>
         public bool Shutdown(int timeout = DefaultShutdownTimeout)
         {
-            lock (LoggingLock)
-            {
-                bool threadResult = ShutdownThread(timeout);
+            bool threadResult = ShutdownThread(timeout);
 
-                TargetKeeper.Shutdown();
+            TargetKeeper.Shutdown();
 
-                return threadResult;
-            }
+            return threadResult;
         }
 
         // Starts up the worker thread if it is not already started
@@ -182,7 +179,7 @@ namespace NuLog.Dispatch
             if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
             {
                 // Signal to the thread to shutdown
-                Trace.WriteLine("Shutting down dispatcher, waiting for all log evbents to flush");
+                Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
                 DoShutdownThread = true;
 
                 // Make sure we are tracking the time shutting down
@@ -260,7 +257,7 @@ namespace NuLog.Dispatch
             LogEvent logEvent;
 
             // Keep running while until the shutdown thread flag has been set
-            while (!DoShutdownThread)
+            while (!DoShutdownThread || ActionQueue.IsEmpty == false || LogQueue.IsEmpty == false)
             {
                 // Process all of the actions
                 while (ActionQueue.IsEmpty == false)
