@@ -338,8 +338,9 @@ namespace NuLog
             // Load MEF Extenders
             try
             {
-                foreach (var extender in MEFConfigExtenders)
-                    ConfigExtenders.Add(extender);
+                if(MEFConfigExtenders != null)
+                    foreach (var extender in MEFConfigExtenders)
+                        ConfigExtenders.Add(extender);
             }
             catch (Exception ex)
             {
