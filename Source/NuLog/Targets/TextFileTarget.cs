@@ -284,7 +284,7 @@ namespace NuLog.Targets
         // Compresses the given file, and optionally deletes the source file when finished
         private void CompressFile(string fileName, bool deleteFile = true)
         {
-            // zip up the file, taking the compression level and password from the configuration
+            // zip up the file, taking the compression level from the configuration
             var zipFileName = String.Format(ZipPattern, fileName);
 
             using (var fileStream = File.OpenRead(fileName))

@@ -38,6 +38,7 @@ namespace NuLog.Configuration.Targets
     /// </summary>
     public class TextFileTargetConfig : LayoutTargetConfig
     {
+
         #region Constants
         public const string FileNameTokenName = "fileName";
         public const string OldFileNamePatternTokenName = "oldFileNamePattern";
@@ -46,7 +47,6 @@ namespace NuLog.Configuration.Targets
         public const string OldFileLimitTokenName = "oldFileLimit";
         public const string CompressOldFilesTokenName = "compressOldFiles";
         public const string CompressionLevelTokenName = "compressionLevel";
-        public const string CompressionPasswordTokenName = "compressionPassword";
 
         public const string GBSuffix = "GB";
         public const string MBSuffix = "MB";
@@ -184,7 +184,6 @@ namespace NuLog.Configuration.Targets
                 CompressionLevel = CompressionLevelMap.ContainsKey(intCompressionLevel)
                     ? CompressionLevelMap[intCompressionLevel]
                     : DefaultCompressionLevel;
-                CompressionPassword = GetValue<string>(jToken, CompressionPasswordTokenName, CompressionPassword);
             }
         }
 
