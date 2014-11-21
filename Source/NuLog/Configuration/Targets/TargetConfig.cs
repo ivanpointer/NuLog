@@ -51,7 +51,7 @@ namespace NuLog.Configuration.Targets
         /// <summary>
         /// Builds a target config using the given JSON token
         /// </summary>
-        /// <param name="jToken">The JSON token to use to build the target</param>
+        /// <param name="jToken">The JSON token to use to build the target config</param>
         /// <param name="synchronous">A flag that if true, signals to the framework to log events to this target synchronously</param>
         public TargetConfig(JToken jToken, bool? synchronous = null)
         {

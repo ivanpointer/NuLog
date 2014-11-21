@@ -1,12 +1,14 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/6/2014
+ * Updated 11/20/2014: Ivan Pointer: Added extenders to the configuration
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
  * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
 using Newtonsoft.Json.Linq;
+using NuLog.Configuration.Extenders;
 using NuLog.Configuration.Targets;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,7 @@ namespace NuLog.Configuration
         private const string TagGroupsTokenName = "tagGroups";
         private const string ConfigurationExtendersTokenName = "configurationExtenders";
         private const string StaticMetaDataProvidersTokenName = "staticMetaDataProviders";
+        private const string ExtendersTokenName = "extenders";
         private const string WatchTokenName = "watch";
         private const string DebugTokenName = "debug";
         private const string SynchronousTokenName = "synchronous";
@@ -82,6 +85,11 @@ namespace NuLog.Configuration
         /// </summary>
         public IList<string> StaticMetaDataProviders { get; set; }
         /// <summary>
+        /// A list of extenders for extending the framework.
+        /// Extenders are executed after the dispatcher is initialized.
+        /// </summary>
+        public IList<ExtenderConfig> Extenders { get; set; }
+        /// <summary>
         /// A flag indicating whether the framework should be running in "synchronous" mode or not.  If the synchronous
         /// flag is set, no background or worker threads will be used to log.  Control will not return to the logging
         /// application until the log event has been logged to each of the configured targets.
@@ -124,6 +132,7 @@ namespace NuLog.Configuration
             TagGroups = new List<TagGroupConfig>();
             ConfigurationExtenders = new List<string>();
             StaticMetaDataProviders = new List<string>();
+            Extenders = new List<ExtenderConfig>();
 
             LastChange = DateTime.MinValue;
             ConfigObservers = new List<IConfigObserver>();
@@ -239,6 +248,10 @@ namespace NuLog.Configuration
                         // Static Meta Data Providers
                         var staticMetaDataProvidersJson = jsonConfig[StaticMetaDataProvidersTokenName];
                         StaticMetaDataProviders = LoadStaticMetaDataProviders(staticMetaDataProvidersJson);
+
+                        // Extenders
+                        var extendersJson = jsonConfig[ExtendersTokenName];
+                        Extenders = LoadExtenders(extendersJson);
 
                         // Synchronous flag
                         Synchronous = false;
@@ -376,6 +389,38 @@ namespace NuLog.Configuration
         }
 
         /// <summary>
+        /// Loads the extenders from the JSON token provided
+        /// </summary>
+        /// <param name="extendersJson">The JSON token from which to load the extenders</param>
+        /// <returns></returns>
+        private static IList<ExtenderConfig> LoadExtenders(JToken extendersJson)
+        {
+            var extenders = new List<ExtenderConfig>();
+
+            // Make sure we have something to work with
+            if (extendersJson != null)
+            {
+                // If it is an array, iterate over it and create a new
+                //  extender config for each entry
+                if (extendersJson.Type == JTokenType.Array)
+                {
+                    foreach (var extenderJson in extendersJson.Values())
+                    {
+                        extenders.Add(new ExtenderConfig(extenderJson));
+                    }
+                }
+                // If it is a single item, instantiate that
+                else
+                {
+                    extenders.Add(new ExtenderConfig(extendersJson));
+                }
+            }
+
+            // Return what we got, if anything
+            return extenders;
+        }
+
+        /// <summary>
         /// Loads the targets from the configuration JSON tokens provided
         /// </summary>
         /// <param name="targetsJson">The JSON tokens from which to load the target configurations</param>
@@ -502,6 +547,10 @@ namespace NuLog.Configuration
                     ? new List<string>()
                     : this.StaticMetaDataProviders;
 
+                this.Extenders = this.Extenders == null
+                    ? new List<ExtenderConfig>()
+                    : this.Extenders;
+
                 return new LoggingConfig(loadConfig: false)
                 {
                     ConfigFile = this.ConfigFile,
@@ -510,7 +559,8 @@ namespace NuLog.Configuration
                     Rules = new ReadOnlyCollection<RuleConfig>(this.Rules),
                     TagGroups = new ReadOnlyCollection<TagGroupConfig>(this.TagGroups),
                     ConfigurationExtenders = new ReadOnlyCollection<string>(this.ConfigurationExtenders),
-                    StaticMetaDataProviders = new ReadOnlyCollection<string>(this.StaticMetaDataProviders)
+                    StaticMetaDataProviders = new ReadOnlyCollection<string>(this.StaticMetaDataProviders),
+                    Extenders = new ReadOnlyCollection<ExtenderConfig>(this.Extenders)
                 };
             }
         }

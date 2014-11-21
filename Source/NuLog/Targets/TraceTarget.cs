@@ -16,6 +16,12 @@ namespace NuLog.Targets
     public class TraceTarget : LayoutTargetBase
     {
         /// <summary>
+        /// A meta key that signals to the trace target not to trace the log event.
+        /// This is helpful in preventing "feedback loops" when using a trace listener.
+        /// </summary>
+        public const string DontTraceMeta = "DontTrace";
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public TraceTarget() : base() { }
@@ -32,7 +38,8 @@ namespace NuLog.Targets
         /// <param name="logEvent">The log event to write to trace</param>
         public override void Log(LogEvent logEvent)
         {
-            Trace.Write(Layout.FormatLogEvent(logEvent));
+            if(logEvent.MetaData == null || logEvent.MetaData.ContainsKey(DontTraceMeta) == false)
+                Trace.Write(Layout.FormatLogEvent(logEvent));
         }
     }
 }

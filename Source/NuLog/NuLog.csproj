@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Extenders\ExtenderConfig.cs" />
     <Compile Include="Configuration\IConfigObserver.cs" />
     <Compile Include="Configuration\ILoggingConfigBuilder.cs" />
     <Compile Include="Configuration\ILoggingConfigExtender.cs" />
@@ -71,6 +72,9 @@
     <Compile Include="Dispatch\RuleKeeper.cs" />
     <Compile Include="Dispatch\TagKeeper.cs" />
     <Compile Include="Dispatch\TargetKeeper.cs" />
+    <Compile Include="Extenders\ExtenderBase.cs" />
+    <Compile Include="Extenders\IExtender.cs" />
+    <Compile Include="Extenders\TraceListenerExtender.cs" />
     <Compile Include="Extensions\Console\ConsoleLoggerExt.cs" />
     <Compile Include="Extensions\Email\EmailLogEventBuilder.cs" />
     <Compile Include="Layouts\ILayout.cs" />

@@ -1,0 +1,29 @@
+﻿
+{
+    "targets": [
+        {
+            "name": "console",
+            "type": "NuLog.Targets.ConsoleTarget"
+        },
+        {
+            "name": "trace",
+            "type": "NuLog.Targets.TraceTarget"
+        }
+    ],
+    "rules": [
+        {
+            "include": [ "*" ],
+            "writeTo": [ "console" ]
+        },
+        {
+            "include": [ "*" ],
+            "exclude": [ "tracelistener" ],
+            "writeTo": [ "trace" ]
+        }
+    ],
+    "extenders": {
+        "type": "NuLog.Samples.CustomizeSamples.S8_1_CustomExtender.TraceListenerExtender, NuLog.Samples",
+        "tags": "tracelistener"
+    }
+}
+

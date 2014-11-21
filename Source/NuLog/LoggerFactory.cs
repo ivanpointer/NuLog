@@ -10,6 +10,7 @@
 
 using NuLog.Configuration;
 using NuLog.Dispatch;
+using NuLog.Extenders;
 using NuLog.Loggers;
 using NuLog.MetaData;
 using System;
@@ -42,10 +43,13 @@ namespace NuLog
         private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
         private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
         private const string LoadMEFFailureMessage = "Failed to load MEF components, cause: {0}";
+        private const string ExtenderTypeNullMessage = "Extender type is null or empty";
+        private const string ExtenderTypeNotFoundMessage = "Extender for type \"{0}\" not found";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
         private const string NullString = "NULL";
+        private const int DefaultExtenderShutdownTimeout = 5000;
 
         #endregion
 
@@ -64,6 +68,11 @@ namespace NuLog
         [ImportMany(typeof(ILoggingConfigExtender))]
         private IEnumerable<ILoggingConfigExtender> MEFConfigExtenders { get; set; }
         private IList<ILoggingConfigExtender> ConfigExtenders { get; set; }
+
+        /// <summary>
+        /// The extenders for extending the logging framework
+        /// </summary>
+        private IList<IExtender> Extenders { get; set; }
 
         /// <summary>
         /// The default configuration builder for the factory.
@@ -216,8 +225,15 @@ namespace NuLog
                     // Setup the logging config
                     instance.InitializeConfig(config);
 
+                    // Load and initialize the extenders, allowing them to update the config
+                    //  before we start
+                    instance.InitializeExtenders();
+
                     // Setup the dispatcher
                     instance.InitializeDispatcher(dispatcher);
+
+                    // Start the extenders
+                    instance.StartExtenders(dispatcher);
                     
                     // Mark us as initialized
                     instance.Initialized = true;
@@ -279,8 +295,113 @@ namespace NuLog
                 LoggingConfig = new LoggingConfig(loadConfig: false);
             }
 
+            // Load the config extenders
+            LoadConfigExtenders();
+
             // Execute the config extenders against the configuration
             ExecuteConfigExtenders();
+        }
+
+        /// <summary>
+        /// Loads the extenders and updates the config
+        /// </summary>
+        private void InitializeExtenders()
+        {
+            LoadAndInitializeExtenders();
+
+            ExecuteExtendersUpdateConfig();
+        }
+
+        // Loads the extenders
+        private void LoadAndInitializeExtenders()
+        {
+            Extenders = new List<IExtender>();
+
+            // Check to see if we have any extenders configured
+            if (LoggingConfig.Extenders != null && LoggingConfig.Extenders.Count > 0)
+            {
+                Type extenderType;
+                ConstructorInfo constructorInfo;
+                IExtender extender;
+
+                // Iterate over each config and try to build its instance
+                foreach (var extenderConfig in LoggingConfig.Extenders)
+                {
+                    try
+                    {
+                        // Lookup the extender's type
+                        if (String.IsNullOrEmpty(extenderConfig.Type))
+                            throw new LoggingException(ExtenderTypeNullMessage);
+
+                        extenderType = Type.GetType(extenderConfig.Type);
+
+                        if (extenderType == null)
+                            throw new LoggingException(String.Format(ExtenderTypeNotFoundMessage, extenderConfig.Type));
+
+                        // Build the extender
+                        constructorInfo = extenderType.GetConstructor(new Type[] { });
+                        extender = (IExtender)constructorInfo.Invoke(null);
+                        extender.Initialize(extenderConfig, LoggingConfig);
+                        Extenders.Add(extender);
+                    }
+                    catch (Exception exception)
+                    {
+                        // Handle the failure
+                        HandleException(exception);
+                    }
+                }
+            }
+        }
+
+        // Update the configuration using the extenders
+        private void ExecuteExtendersUpdateConfig()
+        {
+            foreach (var extender in Extenders)
+            {
+                try
+                {
+                    extender.UpdateConfig(LoggingConfig);
+                }
+                catch (Exception cause)
+                {
+                    // Handle the failure
+                    HandleException(cause);
+                }
+            }
+        }
+
+        // Initialize the extenders
+        private void StartExtenders(LogEventDispatcher dispatcher)
+        {
+            foreach (var extender in Extenders)
+            {
+                try
+                {
+                    extender.Startup(dispatcher);
+                }
+                catch (Exception cause)
+                {
+                    // Handle the failure
+                    HandleException(cause);
+                }
+            }
+        }
+
+        // Shutdown the extenders
+        private void ShutdownExtenders()
+        {
+            foreach(var extender in Extenders)
+            {
+                try
+                {
+                    extender.Shutdown(DefaultExtenderShutdownTimeout);
+                }
+                catch (Exception cause)
+                {
+                    // Handle the failure
+                    HandleException(cause);
+                }
+            }
         }
 
         /// <summary>
@@ -391,8 +512,6 @@ namespace NuLog
         /// </summary>
         private void ExecuteConfigExtenders()
         {
-            LoadConfigExtenders();
-
             foreach (var configExtender in ConfigExtenders)
             {
                 try
@@ -422,6 +541,12 @@ namespace NuLog
             lock (_factoryLock)
             {
                 var instance = Instance.Value;
+
+                // Bring the extenders down first, their shutdown
+                //  process may depend on the dispatcher
+                instance.ShutdownExtenders();
+
+                // Bring the dispatcher down last
                 if (instance.LogEventDispatcher != null)
                     instance.LogEventDispatcher.Shutdown();
             }
