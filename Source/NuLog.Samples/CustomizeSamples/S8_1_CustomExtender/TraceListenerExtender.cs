@@ -43,12 +43,6 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             private string[] _tags;
             private StringBuilder _stringBuilder;
 
-            // Bits to help prevent a "feedback" loop, just in case one of our
-            //  listening targets writes to trace
-            private static readonly IDictionary<string, object> _dontTraceMeta
-                = new Dictionary<string, object> { { TraceTarget.DontTraceMeta, true } };
-            private string _guid;
-
             #endregion
 
             /// <summary>
@@ -59,28 +53,12 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             public InternalTraceListener(TraceListenerExtender extender)
                 : base()
             {
-                // Prepare our GUID and string builder
-                _guid = String.Format("TL-{0}", Guid.NewGuid().ToString());
+                // Prepare the String Builder
                 _stringBuilder = new StringBuilder();
 
                 // We want to get the tags from the config
-                //  We also want to add the guid to the tag list
-                //  to maximize the chance that the GUID will be
-                //  in the resulting message
-                if (extender != null
-                    && extender.TraceListenerConfig != null
-                    && extender.TraceListenerConfig.TraceTags != null)
-                {
-                    // We have been provided other tags, merge them with our GUID
-                    var tagList = extender.TraceListenerConfig.TraceTags.ToList();
-                    tagList.Add(_guid);
-                    _tags = tagList.ToArray();
-                }
-                else
-                {
-                    // We don't have any other tags, just include our GUID
-                    _tags = new string[] { _guid };
-                }
+                if (extender != null && extender.TraceListenerConfig != null)
+                    _tags = extender.TraceListenerConfig.TraceTags;
             }
 
             /// <summary>
@@ -93,42 +71,38 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             {
                 // Make sure that we have a message
                 if(String.IsNullOrEmpty(message) == false)
-                    // Check for a feedback loop
-                    if (message.Contains(_guid) == false)
+                    lock (WriteLock)
                     {
-                        lock (WriteLock)
+                        // If the message has no newline, just queue it up
+                        if (!message.Contains(Environment.NewLine))
                         {
-                            // If the message has no newline, just queue it up
-                            if (!message.Contains(Environment.NewLine))
+                            _stringBuilder.Append(message);
+                        }
+                        // The message contains at least one newline, split it up
+                        else
+                        {
+                            // Setup
+                            bool endsNewline = message.EndsWith(Environment.NewLine);
+                            var parts = message.Split(Split);
+
+                            // Append, and write the first part
+                            //  unless it is the only part and we have no newline at the end
+                            _stringBuilder.Append(parts[0]);
+                            if (parts.Length > 1 || endsNewline)
                             {
-                                _stringBuilder.Append(message);
+                                WriteLine(_stringBuilder.ToString());
+                                _stringBuilder.Clear();
                             }
-                            // The message contains at least one newline, split it up
-                            else
+
+                            // Write out each of the child parts if there are more, queuing the last bit if
+                            //  it isn't followed by a newline
+                            if (parts.Length > 1)
                             {
-                                // Setup
-                                bool endsNewline = message.EndsWith(Environment.NewLine);
-                                var parts = message.Split(Split);
+                                for (int index = 1; index < (endsNewline ? parts.Length : parts.Length - 1); index++)
+                                    WriteLine(parts[index]);
 
-                                // Append, and write the first part
-                                //  unless it is the only part and we have no newline at the end
-                                _stringBuilder.Append(parts[0]);
-                                if (parts.Length > 1 || endsNewline)
-                                {
-                                    WriteLine(_stringBuilder.ToString());
-                                    _stringBuilder.Clear();
-                                }
-
-                                // Write out each of the child parts if there are more, queuing the last bit if
-                                //  it isn't followed by a newline
-                                if (parts.Length > 1)
-                                {
-                                    for (int index = 1; index < (endsNewline ? parts.Length : parts.Length - 1); index++)
-                                        WriteLine(parts[index]);
-
-                                    if (endsNewline == false)
-                                        _stringBuilder.Append(parts[parts.Length - 1]);
-                                }
+                                if (endsNewline == false)
+                                    _stringBuilder.Append(parts[parts.Length - 1]);
                             }
                         }
                     }
@@ -142,17 +116,17 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             {
                 // Ignore this request if the message is empty
                 if (String.IsNullOrEmpty(message) == false)
-                    // Check for a feedback loop
-                    if (message.Contains(_guid) == false)
+                    lock (WriteLock)
                     {
-                        lock (WriteLock)
+                        // Write the contents of the buffer out, followed by the message
+                        _logger.LogNow(new LogEvent
                         {
-                            // Write the contents of the buffer out, followed by the message
-                            //  We include the meta data recognized by NuLog.Targets.TraceTarget as a flag to not trace
-                            //  We include the GUID in the message, and as a tag here to also help prevent a feedback loop
-                            _logger.LogNow(String.Format("{0}: {1}{2}", _guid, _stringBuilder.ToString(), message), _dontTraceMeta, _tags);
-                            _stringBuilder.Clear();
-                        }
+                            Message = String.Format("{0}{1}", _stringBuilder.ToString(), message),
+                            Tags = _tags,
+                            // Help prevent feedback loops:
+                            Silent = true
+                        });
+                        _stringBuilder.Clear();
                     }
             }
 
@@ -221,12 +195,13 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             if (_traceListener != null)
             {
                 _traceListener.Flush();
+                _traceListener.Close();
+                _traceListener.Dispose();
                 Trace.Listeners.Remove(_traceListener);
                 _traceListener = null;
             }
-            return true;
+            return base.Shutdown();
         }
 
-        
     }
 }

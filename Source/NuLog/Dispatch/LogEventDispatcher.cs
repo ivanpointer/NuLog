@@ -442,7 +442,8 @@ namespace NuLog.Dispatch
                     }
                     catch (Exception ex)
                     {
-                        Trace.WriteLine(String.Format("Failure executing static metadata provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
+                        if(logEvent == null || logEvent.Silent == false)
+                            Trace.WriteLine(String.Format("Failure executing static metadata provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
                     }
                 }
             }
@@ -504,7 +505,8 @@ namespace NuLog.Dispatch
             if (ExceptionHandler != null)
                 ExceptionHandler.Invoke(e, message);
             else
-                Trace.WriteLine(message);
+                if(logEventInfo == null || logEventInfo.Silent == false)
+                    Trace.WriteLine(message);
         }
 
         // Helper function for flattening strings into a single string

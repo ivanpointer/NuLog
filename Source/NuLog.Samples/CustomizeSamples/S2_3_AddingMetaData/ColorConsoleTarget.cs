@@ -64,9 +64,12 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
 
                 try
                 {
+                    // Feedback loop prevention
+                    var silent = logEvent != null && logEvent.Silent;
+
                     // Set the colors to our custom colors
-                    Console.BackgroundColor = GetConsoleColor(logEvent, BackgroundColorMeta, ColorConfig.BackgroundColor);
-                    Console.ForegroundColor = GetConsoleColor(logEvent, ForegroundColorMeta, ColorConfig.ForegroundColor);
+                    Console.BackgroundColor = GetConsoleColor(logEvent, BackgroundColorMeta, ColorConfig.BackgroundColor, silent);
+                    Console.ForegroundColor = GetConsoleColor(logEvent, ForegroundColorMeta, ColorConfig.ForegroundColor, silent);
 
                     // Write out our message
                     Console.Out.Write(Layout.FormatLogEvent(logEvent));
@@ -81,7 +84,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
         }
 
         // Figures the console color we need based on the meta data of the log event, and the passed default color
-        private static ConsoleColor GetConsoleColor(LogEvent logEvent, string metaDataKey, ConsoleColor defaultColor)
+        private static ConsoleColor GetConsoleColor(LogEvent logEvent, string metaDataKey, ConsoleColor defaultColor, bool silent)
         {
             // Try and return the console color from the metea data
             if (logEvent.MetaData != null && logEvent.MetaData.ContainsKey(metaDataKey))
@@ -92,7 +95,9 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
                 }
                 catch
                 {
-                    Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
+                    // Prevent feedback loops:
+                    if(!silent)
+                        Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
 

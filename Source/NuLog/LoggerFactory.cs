@@ -233,7 +233,7 @@ namespace NuLog
                     instance.InitializeDispatcher(dispatcher);
 
                     // Start the extenders
-                    instance.StartExtenders(dispatcher);
+                    instance.StartExtenders(instance.LogEventDispatcher);
                     
                     // Mark us as initialized
                     instance.Initialized = true;
@@ -315,6 +315,9 @@ namespace NuLog
         // Loads the extenders
         private void LoadAndInitializeExtenders()
         {
+            // First, shutdown any extenders we may already have
+            ShutdownExtenders();
+
             Extenders = new List<IExtender>();
 
             // Check to see if we have any extenders configured
@@ -390,18 +393,19 @@ namespace NuLog
         // Shutdown the extenders
         private void ShutdownExtenders()
         {
-            foreach(var extender in Extenders)
-            {
-                try
+            if(Extenders != null)
+                foreach(var extender in Extenders)
                 {
-                    extender.Shutdown(DefaultExtenderShutdownTimeout);
+                    try
+                    {
+                        extender.Shutdown(DefaultExtenderShutdownTimeout);
+                    }
+                    catch (Exception cause)
+                    {
+                        // Handle the failure
+                        HandleException(cause);
+                    }
                 }
-                catch (Exception cause)
-                {
-                    // Handle the failure
-                    HandleException(cause);
-                }
-            }
         }
 
         /// <summary>
@@ -680,7 +684,8 @@ namespace NuLog
             if (ExceptionHandler != null)
                 ExceptionHandler.Invoke(e, message);
             else
-                Trace.WriteLine(message);
+                if(logEventInfo == null || logEventInfo.Silent == false)
+                    Trace.WriteLine(message);
         }
 
         #endregion

@@ -35,6 +35,7 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             //  This should be caught by our extender and written to
             //  console because of the rules in our configuration.
             Trace.WriteLine("Hello, World!");
+            Debug.WriteLine("Hello, Debug!");
         }
 
     }

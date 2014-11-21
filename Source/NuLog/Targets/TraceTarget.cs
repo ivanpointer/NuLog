@@ -16,12 +16,6 @@ namespace NuLog.Targets
     public class TraceTarget : LayoutTargetBase
     {
         /// <summary>
-        /// A meta key that signals to the trace target not to trace the log event.
-        /// This is helpful in preventing "feedback loops" when using a trace listener.
-        /// </summary>
-        public const string DontTraceMeta = "DontTrace";
-
-        /// <summary>
         /// Default constructor
         /// </summary>
         public TraceTarget() : base() { }
@@ -38,7 +32,12 @@ namespace NuLog.Targets
         /// <param name="logEvent">The log event to write to trace</param>
         public override void Log(LogEvent logEvent)
         {
-            if(logEvent.MetaData == null || logEvent.MetaData.ContainsKey(DontTraceMeta) == false)
+            // This is a "unique" condition where "Silent" is interpreted differently;
+            //  The "Silent" flag indicates to the framework that no trace/debug information
+            //  is to be written about logging the log event.  This is to prevent unwanted
+            //  "feedback loops" when using a trace listener.  This is the one case where
+            //  a target is actually completely silenced by this setting.
+            if(logEvent != null && logEvent.Silent == false)
                 Trace.Write(Layout.FormatLogEvent(logEvent));
         }
     }

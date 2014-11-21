@@ -151,11 +151,13 @@ namespace NuLog.Targets
             {
                 using (var mailMessage = new MailMessage())
                 {
+                    bool silent = logEvent != null && logEvent.Silent;
+
                     // Setup the addressing
                     mailMessage.From = FromAddress;
-                    SetAddresses(mailMessage.To, logEvent.MetaData, MetaTo, To);
-                    SetAddresses(mailMessage.CC, logEvent.MetaData, MetaCC, CC);
-                    SetAddresses(mailMessage.Bcc, logEvent.MetaData, MetaBCC, BCC);
+                    SetAddresses(mailMessage.To, logEvent.MetaData, MetaTo, To, silent);
+                    SetAddresses(mailMessage.CC, logEvent.MetaData, MetaCC, CC, silent);
+                    SetAddresses(mailMessage.Bcc, logEvent.MetaData, MetaBCC, BCC, silent);
                     foreach (var replyAddress in ReplyTo)
                         mailMessage.ReplyToList.Add(replyAddress);
 
@@ -197,7 +199,8 @@ namespace NuLog.Targets
                             }
                             catch (Exception e)
                             {
-                                Trace.WriteLine(e);
+                                if(logEvent == null || logEvent.Silent == false)
+                                    Trace.WriteLine(e);
                             }
                         }
                     }
@@ -207,7 +210,7 @@ namespace NuLog.Targets
         }
 
         // Sets the address to the dest collection from the meta data, if found, or using the default otherwise
-        private void SetAddresses(MailAddressCollection destCollection, IDictionary<string, object> metaData, string metaDataKey, ICollection<MailAddress> defaultSourceCollection)
+        private void SetAddresses(MailAddressCollection destCollection, IDictionary<string, object> metaData, string metaDataKey, ICollection<MailAddress> defaultSourceCollection, bool silent = false)
         {
             // Addresses are setup to be overriden by the meta data (as opposed to supplemented)
             //  If addresses are provided in the meta data, the addresses in the meta data are used exclusively
@@ -219,7 +222,7 @@ namespace NuLog.Targets
                 if (metaListRaw != null && typeof(ICollection<string>).IsAssignableFrom(metaListRaw.GetType()))
                 {
                     var emailList = (ICollection<string>)metaListRaw;
-                    AddAddresses(destCollection, emailList);
+                    AddAddresses(destCollection, emailList, silent);
                 }
             }
             else
@@ -323,7 +326,8 @@ namespace NuLog.Targets
                             }
                             else
                             {
-                                Trace.WriteLine(String.Format(AttachmentNotFoundMessage, emailAttachment.PhysicalFileName));
+                                if(logEvent == null || logEvent.Silent == false)
+                                    Trace.WriteLine(String.Format(AttachmentNotFoundMessage, emailAttachment.PhysicalFileName));
                             }
                         }
                     }
@@ -337,7 +341,8 @@ namespace NuLog.Targets
                 }
                 else
                 {
-                    Trace.WriteLine(String.Format(AttachmentNotFoundMessage, Config.Attachment));
+                    if (logEvent == null || logEvent.Silent == false)
+                        Trace.WriteLine(String.Format(AttachmentNotFoundMessage, Config.Attachment));
                 }
             }
         }
@@ -348,7 +353,7 @@ namespace NuLog.Targets
 
         // Helper method for distinctly adding string email addresses to to a list of parsed MailAddresses
         //  Gracefully ignores invalid email addresses
-        private static void AddAddresses(ICollection<MailAddress> masterList, IEnumerable<string> childList)
+        private static void AddAddresses(ICollection<MailAddress> masterList, IEnumerable<string> childList, bool silent = false)
         {
             if (childList != null)
                 foreach (var address in childList)
@@ -359,7 +364,8 @@ namespace NuLog.Targets
                         }
                         catch
                         {
-                            Trace.WriteLine(String.Format(ParseEmailAddressFailureMessage, address));
+                            if(silent == false)
+                                Trace.WriteLine(String.Format(ParseEmailAddressFailureMessage, address));
                         }
         }
 

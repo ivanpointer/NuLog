@@ -22,8 +22,6 @@ namespace NuLog.Configuration.Targets
 
         #region Constants
 
-        private const string CannotParseColorMessage = "Failed to parse console color \"{0}\" because {1}";
-
         private static readonly Type ConsoleColorType = typeof(ConsoleColor);
 
         #endregion
@@ -66,8 +64,8 @@ namespace NuLog.Configuration.Targets
                 ? tags.ToList()
                 : new List<string>();
 
-            BackgroundColor = GetConsoleColor(backgroundColor);
-            ForegroundColor = GetConsoleColor(foregroundColor);
+            BackgroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, backgroundColor); ;
+            ForegroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, foregroundColor); ;
         }
 
         /// <summary>
@@ -85,25 +83,5 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         public ConsoleColor? BackgroundColor { get; set; }
 
-        #region Helpers
-
-        // Converts the given string into a ConsoleColor, returns null if it fails
-        private static ConsoleColor? GetConsoleColor(string consoleColorString)
-        {
-            ConsoleColor? result = null;
-
-            try
-            {
-                result = (ConsoleColor)Enum.Parse(ConsoleColorType, consoleColorString);
-            }
-            catch(Exception cause)
-            {
-                Trace.WriteLine(String.Format(CannotParseColorMessage, consoleColorString, cause));
-            }
-
-            return result;
-        }
-
-        #endregion
     }
 }
