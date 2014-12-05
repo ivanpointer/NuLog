@@ -64,8 +64,8 @@ namespace NuLog.Configuration.Targets
                 ? tags.ToList()
                 : new List<string>();
 
-            BackgroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, backgroundColor); ;
-            ForegroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, foregroundColor); ;
+            BackgroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, backgroundColor);
+            ForegroundColor = (ConsoleColor)Enum.Parse(ConsoleColorType, foregroundColor);
         }
 
         /// <summary>

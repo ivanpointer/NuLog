@@ -74,6 +74,7 @@
     <Compile Include="Dispatch\TargetKeeper.cs" />
     <Compile Include="Extenders\ExtenderBase.cs" />
     <Compile Include="Extenders\IExtender.cs" />
+    <Compile Include="Configuration\Extenders\TraceListenerConfig.cs" />
     <Compile Include="Extenders\TraceListenerExtender.cs" />
     <Compile Include="Extensions\Console\ConsoleLoggerExt.cs" />
     <Compile Include="Extensions\Email\EmailLogEventBuilder.cs" />

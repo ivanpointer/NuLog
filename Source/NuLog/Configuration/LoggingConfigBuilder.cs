@@ -6,6 +6,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
+using NuLog.Configuration.Extenders;
 using NuLog.Configuration.Targets;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace NuLog.Configuration
         private IList<TargetConfig> Targets { get; set; }
         private IList<RuleConfig> Rules { get; set; }
         private IList<TagGroupConfig> TagGroups { get; set; }
+        private IList<string> ConfigExtenders { get; set; }
+        private IList<string> StaticMetaDataProviders { get; set; }
+        private IList<ExtenderConfig> Extenders { get; set; }
         public Action<Exception, string> ExceptionHandler { get; set; }
         public bool Debug { get; set; }
 
@@ -32,6 +36,9 @@ namespace NuLog.Configuration
             Targets = new List<TargetConfig>();
             Rules = new List<RuleConfig>();
             TagGroups = new List<TagGroupConfig>();
+            ConfigExtenders = new List<string>();
+            StaticMetaDataProviders = new List<string>();
+            Extenders = new List<ExtenderConfig>();
             ExceptionHandler = null;
         }
 
@@ -90,6 +97,50 @@ namespace NuLog.Configuration
                 Tag = tag,
                 ChildTags = new List<string>(childTags)
             });
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the provided config extender to the configuration
+        /// </summary>
+        /// <param name="type">The config extender to add to the configuration</param>
+        /// <returns>This LoggingConfigBuilder</returns>
+        public LoggingConfigBuilder AddConfigExtender(string type)
+        {
+            ConfigExtenders.Add(type);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the provided static meta dat aprovider to the configuration
+        /// </summary>
+        /// <param name="type">The static meta data provider to add to the configuration</param>
+        /// <returns>This LoggingConfigBuilder</returns>
+        public LoggingConfigBuilder AddStaticMetaDataProvider(string type)
+        {
+            StaticMetaDataProviders.Add(type);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the provided extender config to the configuration
+        /// </summary>
+        /// <param name="extender">The extender config to add</param>
+        /// <returns>This LoggingConfigBuilder</returns>
+        public LoggingConfigBuilder AddExtender(ExtenderConfig extender)
+        {
+            Extenders.Add(extender);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the provided extender to the configuration
+        /// </summary>
+        /// <param name="type">The type of the extender to add</param>
+        /// <returns>This LoggingConfigBuilder</returns>
+        public LoggingConfigBuilder AddExtender(string type)
+        {
+            Extenders.Add(new ExtenderConfig(type));
             return this;
         }
 
