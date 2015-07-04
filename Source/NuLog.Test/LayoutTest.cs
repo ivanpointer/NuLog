@@ -126,11 +126,10 @@ namespace NuLog.Test
                 }
             }
 
-            string expected = String.Format(@"{0} | {1,4} | hello,world | Hello, World!
-NuLog.LoggingException: Outer exception
-   at NuLog.Test.LayoutTest.TestFactoryNoLayout() in ", now.ToString("MM/dd/yyyy hh:mm:ss.fff"), Thread.CurrentThread.ManagedThreadId);
-
-            Assert.IsTrue(actual.StartsWith(expected));
+            Assert.IsTrue(actual.Contains("hello,world"));
+            Assert.IsTrue(actual.Contains("Hello, World!"));
+            Assert.IsTrue(actual.Contains("NuLog.LoggingException: Outer exception"));
+            Assert.IsTrue(actual.Contains("at NuLog.Test.LayoutTest.TestFactoryNoLayout()"));
         }
 
         [TestMethod]
