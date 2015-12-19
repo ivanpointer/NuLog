@@ -23,12 +23,13 @@ namespace NuLog.SamplesLib.CustomizeSamples.S5_1_ConfigurationExtenders
 
         // Particular settings for our target and rule
         private const string MyCustomTargetName = "mefCustomConsole";
+
         private const string MyCustomRuleInclude = "mefCustomConsole";
 
         private const ConsoleColor MyCustomBackgroundColor = ConsoleColor.DarkRed;
         private const ConsoleColor MyCustomForegroundColor = ConsoleColor.White;
 
-        #endregion
+        #endregion Constants
 
         // ...
 

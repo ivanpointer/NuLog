@@ -37,7 +37,7 @@ namespace NuLog.Targets
             //  is to be written about logging the log event.  This is to prevent unwanted
             //  "feedback loops" when using a trace listener.  This is the one case where
             //  a target is actually completely silenced by this setting.
-            if(logEvent != null && logEvent.Silent == false)
+            if (logEvent != null && logEvent.Silent == false)
                 Trace.Write(Layout.FormatLogEvent(logEvent));
         }
     }

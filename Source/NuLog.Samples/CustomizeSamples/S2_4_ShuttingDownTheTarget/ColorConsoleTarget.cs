@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
 {
-
     /// <summary>
     /// A sample class used to illustrate creating custom targets.  The narrative for this
     /// can be found at:
@@ -32,9 +31,10 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
 
         // A couple constants for our meta data keys
         public const string BackgroundColorMeta = "ColorConsoleBackground";
+
         public const string ForegroundColorMeta = "ColorConsoleForeground";
 
-        #endregion
+        #endregion Constants
 
         // Our ColorConfig
         public ColorConsoleTargetConfig ColorConfig { get; set; }
@@ -95,7 +95,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
                 }
                 catch
                 {
-                    if(!silent)
+                    if (!silent)
                         Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
@@ -115,7 +115,5 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
                 return base.Shutdown();
             }
         }
-
     }
 }
-

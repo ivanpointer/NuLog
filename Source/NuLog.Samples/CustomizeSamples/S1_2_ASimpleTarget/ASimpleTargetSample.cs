@@ -15,13 +15,12 @@ namespace NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget
     /// </summary>
     public class ASimpleTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public ASimpleTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

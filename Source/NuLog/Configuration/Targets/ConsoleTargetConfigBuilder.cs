@@ -22,14 +22,17 @@ namespace NuLog.Configuration.Targets
         /// Represents the name of the target
         /// </summary>
         protected string Name { get; set; }
+
         /// <summary>
         /// Represents the synchronous flag of the target
         /// </summary>
         protected bool? Synchronous { get; set; }
+
         /// <summary>
         /// Represents the layout configuration of the target
         /// </summary>
         protected LayoutConfig LayoutConfig { get; set; }
+
         /// <summary>
         /// Represents the color rules of the target
         /// </summary>
@@ -162,6 +165,7 @@ namespace NuLog.Configuration.Targets
         /// Returns a ConsoleColor based on the given string representation of the color
         /// </summary>
         private static readonly Type ConsoleColorType = typeof(ConsoleColor);
+
         private static ConsoleColor? GetColorByName(string colorName)
         {
             if (String.IsNullOrEmpty(colorName) == false)
@@ -175,7 +179,6 @@ namespace NuLog.Configuration.Targets
             return null;
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

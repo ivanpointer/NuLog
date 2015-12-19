@@ -23,7 +23,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
         // Wiring for the sample program (menu wiring)
         public ShuttingDownTheTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

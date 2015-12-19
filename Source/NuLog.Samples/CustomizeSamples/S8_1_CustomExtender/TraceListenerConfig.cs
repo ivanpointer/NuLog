@@ -19,14 +19,14 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
     /// </summary>
     public class TraceListenerConfig : ExtenderConfig
     {
-
         #region Constants/Members
 
         // The name of the tags configuration token in the JSON config
         public const string TagsTokenName = "tags";
-        
+
         // Defaults for this configuration
         public static readonly string DefaultType = typeof(TraceListenerExtender).FullName.ToString();
+
         public static readonly string[] DefaultTags = new string[] { "tracelistener" };
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
         /// </summary>
         public string[] TraceTags { get; set; }
 
-        #endregion
+        #endregion Constants/Members
 
         /// <summary>
         /// The default constructor setting this up with a "tracelistener" tag
@@ -77,7 +77,5 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
                 }
             }
         }
-
     }
 }
-

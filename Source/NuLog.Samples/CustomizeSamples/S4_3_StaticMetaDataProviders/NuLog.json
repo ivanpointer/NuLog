@@ -1,5 +1,4 @@
-﻿
-    {
+﻿    {
         "targets": [
             {
                 "name": "console",
@@ -16,4 +15,3 @@
 
         "staticMetaDataProviders": [ "NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders.StaticMetaDataProvider, NuLog.Samples" ]
     }
-

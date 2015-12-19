@@ -21,17 +21,19 @@ namespace NuLog.Dispatch
     /// </summary>
     public class TargetKeeper : IConfigObserver
     {
-
         #region Members and Constructors
 
         // Configuration
         private static readonly object _configLock = new object();
+
         private LoggingConfig LoggingConfig { get; set; }
 
         // Targets
         private static readonly object _targetLock = new object();
+
         private IDictionary<string, TargetBase> _targets;
         private IDictionary<string, ICollection<TargetBase>> _compiledTargets;
+
         public IDictionary<string, TargetBase> Targets
         {
             get
@@ -50,6 +52,7 @@ namespace NuLog.Dispatch
 
         // Ouside Stuff
         protected LogEventDispatcher Dispatcher { get; set; }
+
         public Action<Exception, string> ExceptionHandler { get; set; }
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace NuLog.Dispatch
             Dispatcher = dispatcher;
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Target Management
 
@@ -152,7 +155,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Target Management
 
         #region Configration and Shutdown
 
@@ -194,7 +197,7 @@ namespace NuLog.Dispatch
                                 {
                                     constructorInfo = targetType.GetConstructor(new Type[] { });
                                     newTarget = (TargetBase)constructorInfo.Invoke(null);
-                                    newTarget.Initialize(targetConfig, Dispatcher, loggingConfig.Synchronous ? (bool?) true : null);
+                                    newTarget.Initialize(targetConfig, Dispatcher, loggingConfig.Synchronous ? (bool?)true : null);
 
                                     RegisterTarget(newTarget);
                                 }
@@ -283,7 +286,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Configration and Shutdown
 
         #region Helpers
 
@@ -304,7 +307,6 @@ namespace NuLog.Dispatch
                 Trace.WriteLine(message);
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

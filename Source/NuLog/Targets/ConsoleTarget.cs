@@ -15,13 +15,12 @@ namespace NuLog.Targets
 {
     public class ConsoleTarget : LayoutTargetBase
     {
-
         #region Constants
-        
+
         public const string MetaForeground = "ConsoleForeground";
         public const string MetaBackground = "ConsoleBackground";
 
-        #endregion
+        #endregion Constants
 
         #region Members, Constructors, Initialization and Configuration
 
@@ -29,6 +28,7 @@ namespace NuLog.Targets
 
         // The parsed color rules and a cache: we cache the results of processing the rules, as it is expensive
         private ICollection<ConsoleColorRule> ColorRules { get; set; }
+
         private IDictionary<string, Tuple<ConsoleColor?, ConsoleColor?>> RuleCache { get; set; }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace NuLog.Targets
             Initialize(targetConfig);
         }
 
-        #endregion
+        #endregion Members, Constructors, Initialization and Configuration
 
         #region Logging
 
@@ -152,7 +152,7 @@ namespace NuLog.Targets
             }
         }
 
-        #endregion
+        #endregion Logging
 
         #region Helpers
 
@@ -173,7 +173,7 @@ namespace NuLog.Targets
                 ConsoleColor? backgroundColor = null;
                 ConsoleColor? foregroundColor = null;
 
-                // Iterate over the color rules, looking for a match based on 
+                // Iterate over the color rules, looking for a match based on
                 //  the tag keeper assocaited with the dispatcher.
                 if (ColorRules != null && ColorRules.Count > 0)
                 {
@@ -215,7 +215,6 @@ namespace NuLog.Targets
             return String.Join(",", tags);
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

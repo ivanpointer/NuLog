@@ -23,12 +23,13 @@ namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
 
         // Particular settings for our target and rule
         private const string MyCustomTargetName = "customConsole";
+
         private const string MyCustomRuleInclude = "*";
 
         private const ConsoleColor MyCustomBackgroundColor = ConsoleColor.DarkBlue;
         private const ConsoleColor MyCustomForegroundColor = ConsoleColor.White;
 
-        #endregion
+        #endregion Constants
 
         public void UpdateConfig(LoggingConfig loggingConfig)
         {

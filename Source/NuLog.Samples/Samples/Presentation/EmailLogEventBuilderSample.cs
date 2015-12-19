@@ -13,23 +13,25 @@ namespace NuLog.Samples.Samples.Presentation
 {
     public class EmailLogEventBuilderSample : SampleBase
     {
-        public EmailLogEventBuilderSample(string section, string sample) : base(section, sample) { }
+        public EmailLogEventBuilderSample(string section, string sample) : base(section, sample)
+        {
+        }
 
         public override void ExecuteSample()
         {
-
             var logger = LoggerFactory.GetLogger();
 
             logger.Log(EmailLogEventBuilder.Create("Hello, World!", "mytag")
                 .AddToAddress("someguy@somewhere.org")
                 .AddCCAddress("someotherguy@somewhere.org")
-                .AddAttachment(new EmailAttachment {
+                .AddAttachment(new EmailAttachment
+                {
                     PhysicalFileName = "mytextfile.txt",
-                    AttachmentFileName = "renamed.txt" })
+                    AttachmentFileName = "renamed.txt"
+                })
                 .SetSubject("Hello, Subject!")
                 .SetHeader("someheader", "headervalue")
                 .Build());
-
         }
     }
 }

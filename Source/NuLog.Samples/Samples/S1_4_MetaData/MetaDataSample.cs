@@ -22,7 +22,7 @@ namespace NuLog.Samples.Samples.S1_4_MetaData
         // Wiring for the sample program (menu wiring)
         public MetaDataSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()

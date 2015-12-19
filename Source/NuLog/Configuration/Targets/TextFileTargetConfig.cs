@@ -23,10 +23,12 @@ namespace NuLog.Configuration.Targets
         /// No rolover policy
         /// </summary>
         None,
+
         /// <summary>
         /// Rollover based on size
         /// </summary>
         Size,
+
         /// <summary>
         /// Rollover daily
         /// </summary>
@@ -38,8 +40,8 @@ namespace NuLog.Configuration.Targets
     /// </summary>
     public class TextFileTargetConfig : LayoutTargetConfig
     {
-
         #region Constants
+
         public const string FileNameTokenName = "fileName";
         public const string OldFileNamePatternTokenName = "oldFileNamePattern";
         public const string RolloverPolicyTokenName = "rolloverPolicy";
@@ -74,36 +76,43 @@ namespace NuLog.Configuration.Targets
             { 3, CompressionLevel.Optimal }
         };
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// The path/name of the file to log to
         /// </summary>
         public string FileName { get; set; }
+
         /// <summary>
         /// The pattern to use for naming the rolled over log files
         /// </summary>
         public string OldFileNamePattern { get; set; }
+
         /// <summary>
         /// The rollover policy to use for the text file
         /// </summary>
         public RolloverPolicy RolloverPolicy { get; set; }
+
         /// <summary>
         /// The size of the file to trigger rollover in a "Size" rollover policy
         /// </summary>
         public long RolloverTrigger { get; set; }
+
         /// <summary>
         /// The maximum number of files to keep when rolling over
         /// </summary>
         public int OldFileLimit { get; set; }
+
         /// <summary>
         /// Whether or not to compress old log files when rolling over
         /// </summary>
         public bool CompressOldFiles { get; set; }
+
         /// <summary>
         /// The compression leve to use for compressing the files
         /// </summary>
         public CompressionLevel CompressionLevel { get; set; }
+
         /// <summary>
         /// An optional password to apply to the compressed log file
         /// </summary>
@@ -203,6 +212,7 @@ namespace NuLog.Configuration.Targets
         }
 
         #region Helpers
+
         /// <summary>
         /// Returns a ConsoleColor based on the given string representation of the color
         /// </summary>
@@ -214,6 +224,6 @@ namespace NuLog.Configuration.Targets
             return defVal;
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

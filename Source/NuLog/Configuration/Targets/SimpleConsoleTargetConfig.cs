@@ -11,7 +11,6 @@ using NuLog.Targets;
 
 namespace NuLog.Configuration.Targets
 {
-
     /// <summary>
     /// A bit of a "helper" class, making creating a configuraiton for the simple console target
     /// a bit easier at runtime

@@ -19,13 +19,12 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
     /// </summary>
     public class TextFileTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public TextFileTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()
@@ -65,7 +64,7 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
                     .SetCompressOldFiles(true)
                     .SetCompressionLevel(CompressionLevel.Optimal)
                     .SetCompressionPassword("helloworld")
-                    
+
                     .Build());
 
             LoggerFactory.Initialize(config);

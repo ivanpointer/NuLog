@@ -35,6 +35,7 @@ namespace NuLog
 
         // Messages
         private const string FailedConfigBuilderMessage = "Failed to configure using the provided config builder {0}, cause: {1}";
+
         private const string ConfigurationFailedUsingDefaultsMessage = "Configuration failed, using default configuration";
         private const string ConfigLoadFailureMessage = "Failure loading config: {0}:\r\n{1}";
         private const string ShutdownDispatcherFailureMessage = "Failed to shutdown the existing dispatcher due to error {0}";
@@ -48,15 +49,17 @@ namespace NuLog
 
         // Functional Values
         private const string TraceConfigCategory = "config";
+
         private const string NullString = "NULL";
         private const int DefaultExtenderShutdownTimeout = 5000;
 
-        #endregion
+        #endregion Constants
 
         #region Members and Constructors
 
         // Used for general locking on the factory level
         private static readonly object _factoryLock = new object();
+
         // Setting up the lazy singleton pattern
         private static readonly Lazy<LoggerFactory> Instance = new Lazy<LoggerFactory>(() =>
         { return new LoggerFactory(); });
@@ -67,6 +70,7 @@ namespace NuLog
         /// </summary>
         [ImportMany(typeof(ILoggingConfigExtender))]
         private IEnumerable<ILoggingConfigExtender> MEFConfigExtenders { get; set; }
+
         private IList<ILoggingConfigExtender> ConfigExtenders { get; set; }
 
         /// <summary>
@@ -130,7 +134,7 @@ namespace NuLog
             NamedLoggers = new Dictionary<string, LoggerBase>();
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Initialization Methods
 
@@ -234,7 +238,7 @@ namespace NuLog
 
                     // Start the extenders
                     instance.StartExtenders(instance.LogEventDispatcher);
-                    
+
                     // Mark us as initialized
                     instance.Initialized = true;
                 }
@@ -393,8 +397,8 @@ namespace NuLog
         // Shutdown the extenders
         private void ShutdownExtenders()
         {
-            if(Extenders != null)
-                foreach(var extender in Extenders)
+            if (Extenders != null)
+                foreach (var extender in Extenders)
                 {
                     try
                     {
@@ -463,7 +467,7 @@ namespace NuLog
             // Load MEF Extenders
             try
             {
-                if(MEFConfigExtenders != null)
+                if (MEFConfigExtenders != null)
                     foreach (var extender in MEFConfigExtenders)
                         ConfigExtenders.Add(extender);
             }
@@ -535,7 +539,7 @@ namespace NuLog
         /// exits anyways, so this is simply provided as a convenience if
         /// the case arises that a developer needs to shut down logging
         /// separately from the implementing application.
-        /// 
+        ///
         /// As a caveat, if the logging framework hasn't been initialized
         /// yet, this will startup the logging framework before shutting
         /// it down.
@@ -556,7 +560,7 @@ namespace NuLog
             }
         }
 
-        #endregion
+        #endregion Initialization Methods
 
         #region Loggers
 
@@ -668,7 +672,7 @@ namespace NuLog
             };
         }
 
-        #endregion
+        #endregion Loggers
 
         #region Helpers
 
@@ -684,12 +688,10 @@ namespace NuLog
             if (ExceptionHandler != null)
                 ExceptionHandler.Invoke(e, message);
             else
-                if(logEventInfo == null || logEventInfo.Silent == false)
-                    Trace.WriteLine(message);
+                if (logEventInfo == null || logEventInfo.Silent == false)
+                Trace.WriteLine(message);
         }
 
-        #endregion
-
+        #endregion Helpers
     }
-
 }

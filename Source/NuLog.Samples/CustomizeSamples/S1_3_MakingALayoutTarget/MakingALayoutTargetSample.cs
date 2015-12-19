@@ -15,13 +15,12 @@ namespace NuLog.Samples.CustomizeSamples.S1_3_MakingALayoutTarget
     /// </summary>
     public class MakingALayoutTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public MakingALayoutTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

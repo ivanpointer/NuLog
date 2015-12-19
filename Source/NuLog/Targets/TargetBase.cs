@@ -10,12 +10,8 @@ using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
@@ -24,14 +20,13 @@ namespace NuLog.Targets
     /// </summary>
     public abstract class TargetBase
     {
-
         #region Constants
 
         private const string DefaultName = "TargetBase";
         private const bool DefaultSynchronousSetting = false;
         public const int DefaultShutdownTimeout = 30000; // 30 seconds
 
-        #endregion
+        #endregion Constants
 
         #region Members, Constructors, Initialization and Shutdown
 
@@ -39,6 +34,7 @@ namespace NuLog.Targets
         /// The name of the target.  Used to associate this target to the rules.
         /// </summary>
         public string Name { get; protected set; }
+
         /// <summary>
         /// Whether or not this target should handle log events synchronously
         /// </summary>
@@ -52,6 +48,7 @@ namespace NuLog.Targets
                 return DoShutdownThread;
             }
         }
+
         public bool IsShutdown
         {
             get
@@ -62,7 +59,7 @@ namespace NuLog.Targets
 
         // The dispatcher associated to this target
         protected LogEventDispatcher Dispatcher { get; private set; }
-        
+
         // The target configuration used to build this target
         protected TargetConfig BaseTargetConfig { get; private set; }
 
@@ -71,6 +68,7 @@ namespace NuLog.Targets
 
         // Worker thread for handling queued log events
         internal Thread _queueWorkerThread;
+
         protected bool DoShutdownThread { get; set; }
         protected bool IsThreadShutdown { get; set; }
 
@@ -147,7 +145,7 @@ namespace NuLog.Targets
             Initialize(targetConfig);
         }
 
-        #endregion
+        #endregion Members, Constructors, Initialization and Shutdown
 
         #region Internal Workings
 
@@ -176,9 +174,10 @@ namespace NuLog.Targets
             return Shutdown() && shutdownThreadResult;
         }
 
-        #endregion
+        #endregion Internal Workings
 
         #region Logging and Shutdown (Abstract and Virtual)
+
         /* These functions are setup to be overriden by implementing targets.
          * They provide everything needed for logging activities */
 
@@ -192,7 +191,7 @@ namespace NuLog.Targets
         /// Processes the log queue of events.  This is used for asynchronous logging.  The worker thread calls this function
         /// to handle queued log events.  The dispatcher is provided for access to the other parts of the framework that
         /// may be needed for logging purposes, for example, the tag keeper.
-        /// 
+        ///
         /// Override this function to provide advanced asynchronous logging logic.  By default, this function simply calls
         /// <see cref="Log" />.  Additional performance gains can be had, especially when using an external resource such
         /// as a file, database or service, by opening the handle/connection once and using it for each of the log events,
@@ -200,7 +199,7 @@ namespace NuLog.Targets
         /// taken for "playing nice", if you expect that processing the log events in this queue may be expensive in terms
         /// of CPU and cycles, consider processing a limited number of log events from the queue before breaking, releasing
         /// the control back to the system more curteously.
-        /// 
+        ///
         /// TODO: Consider removing the connection of the dispatcher in favor of the TagKeeper, reducing the coupling needed
         ///   and complexity.
         /// </summary>
@@ -238,7 +237,7 @@ namespace NuLog.Targets
             return true;
         }
 
-        #endregion
+        #endregion Logging and Shutdown (Abstract and Virtual)
 
         #region Worker Thread
 
@@ -329,7 +328,6 @@ namespace NuLog.Targets
             IsThreadShutdown = true;
         }
 
-        #endregion
-
+        #endregion Worker Thread
     }
 }

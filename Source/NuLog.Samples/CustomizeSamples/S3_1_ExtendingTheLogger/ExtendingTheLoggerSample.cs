@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
 {
@@ -19,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
     /// </summary>
     public class ExtendingTheLoggerSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public ExtendingTheLoggerSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

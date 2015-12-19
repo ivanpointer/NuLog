@@ -20,7 +20,6 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
     /// </summary>
     public class MyCustomConfigBuilder : ILoggingConfigBuilder
     {
-
         #region Constants
 
         public const string BackgroundColorKey = "S7_1_ConsoleBackground";
@@ -28,7 +27,7 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
 
         public const string AllTags = "*";
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// Builds our custom configuration, pulling the console colors from the app config

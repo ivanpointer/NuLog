@@ -18,9 +18,10 @@ namespace NuLog.MetaData
         #region Members and Constructors
 
         private IDictionary<Type, PropertyInfo[]> TypeCache { get; set; }
-        
+
         // Singleton
         private static readonly Lazy<MetaDataParser> _instance = new Lazy<MetaDataParser>(() => { return new MetaDataParser(); });
+
         private static MetaDataParser Instance
         {
             get
@@ -35,7 +36,7 @@ namespace NuLog.MetaData
             TypeCache = new Dictionary<Type, PropertyInfo[]>();
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Meta Data Parsing (Property Finding)
 
@@ -130,7 +131,7 @@ namespace NuLog.MetaData
             }
         }
 
-        #endregion
+        #endregion Meta Data Parsing (Property Finding)
 
         #region Helpers
 
@@ -157,6 +158,6 @@ namespace NuLog.MetaData
             }
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

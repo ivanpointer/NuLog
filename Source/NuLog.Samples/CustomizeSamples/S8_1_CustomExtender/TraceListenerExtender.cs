@@ -10,11 +10,8 @@ using NuLog.Configuration;
 using NuLog.Configuration.Extenders;
 using NuLog.Dispatch;
 using NuLog.Extenders;
-using NuLog.Targets;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
@@ -36,14 +33,16 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
 
             // Our constants, including a write lock to help keep our writing clean
             private static readonly object WriteLock = new object();
+
             private static readonly char[] Split = Environment.NewLine.ToCharArray();
-            
+
             // Our members, including a logger
             private static readonly LoggerBase _logger = LoggerFactory.GetLogger();
+
             private string[] _tags;
             private StringBuilder _stringBuilder;
 
-            #endregion
+            #endregion Constants/Members/Messages
 
             /// <summary>
             /// The only constructor.  Configures this trace listener based on
@@ -70,7 +69,7 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             public override void Write(string message)
             {
                 // Make sure that we have a message
-                if(String.IsNullOrEmpty(message) == false)
+                if (String.IsNullOrEmpty(message) == false)
                     lock (WriteLock)
                     {
                         // If the message has no newline, just queue it up
@@ -202,6 +201,5 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             }
             return base.Shutdown();
         }
-
     }
 }

@@ -1,11 +1,10 @@
-﻿
-    {
+﻿    {
         "targets": [
             {
                 "name": "console",
                 "type": "NuLog.Targets.ConsoleTarget",
                 "layout": "JSON File: ${Message}\r\n",
-                "colorRules": [ 
+                "colorRules": [
                     {
                         "tags": [ "error" ],
                         "foreground": "White",
@@ -27,4 +26,3 @@
             }
         ]
     }
-

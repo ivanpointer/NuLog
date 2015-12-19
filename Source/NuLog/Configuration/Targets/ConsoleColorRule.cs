@@ -9,22 +9,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
-    /// Represents a color rule 
+    /// Represents a color rule
     /// </summary>
     public class ConsoleColorRule
     {
-
         #region Constants
 
         private static readonly Type ConsoleColorType = typeof(ConsoleColor);
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// Default constructor.  Creates an empty color rule.
@@ -82,6 +80,5 @@ namespace NuLog.Configuration.Targets
         /// The background color applied by this rule
         /// </summary>
         public ConsoleColor? BackgroundColor { get; set; }
-
     }
 }

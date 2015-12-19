@@ -6,7 +6,6 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-using NuLog.Configuration.Layouts;
 using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using NuLog.Layouts;
@@ -25,7 +24,6 @@ namespace NuLog.Targets
     /// </summary>
     public class EmailTarget : TargetBase
     {
-
         #region Constants
 
         public const string ParseEmailAddressFailureMessage = "Failed to parse email address \"{0}\"";
@@ -39,20 +37,23 @@ namespace NuLog.Targets
         public const string MetaCC = "EmailCC";
         public const string MetaBCC = "EmailBCC";
 
-        #endregion
+        #endregion Constants
 
         #region Members, Constructors and Initialization
 
         // Configuration
         private static readonly object _configLock = new object();
+
         private EmailTargetConfig Config { get; set; }
 
         // Layouts
         private ILayout SubjectLayout { get; set; }
+
         private ILayout BodyLayout { get; set; }
 
         // Email Information (Defaults, can be overridden with Meta Data)
         private MailAddress FromAddress { get; set; }
+
         private ICollection<MailAddress> ReplyTo { get; set; }
         private ICollection<MailAddress> To { get; set; }
         private ICollection<MailAddress> CC { get; set; }
@@ -118,7 +119,7 @@ namespace NuLog.Targets
                             string fileContent = File.ReadAllText(Config.BodyFile);
                             BodyLayout = new StandardLayout(fileContent);
                         }
-                        catch(Exception cause)
+                        catch (Exception cause)
                         {
                             Trace.WriteLine(String.Format(FailedToLoadBodyFileMessage, Config.BodyFile, cause));
                             BodyLayout = new StandardLayout();
@@ -137,7 +138,7 @@ namespace NuLog.Targets
             }
         }
 
-        #endregion
+        #endregion Members, Constructors and Initialization
 
         #region Logging
 
@@ -163,7 +164,7 @@ namespace NuLog.Targets
 
                     // Setup the subject
                     SetSubject(logEvent, mailMessage);
-                    
+
                     // Setup the body
                     SetMessageBody(logEvent, mailMessage);
 
@@ -199,13 +200,12 @@ namespace NuLog.Targets
                             }
                             catch (Exception e)
                             {
-                                if(logEvent == null || logEvent.Silent == false)
+                                if (logEvent == null || logEvent.Silent == false)
                                     Trace.WriteLine(e);
                             }
                         }
                     }
                 }
-                
             }
         }
 
@@ -216,7 +216,7 @@ namespace NuLog.Targets
             //  If addresses are provided in the meta data, the addresses in the meta data are used exclusively
             //   otherwise, the addresses provided in the configuration are used
 
-            if(metaData != null && metaData.ContainsKey(metaDataKey))
+            if (metaData != null && metaData.ContainsKey(metaDataKey))
             {
                 var metaListRaw = metaData[metaDataKey];
                 if (metaListRaw != null && typeof(ICollection<string>).IsAssignableFrom(metaListRaw.GetType()))
@@ -295,7 +295,7 @@ namespace NuLog.Targets
             // the meta data, they are attached to the email.  If no attachments are provided in the
             // meta data, the configuration is checked for a single attachment (by file name), and that
             // is attached to the email.
-            
+
             if (logEvent.MetaData != null && logEvent.MetaData.ContainsKey(MetaAttachments))
             {
                 object emailAttachmentsObj = logEvent.MetaData[MetaAttachments];
@@ -315,7 +315,7 @@ namespace NuLog.Targets
                         }
                         else if (String.IsNullOrEmpty(emailAttachment.PhysicalFileName) == false)
                         {
-                            if(File.Exists(emailAttachment.PhysicalFileName))
+                            if (File.Exists(emailAttachment.PhysicalFileName))
                             {
                                 mailMessage.Attachments.Add(new Attachment(emailAttachment.PhysicalFileName)
                                 {
@@ -326,7 +326,7 @@ namespace NuLog.Targets
                             }
                             else
                             {
-                                if(logEvent == null || logEvent.Silent == false)
+                                if (logEvent == null || logEvent.Silent == false)
                                     Trace.WriteLine(String.Format(AttachmentNotFoundMessage, emailAttachment.PhysicalFileName));
                             }
                         }
@@ -347,7 +347,7 @@ namespace NuLog.Targets
             }
         }
 
-        #endregion
+        #endregion Logging
 
         #region Helpers
 
@@ -364,12 +364,11 @@ namespace NuLog.Targets
                         }
                         catch
                         {
-                            if(silent == false)
+                            if (silent == false)
                                 Trace.WriteLine(String.Format(ParseEmailAddressFailureMessage, address));
                         }
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

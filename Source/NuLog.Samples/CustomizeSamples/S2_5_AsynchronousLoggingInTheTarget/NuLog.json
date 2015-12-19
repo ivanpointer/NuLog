@@ -1,5 +1,4 @@
-﻿
-    {
+﻿    {
         "targets": [
             {
                 "name": "colorConsoleRed",
@@ -24,4 +23,3 @@
             }
         ]
     }
-

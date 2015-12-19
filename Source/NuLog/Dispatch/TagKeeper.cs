@@ -18,11 +18,11 @@ namespace NuLog.Dispatch
     /// </summary>
     public class TagKeeper : IConfigObserver
     {
-
         #region Members and Constructors
 
         // Once the tag groups are calculated, they are cached
         private static readonly object _tagLock = new object();
+
         private IDictionary<string, ICollection<string>> TagGroups { get; set; }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace NuLog.Dispatch
             TagGroups = new Dictionary<string, ICollection<string>>();
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Match Checking
 
@@ -103,10 +103,10 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Match Checking
 
         #region Configuration
-        
+
         /// <summary>
         /// Notifies this TagKeeper of a new logging config
         /// </summary>
@@ -119,7 +119,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Configuration
 
         #region Tag Groups
 
@@ -163,7 +163,6 @@ namespace NuLog.Dispatch
                     UpdateTagGroupsRecurse(tagGroups, FormatTag(tagGroupConfig.Tag), tagGroupConfig.ChildTags);
         }
 
-
         // Recurses over the tag groups to populate the child tags of a given tag
         private static void UpdateTagGroupsRecurse(IDictionary<string, ICollection<string>> tagGroups, string parentTag, ICollection<string> childTags)
         {
@@ -200,7 +199,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Tag Groups
 
         #region Helpers
 
@@ -279,7 +278,6 @@ namespace NuLog.Dispatch
             return tag.ToLower();
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

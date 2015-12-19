@@ -23,6 +23,7 @@ namespace NuLog.Samples.CustomizeSamples.S1_1_BasicAnatomyOfATarget
     {
         // Default settings
         private const string DefaultName = "colorConsole";
+
         private const bool DefaultSynchronous = true;
 
         // Initialize the target

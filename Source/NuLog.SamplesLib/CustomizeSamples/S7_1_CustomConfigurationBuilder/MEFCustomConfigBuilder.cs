@@ -21,7 +21,6 @@ namespace NuLog.SamplesLib.CustomizeSamples.S7_1_CustomConfigurationBuilder
     [Export(typeof(ILoggingConfigBuilder))]
     public class MEFCustomConfigBuilder : ILoggingConfigBuilder
     {
-
         #region Constants
 
         public const string ConsoleTargetName = "console";
@@ -31,7 +30,7 @@ namespace NuLog.SamplesLib.CustomizeSamples.S7_1_CustomConfigurationBuilder
 
         public const string RuleTag = "mefConfigBuilder";
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// Builds our custom configuration, pulling the console colors from the app config

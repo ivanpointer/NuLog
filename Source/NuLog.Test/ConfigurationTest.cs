@@ -1,12 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System.Threading;
-using System.Collections.Generic;
-using NuLog.Test.TestHarness;
 using NuLog.Configuration;
 using NuLog.Configuration.Targets;
+using NuLog.Test.TestHarness;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 namespace NuLog.Test
 {
@@ -17,6 +17,7 @@ namespace NuLog.Test
 
         private static readonly object _configFailLock = new object();
         private static bool _configFailed;
+
         private bool ConfigFailed
         {
             get
@@ -229,13 +230,13 @@ namespace NuLog.Test
                     streamWriter.WriteLine(line);
         }
 
-        #endregion
-
+        #endregion helpers
     }
 
     internal class ConfigFileCopy : IDisposable
     {
         private string _fileName;
+
         public string FileName
         {
             get
@@ -255,5 +256,4 @@ namespace NuLog.Test
             File.Delete(_fileName);
         }
     }
-
 }

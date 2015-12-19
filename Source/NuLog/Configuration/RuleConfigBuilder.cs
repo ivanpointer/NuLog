@@ -97,6 +97,5 @@ namespace NuLog.Configuration
         {
             return RuleConfig;
         }
-
     }
 }

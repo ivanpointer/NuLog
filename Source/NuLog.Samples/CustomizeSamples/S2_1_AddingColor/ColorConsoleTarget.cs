@@ -23,6 +23,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_1_AddingColor
 
         // Our colors
         public ConsoleColor BackgroundColor { get; set; }
+
         public ConsoleColor ForegroundColor { get; set; }
 
         // Setup our "default" colors
@@ -61,4 +62,3 @@ namespace NuLog.Samples.CustomizeSamples.S2_1_AddingColor
         }
     }
 }
-

@@ -24,6 +24,7 @@ namespace NuLog.MVC
         /// Key for the HTTP request in the meta data
         /// </summary>
         public const string HttpRequestMeta = "HttpRequest";
+
         /// <summary>
         /// Key for the HTTP session in the meta data
         /// </summary>
@@ -50,8 +51,8 @@ namespace NuLog.MVC
         {
             var metaData = new Dictionary<string, object>();
 
-            metaData[HttpRequestMeta] = (object) Request;
-            metaData[HttpSessionMeta] = (object) Session;
+            metaData[HttpRequestMeta] = (object)Request;
+            metaData[HttpSessionMeta] = (object)Session;
 
             return metaData;
         }

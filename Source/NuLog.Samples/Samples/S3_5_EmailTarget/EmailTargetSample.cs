@@ -22,13 +22,12 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
     /// </summary>
     public class EmailTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public EmailTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()
@@ -115,6 +114,5 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
 
             Console.Out.WriteLine("Sent fourth message: \"Hello from manual meta data\"");
         }
-
     }
 }

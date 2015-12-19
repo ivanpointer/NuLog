@@ -19,7 +19,7 @@ namespace NuLog.Samples.Samples.S1_3_TagGroups
         // Wiring for the sample program (menu wiring)
         public TagGroupsSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Execute our sample
         public override void ExecuteSample()

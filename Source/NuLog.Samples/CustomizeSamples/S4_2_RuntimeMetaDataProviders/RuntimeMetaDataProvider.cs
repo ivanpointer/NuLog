@@ -47,4 +47,3 @@ namespace NuLog.Samples.CustomizeSamples.S4_2_RuntimeMetaDataProviders
         }
     }
 }
-

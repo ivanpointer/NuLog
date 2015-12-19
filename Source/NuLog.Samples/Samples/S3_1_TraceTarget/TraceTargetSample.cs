@@ -18,13 +18,12 @@ namespace NuLog.Samples.Samples.S3_1_TraceTarget
     /// </summary>
     public class TraceTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public TraceTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()

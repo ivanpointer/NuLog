@@ -17,23 +17,28 @@ namespace NuLog.Configuration.Targets
     public class TargetConfig
     {
         #region Constants
+
         public const string NameTokenName = "name";
         public const string TypeTokenName = "type";
         public const string SynchronousTokenName = "synchronous";
-        #endregion
+
+        #endregion Constants
 
         /// <summary>
         /// The name of the target
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// The type of the target.  This is used to reflectively build the type.
         /// </summary>
         public string Type { get; set; }
+
         /// <summary>
         /// A flag that if true, signals to the framework to log events to this target synchronously
         /// </summary>
         public bool? Synchronous { get; set; }
+
         /// <summary>
         /// The JSON token for this config
         /// </summary>

@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S4_2_RuntimeMetaDataProviders
 {
@@ -19,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S4_2_RuntimeMetaDataProviders
     /// </summary>
     public class RuntimeMetaDataProvidersSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public RuntimeMetaDataProvidersSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

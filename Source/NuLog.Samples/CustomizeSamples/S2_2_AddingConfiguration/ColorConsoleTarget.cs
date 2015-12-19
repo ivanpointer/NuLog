@@ -79,4 +79,3 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
         }
     }
 }
-

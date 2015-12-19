@@ -17,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
     /// </summary>
     public class CustomExtenderSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public CustomExtenderSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()
@@ -37,6 +36,5 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             Trace.WriteLine("Hello, World!");
             Debug.WriteLine("Hello, Debug!");
         }
-
     }
 }

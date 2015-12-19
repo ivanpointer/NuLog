@@ -24,6 +24,7 @@ namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
 
         // Particular settings for our target and rule
         private const string MyCustomTargetName = "mefCustomConsole";
+
         private const string MyCustomRuleInclude = "mefCustomConsole";
 
         private const ConsoleColor MyCustomBackgroundColor = ConsoleColor.DarkRed;
@@ -31,7 +32,7 @@ namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
 
         // ...
 
-        #endregion
+        #endregion Constants
 
         public void UpdateConfig(LoggingConfig loggingConfig)
         {

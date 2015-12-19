@@ -6,10 +6,6 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
 {
     /// <summary>
@@ -19,13 +15,12 @@ namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
     /// </summary>
     public class ConfigurationExtendersSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public ConfigurationExtendersSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

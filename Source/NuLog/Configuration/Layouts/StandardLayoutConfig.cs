@@ -1,6 +1,7 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 11/15/2014
+ * Updated: 7/4/2015
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
  * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
@@ -8,7 +9,6 @@
 
 using Newtonsoft.Json.Linq;
 using NuLog.Layouts;
-using System;
 
 namespace NuLog.Configuration.Layouts
 {
@@ -20,13 +20,16 @@ namespace NuLog.Configuration.Layouts
         /// <summary>
         /// The default layout format
         /// </summary>
-        public const String DefaultFormat = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
+        public const string DefaultFormat = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
 
         /// <summary>
         /// The string format of the layout.
         /// </summary>
         public string Format { get; set; }
 
+        /// <summary>
+        /// Builds a StandardLayout config with the default format
+        /// </summary>
         public StandardLayoutConfig()
             : base()
         {
@@ -68,5 +71,4 @@ namespace NuLog.Configuration.Layouts
             }
         }
     }
-
 }

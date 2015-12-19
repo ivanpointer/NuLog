@@ -17,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
     /// </summary>
     public class CustomConfigBuilderSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public CustomConfigBuilderSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()
@@ -54,6 +53,5 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
             var logger = LoggerFactory.GetLogger();
             logger.LogNow("MEF config builder!", MEFCustomConfigBuilder.RuleTag);
         }
-
     }
 }

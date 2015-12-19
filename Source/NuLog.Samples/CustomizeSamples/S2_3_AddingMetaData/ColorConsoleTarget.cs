@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
 {
-
     /// <summary>
     /// A sample class used to illustrate creating custom targets.  The narrative for this
     /// can be found at:
@@ -32,9 +31,10 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
 
         // A couple constants for our meta data keys
         public const string BackgroundColorMeta = "ColorConsoleBackground";
+
         public const string ForegroundColorMeta = "ColorConsoleForeground";
 
-        #endregion
+        #endregion Constants
 
         // Our ColorConfig
         public ColorConsoleTargetConfig ColorConfig { get; set; }
@@ -96,7 +96,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
                 catch
                 {
                     // Prevent feedback loops:
-                    if(!silent)
+                    if (!silent)
                         Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
@@ -104,7 +104,5 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
             // If we didn't get it from the meta data, return the passed default
             return defaultColor;
         }
-
     }
 }
-

@@ -31,18 +31,22 @@ namespace NuLog.Configuration
         /// The list of tags to include in the matching rule.  Allows for * wild cards.
         /// </summary>
         public ICollection<string> Include { get; set; }
+
         /// <summary>
         /// Determines if all tags listed in "Include" must be present in the log event for it to be considered a match
         /// </summary>
         public bool StrictInclude { get; set; }
+
         /// <summary>
         /// A list of tags to explicitly exclude from the rule
         /// </summary>
         public ICollection<string> Exclude { get; set; }
+
         /// <summary>
         /// A list of target names to delegate matching log events to
         /// </summary>
         public ICollection<string> WriteTo { get; set; }
+
         /// <summary>
         /// Indicates whether further rules are to be processed if the log event matches this rule
         /// </summary>

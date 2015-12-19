@@ -7,6 +7,7 @@
  */
 
 using System;
+
 namespace NuLog.Samples.Samples.S1_2_TagsRules
 {
     /// <summary>
@@ -21,7 +22,7 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
         // Wiring for the sample program (menu wiring)
         public TagsRulesSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()
@@ -70,7 +71,7 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
             {
                 throw new Exception("I am an error!");
             }
-            catch(Exception cause)
+            catch (Exception cause)
             {
                 logger.LogNow("I caught an exception!", cause);
             }

@@ -31,14 +31,16 @@ namespace NuLog.Extenders
 
             // Our constants, including a write lock to help keep our writing clean
             private static readonly object WriteLock = new object();
+
             private static readonly char[] Split = Environment.NewLine.ToCharArray();
 
             // Our members, including a logger
             private static readonly LoggerBase _logger = LoggerFactory.GetLogger();
+
             private string[] _tags;
             private StringBuilder _stringBuilder;
 
-            #endregion
+            #endregion Constants/Members/Messages
 
             /// <summary>
             /// The only constructor.  Configures this trace listener based on
@@ -197,6 +199,5 @@ namespace NuLog.Extenders
             }
             return base.Shutdown();
         }
-
     }
 }

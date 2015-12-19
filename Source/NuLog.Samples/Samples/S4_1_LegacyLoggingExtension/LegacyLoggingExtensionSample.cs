@@ -17,13 +17,12 @@ namespace NuLog.Samples.Samples.S4_1_LegacyLoggingExtension
     /// </summary>
     public class LegacyLoggingExtensionSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public LegacyLoggingExtensionSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Example using the legacy logging extension
         public override void ExecuteSample()

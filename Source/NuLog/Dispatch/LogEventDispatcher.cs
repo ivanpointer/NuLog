@@ -1,12 +1,6 @@
 ﻿/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/7/2014
- * Updated: 11/13/2014
- * Changes: Removed MEF functionality for static meta dat aproviders and added it to the configuration.
- *   This allows developers to only activate the static meta data providers they whish
- *   to be active, as opposed to getting all of the ones in scope.
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -17,7 +11,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -30,25 +23,24 @@ namespace NuLog.Dispatch
     /// to the intended targets based on the configuration, the
     /// "Man behind the curtain"
     /// Also responsible for managing the targets.
-    /// 
+    ///
     /// while the logging framework is designed to be quite simple,
-    /// the dispatcher is the most complex 
+    /// the dispatcher is the most complex
     /// </summary>
     public class LogEventDispatcher : IConfigObserver
     {
         #region Constants
+
         // Messages
-        private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
+        private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occurred: \"{1}\"";
+
         private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
         private const string TypeNotFoundMessage = "Type not found for \"{0}\"";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
-        /// <summary>
-        /// The default timeout for shutting down the framework
-        /// </summary>
-        public const int DefaultShutdownTimeout = 30000; //30 seconds
-        #endregion
+
+        #endregion Constants
 
         #region Members and Constructors
 
@@ -64,6 +56,7 @@ namespace NuLog.Dispatch
         //  They handle the inner-workings of the different subjects,
         //  Tags, Targets and Rules
         public TagKeeper TagKeeper { get; private set; }
+
         public TargetKeeper TargetKeeper { get; set; }
         public RuleKeeper RuleKeeper { get; private set; }
 
@@ -72,6 +65,7 @@ namespace NuLog.Dispatch
         //  the thread to return quickly, while a background thread works
         //  to process the queued actions and log events
         internal ConcurrentQueue<Action> ActionQueue { get; set; }
+
         internal ConcurrentQueue<LogEvent> LogQueue { get; set; }
 
         // This is used to cache the results of a given set of tags.  Once
@@ -80,38 +74,20 @@ namespace NuLog.Dispatch
         //  changes, at which point this cache will be cleared
         private IDictionary<string, ICollection<TargetBase>> TargetCache { get; set; }
 
-        // Internal variables used for the worker thread that processes
-        //  the log event and action queues.  Helps with controlling
-        //  the startup and shutdown of the thread
-        internal Thread _queueWorkerThread;
-        internal bool DoShutdownThread { get; set; }
-        internal bool IsThreadShutdown { get; set; }
+        // The timer used to execute processing of the logging queue, and the lock to protect it
+        internal Timer _timer;
 
-        // Status variables used to communicate shutdown status
-        //  with the internal worker thread and external implementing applications
-        protected bool IsShuttingDown
-        {
-            get
-            {
-                return DoShutdownThread;
-            }
-        }
-        protected bool IsShutdown
-        {
-            get
-            {
-                return IsThreadShutdown;
-            }
-        }
+        internal static readonly object _timerLock = new object();
 
         // The exception handler to pass exceptions to.  This is optional and is used for debugging purposes
         //  providing a way for implementing applications to have visibility into exceptions that
         //  occur inside of the logging framework
         private Action<Exception, string> ExceptionHandler { get; set; }
 
-        // The static metadata providers are used to automatically append static
+        // The static meta data providers are used to automatically append static
         //  information to the log events, such as machine name or environment
         private IList<IMetaDataProvider> StaticMetaDataProviders { get; set; }
+
         private bool StaticMetaDataProvidersLoaded { get; set; }
 
         /// <summary>
@@ -135,80 +111,51 @@ namespace NuLog.Dispatch
             NewConfig(initialConfig);
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Startup and Shutdown
 
         /// <summary>
-        /// Signals to the dispatcher that it is to shutdown
+        /// Signals to the dispatcher that it is to shutdown.
         /// </summary>
-        /// <param name="timeout">The amount of time in milliseconds that the dispatcher should limit itself to in shutting down</param>
-        /// <returns>Whether or not the dispatcher successfully shut down in the time allocated</returns>
-        public bool Shutdown(int timeout = DefaultShutdownTimeout)
+        /// <returns>Whether or not the dispatcher shut down cleanly.</returns>
+        public bool Shutdown()
         {
-            bool threadResult = ShutdownThread(timeout);
-
-            TargetKeeper.Shutdown();
-
-            return threadResult;
+            return ShutdownThread();
         }
 
         // Starts up the worker thread if it is not already started
         private void StartupThread()
         {
-            DoShutdownThread = false;
-
-            if (_queueWorkerThread == null || _queueWorkerThread.IsAlive == false)
+            lock (_timerLock)
             {
-                _queueWorkerThread = new Thread(new ThreadStart(this.QueueWorkerThread))
-                {
-                    IsBackground = true,
-                    Priority = ThreadPriority.Lowest,
-                    Name = "NuLog event dispatcher queue thread"
-                };
-                _queueWorkerThread.Start();
-
-                IsThreadShutdown = false;
+                if (_timer == null)
+                    _timer = new Timer(QueueWorkerThread, this, TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(500));
             }
         }
 
         // Shuts down the worker thread if it is started
-        private bool ShutdownThread(int timeout = DefaultShutdownTimeout, Stopwatch stopwatch = null)
+        private bool ShutdownThread()
         {
-            bool result = false;
-            if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
+            // Protect the timer
+            lock (_timerLock)
             {
-                // Signal to the thread to shutdown
-                Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
-                DoShutdownThread = true;
-
-                // Make sure we are tracking the time shutting down
-                if (stopwatch == null)
+                if (_timer != null)
                 {
-                    stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                }
+                    // Signal to the thread to shutdown
+                    Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
 
-                // Wait for the thread to shutdown, or the timeout to elapse
-                while (_queueWorkerThread.IsAlive && stopwatch.ElapsedMilliseconds <= timeout)
-                {
-                    if (IsThreadShutdown)
-                    {
-                        result = true;
-                        break;
-                    }
-                    Thread.Yield();
+                    // Wait for the thread to shutdown, or the timeout to elapse
+                    _timer.Dispose();
+                    _timer = null;
                 }
             }
-            else
-            {
-                result = true;
-            }
 
-            return result;
+            // No conditionals
+            return true;
         }
 
-        #endregion
+        #endregion Startup and Shutdown
 
         #region Logging
 
@@ -237,61 +184,59 @@ namespace NuLog.Dispatch
         /// <param name="action">The action to process</param>
         public void Log(Action action)
         {
-            // default to asynchronous handling, unless overriden in the configuration
+            // default to asynchronous handling, unless overridden in the configuration
             if (!LoggingConfig.Synchronous)
             {
                 // Enqueue the action for the worker thread to handle
-                ActionQueue.Enqueue(action);                
+                ActionQueue.Enqueue(action);
             }
             else
             {
-                // If we are overriden to synchronous logging, process the action now
+                // If we are overridden to synchronous logging, process the action now
                 action();
             }
         }
 
         // This is the method body of the worker thread
-        private void QueueWorkerThread()
+        private static void QueueWorkerThread(object dispatcherInstance)
         {
             Action action;
             LogEvent logEvent;
+            LogEventDispatcher dispatcher = dispatcherInstance as LogEventDispatcher;
 
-            // Keep running while until the shutdown thread flag has been set
-            while (!DoShutdownThread || ActionQueue.IsEmpty == false || LogQueue.IsEmpty == false)
+            // Only lock and loop if there is anything to process
+            if (dispatcher.ActionQueue.IsEmpty == false || dispatcher.LogQueue.IsEmpty == false)
             {
-                // Process all of the actions
-                while (ActionQueue.IsEmpty == false)
+                lock (_timerLock)
                 {
-                    if (ActionQueue.TryDequeue(out action))
+                    // Process all of the actions
+                    while (dispatcher.ActionQueue.IsEmpty == false)
                     {
-                        action();
+                        if (dispatcher.ActionQueue.TryDequeue(out action))
+                        {
+                            action();
+                        }
+                    }
+
+                    // Then process all of the log events
+                    while (dispatcher.LogQueue.IsEmpty == false)
+                    {
+                        if (dispatcher.LogQueue.TryDequeue(out logEvent))
+                        {
+                            // Update the log event's meta data with any static meta data providers
+                            dispatcher.ExecuteStaticMetaDataProviders(logEvent);
+
+                            // Determine which targets the log event needs to be dispatched to
+                            var targets = dispatcher.GetTargetsForTags(logEvent.Tags);
+
+                            // Dispatch the log event to the targets
+                            if (targets != null)
+                                foreach (var target in targets)
+                                    target.Enqueue(logEvent);
+                        }
                     }
                 }
-
-                // Then process all of the log events
-                while (LogQueue.IsEmpty == false)
-                {
-                    if (LogQueue.TryDequeue(out logEvent))
-                    {
-                        // Update the log event's meta data with any static meta data providers
-                        ExecuteStaticMetaDataProviders(logEvent);
-
-                        // Determine which targets the log event needs to be dispatched to
-                        var targets = GetTargetsForTags(logEvent.Tags);
-
-                        // Dispatch the log event to the targets
-                        if (targets != null)
-                            foreach (var target in targets)
-                                target.Enqueue(logEvent);
-                    }
-                }
-
-                // Be kind, please rewind
-                Thread.Yield();
             }
-
-            // Signal that the thread has broken out of its execution loop
-            IsThreadShutdown = true;
         }
 
         /// <summary>
@@ -319,7 +264,7 @@ namespace NuLog.Dispatch
                 }
         }
 
-        #endregion
+        #endregion Logging
 
         #region Configuration
 
@@ -347,7 +292,7 @@ namespace NuLog.Dispatch
             // Load Our Static Meta Data Providers
             LoadStaticMetaDataProviders();
 
-            // Notify our dependants of the new config
+            // Notify our dependents of the new config
             lock (LoggingLock)
             {
                 // Notify the different keepers of the new config
@@ -375,7 +320,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Configuration
 
         #region Meta Data Providers
 
@@ -395,7 +340,7 @@ namespace NuLog.Dispatch
                 {
                     try
                     {
-                        // Pull the type and and constructor for the provider, by name
+                        // Pull the type and constructor for the provider, by name
                         providerType = Type.GetType(providerFullName);
                         if (providerType != null)
                         {
@@ -442,8 +387,8 @@ namespace NuLog.Dispatch
                     }
                     catch (Exception ex)
                     {
-                        if(logEvent == null || logEvent.Silent == false)
-                            Trace.WriteLine(String.Format("Failure executing static metadata provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
+                        if (logEvent == null || logEvent.Silent == false)
+                            Trace.WriteLine(String.Format("Failure executing static meta data provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
                     }
                 }
             }
@@ -463,7 +408,7 @@ namespace NuLog.Dispatch
                 : secondaryValue;
         }
 
-        #endregion
+        #endregion Meta Data Providers
 
         #region Helpers
 
@@ -505,8 +450,8 @@ namespace NuLog.Dispatch
             if (ExceptionHandler != null)
                 ExceptionHandler.Invoke(e, message);
             else
-                if(logEventInfo == null || logEventInfo.Silent == false)
-                    Trace.WriteLine(message);
+                if (logEventInfo == null || logEventInfo.Silent == false)
+                Trace.WriteLine(message);
         }
 
         // Helper function for flattening strings into a single string
@@ -515,6 +460,6 @@ namespace NuLog.Dispatch
             return String.Join(",", stringCollection.ToArray());
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

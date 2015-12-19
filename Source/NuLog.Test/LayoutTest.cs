@@ -5,7 +5,6 @@ using NuLog.Layouts;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 
 namespace NuLog.Test
 {
@@ -188,7 +187,6 @@ namespace NuLog.Test
                 return streamReader.ReadToEnd();
         }
 
-        #endregion
-
+        #endregion helpers
     }
 }

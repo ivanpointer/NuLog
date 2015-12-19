@@ -44,7 +44,7 @@ namespace NuLog.Layouts
         /// The broken-down name of the parameter.  Used to drill down through the log event to find the value.
         /// </summary>
         public ICollection<string> NameList { get; set; }
-        
+
         /// <summary>
         /// Standard constructor.  Defaults to "false" as a "StaticText", and initializes the name lest to an empty list
         /// </summary>

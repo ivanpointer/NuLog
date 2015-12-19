@@ -6,8 +6,6 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-using NuLog;
-
 namespace NuLog.Samples.Samples.S1_1_HelloWorld
 {
     /// <summary>
@@ -18,7 +16,7 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
     /// The narration for this sample is found at:
     /// https://github.com/ivanpointer/NuLog/wiki/1.1-Hello-World
     /// </summary>
-    class HelloWorldSample : SampleBase
+    internal class HelloWorldSample : SampleBase
     {
         // The logger
         private static readonly LoggerBase _logger = LoggerFactory.GetLogger();
@@ -28,7 +26,7 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
         // Wiring for the sample program (menu wiring)
         public HelloWorldSample(string section, string sampleName) : base(section, sampleName) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()
@@ -41,7 +39,5 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
             _logger.Log("Log Later!");
             _logger.LogNow("Log Now!");
         }
-        
     }
 }
-

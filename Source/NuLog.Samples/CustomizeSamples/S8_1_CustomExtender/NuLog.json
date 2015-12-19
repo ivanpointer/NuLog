@@ -1,5 +1,4 @@
-﻿
-{
+﻿{
     "targets": [
         {
             "name": "console",
@@ -25,4 +24,3 @@
         "tags": "tracelistener"
     }
 }
-

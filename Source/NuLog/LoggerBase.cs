@@ -20,15 +20,14 @@ namespace NuLog
     /// </summary>
     public abstract class LoggerBase
     {
-
         #region Constants
 
         /// <summary>
         /// The default tag used for exceptions
         /// </summary>
         public const string ExceptionTag = "exception";
-        
-        #endregion
+
+        #endregion Constants
 
         #region Methods and Constructors
 
@@ -43,7 +42,7 @@ namespace NuLog
         /// A meta data provider for providing meta data for log events that pass through the logger
         /// </summary>
         public IMetaDataProvider MetaDataProvider { get; set; }
-        
+
         /// <summary>
         /// Builds the standard base logger, attached to the given dispatcher
         /// </summary>
@@ -65,9 +64,10 @@ namespace NuLog
             DefaultTags = defaultTags;
         }
 
-        #endregion
+        #endregion Methods and Constructors
 
         #region Asynchronous Logging
+
         /* The strategy for asynchronous logging is to keep the load of generating
          * the log event to a minimum and to push as much work as is reasonably
          * possible off onto the dispatcher.  This is done by putting the efforts
@@ -76,7 +76,7 @@ namespace NuLog
          * the stack frame for the log event.  This is minimized by having the
          * framework default to a "non-debug" mode, where the stack frame isn't
          * needed, making the stack frame "optional".
-         * 
+         *
          * In a future release, the stack frame aquizition should be moved into
          * a separate function and wrapped in a compiler directive, so that
          * a "portable class library" can be built for the logging framework,
@@ -191,7 +191,7 @@ namespace NuLog
             }));
         }
 
-        #endregion
+        #endregion Asynchronous Logging
 
         #region Synchronous Logging
 
@@ -294,7 +294,7 @@ namespace NuLog
             });
         }
 
-        #endregion
+        #endregion Synchronous Logging
 
         #region Helpers
 
@@ -347,7 +347,6 @@ namespace NuLog
             return combinedTags.Distinct().ToArray();
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

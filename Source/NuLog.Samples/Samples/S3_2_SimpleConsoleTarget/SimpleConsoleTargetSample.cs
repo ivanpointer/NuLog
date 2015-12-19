@@ -18,13 +18,12 @@ namespace NuLog.Samples.Samples.S3_2_SimpleConsoleTarget
     /// </summary>
     public class SimpleConsoleTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public SimpleConsoleTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()
@@ -41,7 +40,7 @@ namespace NuLog.Samples.Samples.S3_2_SimpleConsoleTarget
             var jsonLogger = LoggerFactory.GetLogger();
             jsonLogger.LogNow("Hello from JSON config!");
         }
-        
+
         // Example using runtime configuration
         private void ExecuteRuntime()
         {

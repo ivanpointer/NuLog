@@ -18,7 +18,6 @@ namespace NuLog.Extensions.Email
     /// </summary>
     public class EmailLogEventBuilder
     {
-
         #region Members and Constructors
 
         protected LogEvent LogEvent { get; set; }
@@ -144,7 +143,7 @@ namespace NuLog.Extensions.Email
             };
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Email Settings
 
@@ -243,7 +242,7 @@ namespace NuLog.Extensions.Email
             return this;
         }
 
-        #endregion
+        #endregion Email Settings
 
         #region Build
 
@@ -279,7 +278,6 @@ namespace NuLog.Extensions.Email
             return LogEvent;
         }
 
-        #endregion
-
+        #endregion Build
     }
 }

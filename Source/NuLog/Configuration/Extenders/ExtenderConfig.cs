@@ -15,7 +15,6 @@ namespace NuLog.Configuration.Extenders
     /// </summary>
     public class ExtenderConfig
     {
-
         #region Constants/Members
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace NuLog.Configuration.Extenders
         /// </summary>
         public JToken Config { get; set; }
 
-        #endregion
+        #endregion Constants/Members
 
         /// <summary>
         /// Default empty configuration, with optional type
@@ -74,6 +73,5 @@ namespace NuLog.Configuration.Extenders
                 }
             }
         }
-
     }
 }

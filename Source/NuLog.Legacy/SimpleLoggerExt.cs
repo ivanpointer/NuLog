@@ -6,7 +6,6 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-using NuLog.Loggers;
 using System;
 using System.Collections.Generic;
 
@@ -172,7 +171,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.TRACE, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Trace Functions
 
         #region Debug Functions
 
@@ -302,7 +301,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.DEBUG, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Debug Functions
 
         #region Info Functions
 
@@ -432,7 +431,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.INFO, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Info Functions
 
         #region Warn Functions
 
@@ -562,7 +561,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.WARN, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Warn Functions
 
         #region Error Functions
 
@@ -692,7 +691,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.ERROR, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Error Functions
 
         #region Fatal Functions
 
@@ -822,7 +821,7 @@ namespace NuLog.Legacy
             LevelLogNow(simpleLogger, LogLevel.FATAL, message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Fatal Functions
 
         #region Generic Functions
 
@@ -982,7 +981,7 @@ namespace NuLog.Legacy
             simpleLogger.LogNow(message, exception, metaData, tags);
         }
 
-        #endregion
+        #endregion Generic Functions
 
         #region Helpers
 
@@ -1019,7 +1018,6 @@ namespace NuLog.Legacy
             return tags;
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

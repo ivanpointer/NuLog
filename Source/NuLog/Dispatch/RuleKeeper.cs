@@ -19,21 +19,23 @@ namespace NuLog.Dispatch
     public class RuleKeeper : IConfigObserver
     {
         #region Constants
-        
+
         // We limit the number of routes that are cached
         //  a route is simply a definition of which targets a particular set of tags dispatch to
         private const int _routeCacheLimit = 1000;
 
-        #endregion
+        #endregion Constants
 
         #region Members and Constructors
 
         // The rules that define which tags are to be dispatched to which targets
         private static readonly object _ruleLock = new object();
+
         private ICollection<RuleConfig> Rules { get; set; }
 
         // A cache of which tags go to which targets
         private IDictionary<string, ICollection<string>> _routeCache;
+
         private Queue<string> _routeKeyCache;
 
         // The tag keeper - which is repsonsible for determining
@@ -51,10 +53,10 @@ namespace NuLog.Dispatch
             _routeKeyCache = new Queue<string>();
         }
 
-        #endregion
+        #endregion Members and Constructors
 
         #region Work
-        
+
         /// <summary>
         /// Determines a list of target names to be dispatched to based on the rules defined in the configuration, based on the tags passed
         /// </summary>
@@ -125,7 +127,7 @@ namespace NuLog.Dispatch
             return targets;
         }
 
-        #endregion
+        #endregion Work
 
         #region Configuration
 
@@ -157,7 +159,7 @@ namespace NuLog.Dispatch
             }
         }
 
-        #endregion
+        #endregion Configuration
 
         #region Helpers
 
@@ -168,7 +170,6 @@ namespace NuLog.Dispatch
             return String.Join(",", tags);
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

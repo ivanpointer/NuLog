@@ -4,13 +4,14 @@
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NuLog.ConsoleTest
 {
-    class Program
+    internal class Program
     {
         #region Constants
 
@@ -24,7 +25,7 @@ namespace NuLog.ConsoleTest
 
         private const int DefaultPerformanceTestTimes = 10000;
 
-        #endregion
+        #endregion Constants
 
         private static readonly IList<Tuple<string, Action<string[]>>> TestOptions = new List<Tuple<string, Action<string[]>>>
         {
@@ -37,7 +38,7 @@ namespace NuLog.ConsoleTest
             ,new Tuple<string, Action<string[]>>("LogNow File Test", TestSyncFile)
         };
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             PrintTestOptions();
 
@@ -132,7 +133,7 @@ namespace NuLog.ConsoleTest
             return val.Value;
         }
 
-        #endregion
+        #endregion Option Menu
 
         private static void TestLogNowConsole(string[] args)
         {
@@ -294,6 +295,5 @@ namespace NuLog.ConsoleTest
             Trace.WriteLine(String.Format("Total Messages: {0}", testTimes));
             Trace.WriteLine(String.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
         }
-
     }
 }

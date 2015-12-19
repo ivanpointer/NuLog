@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
 {
@@ -19,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
     /// </summary>
     public class AsynchronousLoggingTargetSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public AsynchronousLoggingTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

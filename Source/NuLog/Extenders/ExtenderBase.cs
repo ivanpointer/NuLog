@@ -21,7 +21,6 @@ namespace NuLog.Extenders
     /// </summary>
     public abstract class ExtenderBase : IExtender
     {
-
         #region Constants/Members
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace NuLog.Extenders
         /// </summary>
         protected LoggingConfig LoggingConfig { get; set; }
 
-        #endregion
+        #endregion Constants/Members
 
         /// <summary>
         /// Gives this extender the opportunity to extend the given logging configuration before it is used to initialize the objects in the framework

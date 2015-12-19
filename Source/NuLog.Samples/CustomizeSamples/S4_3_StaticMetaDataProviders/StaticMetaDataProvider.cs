@@ -9,8 +9,6 @@
 using NuLog.MetaData;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
 {
@@ -25,13 +23,15 @@ namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
 
         // Constants for our meta data keys
         public const string MachineNameMeta = "MachineName";
+
         public const string CPUUsageMeta = "CPUUsage";
         public const string RAMUsageMeta = "RAMUsage";
 
-        #endregion
+        #endregion Constants
 
         // Members for providing as meta data
         private string _machineName;
+
         private PerformanceCounter _cpuCounter;
         private PerformanceCounter _ramCounter;
 

@@ -19,6 +19,7 @@ namespace NuLog.Configuration
         /// The tag that the child tags are to be grouped under
         /// </summary>
         public string Tag { get; set; }
+
         /// <summary>
         /// The child tags that are grouped under the tag of this tag group
         /// </summary>

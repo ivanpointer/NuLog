@@ -7,8 +7,6 @@
  */
 
 using Newtonsoft.Json.Linq;
-using NuLog.Layouts;
-using System;
 
 namespace NuLog.Configuration.Layouts
 {

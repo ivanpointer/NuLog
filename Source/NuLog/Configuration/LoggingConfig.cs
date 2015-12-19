@@ -27,6 +27,7 @@ namespace NuLog.Configuration
     public class LoggingConfig
     {
         #region Constants
+
         public const string ConfigLoadFailedMessage = "Exception while loading config";
         private const string ConfigurationFileNotFoundMessage = "Configuration file \"{0}\" for NuLog not found";
 
@@ -51,7 +52,8 @@ namespace NuLog.Configuration
         private const string RuleExcludeTokenName = "exclude";
         private const string RuleWriteToTokenName = "writeTo";
         private const string RuleFinalTokenName = "final";
-        #endregion
+
+        #endregion Constants
 
         private static readonly object _configLock = new object();
         public string ConfigFile { get; private set; }
@@ -60,6 +62,7 @@ namespace NuLog.Configuration
         //   when a file is changed.  We adjust for this this by having a minimum
         //    amount of time between reloads
         private DateTime LastChange { get; set; }
+
         private const long ChangeLimitInMilliseconds = 1000;
         private string WatchFile { get; set; }
         private FileSystemWatcher FileSystemWatcher { get; set; }
@@ -68,38 +71,46 @@ namespace NuLog.Configuration
         /// The list of target configurations defining the targets to be used
         /// </summary>
         public IList<TargetConfig> Targets { get; set; }
+
         /// <summary>
         /// The list of rules defining how log events are to be dispatched to the defined targets
         /// </summary>
         public IList<RuleConfig> Rules { get; set; }
+
         /// <summary>
         /// The list of tag groups used to group tags together under a single tag
         /// </summary>
         public IList<TagGroupConfig> TagGroups { get; set; }
+
         /// <summary>
         /// A list of configuration extenders for the framework
         /// </summary>
         public IList<string> ConfigurationExtenders { get; set; }
+
         /// <summary>
         /// A list of static meta data providers for the framework
         /// </summary>
         public IList<string> StaticMetaDataProviders { get; set; }
+
         /// <summary>
         /// A list of extenders for extending the framework.
         /// Extenders are executed after the dispatcher is initialized.
         /// </summary>
         public IList<ExtenderConfig> Extenders { get; set; }
+
         /// <summary>
         /// A flag indicating whether the framework should be running in "synchronous" mode or not.  If the synchronous
         /// flag is set, no background or worker threads will be used to log.  Control will not return to the logging
         /// application until the log event has been logged to each of the configured targets.
         /// </summary>
         public bool Synchronous { get; set; }
+
         /// <summary>
         /// A flag indicating whether or not debug information is to be included in the log events.  This is specifically
         /// the stack frame information of the logging method.
         /// </summary>
         public bool Debug { get; set; }
+
         /// <summary>
         /// A flag indicating whether or not the file from which the configuration was loaded is to be watched for changes or not.
         /// This property only applies to configurations loaded from file and not runtime configurations.
@@ -108,6 +119,7 @@ namespace NuLog.Configuration
 
         // We use an observer pattern here to keep observers informed of configuration changes
         private static readonly object _observerLock = new object();
+
         private ICollection<IConfigObserver> ConfigObservers { get; set; }
 
         /// <summary>
@@ -485,7 +497,7 @@ namespace NuLog.Configuration
             return rules;
         }
 
-        #endregion
+        #endregion Tag Group Config
 
         /// <summary>
         /// Reads the text from the file
@@ -611,7 +623,6 @@ namespace NuLog.Configuration
             }
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

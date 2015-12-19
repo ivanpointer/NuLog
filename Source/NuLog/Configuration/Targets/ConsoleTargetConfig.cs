@@ -21,17 +21,20 @@ namespace NuLog.Configuration.Targets
     public class ConsoleTargetConfig : LayoutTargetConfig
     {
         #region Constants
+
         // Tokens
         private const string ColorRulesTokenName = "colorRules";
+
         private const string TagsTokenName = "tags";
         private const string ForeColorTokenName = "foreground";
         private const string BackColorTokenName = "background";
 
         // Functional Values
         private const string TraceConfigCategory = "config";
+
         private static readonly Type ConsoleColorType = typeof(ConsoleColor);
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// The list of color rules associated to this configuration

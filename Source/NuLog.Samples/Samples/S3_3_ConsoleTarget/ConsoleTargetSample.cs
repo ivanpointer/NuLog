@@ -28,7 +28,7 @@ namespace NuLog.Samples.Samples.S3_3_ConsoleTarget
         // Wiring for the sample program (menu wiring)
         public ConsoleTargetSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging Example
         public override void ExecuteSample()

@@ -5,6 +5,7 @@
  * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using NuLog.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

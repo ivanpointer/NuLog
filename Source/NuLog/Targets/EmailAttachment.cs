@@ -53,10 +53,12 @@ namespace NuLog.Targets
         /// The file name/path of a physical file to attach to the email.  If "Data" is provided, this will be ignored.
         /// </summary>
         public string PhysicalFileName { get; set; }
+
         /// <summary>
         /// The name of the file as it is attached to the email
         /// </summary>
         public string AttachmentFileName { get; set; }
+
         /// <summary>
         /// Binary data to attach to the email as an attachment
         /// </summary>

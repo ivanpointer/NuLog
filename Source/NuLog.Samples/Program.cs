@@ -41,7 +41,7 @@ namespace NuLog.Samples
     /// <summary>
     /// A program providing an interface to the samples for the NuLog framework
     /// </summary>
-    class Program
+    internal class Program
     {
         #region Structs
 
@@ -56,23 +56,25 @@ namespace NuLog.Samples
             /// The sample selected by the user
             /// </summary>
             public SampleBase Sample;
+
             /// <summary>
             /// Whether or not the user has instead chosen to exit
             /// </summary>
             public bool DoExit;
         }
 
-        #endregion
+        #endregion Structs
 
         #region Constants and Menu
 
         // Constants for printing and formatting the samples into their
         //  sections in the menu
         public const string SampleIndent = "    ";
+
         public const string Section1 = "  1. The Basics";
         public const string Section3 = "  3. Standard Targets";
         public const string Section4 = "  4. Appendix A: Legacy Logging Extension";
-        
+
         public const string CustomSection1 = "  C.1. Building a Simple Target";
         public const string CustomSection2 = "  C.2. Building an \"Advanced\" Target: Adding a Splash of Color";
         public const string CustomSection3 = "  C.3. Extending the Logger";
@@ -117,12 +119,12 @@ namespace NuLog.Samples
             new CustomExtenderSample(CustomSection8, "C.8.1 Creating the Trace Listener Extender")
         };
 
-        #endregion
+        #endregion Constants and Menu
 
         #region Main
 
         // Mainly main stuff ;)
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Execute the samples the end user selects until the user indicates to exit
             SampleSelection selection;
@@ -145,7 +147,7 @@ namespace NuLog.Samples
             }
         }
 
-        #endregion
+        #endregion Main
 
         #region Helpers
 
@@ -153,7 +155,7 @@ namespace NuLog.Samples
         private static void PrintSamplesMenu(string menuHeader, IList<SampleBase> samples, bool clear = false)
         {
             // Clear the console
-            if(clear)
+            if (clear)
                 Console.Clear();
             Console.WriteLine(String.Empty);
 
@@ -198,7 +200,7 @@ namespace NuLog.Samples
                 userSelection = userSelection.Trim();
                 selectedSample = SamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
 
-                if(selectedSample == null)
+                if (selectedSample == null)
                     selectedSample = CustomSamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
 
                 if (selectedSample == null)
@@ -222,8 +224,6 @@ namespace NuLog.Samples
             };
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }
-

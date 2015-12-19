@@ -21,7 +21,6 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
     /// </summary>
     public class ColorConsoleTargetConfig : LayoutTargetConfig
     {
-
         #region Constants
 
         // Error messages
@@ -30,23 +29,27 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
         // The name of the configuration items in the JSON configuration
         //  and the ConsoleColor type for parsing
         private const string BackgroundColorToken = "backgroundColor";
+
         private const string ForegroundColorToken = "foregroundColor";
         private static readonly Type ConsoleColorType = typeof(ConsoleColor);
 
         // The defaults for a runtime configuration
         private const string DefaultName = "colorConsole";
+
         private static readonly string DefaultType = typeof(ColorConsoleTarget).FullName;
 
         // Default colors, in case none are supplied
         private const ConsoleColor DefaultBackgroundColor = ConsoleColor.Black;
+
         private const ConsoleColor DefaultForegroundColor = ConsoleColor.Gray;
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// The background color to display log events in
         /// </summary>
         public ConsoleColor BackgroundColor { get; set; }
+
         /// <summary>
         /// The foreground color to display log events in
         /// </summary>
@@ -93,11 +96,10 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
             {
                 Trace.WriteLine(String.Format(FailedParseConsoleColorMessage, child));
             }
-            
+
             return defVal;
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

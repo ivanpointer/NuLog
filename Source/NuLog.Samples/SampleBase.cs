@@ -6,9 +6,7 @@
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
-
 using System;
-using System.Diagnostics;
 
 namespace NuLog.Samples
 {
@@ -22,7 +20,7 @@ namespace NuLog.Samples
 
         private const string PauseMessage = "\r\nPress [Enter] to continue...";
 
-        #endregion
+        #endregion Constants
 
         /// <summary>
         /// Creates a sample instance in the given section with the given sample name

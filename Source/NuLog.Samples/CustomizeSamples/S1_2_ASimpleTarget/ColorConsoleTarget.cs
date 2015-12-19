@@ -25,4 +25,3 @@ namespace NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget
         }
     }
 }
-

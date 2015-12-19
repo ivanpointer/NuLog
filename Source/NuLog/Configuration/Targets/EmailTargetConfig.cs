@@ -9,7 +9,6 @@
 using Newtonsoft.Json.Linq;
 using NuLog.Configuration.Layouts;
 using NuLog.Targets;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +29,7 @@ namespace NuLog.Configuration.Targets
 
         // JSON tokens
         private const string HostTokenName = "host";
+
         private const string PortTokenName = "port";
         private const string UserNameTokenName = "userName";
         private const string PasswordTokenName = "password";
@@ -51,10 +51,11 @@ namespace NuLog.Configuration.Targets
 
         // Default Values
         private const string DefaultHost = "localhost";
+
         private const int DefaultPort = 25;
         private const string DefaultSubject = "Message from Logging System";
 
-        #endregion
+        #endregion Constants
 
         #region Members
 
@@ -63,18 +64,22 @@ namespace NuLog.Configuration.Targets
         /// The SMTP server host address
         /// </summary>
         public string Host { get; set; }
+
         /// <summary>
         /// The SMTP server host port
         /// </summary>
         public int Port { get; set; }
+
         /// <summary>
         /// The user name used for authenticating to the SMTP server
         /// </summary>
         public string UserName { get; set; }
+
         /// <summary>
         /// The password used for authenticating to the SMTP server
         /// </summary>
         public string Password { get; set; }
+
         /// <summary>
         /// Whether or not to use SSL in communications with the SMTP server
         /// </summary>
@@ -85,52 +90,63 @@ namespace NuLog.Configuration.Targets
         /// The from address to use in emails sent from the target
         /// </summary>
         public string FromAddress { get; set; }
+
         /// <summary>
         /// The reply-to address to be used in emails sent from the target
         /// </summary>
         public ICollection<string> ReplyTo { get; set; }
+
         /// <summary>
         /// The list of recipients to send the email messages from the target to
         /// </summary>
         public ICollection<string> To { get; set; }
+
         /// <summary>
         /// The list of recipients to be copied on the email messages sent from the target
         /// </summary>
         public ICollection<string> CC { get; set; }
+
         /// <summary>
         /// The list of recipients to be blind-copied on the email messages sent from the target
         /// </summary>
         public ICollection<string> BCC { get; set; }
+
         /// <summary>
         /// The default subject for email messages sent from the target
         /// </summary>
         public string Subject { get; set; }
+
         /// <summary>
         /// The layout of the subject for email messages sent from the target
         /// </summary>
         public LayoutConfig SubjectLayout { get; set; }
+
         /// <summary>
         /// The layout of the body for email messages sent from the target
         /// </summary>
         public LayoutConfig BodyLayout { get; set; }
+
         /// <summary>
         /// An optional file which contains the body layout for email messages sent from the target
         /// </summary>
         public string BodyFile { get; set; }
+
         /// <summary>
         /// A flag indicating whether or not the body is HTML content (as opposed to plain-text content)
         /// </summary>
         public bool IsBodyHtml { get; set; }
+
         /// <summary>
         /// Any additional headers to be set on email messages sent from the target
         /// </summary>
         public IDictionary<string, string> Headers { get; set; }
+
         /// <summary>
         /// The file name/path to a file to attach to the email.
         /// </summary>
         public string Attachment { get; set; }
 
-        #endregion
+        #endregion Members
 
         /// <summary>
         /// Builds a SMTP target config using the passed JSON token
@@ -235,6 +251,6 @@ namespace NuLog.Configuration.Targets
             return defVal;
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

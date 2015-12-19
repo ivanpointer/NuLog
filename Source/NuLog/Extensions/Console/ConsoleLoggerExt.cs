@@ -227,7 +227,6 @@ namespace NuLog.Extensions.Console
             return metaData;
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

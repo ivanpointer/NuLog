@@ -11,14 +11,12 @@ using System.Collections.Generic;
 
 namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
 {
-
     /// <summary>
     /// Extends the LoggerBase with methods for overriding console colors.
     /// Uses meta data assigned to the log events to achieve this.
     /// </summary>
     public static class ColorConsoleLogerExt
     {
-
         /// <summary>
         /// Adds a background and foreground color meta data hook for the logger
         /// </summary>
@@ -229,7 +227,6 @@ namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
             return metaData;
         }
 
-        #endregion
-
+        #endregion Helpers
     }
 }

@@ -5,6 +5,7 @@
  * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
+
 using System;
 
 namespace NuLog
@@ -14,8 +15,12 @@ namespace NuLog
     /// </summary>
     public class LoggingException : Exception
     {
-        public LoggingException(string message) : base(message) { }
+        public LoggingException(string message) : base(message)
+        {
+        }
 
-        public LoggingException(string message, Exception innerException) : base(message, innerException) { }
+        public LoggingException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

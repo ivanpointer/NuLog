@@ -22,7 +22,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
         // Wiring for the sample program (menu wiring)
         public AddingConfigurationSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()

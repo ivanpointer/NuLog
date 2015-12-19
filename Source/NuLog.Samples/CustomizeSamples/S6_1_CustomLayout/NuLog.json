@@ -1,10 +1,9 @@
-﻿
-    {
+﻿    {
         "targets": [
             {
                 "name": "console",
                 "type": "NuLog.Targets.ConsoleTarget",
-                "layout": { 
+                "layout": {
                     "type": "NuLog.Samples.CustomizeSamples.S6_1_CustomLayout.JSONLayout, NuLog.Samples"
                 }
             }
@@ -16,4 +15,3 @@
             }
         ]
     }
-

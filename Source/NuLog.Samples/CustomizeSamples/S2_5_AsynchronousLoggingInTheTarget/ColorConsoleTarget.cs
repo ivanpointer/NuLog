@@ -16,7 +16,6 @@ using System.IO;
 
 namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
 {
-
     /// <summary>
     /// A sample class used to illustrate creating custom targets.  The narrative for this
     /// can be found at:
@@ -34,9 +33,10 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
 
         // A couple constants for our meta data keys
         public const string BackgroundColorMeta = "ColorConsoleBackground";
+
         public const string ForegroundColorMeta = "ColorConsoleForeground";
 
-        #endregion
+        #endregion Constants
 
         // Our ColorConfig
         public ColorConsoleTargetConfig ColorConfig { get; set; }
@@ -135,7 +135,6 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
                                     Console.ForegroundColor = oldForeground;
                             }
                         }
-                            
                     }
                 }
             }
@@ -153,7 +152,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
                 }
                 catch
                 {
-                    if(!silent)
+                    if (!silent)
                         Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
@@ -174,7 +173,5 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
                 return base.Shutdown();
             }
         }
-
     }
 }
-

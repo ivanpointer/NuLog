@@ -1,5 +1,4 @@
-﻿
-    {
+﻿    {
         "targets": [
             {
                 "name": "consoleAsync",
@@ -19,4 +18,3 @@
             }
         ]
     }
-

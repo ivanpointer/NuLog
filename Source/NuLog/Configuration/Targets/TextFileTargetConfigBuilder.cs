@@ -8,6 +8,7 @@
 
 using NuLog.Configuration.Layouts;
 using System.IO.Compression;
+
 namespace NuLog.Configuration.Targets
 {
     /// <summary>
@@ -170,6 +171,5 @@ namespace NuLog.Configuration.Targets
         {
             return Config;
         }
-
     }
 }

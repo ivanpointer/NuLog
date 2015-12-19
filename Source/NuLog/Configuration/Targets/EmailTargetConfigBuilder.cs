@@ -285,7 +285,7 @@ namespace NuLog.Configuration.Targets
 
             return this;
         }
-        
+
         /// <summary>
         /// Returns the built config
         /// </summary>

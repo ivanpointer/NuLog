@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
 {
@@ -19,13 +17,12 @@ namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
     /// </summary>
     public class StaticMetaDataProvidersSample : SampleBase
     {
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
         public StaticMetaDataProvidersSample(string section, string sample) : base(section, sample) { }
 
-        #endregion
+        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()
