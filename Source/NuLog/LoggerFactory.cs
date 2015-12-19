@@ -1,10 +1,6 @@
 ﻿/*
  * Author: Ivan Pointer (ivan@pointerplace.us)
- * Date: 10/5/2014
- * Updated 11/16/2014: Ivan Pointer: Added the ability to set a default configuration builder using MEF
- * Updated 11/13/2014: Ivan Pointer: Added the ability to load configuration extenders explicitly, wihtout using MEF
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
  * GitHub: https://github.com/ivanpointer/NuLog
  */
 
@@ -584,6 +580,9 @@ namespace NuLog
             var stackFrame = new StackFrame(1);
             string reqClassFullName = stackFrame.GetMethod().DeclaringType.FullName;
 
+            // Set an internal name, we want the loggers to be unique to each owning class
+            var internalName = String.Join("\0", reqClassFullName, loggerName);
+
             // Make sure that a name is assigned to the logger;
             //  use the requesting class' full name as the logger
             //  name if no name is provided
@@ -609,13 +608,14 @@ namespace NuLog
                     tags.Add(loggerName);
 
                 // Check to see if we need to create a new instance of the logger
-                if (instance.NamedLoggers.ContainsKey(loggerName) == false)
+                if (instance.NamedLoggers.ContainsKey(internalName) == false)
                 {
                     // Create and return a new instance of the logger
                     //  using the determined default tags
 
+                    // Build out the new logger
                     var logger = new DefaultLogger(instance.LogEventDispatcher, tags);
-                    instance.NamedLoggers[loggerName] = logger;
+                    instance.NamedLoggers[internalName] = logger;
                     return logger;
                 }
                 else
@@ -624,7 +624,7 @@ namespace NuLog
                     //  Let's make sure that the logger has the default tags
                     //  we have recieved and then return it
 
-                    var logger = instance.NamedLoggers[loggerName];
+                    var logger = instance.NamedLoggers[internalName];
 
                     foreach (var tag in tags)
                         if (logger.DefaultTags.Contains(tag) == false)

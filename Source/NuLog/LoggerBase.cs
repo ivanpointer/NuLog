@@ -29,7 +29,7 @@ namespace NuLog
 
         #endregion Constants
 
-        #region Methods and Constructors
+        #region Members and Constructors
 
         private LogEventDispatcher Dispatcher { get; set; }
 
