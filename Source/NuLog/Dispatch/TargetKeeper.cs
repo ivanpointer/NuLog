@@ -271,6 +271,7 @@ namespace NuLog.Dispatch
                 lock (_targetLock)
                 {
                     // Iterate over each target and shut it down
+                    Trace.WriteLine("Shutting down all targets, to give them an opportunity to flush");
                     foreach (var target in _targets.Values)
                     {
                         try

@@ -119,7 +119,17 @@ namespace NuLog.Dispatch
         /// <returns>Whether or not the dispatcher shut down cleanly.</returns>
         public bool Shutdown()
         {
-            return ShutdownThread();
+            lock(LoggingLock)
+            {
+                // Bring down the dispatcher thread first
+                var threadDown = ShutdownThread();
+
+                // Then bring down the targets
+                TargetKeeper.Shutdown();
+
+                // Report whether we came down cleanly or not
+                return threadDown;
+            }
         }
 
         // Starts up the worker thread if it is not already started

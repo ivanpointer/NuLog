@@ -32,13 +32,5 @@ namespace NuLog.Test.TestHarness
                 _logEvents.Clear();
             }
         }
-
-        public override bool Shutdown()
-        {
-            lock (_listLock)
-                _logEvents.Clear();
-
-            return true;
-        }
     }
 }
