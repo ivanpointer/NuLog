@@ -262,9 +262,10 @@ namespace NuLog.Targets
             {
                 _queueWorkerThread = new Thread(new ThreadStart(QueueWorkerThread))
                 {
-                    IsBackground = true,
-                    Name = String.Format("{0} Queue Worker Thread", Name)
+                    Name = String.Format("{0} Queue Worker Thread", Name),
+                    Priority = ThreadPriority.Lowest
                 };
+                _queueWorkerThread.SetApartmentState(ApartmentState.MTA);
                 _queueWorkerThread.Start();
             }
         }
@@ -319,10 +320,10 @@ namespace NuLog.Targets
 
             while (!DoShutdown || LogQueue.IsEmpty == false)
             {
+                Thread.Sleep(50);
+
                 if (LogQueue.IsEmpty == false)
                     ProcessLogQueue(LogQueue, Dispatcher);
-
-                Thread.Yield();
             }
 
             IsThreadShutdown = true;

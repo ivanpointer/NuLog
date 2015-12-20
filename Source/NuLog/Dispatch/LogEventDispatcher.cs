@@ -77,8 +77,6 @@ namespace NuLog.Dispatch
         // The timer used to execute processing of the logging queue, and the lock to protect it
         internal Timer _timer;
 
-        internal static readonly object _timerLock = new object();
-
         // The exception handler to pass exceptions to.  This is optional and is used for debugging purposes
         //  providing a way for implementing applications to have visibility into exceptions that
         //  occur inside of the logging framework
@@ -127,7 +125,7 @@ namespace NuLog.Dispatch
         // Starts up the worker thread if it is not already started
         private void StartupThread()
         {
-            lock (_timerLock)
+            lock (LoggingLock)
             {
                 if (_timer == null)
                     _timer = new Timer(QueueWorkerThread, this, TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(500));
@@ -138,13 +136,17 @@ namespace NuLog.Dispatch
         private bool ShutdownThread()
         {
             // Protect the timer
-            lock (_timerLock)
+            lock (LoggingLock)
             {
+                // Signal to the thread to shutdown
+                Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
+
+                // Call the worker body until the queues are empty
+                while (ActionQueue.IsEmpty == false || LogQueue.IsEmpty == false)
+                    QueueWorkerThread(this);
+
                 if (_timer != null)
                 {
-                    // Signal to the thread to shutdown
-                    Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
-
                     // Wait for the thread to shutdown, or the timeout to elapse
                     _timer.Dispose();
                     _timer = null;
@@ -207,33 +209,30 @@ namespace NuLog.Dispatch
             // Only lock and loop if there is anything to process
             if (dispatcher.ActionQueue.IsEmpty == false || dispatcher.LogQueue.IsEmpty == false)
             {
-                lock (_timerLock)
+                // Process all of the actions
+                while (dispatcher.ActionQueue.IsEmpty == false)
                 {
-                    // Process all of the actions
-                    while (dispatcher.ActionQueue.IsEmpty == false)
+                    if (dispatcher.ActionQueue.TryDequeue(out action))
                     {
-                        if (dispatcher.ActionQueue.TryDequeue(out action))
-                        {
-                            action();
-                        }
+                        action();
                     }
+                }
 
-                    // Then process all of the log events
-                    while (dispatcher.LogQueue.IsEmpty == false)
+                // Then process all of the log events
+                while (dispatcher.LogQueue.IsEmpty == false)
+                {
+                    if (dispatcher.LogQueue.TryDequeue(out logEvent))
                     {
-                        if (dispatcher.LogQueue.TryDequeue(out logEvent))
-                        {
-                            // Update the log event's meta data with any static meta data providers
-                            dispatcher.ExecuteStaticMetaDataProviders(logEvent);
+                        // Update the log event's meta data with any static meta data providers
+                        dispatcher.ExecuteStaticMetaDataProviders(logEvent);
 
-                            // Determine which targets the log event needs to be dispatched to
-                            var targets = dispatcher.GetTargetsForTags(logEvent.Tags);
+                        // Determine which targets the log event needs to be dispatched to
+                        var targets = dispatcher.GetTargetsForTags(logEvent.Tags);
 
-                            // Dispatch the log event to the targets
-                            if (targets != null)
-                                foreach (var target in targets)
-                                    target.Enqueue(logEvent);
-                        }
+                        // Dispatch the log event to the targets
+                        if (targets != null)
+                            foreach (var target in targets)
+                                target.Enqueue(logEvent);
                     }
                 }
             }
