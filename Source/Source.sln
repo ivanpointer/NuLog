@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.MVC", "NuLog.MVC\NuLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.SamplesLib", "NuLog.SamplesLib\NuLog.SamplesLib.csproj", "{19F850C9-6057-4290-ACFF-70C6377286B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logos", "Logos", "{625CE0D5-0045-4C17-94B9-698D797144E1}"
+	ProjectSection(SolutionItems) = preProject
+		NuLog Logo.png = NuLog Logo.png
+		NuLog Logo.psd = NuLog Logo.psd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
