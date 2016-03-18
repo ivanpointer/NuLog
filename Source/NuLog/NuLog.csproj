@@ -118,6 +118,8 @@
     <Compile Include="Configuration\Targets\TextFileTargetConfig.cs" />
     <Compile Include="Configuration\Targets\TextFileTargetConfigBuilder.cs" />
     <Compile Include="Configuration\Targets\TraceTargetConfig.cs" />
+    <Compile Include="Configuration\Targets\WindowsEventLogTargetConfigBuilder.cs" />
+    <Compile Include="Configuration\Targets\WindowsEventLogTargetConfig.cs" />
     <Compile Include="Dispatch\LogEventDispatcher.cs" />
     <Compile Include="Dispatch\RuleKeeper.cs" />
     <Compile Include="Dispatch\TagKeeper.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Targets\TextFileTarget.cs" />
     <Compile Include="Targets\TraceTarget.cs" />
     <Compile Include="MetaData\MetaDataParser.cs" />
+    <Compile Include="Targets\WindowsEventLogTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,18 @@
+﻿{
+    "targets": [
+        {
+            "name": "windowsEventLog",
+            "type": "NuLog.Targets.WindowsEventLogTarget",
+            "layout": "${Tags} - ${Message}\r\n",
+            "EventLogEntryType": "Error"
+        }
+    ],
+    "rules": [
+        {
+            "include": [ "windowsEventLog" ],
+            "writeTo": [ "windowsEventLog" ],
+            "final": true
+        }
+    ],
+    "watch": true
+}
