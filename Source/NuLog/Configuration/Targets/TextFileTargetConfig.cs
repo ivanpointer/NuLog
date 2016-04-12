@@ -67,6 +67,8 @@ namespace NuLog.Configuration.Targets
         public const string DefaultFileName = "log.log";
         public const string DefaultOldFileNamePattern = "log{0:.yyyy.MM.dd.hh.mm.ss}.log";
         public const RolloverPolicy DefaultRolloverPolicy = RolloverPolicy.None;
+
+#if !NET40
         public const CompressionLevel DefaultCompressionLevel = CompressionLevel.Optimal;
 
         public static readonly IDictionary<int, CompressionLevel> CompressionLevelMap = new Dictionary<int, CompressionLevel>
@@ -75,6 +77,7 @@ namespace NuLog.Configuration.Targets
             { 2, CompressionLevel.Fastest },
             { 3, CompressionLevel.Optimal }
         };
+#endif
 
         #endregion Constants
 
@@ -108,10 +111,12 @@ namespace NuLog.Configuration.Targets
         /// </summary>
         public bool CompressOldFiles { get; set; }
 
+#if !NET40
         /// <summary>
-        /// The compression leve to use for compressing the files
+        /// The compression level to use for compressing the files
         /// </summary>
         public CompressionLevel CompressionLevel { get; set; }
+#endif
 
         /// <summary>
         /// An optional password to apply to the compressed log file
@@ -188,11 +193,14 @@ namespace NuLog.Configuration.Targets
 
                 // Parse the other settings
                 OldFileLimit = GetValue<int>(jToken, OldFileLimitTokenName, OldFileLimit);
+
+#if !NET40
                 CompressOldFiles = GetValue<bool>(jToken, CompressOldFilesTokenName, CompressOldFiles);
                 var intCompressionLevel = GetValue<int>(jToken, CompressionLevelTokenName, -1);
                 CompressionLevel = CompressionLevelMap.ContainsKey(intCompressionLevel)
                     ? CompressionLevelMap[intCompressionLevel]
                     : DefaultCompressionLevel;
+#endif
             }
         }
 
@@ -207,8 +215,10 @@ namespace NuLog.Configuration.Targets
             RolloverTrigger = DefaultRolloverTrigger;
             OldFileLimit = DefaultOldFileLimit;
             CompressOldFiles = false;
+#if !NET40
             CompressionLevel = DefaultCompressionLevel;
             CompressionPassword = null;
+#endif
         }
 
         #region Helpers

@@ -62,8 +62,11 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
 
                     .SetOldFileLimit(5)
                     .SetCompressOldFiles(true)
+
+#if !NET40
                     .SetCompressionLevel(CompressionLevel.Optimal)
                     .SetCompressionPassword("helloworld")
+#endif
 
                     .Build());
 

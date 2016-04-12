@@ -141,6 +141,7 @@ namespace NuLog.Configuration.Targets
             return this;
         }
 
+#if !NET40
         /// <summary>
         /// Sets the compression level for compressed old files
         /// </summary>
@@ -151,6 +152,7 @@ namespace NuLog.Configuration.Targets
             Config.CompressionLevel = compressionLevel;
             return this;
         }
+#endif
 
         /// <summary>
         /// Sets an optional password to use for encrypting the old log files

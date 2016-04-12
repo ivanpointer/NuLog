@@ -45,7 +45,7 @@ namespace NuLog.Targets
 		private static readonly object _fileLock = new object();
 
 		private Stopwatch _sw;
-		private DateTime _lastWrite;
+		private DateTime? _lastWrite;
 
 		/// <summary>
 		/// Builds a default, empty, unconfigured text file target
@@ -172,7 +172,7 @@ namespace NuLog.Targets
 		{
 			if (Config.RolloverPolicy == RolloverPolicy.Day)
 			{
-				if (_lastWrite != null && _lastWrite.Day != GetDateTime().Day)
+				if (_lastWrite.HasValue && _lastWrite.Value.Day != GetDateTime().Day)
 				{
 					return true;
 				}
@@ -229,12 +229,14 @@ namespace NuLog.Targets
 
 			// Copy the log over, delete it, and create a new, empty file
 			File.Copy(Config.FileName, oldFileName);
-			File.Delete(Config.FileName);
-			using (File.Create(Config.FileName)) { }
+            using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))))
+                fileStream.Write(String.Empty);
 
+#if !NET40
 			// Compress it if it is needed
 			if (Config.CompressOldFiles)
 				CompressFile(oldFileName);
+#endif
 		}
 
 		// Figure out the new name for the log file being rolled over
@@ -293,6 +295,7 @@ namespace NuLog.Targets
 			}
 		}
 
+#if !NET40
 		// Compresses the given file, and optionally deletes the source file when finished
 		private void CompressFile(string fileName, bool deleteFile = true)
 		{
@@ -314,6 +317,7 @@ namespace NuLog.Targets
 			if (deleteFile)
 				File.Delete(fileName);
 		}
+#endif
 
 		#endregion Rollover, Cleanup and Utility
 
