@@ -3,6 +3,9 @@ I'm working on NuLog again.  I'm working to flush out some concurrency bugs, and
 
 This will be a breaking update, as some of the singleton patterns from before do not work well with unit test isolation, etc.
 
+## 1/14/2017 - Things are getting hazy
+Tests are failing in an unpredictable way, and memory profile sessions indicate that I've got a leak around the configuration part of the library.  Some of the cleanest work I've ever done was through TDD.  I'm starting again - "Take2" is a rebuild of the same NuLog, but this time with TDD guiding the design decisions - hopefully helping me avoid some of these more difficult problems.
+
 # NuLog
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
