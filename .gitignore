@@ -15,6 +15,6 @@
 /Source/NuLog.Samples/obj
 /Source/NuLog.SamplesLib/bin
 /Source/NuLog.SamplesLib/obj
-/Source/NuLog.Test/bin
-/Source/NuLog.Test/obj
+/Source/NuLog.Tests/bin
+/Source/NuLog.Tests/obj
 /Source/packages
