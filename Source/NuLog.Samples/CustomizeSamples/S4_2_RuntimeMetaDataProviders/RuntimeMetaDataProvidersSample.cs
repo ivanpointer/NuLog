@@ -22,17 +22,18 @@ namespace NuLog.Samples.CustomizeSamples.S4_2_RuntimeMetaDataProviders
         public override void ExecuteSample()
         {
             // Load the configuration
-            var factory = new LoggerFactory("CustomizeSamples/S4_2_RuntimeMetaDataProviders/NuLog.json");
+            using (var factory = new LoggerFactory("CustomizeSamples/S4_2_RuntimeMetaDataProviders/NuLog.json"))
+            {
+                // Instantiate our runtime meta data provider
+                var runtimeProvider = new RuntimeMetaDataProvider();
 
-            // Instantiate our runtime meta data provider
-            var runtimeProvider = new RuntimeMetaDataProvider();
+                // Get a hold of our logger
+                var logger = factory.Logger(runtimeProvider);
 
-            // Get a hold of our logger
-            var logger = factory.Logger(runtimeProvider);
-
-            // Log our information
-            for (int lp = 0; lp < 5; lp++)
-                logger.LogNow(string.Format("Runtime meta data provider test {0}", lp));
+                // Log our information
+                for (int lp = 0; lp < 5; lp++)
+                    logger.LogNow(string.Format("Runtime meta data provider test {0}", lp));
+            }
         }
     }
 }

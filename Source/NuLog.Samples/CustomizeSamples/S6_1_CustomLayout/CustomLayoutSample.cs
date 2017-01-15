@@ -22,11 +22,12 @@ namespace NuLog.Samples.CustomizeSamples.S6_1_CustomLayout
         public override void ExecuteSample()
         {
             // Load the configuration
-            var factory = new LoggerFactory("CustomizeSamples/S6_1_CustomLayout/NuLog.json");
-
-            // Execute our samples
-            var logger = factory.Logger();
-            logger.LogNow("Custom layout: JSON");
+            using (var factory = new LoggerFactory("CustomizeSamples/S6_1_CustomLayout/NuLog.json"))
+            {
+                // Execute our samples
+                var logger = factory.Logger();
+                logger.LogNow("Custom layout: JSON");
+            }
         }
     }
 }

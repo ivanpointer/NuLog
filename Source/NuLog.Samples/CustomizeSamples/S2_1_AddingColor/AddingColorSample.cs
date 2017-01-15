@@ -23,13 +23,15 @@ namespace NuLog.Samples.CustomizeSamples.S2_1_AddingColor
         // Logging example
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("CustomizeSamples/S2_1_AddingColor/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S2_1_AddingColor/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Showcase our new color
-            Console.Out.WriteLine("Before the color");
-            logger.LogNow("I am fantabulous!");
-            Console.Out.WriteLine("Dull again...");
+                // Showcase our new color
+                Console.Out.WriteLine("Before the color");
+                logger.LogNow("I am fantabulous!");
+                Console.Out.WriteLine("Dull again...");
+            }
         }
     }
 }

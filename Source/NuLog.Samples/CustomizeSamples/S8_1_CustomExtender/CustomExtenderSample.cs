@@ -24,13 +24,14 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
         public override void ExecuteSample()
         {
             // Load the configuration
-            var factory = new LoggerFactory("CustomizeSamples/S8_1_CustomExtender/NuLog.json");
-
-            // Send a message to trace.
-            //  This should be caught by our extender and written to
-            //  console because of the rules in our configuration.
-            Trace.WriteLine("Hello, World!");
-            Debug.WriteLine("Hello, Debug!");
+            using (var factory = new LoggerFactory("CustomizeSamples/S8_1_CustomExtender/NuLog.json"))
+            {
+                // Send a message to trace.
+                //  This should be caught by our extender and written to
+                //  console because of the rules in our configuration.
+                Trace.WriteLine("Hello, World!");
+                Debug.WriteLine("Hello, Debug!");
+            }
         }
     }
 }

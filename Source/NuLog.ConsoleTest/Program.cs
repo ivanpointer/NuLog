@@ -149,20 +149,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\Console.json");
-            var logger = factory.Logger("console", "console");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\Console.json"))
+            {
+                var logger = factory.Logger("console", "console");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.LogNow("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.LogNow("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestSyncConsole(string[] args)
@@ -172,20 +174,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\SyncConsole.json");
-            var logger = factory.Logger("console", "console");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\SyncConsole.json"))
+            {
+                var logger = factory.Logger("console", "console");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.Log("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.Log("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestAsyncConsole(string[] args)
@@ -195,20 +199,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\Console.json");
-            var logger = factory.Logger("console", "console");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\Console.json"))
+            {
+                var logger = factory.Logger("console", "console");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.Log("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.Log("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestAsyncFile(string[] args)
@@ -218,20 +224,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\File.json");
-            var logger = factory.Logger("file", "file");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\File.json"))
+            {
+                var logger = factory.Logger("file", "file");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.Log("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.Log("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestSyncFile(string[] args)
@@ -241,20 +249,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\File.json");
-            var logger = factory.Logger("file", "file");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\File.json"))
+            {
+                var logger = factory.Logger("file", "file");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.LogNow("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.LogNow("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestAsyncColorConsole(string[] args)
@@ -264,20 +274,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\ColorConsole.json");
-            var logger = factory.Logger("console", "console");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\ColorConsole.json"))
+            {
+                var logger = factory.Logger("console", "console");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.Log("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.Log("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestSyncColorConsole(string[] args)
@@ -287,20 +299,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\SyncColorConsole.json");
-            var logger = factory.Logger("console", "console");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\SyncColorConsole.json"))
+            {
+                var logger = factory.Logger("console", "console");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.Log("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.Log("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
 
         private static void TestWindowsEventLog(string[] args)
@@ -310,20 +324,22 @@ namespace NuLog.ConsoleTest
             var initializeSW = new Stopwatch();
 
             initializeSW.Start();
-            var factory = new LoggerFactory(@"Configs\WindowsEventLog.json");
-            var logger = factory.Logger("windowsEventLog", "windowsEventLog");
-            initializeSW.Stop();
+            using (var factory = new LoggerFactory(@"Configs\WindowsEventLog.json"))
+            {
+                var logger = factory.Logger("windowsEventLog", "windowsEventLog");
+                initializeSW.Stop();
 
-            var logSW = new Stopwatch();
-            logSW.Start();
-            for (int lp = 0; lp < testTimes; lp++)
-                logger.LogNow("Entry " + lp);
-            logSW.Stop();
+                var logSW = new Stopwatch();
+                logSW.Start();
+                for (int lp = 0; lp < testTimes; lp++)
+                    logger.LogNow("Entry " + lp);
+                logSW.Stop();
 
-            Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
-            Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
-            Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+                Trace.WriteLine(string.Format("Initialize: {0} ms", initializeSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Log Time: {0} ms", logSW.ElapsedMilliseconds));
+                Trace.WriteLine(string.Format("Total Messages: {0}", testTimes));
+                Trace.WriteLine(string.Format("Time per message: {0} ms", (double)logSW.ElapsedMilliseconds / (double)testTimes));
+            }
         }
     }
 }

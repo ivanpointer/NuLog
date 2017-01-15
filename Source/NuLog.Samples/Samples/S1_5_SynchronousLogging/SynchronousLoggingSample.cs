@@ -31,21 +31,25 @@ namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
         private void LoggerSample()
         {
             // Load the configuration for the example of performing synchronous logging in the logger
-            var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogLogger.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogLogger.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.Log("Log later");
-            logger.LogNow("Log now");
+                logger.Log("Log later");
+                logger.LogNow("Log now");
+            }
         }
 
         private void GlobalSample()
         {
             // Load the configuration for the example of performing synchronous logging globally
-            var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogGlobal.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogGlobal.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.Log("Log later?");
-            logger.LogNow("Log now!");
+                logger.Log("Log later?");
+                logger.LogNow("Log now!");
+            }
         }
     }
 }

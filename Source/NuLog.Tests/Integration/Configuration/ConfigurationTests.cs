@@ -154,32 +154,34 @@ namespace NuLog.Tests.Integration.Configuration
                 })
                 .Build();
 
-            var factory = new LoggerFactory(config);
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory(config))
+            {
+                var logger = factory.Logger();
 
-            logger.LogNow("Hello, World!");
+                logger.LogNow("Hello, World!");
 
-            var messages = ListTarget.GetList();
-            Assert.NotNull(messages);
-            Assert.True(messages.Count == 1);
+                var messages = ListTarget.GetList();
+                Assert.NotNull(messages);
+                Assert.True(messages.Count == 1);
 
-            var logEvent = messages[0];
-            Assert.NotNull(logEvent);
-            Assert.Equal("Hello, World!", logEvent.Message);
-            Assert.True(logEvent.Tags.Contains(this.GetType().FullName));
+                var logEvent = messages[0];
+                Assert.NotNull(logEvent);
+                Assert.Equal("Hello, World!", logEvent.Message);
+                Assert.True(logEvent.Tags.Contains(this.GetType().FullName));
 
-            logger.Log("Delayed, Test!");
-            Thread.Yield();
+                logger.Log("Delayed, Test!");
+                Thread.Yield();
 
-            int tries = 0;
-            while (tries++ < 10 && ListTarget.GetList().Count < 2)
-                Thread.Sleep(100);
+                int tries = 0;
+                while (tries++ < 10 && ListTarget.GetList().Count < 2)
+                    Thread.Sleep(100);
 
-            var messagesDelayed = ListTarget.GetList();
-            Assert.Equal(2, messagesDelayed.Count);
-            var delayedMessage = messagesDelayed[1];
-            Assert.NotNull(delayedMessage);
-            Assert.Equal("Delayed, Test!", delayedMessage.Message);
+                var messagesDelayed = ListTarget.GetList();
+                Assert.Equal(2, messagesDelayed.Count);
+                var delayedMessage = messagesDelayed[1];
+                Assert.NotNull(delayedMessage);
+                Assert.Equal("Delayed, Test!", delayedMessage.Message);
+            }
         }
 
         #region helpers

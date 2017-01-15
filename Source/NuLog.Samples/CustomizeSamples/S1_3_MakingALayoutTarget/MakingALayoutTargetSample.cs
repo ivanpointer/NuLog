@@ -21,10 +21,12 @@ namespace NuLog.Samples.CustomizeSamples.S1_3_MakingALayoutTarget
         // Logging example
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("CustomizeSamples/S1_3_MakingALayoutTarget/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S1_3_MakingALayoutTarget/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.LogNow("Our shiny new layout target!");
+                logger.LogNow("Our shiny new layout target!");
+            }
         }
     }
 }

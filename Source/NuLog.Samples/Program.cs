@@ -145,6 +145,9 @@ namespace NuLog.Samples
                 // Update the exit flag
                 exit = selection.DoExit;
             }
+
+            // Shutdown all logger factories
+            LoggerFactoryRegistry.ShutdownAll();
         }
 
         #endregion Main

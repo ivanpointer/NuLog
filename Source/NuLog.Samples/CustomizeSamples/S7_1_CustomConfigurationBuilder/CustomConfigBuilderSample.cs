@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/16/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.SamplesLib.CustomizeSamples.S7_1_CustomConfigurationBuilder;
 
@@ -32,22 +28,24 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
         private void ExecuteManualBuilder()
         {
             // Load the configuration using our custom config builder
-            var factory = new LoggerFactory(new MyCustomConfigBuilder());
-
-            // Execute our custom config builder
-            var logger = factory.Logger();
-            logger.LogNow("Custom config builder!");
+            using (var factory = new LoggerFactory(new MyCustomConfigBuilder()))
+            {
+                // Execute our custom config builder
+                var logger = factory.Logger();
+                logger.LogNow("Custom config builder!");
+            }
         }
 
         // Example showing a MEF provided config builder
         private void ExecuteMEFBuilder()
         {
             // Load the default configuration
-            var factory = new LoggerFactory();
-
-            // Execute our example showing the MEF config builder
-            var logger = factory.Logger();
-            logger.LogNow("MEF config builder!", MEFCustomConfigBuilder.RuleTag);
+            using (var factory = new LoggerFactory())
+            {
+                // Execute our example showing the MEF config builder
+                var logger = factory.Logger();
+                logger.LogNow("MEF config builder!", MEFCustomConfigBuilder.RuleTag);
+            }
         }
     }
 }

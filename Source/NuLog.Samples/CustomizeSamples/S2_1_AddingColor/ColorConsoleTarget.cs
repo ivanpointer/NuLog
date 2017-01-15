@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Targets;
 using System;

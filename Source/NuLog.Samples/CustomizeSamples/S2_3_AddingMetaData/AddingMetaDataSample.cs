@@ -24,20 +24,22 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
         // Logging example
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("CustomizeSamples/S2_3_AddingMetaData/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S2_3_AddingMetaData/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Showcase our new color
-            Console.Out.WriteLine("Before the color");
-            logger.LogNow("I am striped with shock!", "consoleColorRed");
-            logger.LogNow("I'm seeing stars!", "consoleColorBlue");
+                // Showcase our new color
+                Console.Out.WriteLine("Before the color");
+                logger.LogNow("I am striped with shock!", "consoleColorRed");
+                logger.LogNow("I'm seeing stars!", "consoleColorBlue");
 
-            logger.LogNow("I'm feeling a bit green...", new Dictionary<string, object> {
-                { ColorConsoleTarget.BackgroundColorMeta, ConsoleColor.White },
-                { ColorConsoleTarget.ForegroundColorMeta, ConsoleColor.DarkGreen }
-            }, "consoleColorRed");
+                logger.LogNow("I'm feeling a bit green...", new Dictionary<string, object> {
+                    { ColorConsoleTarget.BackgroundColorMeta, ConsoleColor.White },
+                    { ColorConsoleTarget.ForegroundColorMeta, ConsoleColor.DarkGreen }
+                }, "consoleColorRed");
 
-            Console.Out.WriteLine("Dull again...");
+                Console.Out.WriteLine("Dull again...");
+            }
         }
     }
 }

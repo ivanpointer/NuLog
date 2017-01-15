@@ -11,35 +11,34 @@ namespace NuLog.Samples.CustomizeSamples.S5_1_ConfigurationExtenders
     /// </summary>
     public class ConfigurationExtendersSample : SampleBase
     {
-        private readonly LoggerFactory factory;
-
-        private readonly LoggerBase logger;
-
         // Wiring for the sample program (menu wiring)
         public ConfigurationExtendersSample(string section, string sample) : base(section, sample)
         {
-            factory = new LoggerFactory("CustomizeSamples/S5_1_ConfigurationExtenders/NuLog.json");
-            logger = factory.Logger();
         }
 
         // Logging example
         public override void ExecuteSample()
         {
-            // Execute our samples
-            ExecuteJSONConfigSample();
-            PauseSample();
-            ExecuteMEFSample();
+            using (var factory = new LoggerFactory("CustomizeSamples/S5_1_ConfigurationExtenders/NuLog.json"))
+            {
+                var logger = factory.Logger();
+
+                // Execute our samples
+                ExecuteJSONConfigSample(logger);
+                PauseSample();
+                ExecuteMEFSample(logger);
+            }
         }
 
         // Example showing setting a config extender in the JSON
-        private void ExecuteJSONConfigSample()
+        private void ExecuteJSONConfigSample(LoggerBase logger)
         {
             // Test our configuration extender
             logger.LogNow("Hello, custom config!");
         }
 
         // Example showing setting a config extender using MEF
-        private void ExecuteMEFSample()
+        private void ExecuteMEFSample(LoggerBase logger)
         {
             // Test our configuration extender
             logger.LogNow("Hello, custom config using MEF!", "mefCustomConsole");

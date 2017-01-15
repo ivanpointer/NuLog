@@ -22,14 +22,15 @@ namespace NuLog.Samples.CustomizeSamples.S4_3_StaticMetaDataProviders
         public override void ExecuteSample()
         {
             // Load the configuration
-            var factory = new LoggerFactory("CustomizeSamples/S4_3_StaticMetaDataProviders/NuLog.json");
+            using (var factory = new LoggerFactory("CustomizeSamples/S4_3_StaticMetaDataProviders/NuLog.json"))
+            {
+                // Get a hold of our logger
+                var logger = factory.Logger();
 
-            // Get a hold of our logger
-            var logger = factory.Logger();
-
-            // Log our information
-            for (int lp = 0; lp < 5; lp++)
-                logger.LogNow(string.Format("Static meta data provider test {0}", lp));
+                // Log our information
+                for (int lp = 0; lp < 5; lp++)
+                    logger.LogNow(string.Format("Static meta data provider test {0}", lp));
+            }
         }
     }
 }

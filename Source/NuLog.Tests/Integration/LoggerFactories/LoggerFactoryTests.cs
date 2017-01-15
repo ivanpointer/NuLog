@@ -48,17 +48,19 @@ namespace NuLog.Tests.Integration.LoggerFactories
                 })
                 .Build();
 
-            var factory = new LoggerFactory(config);
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory(config))
+            {
+                var logger = factory.Logger();
 
-            ListTarget.ClearList();
-            for (var x = 0; x < 1000; x++)
-                logger.Log("Log message " + x);
+                ListTarget.ClearList();
+                for (var x = 0; x < 1000; x++)
+                    logger.Log("Log message " + x);
 
-            factory.Shutdown();
+                factory.Shutdown();
 
-            var list = ListTarget.GetList();
-            Assert.Equal(1000, list.Count);
+                var list = ListTarget.GetList();
+                Assert.Equal(1000, list.Count);
+            }
         }
 
         [Fact]

@@ -22,12 +22,14 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
         public override void ExecuteSample()
         {
             // Load this sample's configuration
-            var factory = new LoggerFactory("CustomizeSamples/S2_5_AsynchronousLoggingInTheTarget/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S2_5_AsynchronousLoggingInTheTarget/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Showcase our asynchronous logging
-            for (int lp = 0; lp < 100; lp++)
-                logger.Log(string.Format("Message {0}", lp), lp % 2 == 0 ? "consoleColorBlue" : "consoleColorRed");
+                // Showcase our asynchronous logging
+                for (int lp = 0; lp < 100; lp++)
+                    logger.Log(string.Format("Message {0}", lp), lp % 2 == 0 ? "consoleColorBlue" : "consoleColorRed");
+            }
         }
     }
 }

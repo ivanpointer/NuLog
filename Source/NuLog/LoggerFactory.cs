@@ -131,6 +131,8 @@ namespace NuLog
             NamedLoggers = new Dictionary<string, LoggerBase>();
 
             Initialize(configFile, dispatcher, exceptionHandler);
+
+            LoggerFactoryRegistry.Register(this);
         }
 
         /// <summary>
@@ -145,6 +147,8 @@ namespace NuLog
             NamedLoggers = new Dictionary<string, LoggerBase>();
 
             Initialize(configBuilder, dispatcher, exceptionHandler);
+
+            LoggerFactoryRegistry.Register(this);
         }
 
         /// <summary>
@@ -159,6 +163,8 @@ namespace NuLog
             NamedLoggers = new Dictionary<string, LoggerBase>();
 
             Initialize(config, dispatcher, exceptionHandler);
+
+            LoggerFactoryRegistry.Register(this);
         }
 
         #endregion Members and Constructors
@@ -585,6 +591,9 @@ namespace NuLog
                 // Bring the dispatcher down last
                 if (LogEventDispatcher != null)
                     LogEventDispatcher.Shutdown();
+
+                // Finally, tell the registry that we're down
+                LoggerFactoryRegistry.Deregister(this);
             }
         }
 
@@ -737,7 +746,7 @@ namespace NuLog
             this.Shutdown();
         }
 
-        #endregion
+        #endregion Disposable
 
         #region Helpers
 

@@ -44,30 +44,32 @@ namespace NuLog.Tests.Integration.MetaDataProviders
                 })
                 .Build();
 
-            var factory = new LoggerFactory(config);
-            var metaDataProvider = new TestMetaDataProvider();
-
-            var logger = factory.Logger(metaDataProvider);
-
-            logger.LogNow("This is a test");
-
-            for (int checks = 0; checks < 20; checks++)
+            using (var factory = new LoggerFactory(config))
             {
-                Thread.Sleep(100);
-                if (ListTarget.GetList().Count > 0)
-                    break;
+                var metaDataProvider = new TestMetaDataProvider();
+
+                var logger = factory.Logger(metaDataProvider);
+
+                logger.LogNow("This is a test");
+
+                for (int checks = 0; checks < 20; checks++)
+                {
+                    Thread.Sleep(100);
+                    if (ListTarget.GetList().Count > 0)
+                        break;
+                }
+
+                var list = ListTarget.GetList();
+                Assert.NotNull(list);
+                Assert.Equal(1, list.Count);
+
+                var message = list[0];
+                Assert.NotNull(message);
+                Assert.True(message.MetaData.ContainsKey("Hello"));
+                Assert.True(message.MetaData["Hello"].ToString() == "World");
+                Assert.True(message.MetaData.ContainsKey("Addtl"));
+                Assert.True(message.MetaData["Addtl"].ToString() == "Data");
             }
-
-            var list = ListTarget.GetList();
-            Assert.NotNull(list);
-            Assert.Equal(1, list.Count);
-
-            var message = list[0];
-            Assert.NotNull(message);
-            Assert.True(message.MetaData.ContainsKey("Hello"));
-            Assert.True(message.MetaData["Hello"].ToString() == "World");
-            Assert.True(message.MetaData.ContainsKey("Addtl"));
-            Assert.True(message.MetaData["Addtl"].ToString() == "Data");
         }
     }
 

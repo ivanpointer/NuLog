@@ -90,6 +90,7 @@
     <Compile Include="LogEvent.cs" />
     <Compile Include="LoggerFactory.cs" />
     <Compile Include="LoggerBase.cs" />
+    <Compile Include="LoggerFactoryRegistry.cs" />
     <Compile Include="Loggers\DefaultLogger.cs" />
     <Compile Include="LoggingException.cs" />
     <Compile Include="MetaData\IMetaDataProvider.cs" />

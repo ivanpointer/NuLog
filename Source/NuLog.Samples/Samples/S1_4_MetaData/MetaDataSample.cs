@@ -25,15 +25,17 @@ namespace NuLog.Samples.Samples.S1_4_MetaData
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            var factory = new LoggerFactory("Samples/S1_4_MetaData/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S1_4_MetaData/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Setup the meta data
-            var metaData = new Dictionary<string, object>();
-            metaData["Hello"] = "World!";
+                // Setup the meta data
+                var metaData = new Dictionary<string, object>();
+                metaData["Hello"] = "World!";
 
-            // Log, sending the meta data
-            logger.Log("This is my message", metaData);
+                // Log, sending the meta data
+                logger.Log("This is my message", metaData);
+            }
         }
     }
 }

@@ -34,13 +34,14 @@ namespace NuLog.Samples.Samples.S1_8_RuntimeConfigurationOverview
                     .Build());
 
             // Initialize the framework to the configuration
-            var factory = new LoggerFactory(config);
+            using (var factory = new LoggerFactory(config))
+            {
+                // Get an instance of the logger...
+                var logger = factory.Logger();
 
-            // Get an instance of the logger...
-            var logger = factory.Logger();
-
-            // and log to it
-            logger.Log("Hello, World!");
+                // and log to it
+                logger.Log("Hello, World!");
+            }
         }
     }
 }

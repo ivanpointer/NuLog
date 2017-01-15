@@ -24,13 +24,14 @@ namespace NuLog.Tests.Integration.Targets
         public void TestSimpleEmail()
         {
             var config = new LoggingConfig(@"Configs\SimpleEmailTest.json");
-            var factory = new LoggerFactory(config);
+            using (var factory = new LoggerFactory(config))
+            {
+                var logger = factory.Logger();
 
-            var logger = factory.Logger();
+                logger.Log("Hello, World!");
 
-            logger.Log("Hello, World!");
-
-            // Uh, no validation?
+                // Uh, no validation?
+            }
         }
     }
 }

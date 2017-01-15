@@ -26,11 +26,13 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            var factory = new LoggerFactory("Samples/S1_1_HelloWorld/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S1_1_HelloWorld/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.Log("Log Later!");
-            logger.LogNow("Log Now!");
+                logger.Log("Log Later!");
+                logger.LogNow("Log Now!");
+            }
         }
     }
 }

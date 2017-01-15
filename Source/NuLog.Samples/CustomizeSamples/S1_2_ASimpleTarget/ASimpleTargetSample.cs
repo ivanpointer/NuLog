@@ -21,10 +21,12 @@ namespace NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget
         // Logging example
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("CustomizeSamples/S1_2_ASimpleTarget/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S1_2_ASimpleTarget/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.LogNow("Our first message from our custom target!");
+                logger.LogNow("Our first message from our custom target!");
+            }
         }
     }
 }

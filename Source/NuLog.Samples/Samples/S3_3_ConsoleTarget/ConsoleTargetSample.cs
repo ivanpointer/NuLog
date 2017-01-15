@@ -39,10 +39,12 @@ namespace NuLog.Samples.Samples.S3_3_ConsoleTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            var factory = new LoggerFactory("Samples/S3_3_ConsoleTarget/NuLog.json");
-            var jsonLogger = factory.Logger();
-            jsonLogger.LogNow("Hello from JSON config, error", "error");
-            jsonLogger.LogNow("Hello from JSON config, warn", "warn");
+            using (var factory = new LoggerFactory("Samples/S3_3_ConsoleTarget/NuLog.json"))
+            {
+                var jsonLogger = factory.Logger();
+                jsonLogger.LogNow("Hello from JSON config, error", "error");
+                jsonLogger.LogNow("Hello from JSON config, warn", "warn");
+            }
         }
 
         // Example using runtime configuration
@@ -60,24 +62,29 @@ namespace NuLog.Samples.Samples.S3_3_ConsoleTarget
                     .SetLayoutConfig(new LayoutConfig("Runtime: ${Message}\r\n"))
                     .Build());
 
-            var factory = new LoggerFactory(config);
-            var runtimeLogger = factory.Logger();
-            runtimeLogger.LogNow("Hello from runtime config, error", "error");
-            runtimeLogger.LogNow("Hello from runtime config, warn", "warn");
+            using (var factory = new LoggerFactory(config))
+            {
+                var runtimeLogger = factory.Logger();
+                runtimeLogger.LogNow("Hello from runtime config, error", "error");
+                runtimeLogger.LogNow("Hello from runtime config, warn", "warn");
+            }
         }
 
         // Example using meta data
         private void ExecuteMetaData()
         {
-            var logger = LoggerFactory.GetLogger();
-
-            logger.LogNow("White and dark yellow", new Dictionary<string, object>
+            using (var factory = new LoggerFactory())
             {
-                { ConsoleTarget.MetaBackground, ConsoleColor.White },
-                { ConsoleTarget.MetaForeground, ConsoleColor.DarkYellow }
-            });
+                var logger = factory.Logger();
 
-            logger.LogNow("White and dark green", ConsoleColor.White, ConsoleColor.DarkGreen);
+                logger.LogNow("White and dark yellow", new Dictionary<string, object>
+                {
+                    { ConsoleTarget.MetaBackground, ConsoleColor.White },
+                    { ConsoleTarget.MetaForeground, ConsoleColor.DarkYellow }
+                });
+
+                logger.LogNow("White and dark green", ConsoleColor.White, ConsoleColor.DarkGreen);
+            }
         }
     }
 }

@@ -24,12 +24,14 @@ namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
         public override void ExecuteSample()
         {
             // Load the configuration
-            var factory = new LoggerFactory("CustomizeSamples/S3_1_ExtendingTheLogger/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S3_1_ExtendingTheLogger/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Test the extension method
-            logger.LogNow("I will be the default blue", "consoleColorBlue");
-            logger.LogNow("I will be an overridden green", ConsoleColor.DarkGreen, ConsoleColor.White, "consoleColorBlue");
+                // Test the extension method
+                logger.LogNow("I will be the default blue", "consoleColorBlue");
+                logger.LogNow("I will be an overridden green", ConsoleColor.DarkGreen, ConsoleColor.White, "consoleColorBlue");
+            }
         }
     }
 }

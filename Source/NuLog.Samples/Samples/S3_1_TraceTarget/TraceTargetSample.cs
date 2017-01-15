@@ -32,9 +32,11 @@ namespace NuLog.Samples.Samples.S3_1_TraceTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            var factory = new LoggerFactory("Samples/S3_1_TraceTarget/NuLog.json");
-            var jsonLogger = factory.Logger();
-            jsonLogger.LogNow("Hello from JSON config!");
+            using (var factory = new LoggerFactory("Samples/S3_1_TraceTarget/NuLog.json"))
+            {
+                var jsonLogger = factory.Logger();
+                jsonLogger.LogNow("Hello from JSON config!");
+            }
         }
 
         // Example using runtime configuration
@@ -44,9 +46,11 @@ namespace NuLog.Samples.Samples.S3_1_TraceTarget
             var config = LoggingConfigBuilder.CreateLoggingConfig()
                 .AddTarget(traceTargetConfig);
 
-            var factory = new LoggerFactory(config);
-            var runtimeLogger = factory.Logger();
-            runtimeLogger.LogNow("Hello from runtime config!");
+            using (var factory = new LoggerFactory(config))
+            {
+                var runtimeLogger = factory.Logger();
+                runtimeLogger.LogNow("Hello from runtime config!");
+            }
         }
     }
 }

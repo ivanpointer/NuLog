@@ -23,14 +23,16 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
         // Logging example
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("CustomizeSamples/S2_2_AddingConfiguration/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("CustomizeSamples/S2_2_AddingConfiguration/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            // Showcase our new color
-            Console.Out.WriteLine("Before the color");
-            logger.LogNow("I am striped with shock!", "consoleColorRed");
-            logger.LogNow("I'm seeing stars!", "consoleColorBlue");
-            Console.Out.WriteLine("Dull again...");
+                // Showcase our new color
+                Console.Out.WriteLine("Before the color");
+                logger.LogNow("I am striped with shock!", "consoleColorRed");
+                logger.LogNow("I'm seeing stars!", "consoleColorBlue");
+                Console.Out.WriteLine("Dull again...");
+            }
         }
     }
 }

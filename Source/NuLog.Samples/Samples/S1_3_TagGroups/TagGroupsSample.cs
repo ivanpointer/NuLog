@@ -22,18 +22,20 @@ namespace NuLog.Samples.Samples.S1_3_TagGroups
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            var factory = new LoggerFactory("Samples/S1_3_TagGroups/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S1_3_TagGroups/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.LogNow("I like oranges!", "orange");
-            logger.LogNow("I really like peaches!", "peach");
-            logger.LogNow("I like tomatoes!", "tomato");
-            logger.LogNow("I like fruit!", "fruit");
-            logger.LogNow("I don't like mushrooms!", "mushroom");
+                logger.LogNow("I like oranges!", "orange");
+                logger.LogNow("I really like peaches!", "peach");
+                logger.LogNow("I like tomatoes!", "tomato");
+                logger.LogNow("I like fruit!", "fruit");
+                logger.LogNow("I don't like mushrooms!", "mushroom");
 
-            logger.LogNow("Debug message!", "debug");
-            logger.LogNow("Info message!", "info");
-            logger.LogNow("Fatal message!", "fatal");
+                logger.LogNow("Debug message!", "debug");
+                logger.LogNow("Info message!", "info");
+                logger.LogNow("Fatal message!", "fatal");
+            }
         }
     }
 }

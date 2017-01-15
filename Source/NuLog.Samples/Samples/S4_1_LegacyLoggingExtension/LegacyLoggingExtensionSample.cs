@@ -23,18 +23,20 @@ namespace NuLog.Samples.Samples.S4_1_LegacyLoggingExtension
         // Example using the legacy logging extension
         public override void ExecuteSample()
         {
-            var factory = new LoggerFactory("Samples/S4_1_LegacyLoggingExtension/NuLog.json");
-            var logger = factory.Logger();
+            using (var factory = new LoggerFactory("Samples/S4_1_LegacyLoggingExtension/NuLog.json"))
+            {
+                var logger = factory.Logger();
 
-            logger.TraceNow("These are not the droids you are looking for.");
-            logger.DebugNow("Hey, who turned out the lights!?");
+                logger.TraceNow("These are not the droids you are looking for.");
+                logger.DebugNow("Hey, who turned out the lights!?");
 
-            logger.InfoNow("Well, ain't that quaint?");
-            logger.WarnNow("Is it supposed to do that?");
-            logger.ErrorNow("Earl, you broke it!");
-            logger.FatalNow("We're all going to die!!");
+                logger.InfoNow("Well, ain't that quaint?");
+                logger.WarnNow("Is it supposed to do that?");
+                logger.ErrorNow("Earl, you broke it!");
+                logger.FatalNow("We're all going to die!!");
 
-            logger.LevelLogNow(LogLevel.INFO, "There is always another way!");
+                logger.LevelLogNow(LogLevel.INFO, "There is always another way!");
+            }
         }
     }
 }

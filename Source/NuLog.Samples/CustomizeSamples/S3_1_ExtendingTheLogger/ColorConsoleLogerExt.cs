@@ -1,12 +1,4 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
