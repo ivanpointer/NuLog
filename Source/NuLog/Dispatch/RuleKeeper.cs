@@ -167,7 +167,7 @@ namespace NuLog.Dispatch
         //  This is used for caching routes
         private static string FlattenTags(IEnumerable<string> tags)
         {
-            return String.Join(",", tags);
+            return string.Join(",", tags);
         }
 
         #endregion Helpers

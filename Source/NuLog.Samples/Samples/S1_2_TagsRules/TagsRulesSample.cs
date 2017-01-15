@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/25/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 
@@ -38,8 +34,8 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            LoggerFactory.Initialize("Samples/S1_2_TagsRules/NuLog.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_2_TagsRules/NuLog.json");
+            var logger = factory.Logger();
 
             // Exercise our rules
             logger.LogNow("I will go to trace");
@@ -60,8 +56,8 @@ namespace NuLog.Samples.Samples.S1_2_TagsRules
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            LoggerFactory.Initialize("Samples/S1_2_TagsRules/ExceptionNuLog.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_2_TagsRules/ExceptionNuLog.json");
+            var logger = factory.Logger();
 
             // Normal log message
             logger.LogNow("No exception, all is well here");

@@ -11,18 +11,14 @@ using NuLog.SamplesLib.CustomizeSamples.S7_1_CustomConfigurationBuilder;
 namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
 {
     /// <summary>
-    /// An example illustarting a very simple implementaion of a custom configuration builder.  The narration
+    /// An example illustrating a very simple implementation of a custom configuration builder.  The narration
     /// of this example can be found at:
     /// https://github.com/ivanpointer/NuLog/wiki/7.1-Creating-a-Custom-Configuration-Builder
     /// </summary>
     public class CustomConfigBuilderSample : SampleBase
     {
-        #region Sample Wiring
-
         // Wiring for the sample program (menu wiring)
         public CustomConfigBuilderSample(string section, string sample) : base(section, sample) { }
-
-        #endregion Sample Wiring
 
         // Logging example
         public override void ExecuteSample()
@@ -36,10 +32,10 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
         private void ExecuteManualBuilder()
         {
             // Load the configuration using our custom config builder
-            LoggerFactory.Initialize(new MyCustomConfigBuilder());
+            var factory = new LoggerFactory(new MyCustomConfigBuilder());
 
             // Execute our custom config builder
-            var logger = LoggerFactory.GetLogger();
+            var logger = factory.Logger();
             logger.LogNow("Custom config builder!");
         }
 
@@ -47,10 +43,10 @@ namespace NuLog.Samples.CustomizeSamples.S7_1_CustomConfigurationBuilder
         private void ExecuteMEFBuilder()
         {
             // Load the default configuration
-            LoggerFactory.Initialize();
+            var factory = new LoggerFactory();
 
             // Execute our example showing the MEF config builder
-            var logger = LoggerFactory.GetLogger();
+            var logger = factory.Logger();
             logger.LogNow("MEF config builder!", MEFCustomConfigBuilder.RuleTag);
         }
     }

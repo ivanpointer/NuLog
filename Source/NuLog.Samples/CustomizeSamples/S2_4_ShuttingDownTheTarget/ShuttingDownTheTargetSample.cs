@@ -1,18 +1,10 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
 {
     /// <summary>
-    /// An example illustarting a very simple implementaion of a custom target.  The narration
+    /// An example illustrating a very simple implementation of a custom target.  The narration
     /// of this example can be found at:
     /// https://github.com/ivanpointer/NuLog/wiki/2.4-Shutting-Down-the-Target
     /// </summary>
@@ -28,8 +20,8 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
         // Logging example
         public override void ExecuteSample()
         {
-            LoggerFactory.Initialize("CustomizeSamples/S2_4_ShuttingDownTheTarget/NuLog.json");
-            var logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("CustomizeSamples/S2_4_ShuttingDownTheTarget/NuLog.json");
+            var logger = factory.Logger();
 
             // Showcase our new color
             Console.Out.WriteLine("Before the color");
@@ -42,7 +34,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
             Console.Out.WriteLine("Dull again...");
 
             // Let's shutdown the framework - this will ripple to shutting down the target
-            LoggerFactory.Shutdown();
+            factory.Shutdown();
         }
     }
 }

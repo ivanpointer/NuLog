@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/28/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Configuration.Layouts;
@@ -38,10 +34,10 @@ namespace NuLog.Samples.Samples.S1_8_RuntimeConfigurationOverview
                     .Build());
 
             // Initialize the framework to the configuration
-            LoggerFactory.Initialize(config);
+            var factory = new LoggerFactory(config);
 
             // Get an instance of the logger...
-            var logger = LoggerFactory.GetLogger();
+            var logger = factory.Logger();
 
             // and log to it
             logger.Log("Hello, World!");

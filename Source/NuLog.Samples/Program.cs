@@ -136,7 +136,7 @@ namespace NuLog.Samples
                 if (selection.DoExit == false && selection.Sample != null)
                 {
                     Console.Clear();
-                    Console.WriteLine(String.Format("Executing sample \"{0}\":" + System.Environment.NewLine, selection.Sample.SampleName.Trim()));
+                    Console.WriteLine(string.Format("Executing sample \"{0}\":" + System.Environment.NewLine, selection.Sample.SampleName.Trim()));
                     selection.Sample.ExecuteSample();
                     Console.WriteLine(System.Environment.NewLine + "Press [Enter] to continue");
                     Console.ReadLine();
@@ -157,15 +157,15 @@ namespace NuLog.Samples
             // Clear the console
             if (clear)
                 Console.Clear();
-            Console.WriteLine(String.Empty);
+            Console.WriteLine(string.Empty);
 
-            Console.WriteLine(String.Format("{0}:", menuHeader));
+            Console.WriteLine(string.Format("{0}:", menuHeader));
 
             // Print the samples, adding in the section headers for each of the sections
             string section = null;
             foreach (var sample in samples)
             {
-                if (String.Equals(section, sample.SectionName) == false)
+                if (string.Equals(section, sample.SectionName) == false)
                 {
                     section = sample.SectionName;
                     Console.WriteLine(section);
@@ -174,7 +174,7 @@ namespace NuLog.Samples
             }
 
             // Some fluff
-            Console.WriteLine(String.Empty);
+            Console.WriteLine(string.Empty);
         }
 
         // Prints out the samples menu and challenges the user for the sample they want to execute
@@ -195,7 +195,7 @@ namespace NuLog.Samples
             //  pressing [Enter] (null or empty string)
             SampleBase selectedSample = null;
             bool doExit = false;
-            if (String.IsNullOrEmpty(userSelection) == false)
+            if (string.IsNullOrEmpty(userSelection) == false)
             {
                 userSelection = userSelection.Trim();
                 selectedSample = SamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
@@ -204,7 +204,7 @@ namespace NuLog.Samples
                     selectedSample = CustomSamplesMenu.FirstOrDefault(_ => _.SampleName.Trim().StartsWith(userSelection));
 
                 if (selectedSample == null)
-                    Console.WriteLine(String.Format("Sample for \"{0}\" not found", userSelection));
+                    Console.WriteLine(string.Format("Sample for \"{0}\" not found", userSelection));
             }
             else
             {

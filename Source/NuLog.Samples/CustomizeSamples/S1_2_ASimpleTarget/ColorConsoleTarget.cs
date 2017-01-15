@@ -21,7 +21,7 @@ namespace NuLog.Samples.CustomizeSamples.S1_2_ASimpleTarget
         // Synchronous logging
         public override void Log(LogEvent logEvent)
         {
-            Console.Out.WriteLine(String.Format("My custom target says: {0}", logEvent.Message));
+            Console.Out.WriteLine(string.Format("My custom target says: {0}", logEvent.Message));
         }
     }
 }

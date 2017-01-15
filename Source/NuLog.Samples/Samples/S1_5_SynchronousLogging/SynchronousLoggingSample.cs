@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/28/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
 {
@@ -35,8 +31,8 @@ namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
         private void LoggerSample()
         {
             // Load the configuration for the example of performing synchronous logging in the logger
-            LoggerFactory.Initialize("Samples/S1_5_SynchronousLogging/NuLogLogger.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogLogger.json");
+            var logger = factory.Logger();
 
             logger.Log("Log later");
             logger.LogNow("Log now");
@@ -45,8 +41,8 @@ namespace NuLog.Samples.Samples.S1_5_SynchronousLogging
         private void GlobalSample()
         {
             // Load the configuration for the example of performing synchronous logging globally
-            LoggerFactory.Initialize("Samples/S1_5_SynchronousLogging/NuLogGlobal.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_5_SynchronousLogging/NuLogGlobal.json");
+            var logger = factory.Logger();
 
             logger.Log("Log later?");
             logger.LogNow("Log now!");

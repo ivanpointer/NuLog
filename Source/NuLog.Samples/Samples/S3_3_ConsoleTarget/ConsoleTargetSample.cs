@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/09/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Configuration.Layouts;
@@ -43,8 +39,8 @@ namespace NuLog.Samples.Samples.S3_3_ConsoleTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            LoggerFactory.Initialize("Samples/S3_3_ConsoleTarget/NuLog.json");
-            var jsonLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S3_3_ConsoleTarget/NuLog.json");
+            var jsonLogger = factory.Logger();
             jsonLogger.LogNow("Hello from JSON config, error", "error");
             jsonLogger.LogNow("Hello from JSON config, warn", "warn");
         }
@@ -64,8 +60,8 @@ namespace NuLog.Samples.Samples.S3_3_ConsoleTarget
                     .SetLayoutConfig(new LayoutConfig("Runtime: ${Message}\r\n"))
                     .Build());
 
-            LoggerFactory.Initialize(config);
-            var runtimeLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory(config);
+            var runtimeLogger = factory.Logger();
             runtimeLogger.LogNow("Hello from runtime config, error", "error");
             runtimeLogger.LogNow("Hello from runtime config, warn", "warn");
         }

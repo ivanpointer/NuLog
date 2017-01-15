@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Configuration.Targets;
@@ -42,8 +38,8 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            LoggerFactory.Initialize("Samples/S3_5_EmailTarget/NuLog.json");
-            var jsonLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S3_5_EmailTarget/NuLog.json");
+            var jsonLogger = factory.Logger();
             jsonLogger.LogNow("Hello from JSON config");
             Console.Out.WriteLine("Sent first message: \"Hello from JSON config\"");
         }
@@ -76,8 +72,8 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
 
                     .Build());
 
-            LoggerFactory.Initialize(config);
-            var runtimeLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory(config);
+            var runtimeLogger = factory.Logger();
             runtimeLogger.LogNow("Hello from runtime config");
 
             Console.Out.WriteLine("Sent second message: \"Hello from runtime config\"");
@@ -86,8 +82,8 @@ namespace NuLog.Samples.Samples.S3_5_EmailTarget
         // Example showing setting email message specifics with meta data
         private void ExecuteMetaData()
         {
-            LoggerFactory.Initialize("Samples/S3_5_EmailTarget/NuLog.json");
-            var jsonLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S3_5_EmailTarget/NuLog.json");
+            var jsonLogger = factory.Logger();
 
             // Send message for the helper
             jsonLogger.LogNow(EmailLogEventBuilder.Create("Message using EmailLogEventBuilder")

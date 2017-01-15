@@ -261,7 +261,7 @@ namespace NuLog.Targets
 			{
 				_queueWorkerThread = new Thread(new ThreadStart(QueueWorkerThread))
 				{
-					Name = String.Format("{0} Queue Worker Thread", Name),
+					Name = string.Format("{0} Queue Worker Thread", Name),
 					Priority = ThreadPriority.Lowest
 				};
 				_queueWorkerThread.SetApartmentState(ApartmentState.MTA);
@@ -280,7 +280,7 @@ namespace NuLog.Targets
 		{
 			if (_queueWorkerThread != null && _queueWorkerThread.IsAlive)
 			{
-				Trace.WriteLine(String.Format("Shutting down target \"{0}\", waiting for log queue to flush", Name));
+				Trace.WriteLine(string.Format("Shutting down target \"{0}\", waiting for log queue to flush", Name));
 
 				// Signal to the thread that it should shut down
 				DoShutdownThread = true;

@@ -27,7 +27,7 @@ namespace NuLog.Layouts
             // Default to a "StandardLayout".  Check for a provided layout type and build it using reflection
             if (layoutConfig != null)
             {
-                if (String.IsNullOrEmpty(layoutConfig.Type) || layoutConfig.Type == typeof(StandardLayout).FullName)
+                if (string.IsNullOrEmpty(layoutConfig.Type) || layoutConfig.Type == typeof(StandardLayout).FullName)
                 {
                     return new StandardLayout(layoutConfig);
                 }

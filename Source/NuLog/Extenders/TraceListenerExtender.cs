@@ -30,12 +30,12 @@ namespace NuLog.Extenders
             #region Constants/Members/Messages
 
             // Our constants, including a write lock to help keep our writing clean
-            private static readonly object WriteLock = new object();
+            private static readonly object _writeLock = new object();
 
-            private static readonly char[] Split = Environment.NewLine.ToCharArray();
+            private static readonly char[] _split = Environment.NewLine.ToCharArray();
 
             // Our members, including a logger
-            private static readonly LoggerBase _logger = LoggerFactory.GetLogger();
+            private readonly LoggerBase _logger = LoggerFactory.GetLogger();
 
             private string[] _tags;
             private StringBuilder _stringBuilder;
@@ -47,7 +47,8 @@ namespace NuLog.Extenders
             /// the configuration in the provided TraceListenerExtender
             /// </summary>
             /// <param name="extender">The TraceListenerExtender that this TraceListener belongs to, and from which to load the configuration</param>
-            public InternalTraceListener(TraceListenerExtender extender)
+            /// <param name="loggerFactory">An optional logger factory from which to grab a logger instance.</param>
+            public InternalTraceListener(TraceListenerExtender extender, LoggerFactory loggerFactory = null)
                 : base()
             {
                 // Prepare the String Builder
@@ -67,8 +68,8 @@ namespace NuLog.Extenders
             public override void Write(string message)
             {
                 // Make sure that we have a message
-                if (String.IsNullOrEmpty(message) == false)
-                    lock (WriteLock)
+                if (string.IsNullOrEmpty(message) == false)
+                    lock (_writeLock)
                     {
                         // If the message has no newline, just queue it up
                         if (!message.Contains(Environment.NewLine))
@@ -80,7 +81,7 @@ namespace NuLog.Extenders
                         {
                             // Setup
                             bool endsNewline = message.EndsWith(Environment.NewLine);
-                            var parts = message.Split(Split);
+                            var parts = message.Split(_split);
 
                             // Append, and write the first part
                             //  unless it is the only part and we have no newline at the end
@@ -112,13 +113,13 @@ namespace NuLog.Extenders
             public override void WriteLine(string message)
             {
                 // Ignore this request if the message is empty
-                if (String.IsNullOrEmpty(message) == false)
-                    lock (WriteLock)
+                if (string.IsNullOrEmpty(message) == false)
+                    lock (_writeLock)
                     {
                         // Write the contents of the buffer out, followed by the message
                         _logger.Log(new LogEvent
                         {
-                            Message = String.Format("{0}{1}", _stringBuilder.ToString(), message),
+                            Message = string.Format("{0}{1}", _stringBuilder.ToString(), message),
                             Tags = _tags,
                             // Help prevent feedback loops:
                             Silent = true
@@ -132,7 +133,7 @@ namespace NuLog.Extenders
             /// </summary>
             public override void Flush()
             {
-                lock (WriteLock)
+                lock (_writeLock)
                 {
                     // Write out the contents of the buffer
                     WriteLine(_stringBuilder.ToString());

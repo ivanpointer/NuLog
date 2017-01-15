@@ -96,7 +96,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_4_ShuttingDownTheTarget
                 catch
                 {
                     if (!silent)
-                        Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
+                        Trace.WriteLine(string.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
 

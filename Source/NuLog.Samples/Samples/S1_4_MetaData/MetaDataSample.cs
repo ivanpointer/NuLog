@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/28/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
@@ -29,8 +25,8 @@ namespace NuLog.Samples.Samples.S1_4_MetaData
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            LoggerFactory.Initialize("Samples/S1_4_MetaData/NuLog.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_4_MetaData/NuLog.json");
+            var logger = factory.Logger();
 
             // Setup the meta data
             var metaData = new Dictionary<string, object>();

@@ -1,0 +1,22 @@
+﻿{
+    "targets": [{
+        "name": "console",
+        "type": "NuLog.Targets.ConsoleTarget",
+        "layout": "${longdate}|${tags}|${message}"
+    }],
+    "rules": [{
+        "include": ["NuLog*", "debug"],
+        "strictInclude": true,
+        "exclude": ["NuLog.Targets*"],
+        "writeTo": ["console"],
+        "final": false
+    }],
+    "tagGroups": {
+        "trace": ["debug", "info", "warn", "error", "fatal"],
+        "debug": ["info", "warn", "error", "fatal"],
+        "info": ["warn", "error", "fatal"],
+        "warn": ["error", "fatal"],
+        "error": ["fatal"]
+    },
+    "watch": true
+}

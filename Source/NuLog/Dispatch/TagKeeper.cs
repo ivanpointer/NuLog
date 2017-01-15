@@ -206,13 +206,13 @@ namespace NuLog.Dispatch
         // Checks to see if "input" matches "pattern" using wildcards "*" and "?"
         private bool MatchWildcardString(string pattern, string input)
         {
-            if (String.Compare(pattern, input) == 0)
+            if (string.Compare(pattern, input) == 0)
             {
                 return true;
             }
-            else if (String.IsNullOrEmpty(input))
+            else if (string.IsNullOrEmpty(input))
             {
-                if (String.IsNullOrEmpty(pattern.Trim(new Char[1] { '*' })))
+                if (string.IsNullOrEmpty(pattern.Trim(new Char[1] { '*' })))
                 {
                     return true;
                 }

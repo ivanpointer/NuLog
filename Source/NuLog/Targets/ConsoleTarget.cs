@@ -212,7 +212,7 @@ namespace NuLog.Targets
         // Flatten the tags into a string so that the results can be cached
         private static string FlattenTags(IEnumerable<string> tags)
         {
-            return String.Join(",", tags);
+            return string.Join(",", tags);
         }
 
         #endregion Helpers

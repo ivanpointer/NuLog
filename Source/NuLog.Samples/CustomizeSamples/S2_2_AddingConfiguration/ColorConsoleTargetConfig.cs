@@ -94,7 +94,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_2_AddingConfiguration
             }
             catch
             {
-                Trace.WriteLine(String.Format(FailedParseConsoleColorMessage, child));
+                Trace.WriteLine(string.Format(FailedParseConsoleColorMessage, child));
             }
 
             return defVal;

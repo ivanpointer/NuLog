@@ -51,7 +51,7 @@ namespace NuLog.MetaData
         public static object GetProperty(LogEvent logEvent, string propertyName)
         {
             object property = null;
-            if (String.IsNullOrEmpty(propertyName) == false)
+            if (string.IsNullOrEmpty(propertyName) == false)
             {
                 var nameList = propertyName.Split('.');
                 return GetProperty(logEvent, nameList);

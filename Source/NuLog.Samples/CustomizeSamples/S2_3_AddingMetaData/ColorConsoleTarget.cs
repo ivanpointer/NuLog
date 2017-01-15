@@ -97,7 +97,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
                 {
                     // Prevent feedback loops:
                     if (!silent)
-                        Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
+                        Trace.WriteLine(string.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
 

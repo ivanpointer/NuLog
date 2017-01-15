@@ -49,7 +49,7 @@ namespace NuLog.Configuration
 
         #endregion Constants
 
-        private static readonly object _configLock = new object();
+        private readonly object _configLock = new object();
         public string ConfigFile { get; private set; }
 
         // The file watcher for some reason fires two system events right on top of each other
@@ -111,9 +111,6 @@ namespace NuLog.Configuration
         /// </summary>
         public bool Watch { get; set; }
 
-        // We use an observer pattern here to keep observers informed of configuration changes
-        private static readonly object _observerLock = new object();
-
         private ICollection<IConfigObserver> ConfigObservers { get; set; }
 
         /// <summary>
@@ -153,7 +150,7 @@ namespace NuLog.Configuration
         /// <param name="observer">The observer to register to this configuration</param>
         public void RegisterObserver(IConfigObserver observer)
         {
-            lock (_observerLock)
+            lock (_configLock)
                 if (ConfigObservers.Contains(observer) == false)
                     ConfigObservers.Add(observer);
         }
@@ -164,7 +161,7 @@ namespace NuLog.Configuration
         /// <param name="observer">The observer to unregister from this configuration</param>
         public void UnregisterObserver(IConfigObserver observer)
         {
-            lock (_observerLock)
+            lock (_configLock)
                 if (ConfigObservers.Contains(observer))
                     ConfigObservers.Remove(observer);
         }
@@ -174,14 +171,11 @@ namespace NuLog.Configuration
         /// </summary>
         public void Shutdown()
         {
-            lock (_observerLock)
+            lock (_configLock)
             {
-                lock (_configLock)
-                {
-                    ConfigObservers.Clear();
+                ConfigObservers.Clear();
 
-                    ShutdownFileWatcher();
-                }
+                ShutdownFileWatcher();
             }
         }
 
@@ -190,8 +184,8 @@ namespace NuLog.Configuration
         /// </summary>
         public void NotifyObservers()
         {
-            LoggingConfig readOnlyCopy = ReadOnlyCopy();
-            lock (_observerLock)
+            var readOnlyCopy = ReadOnlyCopy();
+            lock (_configLock)
                 foreach (IConfigObserver observer in ConfigObservers)
                     observer.NotifyNewConfig(readOnlyCopy);
         }

@@ -153,7 +153,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
                 catch
                 {
                     if (!silent)
-                        Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
+                        Trace.WriteLine(string.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
 

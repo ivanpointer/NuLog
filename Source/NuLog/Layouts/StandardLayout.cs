@@ -61,7 +61,7 @@ namespace NuLog.Layouts
          *    - The property format is used to format the value of the proeprty which was evaluated from the log event
          *    - The property format is separated from the property name by a colon ':'
          *    - The property format is wrapped in single quotes to allow for escaping within the format string
-         *    - The framework uses System.String.Format with the property format and value
+         *    - The framework uses System.string.Format with the property format and value
          */
 
         #region Constants
@@ -164,7 +164,7 @@ namespace NuLog.Layouts
                             // If the paramater was not handled as a special parameter, treat it as a normal parameter
                             parameterString = !parameter.Contingent || !IsNullOrEmptyString(parameterValue)
                                 ? GetFormattedValue(parameterValue, parameter.Format)
-                                : String.Empty;
+                                : string.Empty;
 
                             builtMessage.Append(parameterString);
                         }
@@ -188,7 +188,7 @@ namespace NuLog.Layouts
             {
                 case "Tags":
                     return logEvent.Tags != null && logEvent.Tags.Count > 0
-                        ? String.Join(",", logEvent.Tags.ToArray())
+                        ? string.Join(",", logEvent.Tags.ToArray())
                         : null;
 
                 case "Exception":
@@ -206,8 +206,8 @@ namespace NuLog.Layouts
             bool inner = false;
             while (exception != null)
             {
-                sb.Append(String.Format("{0}{1}: {2}\r\n", inner ? "Caused by " : "", exception.GetType().FullName, exception.Message));
-                sb.Append(String.Format("{0}\r\n", exception.StackTrace));
+                sb.Append(string.Format("{0}{1}: {2}\r\n", inner ? "Caused by " : "", exception.GetType().FullName, exception.Message));
+                sb.Append(string.Format("{0}\r\n", exception.StackTrace));
                 exception = exception.InnerException;
                 inner = true;
             }
@@ -220,8 +220,8 @@ namespace NuLog.Layouts
         {
             if (value != null)
             {
-                if (String.IsNullOrEmpty(format) == false)
-                    return String.Format(format, value);
+                if (string.IsNullOrEmpty(format) == false)
+                    return string.Format(format, value);
                 return value.ToString();
             }
             return null;
@@ -282,7 +282,7 @@ namespace NuLog.Layouts
                     }
 
                     // Catch the "static text" at the end of the format
-                    if (String.IsNullOrEmpty(runningFormat) == false)
+                    if (string.IsNullOrEmpty(runningFormat) == false)
                     {
                         parameters.Add(new LayoutParameter
                         {
@@ -296,7 +296,7 @@ namespace NuLog.Layouts
                 }
                 catch (Exception e)
                 {
-                    throw new LoggingException(String.Format("Failed to parse layout format {0}", format), e);
+                    throw new LoggingException(string.Format("Failed to parse layout format {0}", format), e);
                 }
             }
 
@@ -326,15 +326,15 @@ namespace NuLog.Layouts
 
             // Split out and clean up the parameter format
             parm.Format = Regex.Match(text, ParameterFormatPattern).ToString();
-            parm.Format = !String.IsNullOrEmpty(parm.Format)
+            parm.Format = !string.IsNullOrEmpty(parm.Format)
                 ? parm.Format.Substring(1)
                 : null;
 
-            parm.Format = !String.IsNullOrEmpty(parm.Format) && parm.Format.StartsWith("'") && parm.Format.EndsWith("'")
+            parm.Format = !string.IsNullOrEmpty(parm.Format) && parm.Format.StartsWith("'") && parm.Format.EndsWith("'")
                 ? parm.Format.Substring(1, parm.Format.Length - 2)
                 : parm.Format;
 
-            parm.Format = !String.IsNullOrEmpty(parm.Format)
+            parm.Format = !string.IsNullOrEmpty(parm.Format)
                 ? parm.Format.Replace("\\'", "'").Replace("\\\\", "\\")
                 : parm.Format;
 
@@ -349,7 +349,7 @@ namespace NuLog.Layouts
         private static bool IsNullOrEmptyString(object value)
         {
             return value == null
-                || (typeof(string).IsAssignableFrom(value.GetType()) && String.IsNullOrEmpty((string)value));
+                || (typeof(string).IsAssignableFrom(value.GetType()) && string.IsNullOrEmpty((string)value));
         }
 
         #endregion Helpers

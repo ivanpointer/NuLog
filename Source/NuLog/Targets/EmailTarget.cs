@@ -108,7 +108,7 @@ namespace NuLog.Targets
                     // Make sure body layout is setup correctly
                     //  If the body file is specified, load a StandardLayout with the contents of the file as the format
                     //  Otherwise, use the layout factory to build our layout
-                    if (String.IsNullOrEmpty(Config.BodyFile))
+                    if (string.IsNullOrEmpty(Config.BodyFile))
                     {
                         BodyLayout = LayoutFactory.BuildLayout(Config.BodyLayout);
                     }
@@ -121,7 +121,7 @@ namespace NuLog.Targets
                         }
                         catch (Exception cause)
                         {
-                            Trace.WriteLine(String.Format(FailedToLoadBodyFileMessage, Config.BodyFile, cause));
+                            Trace.WriteLine(string.Format(FailedToLoadBodyFileMessage, Config.BodyFile, cause));
                             BodyLayout = new StandardLayout();
                         }
                     }
@@ -182,7 +182,7 @@ namespace NuLog.Targets
                         {
                             smtpClient.EnableSsl = Config.EnableSSL;
 
-                            if (!String.IsNullOrEmpty(Config.UserName) && !String.IsNullOrEmpty(Config.Password))
+                            if (!string.IsNullOrEmpty(Config.UserName) && !string.IsNullOrEmpty(Config.Password))
                                 smtpClient.Credentials = new NetworkCredential(Config.UserName, Config.Password);
 
                             smtpClient.Send(mailMessage);
@@ -313,13 +313,13 @@ namespace NuLog.Targets
                             memoryStreams.Add(newMemoryStream);
                             mailMessage.Attachments.Add(new Attachment(newMemoryStream, emailAttachment.AttachmentFileName));
                         }
-                        else if (String.IsNullOrEmpty(emailAttachment.PhysicalFileName) == false)
+                        else if (string.IsNullOrEmpty(emailAttachment.PhysicalFileName) == false)
                         {
                             if (File.Exists(emailAttachment.PhysicalFileName))
                             {
                                 mailMessage.Attachments.Add(new Attachment(emailAttachment.PhysicalFileName)
                                 {
-                                    Name = String.IsNullOrEmpty(emailAttachment.AttachmentFileName)
+                                    Name = string.IsNullOrEmpty(emailAttachment.AttachmentFileName)
                                         ? Path.GetFileName(emailAttachment.PhysicalFileName)
                                         : emailAttachment.AttachmentFileName
                                 });
@@ -327,13 +327,13 @@ namespace NuLog.Targets
                             else
                             {
                                 if (logEvent == null || logEvent.Silent == false)
-                                    Trace.WriteLine(String.Format(AttachmentNotFoundMessage, emailAttachment.PhysicalFileName));
+                                    Trace.WriteLine(string.Format(AttachmentNotFoundMessage, emailAttachment.PhysicalFileName));
                             }
                         }
                     }
                 }
             }
-            else if (String.IsNullOrEmpty(Config.Attachment) == false)
+            else if (string.IsNullOrEmpty(Config.Attachment) == false)
             {
                 if (File.Exists(Config.Attachment))
                 {
@@ -342,7 +342,7 @@ namespace NuLog.Targets
                 else
                 {
                     if (logEvent == null || logEvent.Silent == false)
-                        Trace.WriteLine(String.Format(AttachmentNotFoundMessage, Config.Attachment));
+                        Trace.WriteLine(string.Format(AttachmentNotFoundMessage, Config.Attachment));
                 }
             }
         }
@@ -365,7 +365,7 @@ namespace NuLog.Targets
                         catch
                         {
                             if (silent == false)
-                                Trace.WriteLine(String.Format(ParseEmailAddressFailureMessage, address));
+                                Trace.WriteLine(string.Format(ParseEmailAddressFailureMessage, address));
                         }
         }
 

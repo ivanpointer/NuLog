@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +8,7 @@ using System.Collections.Generic;
 namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
 {
     /// <summary>
-    /// An example illustarting a very simple implementaion of a custom target.  The narration
+    /// An example illustrating a very simple implementation of a custom target.  The narration
     /// of this example can be found at:
     /// https://github.com/ivanpointer/NuLog/wiki/2.3-Adding-Meta-Data
     /// </summary>
@@ -28,8 +24,8 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
         // Logging example
         public override void ExecuteSample()
         {
-            LoggerFactory.Initialize("CustomizeSamples/S2_3_AddingMetaData/NuLog.json");
-            var logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("CustomizeSamples/S2_3_AddingMetaData/NuLog.json");
+            var logger = factory.Logger();
 
             // Showcase our new color
             Console.Out.WriteLine("Before the color");

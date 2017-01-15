@@ -94,7 +94,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_3_AddingMetaData
             }
             catch
             {
-                Trace.WriteLine(String.Format(FailedParseConsoleColorMessage, child));
+                Trace.WriteLine(string.Format(FailedParseConsoleColorMessage, child));
             }
 
             return defVal;

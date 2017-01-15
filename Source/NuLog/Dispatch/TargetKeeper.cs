@@ -203,7 +203,7 @@ namespace NuLog.Dispatch
                                 }
                                 else
                                 {
-                                    throw new LoggingException(String.Format("Type not found for {0}", targetConfig.Type));
+                                    throw new LoggingException(string.Format("Type not found for {0}", targetConfig.Type));
                                 }
                             }
                             catch (Exception exception)
@@ -294,7 +294,7 @@ namespace NuLog.Dispatch
         // Flattens a list of target names into a single string
         private static string FlattenTargets(ICollection<string> targets)
         {
-            return String.Join(",", targets.ToArray());
+            return string.Join(",", targets.ToArray());
         }
 
         // Handles an exception passed to it

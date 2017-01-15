@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/09/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Configuration.Targets;
@@ -37,8 +33,8 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            LoggerFactory.Initialize("Samples/S3_4_TextFileTarget/NuLog.json");
-            var jsonLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S3_4_TextFileTarget/NuLog.json");
+            var jsonLogger = factory.Logger();
             jsonLogger.LogNow("Hello from JSON config");
         }
 
@@ -57,21 +53,16 @@ namespace NuLog.Samples.Samples.S3_4_TextFileTarget
                     .SetRolloverPolicy(RolloverPolicy.Size)
                     .SetRolloverTrigger(1 * KB)
 
-                    //.SetRolloverPolicy(RolloverPolicy.Day)
-                    //.SetRolloverTrigger(2)
-
                     .SetOldFileLimit(5)
                     .SetCompressOldFiles(true)
 
-#if !NET40
                     .SetCompressionLevel(CompressionLevel.Optimal)
                     .SetCompressionPassword("helloworld")
-#endif
 
                     .Build());
 
-            LoggerFactory.Initialize(config);
-            var runtimeLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory(config);
+            var runtimeLogger = factory.Logger();
             runtimeLogger.LogNow("Hello from runtime config");
         }
     }

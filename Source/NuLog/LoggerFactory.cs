@@ -1,8 +1,6 @@
-﻿/*
- * Author: Ivan Pointer (ivan@pointerplace.us)
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Dispatch;
@@ -25,7 +23,7 @@ namespace NuLog
     /// The factory ties the four other major pieces of the framework together:
     ///   configuration, the dispatcher, the targets and loggers
     /// </summary>
-    public class LoggerFactory
+    public class LoggerFactory : IDisposable
     {
         #region Constants
 
@@ -37,7 +35,7 @@ namespace NuLog
         private const string ShutdownDispatcherFailureMessage = "Failed to shutdown the existing dispatcher due to error {0}";
         private const string ConfigExtendersLoadFailedMessage = "Failure loading configuration extenders: {1}:\r\n{2}";
         private const string TypeNotFoundMessage = "Type not found for \"{0}\"";
-        private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occured: \"{1}\"";
+        private const string FailedToLogMessage = "Failed to log the message \"{0}\" because an exception occurred: \"{1}\"";
         private const string ExceptionInNuLogMessage = "Failure in NuLog \"{0}\"";
         private const string LoadMEFFailureMessage = "Failed to load MEF components, cause: {0}";
         private const string ExtenderTypeNullMessage = "Extender type is null or empty";
@@ -54,7 +52,7 @@ namespace NuLog
         #region Members and Constructors
 
         // Used for general locking on the factory level
-        private static readonly object _factoryLock = new object();
+        private readonly object _factoryLock;
 
         // Setting up the lazy singleton pattern
         private static readonly Lazy<LoggerFactory> Instance = new Lazy<LoggerFactory>(() =>
@@ -115,19 +113,52 @@ namespace NuLog
 
         /// <summary>
         /// Used for debugging purposes, an exception handler is used
-        /// to intercept exceptions occuring inside of the logging framework.
+        /// to intercept exceptions occurring inside of the logging framework.
         /// If not supplied, exceptions within the framework are sent
         /// to Trace.
         /// </summary>
         private Action<Exception, string> ExceptionHandler { get; set; }
 
         /// <summary>
-        /// The default constructor for the factory.  Is marked private
-        /// for the singleton pattern.
+        /// Builds a fresh instance of this logger factory.
         /// </summary>
-        private LoggerFactory()
+        /// <param name="configFile">The configuration file from which to load settings.</param>
+        /// <param name="dispatcher">An optional override to the default log event dispatcher.</param>
+        /// <param name="exceptionHandler">An optional exception handler method.</param>
+        public LoggerFactory(string configFile, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null)
         {
+            _factoryLock = new object();
             NamedLoggers = new Dictionary<string, LoggerBase>();
+
+            Initialize(configFile, dispatcher, exceptionHandler);
+        }
+
+        /// <summary>
+        /// Builds a fresh instance of this logger factory.
+        /// </summary>
+        /// <param name="configBuilder">A configuration builder from which to load settings.</param>
+        /// <param name="dispatcher">An optional override to the default log event dispatcher.</param>
+        /// <param name="exceptionHandler">An optional exception handler method.</param>
+        public LoggerFactory(ILoggingConfigBuilder configBuilder, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null)
+        {
+            _factoryLock = new object();
+            NamedLoggers = new Dictionary<string, LoggerBase>();
+
+            Initialize(configBuilder, dispatcher, exceptionHandler);
+        }
+
+        /// <summary>
+        /// Builds a fresh instance of this logger factory.
+        /// </summary>
+        /// <param name="config">The configuration from which to load settings.</param>
+        /// <param name="dispatcher">An optional override to the default log event dispatcher.</param>
+        /// <param name="exceptionHandler">An optional exception handler method.</param>
+        public LoggerFactory(LoggingConfig config = null, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null)
+        {
+            _factoryLock = new object();
+            NamedLoggers = new Dictionary<string, LoggerBase>();
+
+            Initialize(config, dispatcher, exceptionHandler);
         }
 
         #endregion Members and Constructors
@@ -135,13 +166,21 @@ namespace NuLog
         #region Initialization Methods
 
         /// <summary>
+        /// Returns the default, singleton instance of the LoggerFactory.
+        /// </summary>
+        public static LoggerFactory GetDefaultInstance()
+        {
+            return Instance.Value;
+        }
+
+        /// <summary>
         /// Initializes the logging framework using a provided ILoggingConfigBuilder
         /// </summary>
         /// <param name="configBuilder">The config builder to use to initialize the logging framework</param>
         /// <param name="dispatcher">An alternate dispatcher to use for the logging framework</param>
         /// <param name="exceptionHandler">An exception handler to use for debugging purposes</param>
-        /// <param name="force">Whether or not to force the re-configuration if the framework has alredy been intiaizlied</param>
-        public static void Initialize(ILoggingConfigBuilder configBuilder, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
+        /// <param name="force">Whether or not to force the re-configuration if the framework has already been initialized</param>
+        public void Initialize(ILoggingConfigBuilder configBuilder, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
         {
             LoggingConfig config = null;
 
@@ -153,7 +192,7 @@ namespace NuLog
             catch (Exception cause)
             {
                 // Report the exception
-                string message = String.Format(FailedConfigBuilderMessage, configBuilder == null ? NullString : configBuilder.GetType().FullName, cause);
+                string message = string.Format(FailedConfigBuilderMessage, configBuilder == null ? NullString : configBuilder.GetType().FullName, cause);
                 if (exceptionHandler != null)
                 {
                     exceptionHandler(cause, message);
@@ -173,8 +212,8 @@ namespace NuLog
         /// <param name="configFile">The path to the JSON configuration file to use</param>
         /// <param name="dispatcher">An alternate dispatcher to use for the logging framework</param>
         /// <param name="exceptionHandler">An exception handler to use for debugging purposes</param>
-        /// <param name="force">Whether or not to force the re-configuration if the framework has alredy been intiaizlied</param>
-        public static void Initialize(string configFile, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
+        /// <param name="force">Whether or not to force the re-configuration if the framework has already been initialized</param>
+        public void Initialize(string configFile, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
         {
             LoggingConfig config = null;
 
@@ -205,39 +244,34 @@ namespace NuLog
         /// <param name="config">The LoggingConfig to use to initialize the logging framework</param>
         /// <param name="dispatcher">An alternate dispatcher to use for the logging framework</param>
         /// <param name="exceptionHandler">An exception handler to use for debugging purposes</param>
-        /// <param name="force">Whether or not to force the re-configuration if the framework has alredy been intiaizlied</param>
-        public static void Initialize(LoggingConfig config = null, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
+        /// <param name="force">Whether or not to force the re-configuration if the framework has already been initialized.</param>
+        public void Initialize(LoggingConfig config = null, LogEventDispatcher dispatcher = null, Action<Exception, string> exceptionHandler = null, bool force = true)
         {
-            lock (_factoryLock)
+            // We only want to configure if we haven't yet, or if it is marked to override (force) the initialization
+            if (force || !Initialized)
             {
-                var instance = Instance.Value;
+                // Shutdown existing config if it exists
+                if (Initialized)
+                    LoggingConfig.Shutdown();
 
-                // We only want to configure if we haven't yet, or if it is marked to override (force) the initialization
-                if (force || !instance.Initialized)
-                {
-                    // Shutdown existing config if it exists
-                    if (instance.Initialized)
-                        instance.LoggingConfig.Shutdown();
+                // Wire up the exception handler
+                ExceptionHandler = exceptionHandler;
 
-                    // Wire up the exception handler
-                    instance.ExceptionHandler = exceptionHandler;
+                // Setup the logging config
+                InitializeConfig(config);
 
-                    // Setup the logging config
-                    instance.InitializeConfig(config);
+                // Load and initialize the extenders, allowing them to update the config
+                //  before we start
+                InitializeExtenders();
 
-                    // Load and initialize the extenders, allowing them to update the config
-                    //  before we start
-                    instance.InitializeExtenders();
+                // Setup the dispatcher
+                InitializeDispatcher(dispatcher);
 
-                    // Setup the dispatcher
-                    instance.InitializeDispatcher(dispatcher);
+                // Start the extenders
+                StartExtenders();
 
-                    // Start the extenders
-                    instance.StartExtenders(instance.LogEventDispatcher);
-
-                    // Mark us as initialized
-                    instance.Initialized = true;
-                }
+                // Mark us as initialized
+                Initialized = true;
             }
         }
 
@@ -256,7 +290,7 @@ namespace NuLog
             }
             catch (Exception cause)
             {
-                Trace.WriteLine(String.Format(LoadMEFFailureMessage, cause), TraceConfigCategory);
+                Trace.WriteLine(string.Format(LoadMEFFailureMessage, cause), TraceConfigCategory);
             }
         }
 
@@ -289,7 +323,7 @@ namespace NuLog
             {
                 // Report the exception
                 Trace.WriteLine(ConfigurationFailedUsingDefaultsMessage);
-                Trace.WriteLine(String.Format(ConfigLoadFailureMessage, cause.Message, cause.StackTrace), TraceConfigCategory);
+                Trace.WriteLine(string.Format(ConfigLoadFailureMessage, cause.Message, cause.StackTrace), TraceConfigCategory);
 
                 // Load the default config to get us off the ground!!
                 LoggingConfig = new LoggingConfig(loadConfig: false);
@@ -333,13 +367,13 @@ namespace NuLog
                     try
                     {
                         // Lookup the extender's type
-                        if (String.IsNullOrEmpty(extenderConfig.Type))
+                        if (string.IsNullOrEmpty(extenderConfig.Type))
                             throw new LoggingException(ExtenderTypeNullMessage);
 
                         extenderType = Type.GetType(extenderConfig.Type);
 
                         if (extenderType == null)
-                            throw new LoggingException(String.Format(ExtenderTypeNotFoundMessage, extenderConfig.Type));
+                            throw new LoggingException(string.Format(ExtenderTypeNotFoundMessage, extenderConfig.Type));
 
                         // Build the extender
                         constructorInfo = extenderType.GetConstructor(new Type[] { });
@@ -374,13 +408,13 @@ namespace NuLog
         }
 
         // Initialize the extenders
-        private void StartExtenders(LogEventDispatcher dispatcher)
+        private void StartExtenders()
         {
             foreach (var extender in Extenders)
             {
                 try
                 {
-                    extender.Startup(dispatcher);
+                    extender.Startup(LogEventDispatcher);
                 }
                 catch (Exception cause)
                 {
@@ -414,7 +448,7 @@ namespace NuLog
         /// <param name="dispatcher">An alternate dispatcher to use.  If none(null) provided, will use the default dispatcher</param>
         private void InitializeDispatcher(LogEventDispatcher dispatcher = null)
         {
-            // If we've been provided an alternate dispatcher, we laready have one
+            // If we've been provided an alternate dispatcher, we already have one
             //  and we aren't already using the new alternate
             if (dispatcher != null && LogEventDispatcher != null && LogEventDispatcher != dispatcher)
             {
@@ -426,7 +460,7 @@ namespace NuLog
                 catch (Exception e)
                 {
                     // We failed to shutdown the existing dispatcher,  log the error and continue
-                    Trace.WriteLine(String.Format(ShutdownDispatcherFailureMessage, e), TraceConfigCategory);
+                    Trace.WriteLine(string.Format(ShutdownDispatcherFailureMessage, e), TraceConfigCategory);
                 }
             }
 
@@ -469,7 +503,7 @@ namespace NuLog
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
+                Trace.WriteLine(string.Format(ConfigExtendersLoadFailedMessage, ex.Message, ex.StackTrace), TraceConfigCategory);
             }
 
             // Iterate over the list of static meta data providers and use
@@ -484,7 +518,7 @@ namespace NuLog
                 {
                     try
                     {
-                        // Pull the type and and constructor for the extender, by name
+                        // Pull the type and constructor for the extender, by name
                         extenderType = Type.GetType(configurationExtender);
                         if (extenderType != null)
                         {
@@ -494,7 +528,7 @@ namespace NuLog
                         }
                         else
                         {
-                            throw new LoggingException(String.Format(TypeNotFoundMessage, configurationExtender));
+                            throw new LoggingException(string.Format(TypeNotFoundMessage, configurationExtender));
                         }
                     }
                     catch (Exception exception)
@@ -524,7 +558,7 @@ namespace NuLog
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine(String.Format(ConfigExtendersLoadFailedMessage, configExtender.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
+                    Trace.WriteLine(string.Format(ConfigExtendersLoadFailedMessage, configExtender.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
                 }
             }
         }
@@ -540,19 +574,17 @@ namespace NuLog
         /// yet, this will startup the logging framework before shutting
         /// it down.
         /// </summary>
-        public static void Shutdown()
+        public void Shutdown()
         {
             lock (_factoryLock)
             {
-                var instance = Instance.Value;
-
                 // Bring the extenders down first, their shutdown
                 //  process may depend on the dispatcher
-                instance.ShutdownExtenders();
+                ShutdownExtenders();
 
                 // Bring the dispatcher down last
-                if (instance.LogEventDispatcher != null)
-                    instance.LogEventDispatcher.Shutdown();
+                if (LogEventDispatcher != null)
+                    LogEventDispatcher.Shutdown();
             }
         }
 
@@ -565,8 +597,18 @@ namespace NuLog
         /// </summary>
         /// <param name="loggerName">The name to assign to the logger.  This is used to decrease the number of logger instances initialized.</param>
         /// <param name="defaultTags">A list of default tags to assign to the logger.  The default tags on a logger will be assigned to all log events passing through the logger.</param>
-        /// <returns></returns>
         public static LoggerBase GetLogger(string loggerName = null, params string[] defaultTags)
+        {
+            var instance = Instance.Value;
+            return instance.Logger(loggerName, defaultTags);
+        }
+
+        /// <summary>
+        /// Gets a logger using an optionally provided logger name and assigning the optional default tags
+        /// </summary>
+        /// <param name="loggerName">The name to assign to the logger.  This is used to decrease the number of logger instances initialized.</param>
+        /// <param name="defaultTags">A list of default tags to assign to the logger.  The default tags on a logger will be assigned to all log events passing through the logger.</param>
+        public LoggerBase Logger(string loggerName = null, params string[] defaultTags)
         {
             // Make sure the framework is initialized
             //  This is what allows for us to include a NuLog.json file
@@ -574,27 +616,25 @@ namespace NuLog
             //  having to initialize first.
             Initialize(force: false);
 
-            // Get a hold of the stackframe of the calling method
+            // Get a hold of the stack frame of the calling method
             //  and use it to determine the full name of the
             //  class that requested the logger
             var stackFrame = new StackFrame(1);
             string reqClassFullName = stackFrame.GetMethod().DeclaringType.FullName;
 
             // Set an internal name, we want the loggers to be unique to each owning class
-            var internalName = String.Join("\0", reqClassFullName, loggerName);
+            var internalName = string.Join("\0", reqClassFullName, loggerName);
 
             // Make sure that a name is assigned to the logger;
             //  use the requesting class' full name as the logger
             //  name if no name is provided
-            if (String.IsNullOrEmpty(loggerName))
+            if (string.IsNullOrEmpty(loggerName))
                 loggerName = reqClassFullName;
 
             // Synchronization is needed here to ensure that only one logger of the
             //  determined name is instantiated
             lock (_factoryLock)
             {
-                var instance = Instance.Value;
-
                 // Get the distinct default tags
                 var tags = defaultTags.Distinct().ToList();
 
@@ -608,23 +648,23 @@ namespace NuLog
                     tags.Add(loggerName);
 
                 // Check to see if we need to create a new instance of the logger
-                if (instance.NamedLoggers.ContainsKey(internalName) == false)
+                if (NamedLoggers.ContainsKey(internalName) == false)
                 {
                     // Create and return a new instance of the logger
                     //  using the determined default tags
 
                     // Build out the new logger
-                    var logger = new DefaultLogger(instance.LogEventDispatcher, tags);
-                    instance.NamedLoggers[internalName] = logger;
+                    var logger = new DefaultLogger(LogEventDispatcher, tags);
+                    NamedLoggers[internalName] = logger;
                     return logger;
                 }
                 else
                 {
                     // We already have an instance of the logger
                     //  Let's make sure that the logger has the default tags
-                    //  we have recieved and then return it
+                    //  we have received and then return it
 
-                    var logger = instance.NamedLoggers[internalName];
+                    var logger = NamedLoggers[internalName];
 
                     foreach (var tag in tags)
                         if (logger.DefaultTags.Contains(tag) == false)
@@ -643,6 +683,19 @@ namespace NuLog
         /// <param name="defaultTags">The default tags to associate with the logger</param>
         /// <returns></returns>
         public static LoggerBase GetLogger(IMetaDataProvider metaDataProvider, params string[] defaultTags)
+        {
+            var instance = Instance.Value;
+            return instance.Logger(metaDataProvider, defaultTags);
+        }
+
+        /// <summary>
+        /// Returns a stand-alone instance of a logger with an attached runtime meta data provider.  See the official
+        /// documentation for more information on using runtime meta data providers and practical use-cases for them.
+        /// </summary>
+        /// <param name="metaDataProvider">The meta data provider to attach to the logger</param>
+        /// <param name="defaultTags">The default tags to associate with the logger</param>
+        /// <returns></returns>
+        public LoggerBase Logger(IMetaDataProvider metaDataProvider, params string[] defaultTags)
         {
             // Make sure the framework is initialized
             //  This is what allows for us to include a NuLog.json file
@@ -666,13 +719,25 @@ namespace NuLog
 
             // Return a new instance of the logger with the associated
             //  runtime meta data provider
-            return new DefaultLogger(Instance.Value.LogEventDispatcher, tags)
+            return new DefaultLogger(LogEventDispatcher, tags)
             {
                 MetaDataProvider = metaDataProvider
             };
         }
 
         #endregion Loggers
+
+        #region Disposable
+
+        /// <summary>
+        /// Shuts down this logger factory
+        /// </summary>
+        public void Dispose()
+        {
+            this.Shutdown();
+        }
+
+        #endregion
 
         #region Helpers
 
@@ -681,8 +746,8 @@ namespace NuLog
         {
             // Format the exception
             string message = logEventInfo != null
-                ? String.Format(FailedToLogMessage, logEventInfo.Message, e)
-                : String.Format(ExceptionInNuLogMessage, e);
+                ? string.Format(FailedToLogMessage, logEventInfo.Message, e)
+                : string.Format(ExceptionInNuLogMessage, e);
 
             // Pass the exception to the exception handler, if we have one, otherwise write it out to trace
             if (ExceptionHandler != null)

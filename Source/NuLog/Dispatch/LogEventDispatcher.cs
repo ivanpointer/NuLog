@@ -359,7 +359,7 @@ namespace NuLog.Dispatch
                         }
                         else
                         {
-                            throw new LoggingException(String.Format(TypeNotFoundMessage, providerFullName));
+                            throw new LoggingException(string.Format(TypeNotFoundMessage, providerFullName));
                         }
                     }
                     catch (Exception exception)
@@ -397,7 +397,7 @@ namespace NuLog.Dispatch
                     catch (Exception ex)
                     {
                         if (logEvent == null || logEvent.Silent == false)
-                            Trace.WriteLine(String.Format("Failure executing static meta data provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
+                            Trace.WriteLine(string.Format("Failure executing static meta data provider {0}: {1}:\r\n{2}", staticMetaDataProvider.GetType().FullName, ex.Message, ex.StackTrace), TraceConfigCategory);
                     }
                 }
             }
@@ -452,8 +452,8 @@ namespace NuLog.Dispatch
         {
             // Format the exception
             string message = logEventInfo != null
-                ? String.Format(FailedToLogMessage, logEventInfo.Message, e)
-                : String.Format(ExceptionInNuLogMessage, e);
+                ? string.Format(FailedToLogMessage, logEventInfo.Message, e)
+                : string.Format(ExceptionInNuLogMessage, e);
 
             // Pass the exception to the exception handler, if we have one, otherwise write it out to trace
             if (ExceptionHandler != null)
@@ -466,7 +466,7 @@ namespace NuLog.Dispatch
         // Helper function for flattening strings into a single string
         private static string FlattenStrings(ICollection<string> stringCollection)
         {
-            return String.Join(",", stringCollection.ToArray());
+            return string.Join(",", stringCollection.ToArray());
         }
 
         #endregion Helpers

@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/11/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Legacy;
 
@@ -27,8 +23,8 @@ namespace NuLog.Samples.Samples.S4_1_LegacyLoggingExtension
         // Example using the legacy logging extension
         public override void ExecuteSample()
         {
-            LoggerFactory.Initialize("Samples/S4_1_LegacyLoggingExtension/NuLog.json");
-            var logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S4_1_LegacyLoggingExtension/NuLog.json");
+            var logger = factory.Logger();
 
             logger.TraceNow("These are not the droids you are looking for.");
             logger.DebugNow("Hey, who turned out the lights!?");

@@ -97,7 +97,7 @@ namespace NuLog.Samples.CustomizeSamples.S3_1_ExtendingTheLogger
                 {
                     // Feedback Loop Prevention
                     if (!silent)
-                        Trace.WriteLine(String.Format(ConsoleColorParseFailedMessage, metaDataKey));
+                        Trace.WriteLine(string.Format(ConsoleColorParseFailedMessage, metaDataKey));
                 }
             }
 

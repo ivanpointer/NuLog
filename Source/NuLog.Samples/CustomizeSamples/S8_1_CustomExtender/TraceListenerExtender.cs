@@ -69,7 +69,7 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             public override void Write(string message)
             {
                 // Make sure that we have a message
-                if (String.IsNullOrEmpty(message) == false)
+                if (string.IsNullOrEmpty(message) == false)
                     lock (WriteLock)
                     {
                         // If the message has no newline, just queue it up
@@ -114,13 +114,13 @@ namespace NuLog.Samples.CustomizeSamples.S8_1_CustomExtender
             public override void WriteLine(string message)
             {
                 // Ignore this request if the message is empty
-                if (String.IsNullOrEmpty(message) == false)
+                if (string.IsNullOrEmpty(message) == false)
                     lock (WriteLock)
                     {
                         // Write the contents of the buffer out, followed by the message
                         _logger.LogNow(new LogEvent
                         {
-                            Message = String.Format("{0}{1}", _stringBuilder.ToString(), message),
+                            Message = string.Format("{0}{1}", _stringBuilder.ToString(), message),
                             Tags = _tags,
                             // Help prevent feedback loops:
                             Silent = true

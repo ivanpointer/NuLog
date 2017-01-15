@@ -168,7 +168,7 @@ namespace NuLog.Configuration.Targets
 
         private static ConsoleColor? GetColorByName(string colorName)
         {
-            if (String.IsNullOrEmpty(colorName) == false)
+            if (string.IsNullOrEmpty(colorName) == false)
             {
                 try
                 {

@@ -237,7 +237,7 @@ namespace NuLog.Extensions.Email
         /// <returns>This SmtpLogEventBuilder</returns>
         public EmailLogEventBuilder SetHeader(string name, string value)
         {
-            if (String.IsNullOrEmpty(name) == false)
+            if (string.IsNullOrEmpty(name) == false)
                 Headers[name] = value;
             return this;
         }
@@ -257,7 +257,7 @@ namespace NuLog.Extensions.Email
             if (LogEvent.MetaData == null)
                 LogEvent.MetaData = new Dictionary<string, object>();
 
-            if (String.IsNullOrEmpty(Subject) == false)
+            if (string.IsNullOrEmpty(Subject) == false)
                 LogEvent.MetaData[EmailTarget.MetaSubject] = Subject;
 
             if (Attachments.Count > 0)

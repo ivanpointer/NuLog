@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/20/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 namespace NuLog.Samples.Samples.S1_1_HelloWorld
 {
@@ -18,9 +14,6 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
     /// </summary>
     internal class HelloWorldSample : SampleBase
     {
-        // The logger
-        private static readonly LoggerBase _logger = LoggerFactory.GetLogger();
-
         #region Sample Wiring
 
         // Wiring for the sample program (menu wiring)
@@ -33,11 +26,11 @@ namespace NuLog.Samples.Samples.S1_1_HelloWorld
         {
             // Initialize here because the samples are constructed only once
             //  We want to be running on the configuration for this sample
-            LoggerFactory.Initialize("Samples/S1_1_HelloWorld/NuLog.json");
-            LoggerBase logger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S1_1_HelloWorld/NuLog.json");
+            var logger = factory.Logger();
 
-            _logger.Log("Log Later!");
-            _logger.LogNow("Log Now!");
+            logger.Log("Log Later!");
+            logger.LogNow("Log Now!");
         }
     }
 }

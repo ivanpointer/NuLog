@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 11/08/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Configuration.Targets;
@@ -36,8 +32,8 @@ namespace NuLog.Samples.Samples.S3_1_TraceTarget
         // Example using JSON configuration
         private void ExecuteJSON()
         {
-            LoggerFactory.Initialize("Samples/S3_1_TraceTarget/NuLog.json");
-            var jsonLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory("Samples/S3_1_TraceTarget/NuLog.json");
+            var jsonLogger = factory.Logger();
             jsonLogger.LogNow("Hello from JSON config!");
         }
 
@@ -48,8 +44,8 @@ namespace NuLog.Samples.Samples.S3_1_TraceTarget
             var config = LoggingConfigBuilder.CreateLoggingConfig()
                 .AddTarget(traceTargetConfig);
 
-            LoggerFactory.Initialize(config);
-            var runtimeLogger = LoggerFactory.GetLogger();
+            var factory = new LoggerFactory(config);
+            var runtimeLogger = factory.Logger();
             runtimeLogger.LogNow("Hello from runtime config!");
         }
     }
