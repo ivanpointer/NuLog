@@ -1,3 +1,0 @@
-﻿{
-    "layout": "${?DateTime:'{0:yyyyMMdd}'} | ${Tags} | ${Message} | ${Exception.Message}"
-}
