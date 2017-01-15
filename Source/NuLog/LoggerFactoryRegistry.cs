@@ -3,6 +3,7 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NuLog
 {
@@ -40,7 +41,13 @@ namespace NuLog
         {
             lock (_loggerFactoryRegistryLock)
             {
-                foreach (var factory in _loggerFactories)
+                // Take a copy of our logger factory list - we cannot edit it while iterating over it;
+                //  Factories remove themselves from this registry when they shutdown
+                var copy = new LoggerFactory[_loggerFactories.Count];
+                _loggerFactories.CopyTo(copy);
+
+                // Iterate over the known factories, telling them to shutdown
+                foreach (var factory in copy)
                 {
                     factory.Shutdown();
                 }
