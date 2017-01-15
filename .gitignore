@@ -2,19 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Source/NuLog/bin
-/Source/.vs/Source/v14
-/Source/NuLog/obj
-/Source/NuLog.ConsoleTest/bin
-/Source/NuLog.ConsoleTest/obj
-/Source/NuLog.Legacy/bin
-/Source/NuLog.Legacy/obj
-/Source/NuLog.MVC/bin
-/Source/NuLog.MVC/obj
-/Source/NuLog.Samples/bin
-/Source/NuLog.Samples/obj
-/Source/NuLog.SamplesLib/bin
-/Source/NuLog.SamplesLib/obj
-/Source/NuLog.Tests/bin
-/Source/NuLog.Tests/obj
-/Source/packages
+/**/.suo
+/*/packages
+/*/*/bin
+/*/*/obj

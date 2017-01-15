@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog", "NuLog\NuLog.csproj", "{100467BE-E1B1-4D5A-A40B-CA633015EC42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Tests", "NuLog.Tests\NuLog.Tests.csproj", "{ED0E44F6-7945-4B80-BD29-168065AD01D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Targets", "NuLog.Targets\NuLog.Targets.csproj", "{FDE1C83C-3B88-4038-9623-B468C107A740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Dispatchers", "NuLog.Dispatchers\NuLog.Dispatchers.csproj", "{5433B51C-FE2D-444C-B754-6AF622D50A00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Factories", "NuLog.Factories\NuLog.Factories.csproj", "{4D20292A-858E-4A0A-B327-DDAD11036213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Loggers", "NuLog.Loggers\NuLog.Loggers.csproj", "{72023285-5272-4652-B070-A29F85617D78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.TagRouters", "NuLog.TagRouters\NuLog.TagRouters.csproj", "{BE514816-5C2F-4DBF-B2E4-9D0D49219315}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED0E44F6-7945-4B80-BD29-168065AD01D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0E44F6-7945-4B80-BD29-168065AD01D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0E44F6-7945-4B80-BD29-168065AD01D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED0E44F6-7945-4B80-BD29-168065AD01D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE1C83C-3B88-4038-9623-B468C107A740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE1C83C-3B88-4038-9623-B468C107A740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE1C83C-3B88-4038-9623-B468C107A740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE1C83C-3B88-4038-9623-B468C107A740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5433B51C-FE2D-444C-B754-6AF622D50A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5433B51C-FE2D-444C-B754-6AF622D50A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5433B51C-FE2D-444C-B754-6AF622D50A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5433B51C-FE2D-444C-B754-6AF622D50A00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D20292A-858E-4A0A-B327-DDAD11036213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D20292A-858E-4A0A-B327-DDAD11036213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D20292A-858E-4A0A-B327-DDAD11036213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D20292A-858E-4A0A-B327-DDAD11036213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72023285-5272-4652-B070-A29F85617D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72023285-5272-4652-B070-A29F85617D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72023285-5272-4652-B070-A29F85617D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72023285-5272-4652-B070-A29F85617D78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

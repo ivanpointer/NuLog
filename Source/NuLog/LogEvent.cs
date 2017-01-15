@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/5/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 using System.Collections.Generic;
@@ -57,7 +53,7 @@ namespace NuLog
         /// <summary>
         /// The meta data associated with the log event.  Meta data is used to
         /// communicate special information to targets, or can be referenced
-        /// in layouyt targets and represented as text in the layout target
+        /// in layout targets and represented as text in the layout target
         /// destination.
         /// </summary>
         public IDictionary<string, object> MetaData { get; set; }
@@ -84,7 +80,7 @@ namespace NuLog
         /// A complex constructor allowing for building more information into the log event
         /// </summary>
         /// <param name="message">The message associated with the log event</param>
-        /// <param name="dateTime">A date time representing when the event occured</param>
+        /// <param name="dateTime">A date time representing when the event occurred</param>
         /// <param name="exception">An exception (if any) that is associated with the log event</param>
         /// <param name="metaData">The meta data associated with the log event</param>
         /// <param name="tags">Any tags to be assigned to the log event</param>
