@@ -27,16 +27,16 @@ namespace NuLog.Targets
             Console.Write(Layout.FormatLogEvent(logEvent));
         }
 
-        protected override void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
+        protected override void ProcessLogQueue()
         {
             // Open a buffered stream writer to the console standard out
             LogEvent logEvent;
             using (var writer = new StreamWriter(new BufferedStream(Console.OpenStandardOutput())))
             {
                 // Pull all of the log events from the queue and write them to the buffered writer
-                while (logQueue.IsEmpty == false)
+                while (LogQueue.IsEmpty == false)
                 {
-                    if (logQueue.TryDequeue(out logEvent))
+                    if (LogQueue.TryDequeue(out logEvent))
                     {
                         try
                         {
@@ -50,8 +50,8 @@ namespace NuLog.Targets
                             }
                             finally
                             {
-                                if (dispatcher != null)
-                                    dispatcher.HandleException(e, logEvent);
+                                if (Dispatcher != null)
+                                    Dispatcher.HandleException(e, logEvent);
                                 else
                                     throw e;
                             }

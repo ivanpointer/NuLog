@@ -35,9 +35,9 @@ namespace NuLog.Samples.CustomizeSamples.S1_1_BasicAnatomyOfATarget
         }
 
         // Asynchronous logging
-        protected override void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
+        protected override void ProcessLogQueue()
         {
-            base.ProcessLogQueue(logQueue, dispatcher);
+            base.ProcessLogQueue();
         }
 
         // Synchronous logging

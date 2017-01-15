@@ -1,10 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * Date: 10/7/2014
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * Project Home: http://www.nulog.info
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Dispatch;
 using NuLog.MetaData;
@@ -64,7 +60,7 @@ namespace NuLog
             DefaultTags = defaultTags;
         }
 
-        #endregion Methods and Constructors
+        #endregion Members and Constructors
 
         #region Asynchronous Logging
 
@@ -77,7 +73,7 @@ namespace NuLog
          * framework default to a "non-debug" mode, where the stack frame isn't
          * needed, making the stack frame "optional".
          *
-         * In a future release, the stack frame aquizition should be moved into
+         * In a future release, the stack frame acquisition should be moved into
          * a separate function and wrapped in a compiler directive, so that
          * a "portable class library" can be built for the logging framework,
          * which is a future goal of the framework. */
@@ -123,7 +119,7 @@ namespace NuLog
         }
 
         /// <summary>
-        /// Creates a log event using tyhe given message, meta data and tags
+        /// Creates a log event using the given message, meta data and tags
         /// and logs said log event, hinting to the framework that the event
         /// should be handled asynchronously
         /// </summary>
@@ -275,7 +271,7 @@ namespace NuLog
 
         /// <summary>
         /// Creates a log event with the given message, exception, meta data and tags, and logs it,
-        /// hinting to the framework that the log event hould be handled synchronously
+        /// hinting to the framework that the log event should be handled synchronously
         /// </summary>
         /// <param name="message">The message for the log event</param>
         /// <param name="exception">The exception associated with the log event</param>

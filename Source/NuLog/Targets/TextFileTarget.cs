@@ -5,13 +5,11 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
@@ -25,7 +23,7 @@ namespace NuLog.Targets
         private const string RolloverPolicyNotImplementedMessage = "Rollover policy {0} not implemented";
 
         private const int RollIdleWait = 3000; //3 seconds
-        private const int MaxRollWait = 10000; //10 seconds
+        private const int MaxRollWait = 15000; //15 seconds
         private const int AsyncWriteWait = 1000; //1 second
 
         private const string ZipPattern = "{0}.zip";
@@ -41,15 +39,28 @@ namespace NuLog.Targets
         // Write utilities
         private static readonly object _fileLock = new object();
 
-        private Stopwatch _sw;
-        private DateTime? _lastWrite;
+        protected readonly Stopwatch MaxWaitStopwatch;
+        protected readonly Stopwatch FileCleanupStopwatch;
+        protected DateTime? LastWriteTime;
+
+        protected Timer _cleanupTimer;
+
+        private readonly object _cleanupTimerLock;
+
+        /// <summary>
+        /// The interval for cleaning up/rotating old logs.
+        /// </summary>
+        public static int FileCleanupTimerInterval = 5000;
 
         /// <summary>
         /// Builds a default, empty, unconfigured text file target
         /// </summary>
         public TextFileTarget()
         {
-            _sw = new Stopwatch();
+            MaxWaitStopwatch.Start();
+            FileCleanupStopwatch.Start();
+
+            _cleanupTimerLock = new object();
         }
 
         /// <summary>
@@ -69,41 +80,59 @@ namespace NuLog.Targets
                     ? (TextFileTargetConfig)targetConfig
                     : new TextFileTargetConfig(targetConfig.Config);
 
-            // Setup a bit.  Make sure that the directory exists where we are going to write the log file.
-            //  Start a worker task for rolling the log file and cleaning the old files
-
+            // Make sure that the directory exists where we are going to write the log file.
             EnsurePathExists(Config.FileName);
 
-            Task.Factory.StartNew(() =>
+            // Start a timer for cleaning up our files.
+        }
+
+        private void StartupFileCleanupTimer()
+        {
+            lock (_cleanupTimerLock)
             {
-                // Run this task until the target is told to shutdown
-                // Watch for the internal stopwatch running, which indicates that data has been written to log
-                // Wait for the minimum idle time since the last write, or the maximum wait time to roll/cleanup the files
-
-                Stopwatch maxWaitStopwatch = new Stopwatch();
-                while (!DoShutdown)
+                if (_cleanupTimer == null)
                 {
-                    if (_sw.IsRunning)
-                    {
-                        if (maxWaitStopwatch.IsRunning == false)
-                            maxWaitStopwatch.Start();
-
-                        if (_sw.ElapsedMilliseconds > RollIdleWait || maxWaitStopwatch.ElapsedMilliseconds > MaxRollWait)
-                        {
-                            lock (_fileLock)
-                            {
-                                RollFile();
-                                CleanupOldFiles();
-                                _sw.Stop();
-                                maxWaitStopwatch.Stop();
-                            }
-                        }
-                    }
-
-                    Thread.Yield();
-                    Thread.Sleep(RollIdleWait);
+                    _cleanupTimer = new Timer(CleanupWorkerThread, this, TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(FileCleanupTimerInterval));
                 }
-            });
+            }
+        }
+
+        private void ShutdownFileCleanupTimer()
+        {
+            lock (_cleanupTimerLock)
+            {
+                if (_cleanupTimer != null)
+                {
+                    // Cleanup first
+                    CleanupWorkerThread(this);
+
+                    // Shutdown the timer
+                    if (_cleanupTimer != null)
+                    {
+                        _cleanupTimer.Dispose();
+                        _cleanupTimer = null;
+                    }
+                }
+            }
+        }
+
+        private static void CleanupWorkerThread(object source)
+        {
+            var target = source as TextFileTarget;
+
+            if (target.MaxWaitStopwatch.IsRunning == false)
+                target.MaxWaitStopwatch.Start();
+
+            if (target.FileCleanupStopwatch.ElapsedMilliseconds > RollIdleWait || target.MaxWaitStopwatch.ElapsedMilliseconds > MaxRollWait)
+            {
+                lock (_fileLock)
+                {
+                    target.RollFile();
+                    target.CleanupOldFiles();
+                    target.FileCleanupStopwatch.Stop();
+                    target.MaxWaitStopwatch.Stop();
+                }
+            }
         }
 
         #endregion Members, Constructors and Initialization
@@ -124,30 +153,30 @@ namespace NuLog.Targets
                 using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
                     fileStream.Write(Layout.FormatLogEvent(logEvent));
 
-                _lastWrite = GetDateTime();
+                LastWriteTime = GetDateTime();
             }
 
-            _sw.Restart();
+            FileCleanupStopwatch.Restart();
         }
 
-        protected override void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
+        protected override void ProcessLogQueue()
         {
             LogEvent logEvent;
             lock (_fileLock)
                 using (var fileStream = new StreamWriter(new BufferedStream(File.Open(Config.FileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))))
-                    while (logQueue.IsEmpty == false && !QuickRollCheck())
+                    while (LogQueue.IsEmpty == false && !QuickRollCheck())
                     {
-                        if (logQueue.TryDequeue(out logEvent))
+                        if (LogQueue.TryDequeue(out logEvent))
                         {
                             try
                             {
                                 fileStream.Write(Layout.FormatLogEvent(logEvent));
-                                _lastWrite = GetDateTime();
+                                LastWriteTime = GetDateTime();
                             }
                             catch (Exception e)
                             {
-                                if (dispatcher != null)
-                                    dispatcher.HandleException(e, logEvent);
+                                if (Dispatcher != null)
+                                    Dispatcher.HandleException(e, logEvent);
                                 else
                                     throw e;
                             }
@@ -157,7 +186,7 @@ namespace NuLog.Targets
             if (QuickRollCheck())
                 RollFile();
 
-            _sw.Restart();
+            FileCleanupStopwatch.Restart();
         }
 
         #endregion Logging
@@ -169,7 +198,7 @@ namespace NuLog.Targets
         {
             if (Config.RolloverPolicy == RolloverPolicy.Day)
             {
-                if (_lastWrite.HasValue && _lastWrite.Value.Day != GetDateTime().Day)
+                if (LastWriteTime.HasValue && LastWriteTime.Value.Day != GetDateTime().Day)
                 {
                     return true;
                 }

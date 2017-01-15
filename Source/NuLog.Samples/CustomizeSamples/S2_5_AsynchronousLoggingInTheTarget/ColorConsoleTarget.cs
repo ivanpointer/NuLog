@@ -6,7 +6,6 @@ using NuLog.Configuration.Targets;
 using NuLog.Dispatch;
 using NuLog.Targets;
 using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 
@@ -82,7 +81,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
         }
 
         // Designed to handle a group of log events - more performant
-        protected override void ProcessLogQueue(ConcurrentQueue<LogEvent> logQueue, LogEventDispatcher dispatcher)
+        protected override void ProcessLogQueue()
         {
             // Get a hold of the current colors and prep for the new ones
             var oldForeground = Console.ForegroundColor;
@@ -95,9 +94,9 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
             {
                 // Iterate over the queue, removing and logging each log event
                 LogEvent logEvent;
-                while (!DoShutdown && logQueue.IsEmpty == false)
+                while (IsLogQueueActive && LogQueue.IsEmpty == false)
                 {
-                    if (logQueue.TryDequeue(out logEvent))
+                    if (LogQueue.TryDequeue(out logEvent))
                     {
                         // Figure out what our colors should be
                         newBackground = GetConsoleColor(logEvent, BackgroundColorMeta, ColorConfig.BackgroundColor, logEvent.Silent);
@@ -139,7 +138,7 @@ namespace NuLog.Samples.CustomizeSamples.S2_5_AsynchronousLoggingInTheTarget
         // Figures the console color we need based on the meta data of the log event, and the passed default color
         private static ConsoleColor GetConsoleColor(LogEvent logEvent, string metaDataKey, ConsoleColor defaultColor, bool silent)
         {
-            // Try and return the console color from the metea data
+            // Try and return the console color from the meta data
             if (logEvent.MetaData != null && logEvent.MetaData.ContainsKey(metaDataKey))
             {
                 try

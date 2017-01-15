@@ -175,13 +175,13 @@ namespace NuLog.Tests.Integration.Configuration
                 int tries = 0;
                 while (tries++ < 10 && ListTarget.GetList().Count < 2)
                     Thread.Sleep(100);
-
-                var messagesDelayed = ListTarget.GetList();
-                Assert.Equal(2, messagesDelayed.Count);
-                var delayedMessage = messagesDelayed[1];
-                Assert.NotNull(delayedMessage);
-                Assert.Equal("Delayed, Test!", delayedMessage.Message);
             }
+
+            var messagesDelayed = ListTarget.GetList();
+            Assert.Equal(2, messagesDelayed.Count);
+            var delayedMessage = messagesDelayed[1];
+            Assert.NotNull(delayedMessage);
+            Assert.Equal("Delayed, Test!", delayedMessage.Message);
         }
 
         #region helpers

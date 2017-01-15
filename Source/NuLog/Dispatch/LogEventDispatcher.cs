@@ -1,8 +1,6 @@
-﻿/*
- * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
- * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
- * GitHub: https://github.com/ivanpointer/NuLog
- */
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.MetaData;
@@ -109,6 +107,13 @@ namespace NuLog.Dispatch
             NewConfig(initialConfig);
         }
 
+        /// <summary>
+        /// Will be true if shutting down, or even if shutdown is complete.  This is to protect the dispatcher from receiving messages after being asked to shutdown.
+        ///
+        /// This enables the dispatcher to flush all messages out to the loggers before telling them to shutdown.
+        /// </summary>
+        private bool IsShuttingDown { get; set; }
+
         #endregion Members and Constructors
 
         #region Startup and Shutdown
@@ -119,13 +124,23 @@ namespace NuLog.Dispatch
         /// <returns>Whether or not the dispatcher shut down cleanly.</returns>
         public bool Shutdown()
         {
-            lock(LoggingLock)
+            lock (LoggingLock)
             {
                 // Bring down the dispatcher thread first
                 var threadDown = ShutdownThread();
 
+                // Signal to the thread to shutdown
+                Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
+
+                // Call the worker body until the queues are empty
+                while (ActionQueue.IsEmpty == false || LogQueue.IsEmpty == false)
+                    QueueWorkerThread(this);
+
                 // Then bring down the targets
                 TargetKeeper.Shutdown();
+
+                // Signal that we're coming down
+                IsShuttingDown = true;
 
                 // Report whether we came down cleanly or not
                 return threadDown;
@@ -138,7 +153,10 @@ namespace NuLog.Dispatch
             lock (LoggingLock)
             {
                 if (_timer == null)
+                {
                     _timer = new Timer(QueueWorkerThread, this, TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(500));
+                    IsShuttingDown = false;
+                }
             }
         }
 
@@ -148,13 +166,6 @@ namespace NuLog.Dispatch
             // Protect the timer
             lock (LoggingLock)
             {
-                // Signal to the thread to shutdown
-                Trace.WriteLine("Shutting down dispatcher, waiting for all log events to flush");
-
-                // Call the worker body until the queues are empty
-                while (ActionQueue.IsEmpty == false || LogQueue.IsEmpty == false)
-                    QueueWorkerThread(this);
-
                 if (_timer != null)
                 {
                     // Wait for the thread to shutdown, or the timeout to elapse
@@ -177,16 +188,26 @@ namespace NuLog.Dispatch
         /// <param name="logEvent">The log event to dispatch</param>
         public void Log(LogEvent logEvent)
         {
-            // Default to asynchronous logging, unless overridden in the configuration
-            if (!LoggingConfig.Synchronous)
+            lock (LoggingLock)
             {
-                // Enqueue the log event for the worker thread to handle
-                LogQueue.Enqueue(logEvent);
-            }
-            else
-            {
-                // If we are set to synchronous logging in the config, log the event now
-                LogNow(logEvent);
+                // Check for a broken state - trying to log against a dispatcher that is shutting down
+                if (IsShuttingDown)
+                {
+                    HandleException(new InvalidOperationException("The dispatcher is shutting down; new log events cannot be queued."), logEvent);
+                    return;
+                }
+
+                // Default to asynchronous logging, unless overridden in the configuration
+                if (!LoggingConfig.Synchronous)
+                {
+                    // Enqueue the log event for the worker thread to handle
+                    LogQueue.Enqueue(logEvent);
+                }
+                else
+                {
+                    // If we are set to synchronous logging in the config, log the event now
+                    LogNow(logEvent);
+                }
             }
         }
 
@@ -196,16 +217,26 @@ namespace NuLog.Dispatch
         /// <param name="action">The action to process</param>
         public void Log(Action action)
         {
-            // default to asynchronous handling, unless overridden in the configuration
-            if (!LoggingConfig.Synchronous)
+            lock (LoggingLock)
             {
-                // Enqueue the action for the worker thread to handle
-                ActionQueue.Enqueue(action);
-            }
-            else
-            {
-                // If we are overridden to synchronous logging, process the action now
-                action();
+                // Check for a broken state - trying to log against a dispatcher that is shutting down
+                if (IsShuttingDown)
+                {
+                    HandleException(new InvalidOperationException("The dispatcher is shutting down; new log actions cannot be queued."));
+                    return;
+                }
+
+                // default to asynchronous handling, unless overridden in the configuration
+                if (!LoggingConfig.Synchronous)
+                {
+                    // Enqueue the action for the worker thread to handle
+                    ActionQueue.Enqueue(action);
+                }
+                else
+                {
+                    // If we are overridden to synchronous logging, process the action now
+                    action();
+                }
             }
         }
 
