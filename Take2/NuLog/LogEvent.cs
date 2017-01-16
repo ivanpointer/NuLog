@@ -17,10 +17,9 @@ namespace NuLog
     public class LogEvent : ILogEvent
     {
         /// <summary>
-        /// Represents the point-in-time that the log event occurred (as opposed to when the event
-        /// was logged)
+        /// Represents the point-in-time that the event was logged (not necessarily written, as writes are often deferred).
         /// </summary>
-        public DateTime DateTime { get; set; }
+        public DateTime DateLogged { get; set; }
 
         /// <summary>
         /// The thread from which the log event originated

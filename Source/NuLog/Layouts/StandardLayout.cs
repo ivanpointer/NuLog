@@ -27,7 +27,7 @@ namespace NuLog.Layouts
          * Layouts are a mechanism for converting a log event into text using a "layout" format
          * Layouts are used by the standard text-based targets, and the SMTP target for the subject and the body
          * Layouts allow for the formatting of different parts of the log event, even recursively
-         * Layouts allow for conditinoally showing formatted parts of the log event
+         * Layouts allow for conditionally showing formatted parts of the log event
          *
          * "Hello Layout${?DateTime:': {0:MM/dd/yyyy hh:mm:ss.fff}'}!\r\n"
          *
@@ -36,7 +36,7 @@ namespace NuLog.Layouts
          *  - Static text will always show in a log event formatted by a layout
          *  - Escaped characters (such as carriage return and line feed) are supported, and encouraged
          *
-         * Parametrers:
+         * Parameters:
          *  ${?DateTime:': {0:MM/dd/yyyy hh:mm:ss.fff}'}
          *
          *  - Parameters are wrapped with the property enclosure ${}
@@ -51,14 +51,14 @@ namespace NuLog.Layouts
          *    - If the conditional flag is present, the property will only be included in the resulting text if the property is not null or empty
          *
          *  - Property Name:
-         *    - The name of the proeprty within the log event is located at the beginning of the proeprty string, after the conditional flag
+         *    - The name of the property within the log event is located at the beginning of the property string, after the conditional flag
          *    - All log events have optional "Meta Data"
          *    - The Property Name value is reflective and recursive, child values can be accessed with periods, for example: DateTime.Day
          *    - The "Meta Data" is searched first for the property
          *    - The log event is searched for the property, if the property is not found in the "Meta Data"
          *
          *  - Property Format:
-         *    - The property format is used to format the value of the proeprty which was evaluated from the log event
+         *    - The property format is used to format the value of the property which was evaluated from the log event
          *    - The property format is separated from the property name by a colon ':'
          *    - The property format is wrapped in single quotes to allow for escaping within the format string
          *    - The framework uses System.string.Format with the property format and value
@@ -161,7 +161,7 @@ namespace NuLog.Layouts
                             parameterValue = GetSpecialParameter(parameter, logEvent);
                             parameterValue = parameterValue ?? MetaDataParser.GetProperty(logEvent, parameter.NameList);
 
-                            // If the paramater was not handled as a special parameter, treat it as a normal parameter
+                            // If the parameter was not handled as a special parameter, treat it as a normal parameter
                             parameterString = !parameter.Contingent || !IsNullOrEmptyString(parameterValue)
                                 ? GetFormattedValue(parameterValue, parameter.Format)
                                 : string.Empty;
@@ -248,12 +248,12 @@ namespace NuLog.Layouts
         // Parses the string format, returning a collection of layout parameters (actual properties and static text) to use for formatting log events
         private LayoutParameter[] ParseParameters(string format)
         {
-            // Check to see if we have alread parsed out the parameters for the format
+            // Check to see if we have already parsed out the parameters for the format
             if (!LayoutCache.ContainsKey(format))
             {
                 try
                 {
-                    // Find and use the the parameter texts to build out each of the layout parameters
+                    // Find and use the parameter texts to build out each of the layout parameters
                     var parameters = new List<LayoutParameter>();
                     var parameterTexts = FindParameterTexts(format);
 
@@ -319,7 +319,7 @@ namespace NuLog.Layouts
                 ? parm.FullName.Substring(3)
                 : parm.FullName.Substring(2);
 
-            // Spllit out the full name into its parts
+            // Split out the full name into its parts
             var nameParts = parm.FullName.Split('.');
             foreach (var namePart in nameParts)
                 parm.NameList.Add(namePart);

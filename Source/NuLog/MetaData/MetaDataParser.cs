@@ -1,4 +1,7 @@
-﻿/*
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
+/*
  * Author: Ivan Andrew Pointer (ivan@pointerplace.us)
  * Date: 10/8/2014
  * License: MIT (https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE)
@@ -86,7 +89,7 @@ namespace NuLog.MetaData
         }
 
         // The internal recursive function for searching for an object by name.
-        //  This is where the "heavy lifting" of searching for a propert within the log event
+        //  This is where the "heavy lifting" of searching for a property within the log event
         //   is performed.
         private static object GetPropertyRecurse(object obj, ICollection<string> nameList, int depth = 0)
         {
@@ -110,7 +113,7 @@ namespace NuLog.MetaData
                 }
                 else
                 {
-                    // Try to get the property of the obect with the next name
+                    // Try to get the property of the object with the next name
                     var dictionary = (IDictionary<string, object>)obj;
                     var key = nameList.ElementAt(depth);
                     if (dictionary.ContainsKey(key))
@@ -135,7 +138,7 @@ namespace NuLog.MetaData
 
         #region Helpers
 
-        // A property for retreiving the PropertyInfo of an object type
+        // A property for retrieving the PropertyInfo of an object type
         //  Uses caching because the work of getting th properties of an object type
         //   is expensive.
         private PropertyInfo[] GetPropertyInfo(Type objectType)

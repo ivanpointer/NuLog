@@ -66,6 +66,8 @@
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
+    <Compile Include="Unit\Layouts\PropertyParsers\PropertyParserTests.cs" />
+    <Compile Include="Unit\Layouts\StandardLayoutTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorExcludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorFinalRulesTests.cs" />
@@ -88,6 +90,10 @@
       <Project>{5433B51C-FE2D-444C-B754-6AF622D50A00}</Project>
       <Name>NuLog.Dispatchers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NuLog.Layouts\NuLog.Layouts.csproj">
+      <Project>{04834B02-824C-4454-95B5-9A9420445130}</Project>
+      <Name>NuLog.Layouts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuLog.Loggers\NuLog.Loggers.csproj">
       <Project>{72023285-5272-4652-B070-A29F85617D78}</Project>
       <Name>NuLog.Loggers</Name>
@@ -95,6 +101,10 @@
     <ProjectReference Include="..\NuLog.TagRouters\NuLog.TagRouters.csproj">
       <Project>{BE514816-5C2F-4DBF-B2E4-9D0D49219315}</Project>
       <Name>NuLog.TagRouters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.Targets\NuLog.Targets.csproj">
+      <Project>{FDE1C83C-3B88-4038-9623-B468C107A740}</Project>
+      <Name>NuLog.Targets</Name>
     </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
       <Project>{100467BE-E1B1-4D5A-A40B-CA633015EC42}</Project>
