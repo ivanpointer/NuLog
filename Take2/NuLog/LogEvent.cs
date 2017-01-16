@@ -59,12 +59,12 @@ namespace NuLog
         /// Write this log event to the target.
         /// </summary>
         /// <param name="target">The target to write to.</param>
-        public void WriteTo(ITarget target)
+        public virtual void WriteTo(ITarget target)
         {
             target.Write(this);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             // Nothing to do
         }

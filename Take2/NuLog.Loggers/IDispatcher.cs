@@ -20,10 +20,9 @@ namespace NuLog.Loggers
         void DispatchNow(ILogEvent logEvent);
 
         /// <summary>
-        /// Dispatches the given log event out to the log event targets, in an asynchronous manner.
-        /// This allows the logger to return control to the parent method sooner.
+        /// Queues the given log event for later dispatch by the dispatcher.
         /// </summary>
-        /// <param name="logEvent">The log event to dispatch.</param>
-        void Dispatch(ILogEvent logEvent);
+        /// <param name="logEvent">The log event to queue for dispatch.</param>
+        void EnqueueForDispatch(ILogEvent logEvent);
     }
 }
