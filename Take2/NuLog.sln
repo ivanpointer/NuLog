@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Loggers", "NuLog.Logg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.TagRouters", "NuLog.TagRouters\NuLog.TagRouters.csproj", "{BE514816-5C2F-4DBF-B2E4-9D0D49219315}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Layouts", "NuLog.Layouts\NuLog.Layouts.csproj", "{04834B02-824C-4454-95B5-9A9420445130}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE514816-5C2F-4DBF-B2E4-9D0D49219315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04834B02-824C-4454-95B5-9A9420445130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04834B02-824C-4454-95B5-9A9420445130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04834B02-824C-4454-95B5-9A9420445130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04834B02-824C-4454-95B5-9A9420445130}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

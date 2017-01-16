@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{72023285-5272-4652-B070-A29F85617D78}</ProjectGuid>
+    <ProjectGuid>{04834B02-824C-4454-95B5-9A9420445130}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NuLog.Loggers</RootNamespace>
-    <AssemblyName>NuLog.Loggers</AssemblyName>
+    <RootNamespace>NuLog.Layouts</RootNamespace>
+    <AssemblyName>NuLog.Layouts</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NuLog\NuLog.csproj">
-      <Project>{100467BE-E1B1-4D5A-A40B-CA633015EC42}</Project>
-      <Name>NuLog</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -18,6 +18,6 @@ namespace NuLog.Dispatchers.TagRouters
         /// Returns a list of targets who match the given set of tags, based on the rules.
         /// </summary>
         /// <param name="tags">The tags to determine the targets for.</param>
-        IEnumerable<string> Route(params string[] tags);
+        IEnumerable<string> Route(IEnumerable<string> tags);
     }
 }

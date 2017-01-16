@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NuLog.Factories")]
+[assembly: AssemblyTitle("NuLog.Layouts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NuLog.Factories")]
+[assembly: AssemblyProduct("NuLog.Layouts")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4d20292a-858e-4a0a-b327-ddad11036213")]
+[assembly: Guid("04834b02-824c-4454-95b5-9a9420445130")]
 
 // Version information for an assembly consists of the following four values:
 //

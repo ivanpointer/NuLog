@@ -41,7 +41,7 @@ namespace NuLog.TagRouters.RuleProcessors
             this.ruleTagPatterns = new Dictionary<string, Regex>();
         }
 
-        public IEnumerable<string> DetermineTargets(params string[] tags)
+        public IEnumerable<string> DetermineTargets(IEnumerable<string> tags)
         {
             // Our distinct set of targets to route to
             var targets = new HashSet<string>();

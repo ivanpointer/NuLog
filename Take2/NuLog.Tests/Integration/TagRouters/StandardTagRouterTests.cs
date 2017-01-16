@@ -49,7 +49,7 @@ namespace NuLog.Tests.Integration.TagRouters
             var tagRouter = new StandardTagRouter(ruleProcessor);
 
             // Execute
-            var targets = tagRouter.Route("orange");
+            var targets = tagRouter.Route(new string[] { "orange" });
 
             // Verify
             Assert.Equal(1, targets.Count());

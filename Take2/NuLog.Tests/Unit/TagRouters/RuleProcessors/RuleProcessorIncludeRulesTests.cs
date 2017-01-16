@@ -3,7 +3,6 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Dispatchers.TagRouters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -26,7 +25,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(null);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag" });
 
             // Verify
             Assert.NotNull(targets);
@@ -50,7 +49,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag" });
 
             // Verify
             Assert.Equal("super_target", targets.Single());
@@ -74,7 +73,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("HELLO_TAG");
+            var targets = processor.DetermineTargets(new string[] { "HELLO_TAG" });
 
             // Verify
             Assert.Equal("super_target", targets.Single());
@@ -98,7 +97,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("no_match");
+            var targets = processor.DetermineTargets(new string[] { "no_match" });
 
             // Verify
             Assert.NotNull(targets);
@@ -127,7 +126,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag" });
 
             // Verify
             Assert.Equal(2, targets.Count());
@@ -158,7 +157,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag" });
 
             // Verify
             Assert.Equal(2, targets.Count());
@@ -189,7 +188,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag", "goodbye_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag", "goodbye_tag" });
 
             // Verify
             Assert.Equal(2, targets.Count());
@@ -230,7 +229,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets(matchTag);
+            var targets = processor.DetermineTargets(new string[] { matchTag });
 
             // Verify
             if (shouldMatch)

@@ -14,7 +14,7 @@ namespace NuLog
     /// different targets. The LogEvent carries all the information needed, including a MetaData
     /// mechanism to allow for sending any kind of information to targets, standard and custom.
     /// </summary>
-    public class LogEvent
+    public class LogEvent : ILogEvent
     {
         /// <summary>
         /// Represents the point-in-time that the log event occurred (as opposed to when the event
@@ -41,7 +41,7 @@ namespace NuLog
         /// <summary>
         /// The list of tags associated with the log event
         /// </summary>
-        public ICollection<string> Tags { get; set; }
+        public IEnumerable<string> Tags { get; set; }
 
         /// <summary>
         /// The exception (if any) associated with the log event
@@ -54,6 +54,20 @@ namespace NuLog
         /// the layout target destination.
         /// </summary>
         public IDictionary<string, object> MetaData { get; set; }
+
+        /// <summary>
+        /// Write this log event to the target.
+        /// </summary>
+        /// <param name="target">The target to write to.</param>
+        public void WriteTo(ITarget target)
+        {
+            target.Write(this);
+        }
+
+        public void Dispose()
+        {
+            // Nothing to do
+        }
 
         ///// <summary>
         ///// A flag that if set to true, indicates to the system that no trace or debug messages should be written concerning

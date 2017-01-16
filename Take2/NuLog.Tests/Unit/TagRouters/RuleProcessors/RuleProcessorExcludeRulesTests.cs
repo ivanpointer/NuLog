@@ -39,7 +39,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag", "exclude_tag");
+            var targets = processor.DetermineTargets(new string[] { "hello_tag", "exclude_tag" });
 
             // Verify
             Assert.Equal(1, targets.Count());
@@ -77,7 +77,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = processor.DetermineTargets("hello_tag", tag);
+            var targets = processor.DetermineTargets(new string[] { "hello_tag", tag });
 
             // Verify
             Assert.Equal(expectedCount, targets.Count());

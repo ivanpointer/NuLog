@@ -3,8 +3,8 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Dispatchers.TagRouters;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NuLog.TagRouters
 {
@@ -17,11 +17,6 @@ namespace NuLog.TagRouters
         /// The rule processor for this router.
         /// </summary>
         private readonly IRuleProcessor ruleProcessor;
-
-        /// <summary>
-        /// The tag group processor for this router.
-        /// </summary>
-        private readonly ITagGroupProcessor tagGroupProcessor;
 
         /// <summary>
         /// A cache of already processed rules for a given set of tags
@@ -38,7 +33,7 @@ namespace NuLog.TagRouters
             this.routeCache = new Dictionary<string, IEnumerable<string>>();
         }
 
-        public IEnumerable<string> Route(params string[] tags)
+        public IEnumerable<string> Route(IEnumerable<string> tags)
         {
             // Build our cache key
             var cacheKey = BuildTagsKey(tags);
@@ -56,13 +51,9 @@ namespace NuLog.TagRouters
         /// <summary>
         /// Build and return a string representation of the given tags.
         /// </summary>
-        private static string BuildTagsKey(string[] tags)
+        private static string BuildTagsKey(IEnumerable<string> tags)
         {
-            var copy = new string[tags.Length];
-            tags.CopyTo(copy, 0);
-            Array.Sort(copy);
-            var conjoined = string.Join(";", copy);
-            return conjoined.ToLower();
+            return string.Join(";", tags.OrderBy(s => s));
         }
     }
 }

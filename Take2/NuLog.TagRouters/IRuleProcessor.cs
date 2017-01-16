@@ -16,6 +16,6 @@ namespace NuLog.TagRouters
         /// Returns a list of targets who match the given set of tags, based on the rules.
         /// </summary>
         /// <param name="tags">The tags to determine the targets for.</param>
-        IEnumerable<string> DetermineTargets(params string[] tags);
+        IEnumerable<string> DetermineTargets(IEnumerable<string> tags);
     }
 }
