@@ -43,10 +43,10 @@
     <Compile Include="ILayoutParser.cs" />
     <Compile Include="IPropertyParser.cs" />
     <Compile Include="LayoutParameter.cs" />
-    <Compile Include="LayoutParsers\StandardLayoutParser.cs" />
+    <Compile Include="Standard\LayoutParsers\StandardLayoutParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyParsers\StandardPropertyParser.cs" />
-    <Compile Include="StandardLayout.cs" />
+    <Compile Include="Standard\PropertyParsers\StandardPropertyParser.cs" />
+    <Compile Include="Standard\StandardLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NuLog.Targets\NuLog.Targets.csproj">
@@ -58,6 +58,7 @@
       <Name>NuLog</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

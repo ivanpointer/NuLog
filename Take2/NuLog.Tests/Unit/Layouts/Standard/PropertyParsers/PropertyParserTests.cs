@@ -3,12 +3,12 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Layouts;
-using NuLog.Layouts.PropertyParsers;
+using NuLog.Layouts.Standard.PropertyParsers;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Layouts.PropertyParsers
+namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
 {
     /// <summary>
     /// Documents (and verifies) the expected behavior of the property parser.

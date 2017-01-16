@@ -66,16 +66,15 @@
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
-    <Compile Include="Unit\Layouts\LayoutParsers\LayoutParserTests.cs" />
-    <Compile Include="Unit\Layouts\PropertyParsers\PropertyParserTests.cs" />
-    <Compile Include="Unit\Layouts\StandardLayoutTests.cs" />
+    <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
+    <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
+    <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorExcludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorFinalRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorIncludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorTestsBase.cs" />
     <Compile Include="Unit\TagRouters\TagGroupProcessors\TagGroupProcessorTests.cs" />
-    <Compile Include="Unit\TagRouters\TagRouterTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Unit\Configuration\" />

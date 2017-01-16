@@ -3,11 +3,11 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Layouts;
-using NuLog.Layouts.LayoutParsers;
+using NuLog.Layouts.Standard.LayoutParsers;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Layouts.LayoutParsers
+namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
 {
     /* Documentation / Explanation:
      *
@@ -111,9 +111,6 @@ namespace NuLog.Tests.Unit.Layouts.LayoutParsers
             Assert.Equal(1, parameters.Count);
             var parameter = parameters.First();
             Assert.False(parameter.StaticText);
-            Assert.Equal(2, parameter.PropertyChain.Count);
-            Assert.Equal("HelloWorld", parameter.PropertyChain.ElementAt(0));
-            Assert.Equal("MyProperty", parameter.PropertyChain.ElementAt(1));
         }
 
         /// <summary>
@@ -206,9 +203,6 @@ namespace NuLog.Tests.Unit.Layouts.LayoutParsers
             Assert.False(threadIdParm.StaticText);
             Assert.False(threadIdParm.Contingent);
             Assert.Equal("Thread.ManagedThreadId", threadIdParm.Path);
-            Assert.Equal(2, threadIdParm.PropertyChain.Count);
-            Assert.Equal("Thread", threadIdParm.PropertyChain.ElementAt(0));
-            Assert.Equal("ManagedThreadId", threadIdParm.PropertyChain.ElementAt(1));
             Assert.Equal("{0,4}", threadIdParm.Format);
 
             // 3 - Static Text " | "

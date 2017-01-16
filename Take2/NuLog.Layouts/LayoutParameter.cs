@@ -2,8 +2,6 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-using System.Collections.Generic;
-
 namespace NuLog.Layouts
 {
     /// <summary>
@@ -38,21 +36,5 @@ namespace NuLog.Layouts
         /// names. Used to drill down through the log event to find the value.
         /// </summary>
         public string Path { get; set; }
-
-        /// <summary>
-        /// The broken-down name of the parameter. Used to drill down through the log event to find
-        /// the value.
-        /// </summary>
-        public ICollection<string> PropertyChain { get; set; }
-
-        /// <summary>
-        /// Standard constructor. Defaults to "false" as a "StaticText", and initializes the name
-        /// lest to an empty list
-        /// </summary>
-        public LayoutParameter()
-        {
-            StaticText = false;
-            PropertyChain = new List<string>();
-        }
     }
 }

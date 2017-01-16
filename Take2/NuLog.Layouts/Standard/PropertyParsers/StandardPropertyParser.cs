@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NuLog.Layouts.PropertyParsers
+namespace NuLog.Layouts.Standard.PropertyParsers
 {
     /// <summary>
     /// The standard implementation of a property parser.
@@ -23,24 +23,18 @@ namespace NuLog.Layouts.PropertyParsers
 
         public object GetProperty(object zobject, string path)
         {
-            object property = null;
-            if (string.IsNullOrEmpty(path) == false)
+            // Make sure the path has something
+            if(string.IsNullOrWhiteSpace(path))
             {
-                var propertyChain = ParsePropertyChain(path);
-                return GetProperty(zobject, propertyChain);
+                return null;
             }
-            return property;
+
+            // Split out our property chain and pass off
+            var propertyChain = path.Split('.');
+            return GetProperty(zobject, propertyChain);
         }
 
-        /// <summary>
-        /// Finds and returns a property within the given log event by the property name list. The
-        /// meta data is searched first, then the other members of the log event. See the
-        /// documentation at https://github.com/ivanpointer/NuLog for more information on how the
-        /// property names are parsed.
-        /// </summary>
-        /// <param name="nameList">The name of the property to search for, in list format</param>
-        /// <returns>The property by the name found in the log event, or null if none found</returns>
-        public object GetProperty(object zobject, ICollection<string> propertyChain)
+        private object GetProperty(object zobject, ICollection<string> propertyChain)
         {
             object property = null;
 
@@ -125,14 +119,6 @@ namespace NuLog.Layouts.PropertyParsers
                     return propertyInfo;
                 }
             }
-        }
-
-        /// <summary>
-        /// Splits the given path out into individual properties to make traversal easier.
-        /// </summary>
-        private static ICollection<string> ParsePropertyChain(string path)
-        {
-            return path.Split('.');
         }
     }
 

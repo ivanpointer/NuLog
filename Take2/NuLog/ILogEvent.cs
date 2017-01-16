@@ -13,12 +13,7 @@ namespace NuLog
     public interface ILogEvent : IDisposable
     {
         /// <summary>
-        /// The date/time that the log event was logged.
-        /// </summary>
-        DateTime DateLogged { get; set; }
-
-        /// <summary>
-        /// The tags associated with this log event
+        /// The list of tags associated with the log event
         /// </summary>
         IEnumerable<string> Tags { get; set; }
 

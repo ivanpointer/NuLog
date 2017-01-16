@@ -14,6 +14,6 @@ namespace NuLog.Targets
         /// </summary>
         /// <param name="logEvent">The log event to convert to a string representation.</param>
         /// <returns>A string representation of the log event.</returns>
-        string Format(ILogEvent logEvent);
+        string Format(LogEvent logEvent);
     }
 }

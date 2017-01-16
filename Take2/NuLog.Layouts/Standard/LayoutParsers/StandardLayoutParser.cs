@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace NuLog.Layouts.LayoutParsers
+namespace NuLog.Layouts.Standard.LayoutParsers
 {
     /// <summary>
     /// The standard implementation of a layout parser.
@@ -79,11 +79,6 @@ namespace NuLog.Layouts.LayoutParsers
             parm.Path = parm.Contingent
                 ? parm.Path.Substring(3)
                 : parm.Path.Substring(2);
-
-            // Split out the full name into its parts
-            var pathParts = parm.Path.Split('.');
-            foreach (var namePart in pathParts)
-                parm.PropertyChain.Add(namePart);
 
             // Split out and clean up the parameter format
             parm.Format = parameterFormatPattern.Match(text).ToString();

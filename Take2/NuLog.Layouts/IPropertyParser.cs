@@ -2,6 +2,8 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using System.Collections.Generic;
+
 namespace NuLog.Layouts
 {
     /// <summary>
@@ -13,8 +15,8 @@ namespace NuLog.Layouts
         /// <summary>
         /// Traverses/iterates the object, using the given path, to return the property at the
         /// identified location. If no property is found with the given path, null is returned. If
-        /// the object is a dictionary, the first element in the path is treated as a key to an item
-        /// in the dictionary.
+        /// the element in the chain is a dictionary with a string key, the path element is treated
+        /// as a key to an item in the dictionary.
         /// </summary>
         /// <param name="zobject">The object to traverse, looking for the path.</param>
         /// <param name="path">   The path to the desired property.</param>
