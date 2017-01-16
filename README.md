@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ivanpointer/NuLog.svg?branch=master)](https://travis-ci.org/ivanpointer/NuLog)
+
 # UNDER DEVELOPMENT AGAIN
 I'm working on NuLog again.  I'm working to flush out some concurrency bugs, and to work to get the framework to be more testable in isolation (true unit tests), and more extensible.
 
