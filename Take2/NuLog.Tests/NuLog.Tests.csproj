@@ -59,15 +59,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
-    <Compile Include="Unit\TagRouters\TagRouterExcludeRulesTests.cs" />
-    <Compile Include="Unit\TagRouters\TagRouterFinalRulesTests.cs" />
-    <Compile Include="Unit\TagRouters\TagRouterIncludeRulesTests.cs" />
+    <Compile Include="Unit\TagNormalizerTests.cs" />
+    <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorExcludeRulesTests.cs" />
+    <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorFinalRulesTests.cs" />
+    <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorIncludeRulesTests.cs" />
+    <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorTestsBase.cs" />
+    <Compile Include="Unit\TagRouters\TagGroupProcessors\TagGroupProcessorTests.cs" />
     <Compile Include="Unit\TagRouters\TagRouterTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Unit\Configurations\" />
+    <Folder Include="Unit\Configuration\" />
     <Folder Include="Unit\Factories\" />
     <Folder Include="Unit\Loggers\" />
     <Folder Include="Unit\Targets\" />
@@ -87,6 +91,10 @@
     <ProjectReference Include="..\NuLog.TagRouters\NuLog.TagRouters.csproj">
       <Project>{BE514816-5C2F-4DBF-B2E4-9D0D49219315}</Project>
       <Name>NuLog.TagRouters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog\NuLog.csproj">
+      <Project>{100467BE-E1B1-4D5A-A40B-CA633015EC42}</Project>
+      <Name>NuLog</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

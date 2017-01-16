@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters
+namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
 {
     /// <summary>
     /// Documents the expected behavior of a tag router's "include" rules.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TagRouterIncludeRulesTests : TagRouterTestsBase
+    public class RuleProcessorIncludeRulesTests : RuleProcessorTestsBase
     {
         /// <summary>
         /// Should handle receiving a "null" list of rules.
@@ -23,10 +23,10 @@ namespace NuLog.Tests.Unit.TagRouters
         public void Should_HandleNullRules()
         {
             // Setup
-            var router = GetTagRouter(null);
+            var processor = GetRuleProcessor(null);
 
             // Execute
-            var targets = router.Route("hello_tag");
+            var targets = processor.DetermineTargets("hello_tag");
 
             // Verify
             Assert.NotNull(targets);
@@ -47,10 +47,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "super_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag");
+            var targets = processor.DetermineTargets("hello_tag");
 
             // Verify
             Assert.Equal("super_target", targets.Single());
@@ -71,10 +71,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "super_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("HELLO_TAG");
+            var targets = processor.DetermineTargets("HELLO_TAG");
 
             // Verify
             Assert.Equal("super_target", targets.Single());
@@ -95,10 +95,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "super_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("no_match");
+            var targets = processor.DetermineTargets("no_match");
 
             // Verify
             Assert.NotNull(targets);
@@ -124,10 +124,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "duper_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag");
+            var targets = processor.DetermineTargets("hello_tag");
 
             // Verify
             Assert.Equal(2, targets.Count());
@@ -155,10 +155,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "duper_target", "super_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag");
+            var targets = processor.DetermineTargets("hello_tag");
 
             // Verify
             Assert.Equal(2, targets.Count());
@@ -186,69 +186,15 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "duper_target", }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag", "goodbye_tag");
+            var targets = processor.DetermineTargets("hello_tag", "goodbye_tag");
 
             // Verify
             Assert.Equal(2, targets.Count());
             Assert.Contains("super_target", targets);
             Assert.Contains("duper_target", targets);
-        }
-
-        /// <summary>
-        /// Shouldn't allow empty tags.
-        /// </summary>
-        [Fact(DisplayName = "Should_DisallowEmptyTags")]
-        public void Should_DisallowEmptyTags()
-        {
-            // Setup
-            var router = GetTagRouter(null);
-
-            // Execute
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
-                router.Route("");
-            });
-        }
-
-        /// <summary>
-        /// Should limit which characters are allowed in tags.
-        /// </summary>
-        [Theory(DisplayName = "Should_LimitTagCharacters")]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", true)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", true)]
-        [InlineData("0123456789", true)]
-        [InlineData("_.", true)]
-        [InlineData("`~\\/<>,+=-:;'\"*!@#$? \t\n", false)]
-        public void Should_LimitTagCharacters(string tag, bool shouldBeValid)
-        {
-            // This one's a bit harder to test, because this should be implemented as a white list,
-            // meaning that the list of allowed characters is bounded, and the list of disallowed
-            // characters, is not. In other words, we'll be able to ensure that all of the allowed
-            // characters are allowed, but there is no limit to the disallowed characters, so there's
-            // no practical way of testing that upper boundary.
-
-            // Setup
-            var router = GetTagRouter(null);
-
-            // Execute
-            foreach (var chr in tag.ToArray())
-            {
-                var chrStr = chr.ToString();
-                if (shouldBeValid)
-                {
-                    Assert.NotNull(router.Route(chrStr));
-                }
-                else
-                {
-                    Assert.Throws(typeof(InvalidOperationException), () =>
-                    {
-                        router.Route(chrStr);
-                    });
-                }
-            }
         }
 
         /// <summary>
@@ -281,10 +227,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "super_target" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route(matchTag);
+            var targets = processor.DetermineTargets(matchTag);
 
             // Verify
             if (shouldMatch)
@@ -321,10 +267,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     StrictInclude = true
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route(tags);
+            var targets = processor.DetermineTargets(tags);
 
             // Verify
             Assert.Equal(expectedCount, targets.Count());

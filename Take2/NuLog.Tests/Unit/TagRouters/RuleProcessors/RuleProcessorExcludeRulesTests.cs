@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters
+namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
 {
     /// <summary>
     /// Documents the expected behavior around "excludes" rules.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TagRouterExcludeRulesTests : TagRouterTestsBase
+    public class RuleProcessorExcludeRulesTests : RuleProcessorTestsBase
     {
         /// <summary>
         /// Checks a single simple exclude tag.
@@ -36,10 +36,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Exclude = new string[] { "exclude_tag" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag", "exclude_tag");
+            var targets = processor.DetermineTargets("hello_tag", "exclude_tag");
 
             // Verify
             Assert.Equal(1, targets.Count());
@@ -74,10 +74,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Exclude = new string[] { excludeTag }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag", tag);
+            var targets = processor.DetermineTargets("hello_tag", tag);
 
             // Verify
             Assert.Equal(expectedCount, targets.Count());

@@ -4,6 +4,8 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Dispatchers.TagRouters;
 using NuLog.TagRouters;
+using NuLog.TagRouters.RuleProcessors;
+using NuLog.TagRouters.TagGroupProcessors;
 using System.Collections.Generic;
 
 namespace NuLog.Tests.Unit.TagRouters
@@ -17,7 +19,9 @@ namespace NuLog.Tests.Unit.TagRouters
     {
         protected ITagRouter GetTagRouter(ICollection<Rule> rules)
         {
-            return new StandardTagRouter(rules);
+            var tagGroupProcessor = new StandardTagGroupProcessor(null);
+            var ruleProcessor = new StandardRuleProcessor(rules, tagGroupProcessor);
+            return new StandardTagRouter(ruleProcessor);
         }
     }
 }

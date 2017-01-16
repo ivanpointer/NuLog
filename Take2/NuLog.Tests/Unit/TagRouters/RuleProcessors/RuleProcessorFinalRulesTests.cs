@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters
+namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
 {
     /// <summary>
     /// Documents the expected behavior around "excludes" rules.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TagRouterFinalRulesTests : TagRouterTestsBase
+    public class RuleProcessorFinalRulesTests : RuleProcessorTestsBase
     {
         /// <summary>
         /// The router should stop processing rules once a rule that is marked final is matched.
@@ -41,10 +41,10 @@ namespace NuLog.Tests.Unit.TagRouters
                     Targets = new string[] { "califragilistic" }
                 }
             };
-            var router = GetTagRouter(rules);
+            var processor = GetRuleProcessor(rules);
 
             // Execute
-            var targets = router.Route("hello_tag");
+            var targets = processor.DetermineTargets("hello_tag");
 
             // Verify
             Assert.Equal(2, targets.Count());
