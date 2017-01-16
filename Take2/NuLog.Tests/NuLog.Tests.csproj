@@ -66,6 +66,7 @@
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
+    <Compile Include="Unit\Layouts\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\StandardLayoutTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />

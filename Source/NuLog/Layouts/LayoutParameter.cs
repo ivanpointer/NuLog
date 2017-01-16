@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace NuLog.Layouts
 {
     /// <summary>
-    /// Represents a single paramater within a standard layout.  Designed specifically for the StandardLayout, but can be used by other layouts.
+    /// Represents a single parameter within a standard layout.  Designed specifically for the StandardLayout, but can be used by other layouts.
     /// </summary>
     public class LayoutParameter
     {
