@@ -72,7 +72,7 @@ namespace NuLog.Layouts.Standard
 
         /// <summary>
         /// Checks for and returns special parameters. For example, the "Tags" parameter is returned
-        /// as a CSV list of tags, Exceptions recieve special formatting, etc.
+        /// as a CSV list of tags, Exceptions receive special formatting, etc.
         /// </summary>
         private static object GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
         {
