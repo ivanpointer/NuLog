@@ -5,6 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace NuLog.Loggers
@@ -20,11 +21,32 @@ namespace NuLog.Loggers
         private readonly IDispatcher dispatcher;
 
         /// <summary>
+        /// The tag normalizer to use when processing tags.
+        /// </summary>
+        private readonly ITagNormalizer tagNormalizer;
+
+        /// <summary>
+        /// The meta data provider for this logger.
+        /// </summary>
+        private readonly IMetaDataProvider metaDataProvider;
+
+        /// <summary>
+        /// Default tags to add to every log event originating from this logger.
+        /// </summary>
+        private readonly IEnumerable<string> defaultTags;
+
+        /// <summary>
         /// Sets up a new instance of the standard logger.
         /// </summary>
-        public StandardLogger(IDispatcher dispatcher)
+        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null)
         {
             this.dispatcher = dispatcher;
+
+            this.metaDataProvider = metaDataProvider;
+
+            this.tagNormalizer = tagNormalizer;
+
+            this.defaultTags = tagNormalizer.NormalizeTags(defaultTags);
         }
 
         public void Log(string message, params string[] tags)
@@ -70,18 +92,76 @@ namespace NuLog.Loggers
         /// <summary>
         /// Build and return a new log event, setting the default values on it.
         /// </summary>
-        private LogEvent BuildLogEvent(string message, Exception exception, Dictionary<string, object> metaData, string[] tags)
+        protected virtual LogEvent BuildLogEvent(string message, Exception exception, Dictionary<string, object> metaData, string[] tags)
         {
             return new LogEvent
             {
                 Message = message,
                 Exception = exception,
-                Tags = tags,
-                MetaData = metaData,
+                Tags = GetTags(tags),
+                MetaData = GetMetaData(metaData),
                 DateLogged = DateTime.UtcNow,
                 Thread = Thread.CurrentThread,
                 LoggingStackFrame = new StackFrame(2)
             };
+        }
+
+        /// <summary>
+        /// Mixes the given tags, with the default tags for this logger, and returns the mix.
+        /// </summary>
+        protected virtual IEnumerable<string> GetTags(IEnumerable<string> givenTags)
+        {
+            // Figure out/calculate the tags to return. Call the normalizer for any tags that haven't
+            // been run through yet.
+            if (!HasTags(givenTags) && !HasTags(this.defaultTags))
+            {
+                return null;
+            }
+            else if (!HasTags(this.defaultTags))
+            {
+                return this.tagNormalizer.NormalizeTags(givenTags);
+            }
+            else if (!HasTags(givenTags))
+            {
+                return this.defaultTags;
+            }
+            else
+            {
+                var tags = defaultTags.Concat(givenTags);
+                return this.tagNormalizer.NormalizeTags(tags);
+            }
+        }
+
+        /// <summary>
+        /// Indicates if the given set of tags has any tags in it.
+        /// </summary>
+        private static bool HasTags(IEnumerable<string> tags)
+        {
+            return tags != null && tags.Count() > 0;
+        }
+
+
+        /// <summary>
+        /// Consults the meta data provider for this logger, if it has one, and combines the meta data from the provider, with the given meta data.
+        /// 
+        /// Given meta data takes priority over meta data from a provider.
+        /// </summary>
+        protected IDictionary<string, object> GetMetaData(IDictionary<string, object> givenMetaData)
+        {
+            var providedMetaData = this.metaDataProvider != null
+                ? this.metaDataProvider.ProvideMetaData()
+                : null;
+
+            // Deliberately broken, to support TDD
+            return givenMetaData;
+        }
+
+        /// <summary>
+        /// Determines if meta data exists in the given meta data.
+        /// </summary>
+        private static bool HasMetaData(IDictionary<string, object> metaData)
+        {
+            return metaData != null && metaData.Count > 0;
         }
     }
 }

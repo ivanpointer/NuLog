@@ -2,6 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using FakeItEasy;
 using NuLog.Loggers;
 using System;
 using System.Collections.Generic;
@@ -335,7 +336,7 @@ namespace NuLog.Tests.Unit.Loggers
 
         #endregion Exception Tests
 
-        #region Tag Tests
+        #region Tags - Simple Tests
 
         /// <summary>
         /// Should set the given tags into the log event, for deferred dispatch.
@@ -549,14 +550,252 @@ namespace NuLog.Tests.Unit.Loggers
             Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
         }
 
-        #endregion Tag Tests
+        #endregion Tags - Simple Tests
+
+        #region Tags - Advanced Tests
+
+        /// <summary>
+        /// The default tags on the logger should be included with the log event, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeDefaultTags_Later")]
+        public void Should_IncludeDefaultTags_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultTags = new string[] { "one_tag", "two_tag" };
+            var logger = GetLogger(dispatcher, defaultTags);
+
+            // Execute
+            logger.Log("Hello, World!", "red_tag", "blue_tag");
+
+            // Validate
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(4, logEvent.Tags.Count());
+            Assert.Contains("one_tag", logEvent.Tags);
+            Assert.Contains("two_tag", logEvent.Tags);
+            Assert.Contains("red_tag", logEvent.Tags);
+            Assert.Contains("blue_tag", logEvent.Tags);
+        }
+
+        /// <summary>
+        /// The default tags on the logger should be included with the log event, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeDefaultTags_Now")]
+        public void Should_IncludeDefaultTags_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultTags = new string[] { "one_tag", "two_tag" };
+            var logger = GetLogger(dispatcher, defaultTags);
+
+            // Execute
+            logger.LogNow("Hello, World!", "red_tag", "blue_tag");
+
+            // Validate
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(4, logEvent.Tags.Count());
+            Assert.Contains("one_tag", logEvent.Tags);
+            Assert.Contains("two_tag", logEvent.Tags);
+            Assert.Contains("red_tag", logEvent.Tags);
+            Assert.Contains("blue_tag", logEvent.Tags);
+        }
+
+        /// <summary>
+        /// The default tags on the logger should be included with the log event, even if no tags are
+        /// given by the caller, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeOnlyDefaultTags_Later")]
+        public void Should_IncludeOnlyDefaultTags_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultTags = new string[] { "one_tag", "two_tag" };
+            var logger = GetLogger(dispatcher, defaultTags);
+
+            // Execute
+            logger.Log("Hello, World!");
+
+            // Validate
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(2, logEvent.Tags.Count());
+            Assert.Contains("one_tag", logEvent.Tags);
+            Assert.Contains("two_tag", logEvent.Tags);
+        }
+
+        /// <summary>
+        /// The default tags on the logger should be included with the log event, even if no tags are
+        /// given by the caller, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeOnlyDefaultTags_Now")]
+        public void Should_IncludeOnlyDefaultTags_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultTags = new string[] { "one_tag", "two_tag" };
+            var logger = GetLogger(dispatcher, defaultTags);
+
+            // Execute
+            logger.LogNow("Hello, World!");
+
+            // Validate
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(2, logEvent.Tags.Count());
+            Assert.Contains("one_tag", logEvent.Tags);
+            Assert.Contains("two_tag", logEvent.Tags);
+        }
+
+        /// <summary>
+        /// The logger should call the tag normalizer when only sending tags from the caller, for
+        /// deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeTags_Later")]
+        public void Should_NormalizeTags_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, null, fakeNormalizer);
+
+            // Execute
+            logger.Log("Hello, World!", "one_fish", "two_fish");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened();
+        }
+
+        /// <summary>
+        /// The logger should call the tag normalizer when only sending tags from the caller, for
+        /// immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeTags_Now")]
+        public void Should_NormalizeTags_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, null, fakeNormalizer);
+
+            // Execute
+            logger.LogNow("Hello, World!", "one_fish", "two_fish");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened();
+        }
+
+        /// <summary>
+        /// The logger shouldn't call the tag normalizer when only sending tags from default tags,
+        /// except on construction, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCall_Later")]
+        public void Should_NormalizeDefaultTags_WithCall_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, new string[] { "one_tag", "two_tag" }, fakeNormalizer);
+
+            // Execute
+            logger.Log("Hello, World!");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+        }
+
+        /// <summary>
+        /// The logger shouldn't call the tag normalizer when only sending tags from default tags,
+        /// except on construction, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCall_Now")]
+        public void Should_NormalizeDefaultTags_WithCall_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, new string[] { "one_tag", "two_tag" }, fakeNormalizer);
+
+            // Execute
+            logger.LogNow("Hello, World!");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+        }
+
+        /// <summary>
+        /// The logger shouldn't call the tag normalizer when only sending tags from default tags,
+        /// except on construction, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCallWithTags_Later")]
+        public void Should_NormalizeDefaultTags_WithCallWithTags_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, new string[] { "one_tag", "two_tag" }, fakeNormalizer);
+
+            // Execute
+            logger.Log("Hello, World!", "red_tag", "blue_tag");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+        }
+
+        /// <summary>
+        /// The logger shouldn't call the tag normalizer when only sending tags from default tags,
+        /// except on construction, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCallWithTags_Now")]
+        public void Should_NormalizeDefaultTags_WithCallWithTags_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var fakeNormalizer = A.Fake<ITagNormalizer>();
+            var logger = GetLogger(dispatcher, new string[] { "one_tag", "two_tag" }, fakeNormalizer);
+
+            // Execute
+            logger.LogNow("Hello, World!", "red_tag", "blue_tag");
+
+            // Validate
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+        }
+
+        #endregion Tags - Advanced Tests
+
+        #region Meta Data Provider Tests
+
+        /// <summary>
+        /// If a meta data provider is given to the logger, it should call it when sending a log message.
+        /// </summary>
+        [Fact(DisplayName = "Should_CallMetaDataProvider_Later")]
+        public void Should_CallMetaDataProvider_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.Log("Hello, World!");
+
+            // Validate The call to the meta data provider should be reasonably idempotent,
+            // therefore, we cannot expect it to be called exactly once, but we can expect at least once.
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).MustHaveHappened(Repeated.AtLeast.Once);
+        }
+
+        // TODO - CONTINUE TO BUILD THIS OUT
+        // - should actually get meta data from the provider - perhaps replace the test above with
+        //   this check?
+        // - should mix meta data from provider, and log call
+        // - should overwrite meta data from provider, with conflicting meta data in call
+
+        #endregion Meta Data Provider Tests
 
         /// <summary>
         /// Gets the logger under test.
         /// </summary>
-        protected ILogger GetLogger(IDispatcher dispatcher)
+        protected ILogger GetLogger(IDispatcher dispatcher, IEnumerable<string> defaultTags = null, ITagNormalizer tagNormalizer = null, IMetaDataProvider metaDataProvider = null)
         {
-            return new StandardLogger(dispatcher);
+            tagNormalizer = tagNormalizer ?? new StandardTagNormalizer();
+            return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags);
         }
     }
 

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ILogEvent.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="IMetaDataProvider.cs" />
     <Compile Include="ITagNormalizer.cs" />
     <Compile Include="ITarget.cs" />
     <Compile Include="LogEvent.cs" />

@@ -39,10 +39,18 @@ namespace NuLog
 
         public IEnumerable<string> NormalizeTags(IEnumerable<string> tags)
         {
-            foreach (var tag in tags)
+            var hashSet = new HashSet<string>();
+
+            if (tags != null)
             {
-                yield return NormalizeTag(tag);
+                foreach (var tag in tags)
+                {
+                    var normalizedTag = NormalizeTag(tag);
+                    hashSet.Add(normalizedTag);
+                }
             }
+
+            return hashSet;
         }
 
         /// <summary>

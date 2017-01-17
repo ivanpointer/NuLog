@@ -117,5 +117,30 @@ namespace NuLog.Tests.Unit
             Assert.Contains("hello", tags);
             Assert.Contains("world", tags);
         }
+
+        /// <summary>
+        /// The normalizer should deduplicate tags when used for a list of tags.
+        /// </summary>
+        [Fact(DisplayName = "Should_DeduplicateTags")]
+        public void Should_DeduplicateTags()
+        {
+            // Execute
+            var tags = tagNormalizer.NormalizeTags(new string[] { " hello", "WORLD", "HELLO  ", "  world  " });
+
+            // Verify
+            Assert.Equal(2, tags.Count());
+            Assert.Contains("hello", tags);
+            Assert.Contains("world", tags);
+        }
+
+        /// <summary>
+        /// Shouldn't fail when given a null set of tags.
+        /// </summary>
+        [Fact(DisplayName = "Should_HandleNullTags")]
+        public void Should_HandleNullTags()
+        {
+            // Verify - just do it
+            tagNormalizer.NormalizeTags(null);
+        }
     }
 }
