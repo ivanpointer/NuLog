@@ -40,10 +40,7 @@ namespace NuLog.Layouts.Standard.PropertyParsers
 
             if (propertyChain != null && propertyChain.Count > 0)
             {
-                //// Search the meta data first
-                //property = GetPropertyRecurse(zobject.MetaData, propertyChain);
-
-                // Search the rest of the log event second
+                // Recurse the object, looking for the property
                 property = property == null
                     ? GetPropertyRecurse(zobject, propertyChain)
                     : property;
@@ -62,7 +59,7 @@ namespace NuLog.Layouts.Standard.PropertyParsers
         private object GetPropertyRecurse(object zobject, ICollection<string> propertyChain, int depth = 0)
         {
             // Exit condition
-            if (zobject == null && depth >= propertyChain.Count)
+            if (zobject == null || depth >= propertyChain.Count)
             {
                 // Either we have hit a dead-end (null) Or we have reached the end of the name chain
                 // (depth) and we have our value
