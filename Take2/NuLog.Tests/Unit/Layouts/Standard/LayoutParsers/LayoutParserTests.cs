@@ -2,7 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-using NuLog.Layouts;
+using NuLog.Layouts.Standard;
 using NuLog.Layouts.Standard.LayoutParsers;
 using System.Linq;
 using Xunit;

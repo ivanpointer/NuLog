@@ -2,9 +2,10 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using System;
 using System.Collections.Generic;
 
-namespace NuLog.Layouts
+namespace NuLog.Layouts.Standard
 {
     /// <summary>
     /// Defines the expected behavior of a layout parser.

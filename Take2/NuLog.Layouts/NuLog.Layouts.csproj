@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILayoutParser.cs" />
+    <Compile Include="Standard\ILayoutParser.cs" />
     <Compile Include="IPropertyParser.cs" />
-    <Compile Include="LayoutParameter.cs" />
+    <Compile Include="Standard\LayoutParameter.cs" />
     <Compile Include="Standard\LayoutParsers\StandardLayoutParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Standard\PropertyParsers\StandardPropertyParser.cs" />

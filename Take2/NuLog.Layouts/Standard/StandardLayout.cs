@@ -49,44 +49,50 @@ namespace NuLog.Layouts.Standard
         {
             var messageBuilder = new StringBuilder();
 
-            object parameterValue = null;
-            string parameterString = string.Empty;
             foreach (var parameter in this.layoutParameters)
             {
-                if (parameter.StaticText == false)
-                {
-                    // The parameter is not static text, let's grab the property
-
-                    // Check for special parameters
-                    parameterValue = GetSpecialParameter(logEvent, parameter);
-
-                    // Try the meta data
-                    parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent.MetaData, parameter.Path);
-
-                    // Try the log event itself
-                    parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent, parameter.Path);
-
-                    // If the parameter was not handled as a special parameter, treat it as a normal parameter
-                    parameterString = !parameter.Contingent || !IsNullOrEmptyString(parameterValue)
-                        ? GetFormattedValue(parameterValue, parameter.Format)
-                        : string.Empty;
-
-                    messageBuilder.Append(parameterString);
-                }
-                else
-                {
-                    messageBuilder.Append(parameter.Text);
-                }
+                messageBuilder.Append(FormatParameter(logEvent, parameter));
             }
 
             return messageBuilder.ToString();
         }
 
         /// <summary>
+        /// Return a formatted string for the given parameter, on the given log event.
+        /// </summary>
+        private string FormatParameter(LogEvent logEvent, LayoutParameter parameter)
+        {
+            if (parameter.StaticText)
+            {
+                return parameter.Text;
+            }
+            else
+            {
+                // The parameter is not static text, let's grab the property
+
+                // Check for special parameters
+                var parameterValue = GetSpecialParameter(logEvent, parameter);
+
+                // Try the meta data
+                parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent.MetaData, parameter.Path);
+
+                // Try the log event itself
+                parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent, parameter.Path);
+
+                // If the parameter was not handled as a special parameter, treat it as a normal parameter
+                var parameterString = !parameter.Contingent || !IsNullOrEmptyString(parameterValue)
+                    ? GetFormattedValue(parameterValue, parameter.Format)
+                    : string.Empty;
+
+                return parameterString;
+            }
+        }
+
+        /// <summary>
         /// Checks for and returns special parameters. For example, the "Tags" parameter is returned
         /// as a CSV list of tags, Exceptions receive special formatting, etc.
         /// </summary>
-        protected virtual string GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
+        protected virtual object GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
         {
             switch (parameter.Path)
             {
