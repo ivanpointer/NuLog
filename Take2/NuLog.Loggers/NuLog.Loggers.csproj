@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NuLog\NuLog.csproj">

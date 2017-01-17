@@ -69,6 +69,7 @@
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
+    <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorExcludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorFinalRulesTests.cs" />
@@ -79,7 +80,6 @@
   <ItemGroup>
     <Folder Include="Unit\Configuration\" />
     <Folder Include="Unit\Factories\" />
-    <Folder Include="Unit\Loggers\" />
     <Folder Include="Unit\Targets\" />
   </ItemGroup>
   <ItemGroup>
