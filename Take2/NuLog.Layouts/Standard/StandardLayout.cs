@@ -3,6 +3,8 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Targets;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +15,16 @@ namespace NuLog.Layouts.Standard
     /// </summary>
     public class StandardLayout : ILayout
     {
+        /// <summary>
+        /// The IEnumerable type, for checking when formatting values.
+        /// </summary>
+        private static readonly Type iEnumerableType = typeof(IEnumerable);
+
+        /// <summary>
+        /// The string type, for formatting values.
+        /// </summary>
+        private static readonly Type stringType = typeof(string);
+
         /// <summary>
         /// The layout parameters used to format a log event.
         /// </summary>
@@ -74,9 +86,38 @@ namespace NuLog.Layouts.Standard
         /// Checks for and returns special parameters. For example, the "Tags" parameter is returned
         /// as a CSV list of tags, Exceptions receive special formatting, etc.
         /// </summary>
-        private static object GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
+        protected virtual string GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
         {
-            return null;
+            switch (parameter.Path)
+            {
+                case "Tags":
+                    return string.Join(",", logEvent.Tags);
+
+                case "Exception":
+                    return FormatException(logEvent.Exception);
+
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Formats an exception, recursing down the causing exceptions.
+        /// </summary>
+        private static string FormatException(Exception exception)
+        {
+            var sb = new StringBuilder();
+
+            bool inner = false;
+            while (exception != null)
+            {
+                sb.Append(string.Format("{0}{1}: {2}\r\n", inner ? "Caused by " : "", exception.GetType().FullName, exception.Message));
+                sb.Append(string.Format("{0}\r\n", exception.StackTrace));
+                exception = exception.InnerException;
+                inner = true;
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -93,13 +134,36 @@ namespace NuLog.Layouts.Standard
         /// </summary>
         private static string GetFormattedValue(object value, string format)
         {
-            if (value != null)
+            // If we have a string format, use that.
+            if (string.IsNullOrWhiteSpace(format) == false)
             {
-                if (string.IsNullOrEmpty(format) == false)
-                    return string.Format(format, value);
-                return value.ToString();
+                return string.Format(format, value);
             }
-            return null;
+
+            // If not, check to see if it's enumerable (but not a string).
+            var valueType = value.GetType();
+
+            if (stringType.IsAssignableFrom(valueType) || iEnumerableType.IsAssignableFrom(valueType) == false)
+            {
+                // It's a string, or it's not enumerable, just convert it to a string.
+                return Convert.ToString(value);
+            }
+            else
+            {
+                // It's enumerable, enumerate it and wrap in brackets.
+                return string.Format("[{0}]", string.Join(",", EnumerateValues((IEnumerable)value)));
+            }
+        }
+
+        /// <summary>
+        /// Enumerates the values in the given enumerable value.
+        /// </summary>
+        private static IEnumerable<string> EnumerateValues(IEnumerable items)
+        {
+            foreach (var item in items)
+            {
+                yield return Convert.ToString(item);
+            }
         }
     }
 }
