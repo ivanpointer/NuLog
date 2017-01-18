@@ -41,7 +41,7 @@ namespace NuLog.Targets
         }
 
         /// <summary>
-        /// Initializes the target with the given targe tconfig, dispatcher and synchronous flag
+        /// Initializes the target with the given target config, dispatcher and synchronous flag
         /// </summary>
         /// <param name="targetConfig">The configuration to build this target with</param>
         /// <param name="dispatcher">The dispatcher that this target is attached to</param>
@@ -174,7 +174,7 @@ namespace NuLog.Targets
                 ConsoleColor? foregroundColor = null;
 
                 // Iterate over the color rules, looking for a match based on
-                //  the tag keeper assocaited with the dispatcher.
+                //  the tag keeper associated with the dispatcher.
                 if (ColorRules != null && ColorRules.Count > 0)
                 {
                     var tagKeeper = Dispatcher.TagKeeper;

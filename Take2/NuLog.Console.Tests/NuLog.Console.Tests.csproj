@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FDE1C83C-3B88-4038-9623-B468C107A740}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9A00C6BD-DD87-46EA-AF1C-69784FEE7EDD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NuLog.Targets</RootNamespace>
-    <AssemblyName>NuLog.Targets</AssemblyName>
+    <RootNamespace>NuLog.Console.Tests</RootNamespace>
+    <AssemblyName>NuLog.Console.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,11 +43,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILayout.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamTarget.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NuLog.Dispatchers\NuLog.Dispatchers.csproj">
+      <Project>{5433B51C-FE2D-444C-B754-6AF622D50A00}</Project>
+      <Name>NuLog.Dispatchers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.Layouts\NuLog.Layouts.csproj">
+      <Project>{04834B02-824C-4454-95B5-9A9420445130}</Project>
+      <Name>NuLog.Layouts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.Loggers\NuLog.Loggers.csproj">
+      <Project>{72023285-5272-4652-B070-A29F85617D78}</Project>
+      <Name>NuLog.Loggers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.TagRouters\NuLog.TagRouters.csproj">
+      <Project>{BE514816-5C2F-4DBF-B2E4-9D0D49219315}</Project>
+      <Name>NuLog.TagRouters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.Targets\NuLog.Targets.csproj">
+      <Project>{FDE1C83C-3B88-4038-9623-B468C107A740}</Project>
+      <Name>NuLog.Targets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
       <Project>{100467BE-E1B1-4D5A-A40B-CA633015EC42}</Project>
       <Name>NuLog</Name>

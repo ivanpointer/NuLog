@@ -76,11 +76,11 @@
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorIncludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorTestsBase.cs" />
     <Compile Include="Unit\TagRouters\TagGroupProcessors\TagGroupProcessorTests.cs" />
+    <Compile Include="Unit\Targets\StreamTargetTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Unit\Configuration\" />
     <Folder Include="Unit\Factories\" />
-    <Folder Include="Unit\Targets\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
