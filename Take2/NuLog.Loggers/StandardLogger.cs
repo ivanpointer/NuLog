@@ -140,20 +140,44 @@ namespace NuLog.Loggers
             return tags != null && tags.Count() > 0;
         }
 
-
         /// <summary>
-        /// Consults the meta data provider for this logger, if it has one, and combines the meta data from the provider, with the given meta data.
-        /// 
+        /// Consults the meta data provider for this logger, if it has one, and combines the meta
+        /// data from the provider, with the given meta data.
+        ///
         /// Given meta data takes priority over meta data from a provider.
         /// </summary>
         protected IDictionary<string, object> GetMetaData(IDictionary<string, object> givenMetaData)
         {
+            // Our own copy so that we don't modify the given.
+            var metaData = new Dictionary<string, object>();
+
+            // Try to get the meta data from our provider
             var providedMetaData = this.metaDataProvider != null
                 ? this.metaDataProvider.ProvideMetaData()
                 : null;
 
-            // Deliberately broken, to support TDD
-            return givenMetaData;
+            // Add the provided meta data
+            AddMetaData(providedMetaData, metaData);
+
+            // Add the given meta data
+            AddMetaData(givenMetaData, metaData);
+
+            // Return our new, merged copy
+            return metaData;
+        }
+
+        /// <summary>
+        /// Adds the source meta data to the target meta data.
+        /// </summary>
+        private static void AddMetaData(IDictionary<string, object> sourceMetaData, IDictionary<string, object> targetMetaData)
+        {
+            if (sourceMetaData != null)
+            {
+                foreach (var item in sourceMetaData)
+                {
+                    targetMetaData[item.Key] = item.Value;
+                }
+            }
         }
 
         /// <summary>

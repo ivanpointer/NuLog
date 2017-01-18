@@ -763,29 +763,215 @@ namespace NuLog.Tests.Unit.Loggers
         #region Meta Data Provider Tests
 
         /// <summary>
-        /// If a meta data provider is given to the logger, it should call it when sending a log message.
+        /// The logger should pull meta data from the provider, and populate it into the generated
+        /// log event, for deferred dispatch.
         /// </summary>
-        [Fact(DisplayName = "Should_CallMetaDataProvider_Later")]
-        public void Should_CallMetaDataProvider_Later()
+        [Fact(DisplayName = "Should_GetMetaDataFromProvider_Later")]
+        public void Should_GetMetaDataFromProvider_Later()
         {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+
             var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
             var logger = GetLogger(dispatcher, null, null, metaDataProvider);
 
             // Execute
             logger.Log("Hello, World!");
 
-            // Validate The call to the meta data provider should be reasonably idempotent,
-            // therefore, we cannot expect it to be called exactly once, but we can expect at least once.
-            A.CallTo(() => metaDataProvider.ProvideMetaData()).MustHaveHappened(Repeated.AtLeast.Once);
+            // Validate
+            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
         }
 
-        // TODO - CONTINUE TO BUILD THIS OUT
-        // - should actually get meta data from the provider - perhaps replace the test above with
-        //   this check?
-        // - should mix meta data from provider, and log call
-        // - should overwrite meta data from provider, with conflicting meta data in call
+        /// <summary>
+        /// The logger should pull meta data from the provider, and populate it into the generated
+        /// log event, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_GetMetaDataFromProvider_Now")]
+        public void Should_GetMetaDataFromProvider_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.LogNow("Hello, World!");
+
+            // Validate
+            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+        }
+
+        /// <summary>
+        /// Meta data from a provider, and from a log call, should be combined together, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_CombineMetaDataFromProviderAndCall_Later")]
+        public void Should_CombineMetaDataFromProviderAndCall_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.Log("Hello, World!", new Dictionary<string, object>
+            {
+                { "FavoriteColor", ConsoleColor.Blue }
+            });
+
+            // Validate
+            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(3, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+            Assert.Equal(ConsoleColor.Blue, logEvent.MetaData["FavoriteColor"]);
+        }
+
+        /// <summary>
+        /// Meta data from a provider, and from a log call, should be combined together, for
+        /// immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_CombineMetaDataFromProviderAndCall_Now")]
+        public void Should_CombineMetaDataFromProviderAndCall_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.LogNow("Hello, World!", new Dictionary<string, object>
+            {
+                { "FavoriteColor", ConsoleColor.Blue }
+            });
+
+            // Validate
+            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(3, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+            Assert.Equal(ConsoleColor.Blue, logEvent.MetaData["FavoriteColor"]);
+        }
+
+        /// <summary>
+        /// If meta data is given, which has a key that matches meta data from the provider, the
+        /// given meta data takes precedence, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_OverwriteProviderMetaDataWithGivenMetaData_Later")]
+        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "FavoriteColor", ConsoleColor.Blue }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.Log("Hello, World!", new Dictionary<string, object>
+            {
+                { "FavoriteColor", ConsoleColor.Red }
+            });
+
+            // Validate
+            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal(ConsoleColor.Red, logEvent.MetaData["FavoriteColor"]);
+        }
+
+        /// <summary>
+        /// If meta data is given, which has a key that matches meta data from the provider, the
+        /// given meta data takes precedence, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_OverwriteProviderMetaDataWithGivenMetaData_Now")]
+        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "FavoriteColor", ConsoleColor.Blue }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(metaData);
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider);
+
+            // Execute
+            logger.LogNow("Hello, World!", new Dictionary<string, object>
+            {
+                { "FavoriteColor", ConsoleColor.Red }
+            });
+
+            // Validate
+            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal(ConsoleColor.Red, logEvent.MetaData["FavoriteColor"]);
+        }
 
         #endregion Meta Data Provider Tests
 
