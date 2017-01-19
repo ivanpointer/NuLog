@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D20292A-858E-4A0A-B327-DDAD11036213}</ProjectGuid>
+    <ProjectGuid>{DD26A35E-116C-463B-8507-FDB6DBE03900}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NuLog.Factories</RootNamespace>
-    <AssemblyName>NuLog.Factories</AssemblyName>
+    <RootNamespace>NuLog.Configuration</RootNamespace>
+    <AssemblyName>NuLog.Configuration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,10 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardConfiguration\RuleCollection.cs" />
+    <Compile Include="StandardConfiguration\RuleElement.cs" />
+    <Compile Include="StandardConfiguration\StandardConfigurationProvider.cs" />
+    <Compile Include="StandardConfiguration\StandardConfigurationSection.cs" />
+    <Compile Include="StandardConfiguration\TagListTypeConverter.cs" />
+    <Compile Include="StandardConfiguration\TargetNameTypeConverter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NuLog.Factories\NuLog.Factories.csproj">
+      <Project>{4D20292A-858E-4A0A-B327-DDAD11036213}</Project>
+      <Name>NuLog.Factories</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
