@@ -9,6 +9,11 @@ _Written in C# for .NET_
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
 
+## 1/18/2017 - Slowing down - tying it together
+Development is slowing a bit; I've got much of the "core" functionality built out.  By using the DIP, and TDD, NuLog has a highly modular design, but, this means building out the functional system takes an unwieldly number of classes.  It's time to shift my development efforts towards the factory for building everything out, and the configuration to drive the factory.  After this, the various targets need to be built out - such as for console, text files, the windows event log, etc.
+
+So now, I dig into figuring out how to approach the factory...
+
 ## 1/15/2017 - Rewrite is going well
 I was a little skeptical that a rewrite would be worth it, but all doubt has been removed.  Taking the lessons learned from the first write of NuLog, and tampering them with TDD, I'm coming up with a much better design for NuLog.  This thing is going to be even better than before!!
 
