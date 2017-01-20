@@ -66,13 +66,8 @@
   <ItemGroup>
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\NuLogTypeNameConverterTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\RuleElementTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\StandardConfigurationSectionTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\TagGroupElementTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\TagListTypeConverterTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\TargetElementTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\TargetNameTypeConverterTests.cs" />
+    <Compile Include="Unit\Configuration\ConfigurationSectionHandlerTests.cs" />
+    <Compile Include="Unit\Configuration\StandardConfigurationProviderTests.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
@@ -103,6 +98,10 @@
     <ProjectReference Include="..\NuLog.Dispatchers\NuLog.Dispatchers.csproj">
       <Project>{5433B51C-FE2D-444C-B754-6AF622D50A00}</Project>
       <Name>NuLog.Dispatchers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuLog.Factories\NuLog.Factories.csproj">
+      <Project>{4D20292A-858E-4A0A-B327-DDAD11036213}</Project>
+      <Name>NuLog.Factories</Name>
     </ProjectReference>
     <ProjectReference Include="..\NuLog.Layouts\NuLog.Layouts.csproj">
       <Project>{04834B02-824C-4454-95B5-9A9420445130}</Project>

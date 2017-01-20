@@ -11,5 +11,10 @@ namespace NuLog.Factories.Configuration
     /// </summary>
     public interface IConfigurationProvider
     {
+        /// <summary>
+        /// Returns the configuration provided by this provider.
+        /// </summary>
+        Config GetConfiguration();
+
     }
 }
