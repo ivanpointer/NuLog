@@ -42,12 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardConfiguration\NuLogTypeNameConverter.cs" />
     <Compile Include="StandardConfiguration\RuleCollection.cs" />
     <Compile Include="StandardConfiguration\RuleElement.cs" />
     <Compile Include="StandardConfiguration\StandardConfigurationProvider.cs" />
     <Compile Include="StandardConfiguration\StandardConfigurationSection.cs" />
+    <Compile Include="StandardConfiguration\TagGroupCollection.cs" />
+    <Compile Include="StandardConfiguration\TagGroupElement.cs" />
     <Compile Include="StandardConfiguration\TagListTypeConverter.cs" />
+    <Compile Include="StandardConfiguration\TargetCollection.cs" />
+    <Compile Include="StandardConfiguration\TargetElement.cs" />
     <Compile Include="StandardConfiguration\TargetNameTypeConverter.cs" />
+    <Compile Include="StandardConfiguration\TargetPropertyCollection.cs" />
+    <Compile Include="StandardConfiguration\TargetPropertyElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NuLog.Factories\NuLog.Factories.csproj">

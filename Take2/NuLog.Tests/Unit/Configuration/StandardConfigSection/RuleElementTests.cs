@@ -1,10 +1,10 @@
-﻿using NuLog.Configuration.StandardConfiguration;
-using System;
-using System.Collections.Generic;
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
+
+using NuLog.Configuration.StandardConfiguration;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NuLog.Tests.Unit.Configuration.StandardConfigSection
@@ -54,11 +54,11 @@ namespace NuLog.Tests.Unit.Configuration.StandardConfigSection
         /// <summary>
         /// The rule element should have "targets" target names.
         /// </summary>
-        [Fact(DisplayName = "Should_ContainTargets")]
-        public void Should_ContainTargets()
+        [Fact(DisplayName = "Should_RuleContainTargets")]
+        public void Should_RuleContainTargets()
         {
             // Setup
-            var config = (StandardConfigurationSection)ConfigurationManager.GetSection("Should_ContainTargets");
+            var config = (StandardConfigurationSection)ConfigurationManager.GetSection("Should_RuleContainTargets");
 
             // Execute / Validate
             var rule = config.Rules.Single();
@@ -96,6 +96,5 @@ namespace NuLog.Tests.Unit.Configuration.StandardConfigSection
             var rule = config.Rules.Single();
             Assert.True(rule.Final);
         }
-
     }
 }

@@ -66,9 +66,12 @@
   <ItemGroup>
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Configuration\StandardConfigSection\NuLogTypeNameConverterTests.cs" />
     <Compile Include="Unit\Configuration\StandardConfigSection\RuleElementTests.cs" />
-    <Compile Include="Unit\Configuration\StandardConfigSection\RulesCollectionTests.cs" />
+    <Compile Include="Unit\Configuration\StandardConfigSection\StandardConfigurationSectionTests.cs" />
+    <Compile Include="Unit\Configuration\StandardConfigSection\TagGroupElementTests.cs" />
     <Compile Include="Unit\Configuration\StandardConfigSection\TagListTypeConverterTests.cs" />
+    <Compile Include="Unit\Configuration\StandardConfigSection\TargetElementTests.cs" />
     <Compile Include="Unit\Configuration\StandardConfigSection\TargetNameTypeConverterTests.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
@@ -87,7 +90,9 @@
     <Folder Include="Unit\Factories\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
