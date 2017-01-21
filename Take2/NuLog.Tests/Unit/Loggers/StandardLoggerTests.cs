@@ -3,6 +3,7 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using FakeItEasy;
+using NuLog.LogEvents;
 using NuLog.Loggers;
 using System;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using FakeItEasy;
+using NuLog.LogEvents;
 using NuLog.Targets;
 using System.IO;
 using Xunit;
@@ -83,7 +84,8 @@ namespace NuLog.Tests.Unit.Targets
         }
 
         /// <summary>
-        /// The target should leave the given stream open when being disposed, if not told to close the given stream.
+        /// The target should leave the given stream open when being disposed, if not told to close
+        /// the given stream.
         /// </summary>
         [Fact(DisplayName = "Should_LeaveStreamOpenOnDispose")]
         public void Should_LeaveStreamOpenOnDispose()

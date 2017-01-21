@@ -5,6 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using FakeItEasy;
 using NuLog.Dispatchers;
 using NuLog.Dispatchers.TagRouters;
+using NuLog.LogEvents;
 using NuLog.Loggers;
 using System;
 using System.Collections.Generic;

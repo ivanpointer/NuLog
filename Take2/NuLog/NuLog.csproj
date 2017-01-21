@@ -40,16 +40,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\Configuration\Config.cs" />
+    <Compile Include="Factories\Configuration\ConfigRule.cs" />
+    <Compile Include="Factories\Configuration\ConfigTagGroup.cs" />
+    <Compile Include="Factories\Configuration\ConfigTarget.cs" />
+    <Compile Include="Factories\Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Factories\Configuration\XmlConfigurationProvider.cs" />
+    <Compile Include="Dispatchers\StandardDispatcher.cs" />
+    <Compile Include="Dispatchers\TagRouters\ITagRouter.cs" />
+    <Compile Include="Dispatchers\TagRouters\Rule.cs" />
+    <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
     <Compile Include="ILogEvent.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="IMetaDataProvider.cs" />
-    <Compile Include="ITagNormalizer.cs" />
-    <Compile Include="ITarget.cs" />
-    <Compile Include="LogEvent.cs" />
-    <Compile Include="DeferredLogEvent.cs" />
-    <Compile Include="ConfigurationSectionHandler.cs" />
+    <Compile Include="Loggers\IMetaDataProvider.cs" />
+    <Compile Include="Loggers\ITagNormalizer.cs" />
+    <Compile Include="Dispatchers\ITarget.cs" />
+    <Compile Include="Layouts\IPropertyParser.cs" />
+    <Compile Include="Layouts\Standard\ILayoutParser.cs" />
+    <Compile Include="Layouts\Standard\LayoutParameter.cs" />
+    <Compile Include="Layouts\Standard\LayoutParsers\StandardLayoutParser.cs" />
+    <Compile Include="Layouts\Standard\PropertyParsers\StandardPropertyParser.cs" />
+    <Compile Include="Layouts\Standard\StandardLayout.cs" />
+    <Compile Include="LogEvents\LogEvent.cs" />
+    <Compile Include="LogEvents\DeferredLogEvent.cs" />
+    <Compile Include="Factories\Configuration\ConfigurationSectionHandler.cs" />
+    <Compile Include="Loggers\IDispatcher.cs" />
+    <Compile Include="Loggers\StandardLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StandardTagNormalizer.cs" />
+    <Compile Include="Loggers\TagNormalizers\StandardTagNormalizer.cs" />
+    <Compile Include="TagRouters\IRuleProcessor.cs" />
+    <Compile Include="TagRouters\ITagGroupProcessor.cs" />
+    <Compile Include="TagRouters\RuleProcessors\StandardRuleProcessor.cs" />
+    <Compile Include="TagRouters\StandardTagRouter.cs" />
+    <Compile Include="TagRouters\TagGroupProcessors\StandardTagGroupProcessor.cs" />
+    <Compile Include="Targets\ILayout.cs" />
+    <Compile Include="Targets\StreamTarget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
