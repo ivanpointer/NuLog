@@ -36,9 +36,14 @@ namespace NuLog.Loggers
         private readonly IEnumerable<string> defaultTags;
 
         /// <summary>
+        /// Default meta data to add to every log event originating from this logger.
+        /// </summary>
+        private readonly IDictionary<string, object> defaultMetaData;
+
+        /// <summary>
         /// Sets up a new instance of the standard logger.
         /// </summary>
-        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null)
+        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null)
         {
             this.dispatcher = dispatcher;
 
@@ -47,6 +52,8 @@ namespace NuLog.Loggers
             this.tagNormalizer = tagNormalizer;
 
             this.defaultTags = tagNormalizer.NormalizeTags(defaultTags);
+
+            this.defaultMetaData = defaultMetaData;
         }
 
         public void Log(string message, params string[] tags)
@@ -150,6 +157,9 @@ namespace NuLog.Loggers
         {
             // Our own copy so that we don't modify the given.
             var metaData = new Dictionary<string, object>();
+
+            // Start with any default meta data
+            AddMetaData(this.defaultMetaData, metaData);
 
             // Try to get the meta data from our provider
             var providedMetaData = this.metaDataProvider != null

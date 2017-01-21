@@ -236,6 +236,114 @@ namespace NuLog.Tests.Unit.Loggers
             Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
         }
 
+        /// <summary>
+        /// Should include default meta data, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeDefaultMetaData_Later")]
+        public void Should_IncludeDefaultMetaData_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+            var logger = GetLogger(dispatcher, defaultMetaData: metaData);
+
+            // Execute
+            logger.Log("Hello, World!");
+
+            // Validate
+            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+        }
+
+        /// <summary>
+        /// Should include default meta data, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeDefaultMetaData_Now")]
+        public void Should_IncludeDefaultMetaData_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var dob = new DateTime(1809, 2, 12);
+            var metaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "Birthplace", "Hodgenville, KY" }
+            };
+            var logger = GetLogger(dispatcher, defaultMetaData: metaData);
+
+            // Execute
+            logger.LogNow("Hello, World!");
+
+            // Validate
+            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(2, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+        }
+
+        /// <summary>
+        /// Given meta data should override default meta data, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_GivenMetaDataOverrideDefaultMetaData_Later")]
+        public void Should_GivenMetaDataOverrideDefaultMetaData_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Hodgenville, KY" }
+            };
+            var logger = GetLogger(dispatcher, defaultMetaData: defaultMetaData);
+
+            var givenMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Loisville, AL" }
+            };
+
+            // Execute
+            logger.Log("Hello, World!", givenMetaData);
+
+            // Validate
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal("Loisville, AL", logEvent.MetaData["Birthplace"]);
+        }
+
+        /// <summary>
+        /// Given meta data should override default meta data, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_GivenMetaDataOverrideDefaultMetaData_Now")]
+        public void Should_GivenMetaDataOverrideDefaultMetaData_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var defaultMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Hodgenville, KY" }
+            };
+            var logger = GetLogger(dispatcher, defaultMetaData: defaultMetaData);
+
+            var givenMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Loisville, AL" }
+            };
+
+            // Execute
+            logger.LogNow("Hello, World!", givenMetaData);
+
+            // Validate
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal("Loisville, AL", logEvent.MetaData["Birthplace"]);
+        }
+
         #endregion Meta Data Tests
 
         #region Exception Tests
@@ -973,15 +1081,93 @@ namespace NuLog.Tests.Unit.Loggers
             Assert.Equal(ConsoleColor.Red, logEvent.MetaData["FavoriteColor"]);
         }
 
+        /// <summary>
+        /// Provided meta data should override default meta data, for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_ProvidedMetaDataOverrideDefaultMetaData_Later")]
+        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Later()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var providedMetaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "FavoriteColor", ConsoleColor.Blue }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(providedMetaData);
+
+            var defaultMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Hodgenville, KY" },
+                { "FavoriteColor", ConsoleColor.Green }
+            };
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider, defaultMetaData);
+
+            // Execute
+            logger.Log("Hello, World!");
+
+            // Validate
+            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Equal(3, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+            Assert.Equal(ConsoleColor.Blue, logEvent.MetaData["FavoriteColor"]);
+        }
+
+        /// <summary>
+        /// Provided meta data should override default meta data, for immediate dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_ProvidedMetaDataOverrideDefaultMetaData_Now")]
+        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Now()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+
+            var dob = new DateTime(1809, 2, 12);
+            var providedMetaData = new Dictionary<string, object>
+            {
+                { "MyDOB", dob },
+                { "FavoriteColor", ConsoleColor.Blue }
+            };
+
+            var metaDataProvider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => metaDataProvider.ProvideMetaData()).Returns(providedMetaData);
+
+            var defaultMetaData = new Dictionary<string, object>
+            {
+                { "Birthplace", "Hodgenville, KY" },
+                { "FavoriteColor", ConsoleColor.Green }
+            };
+
+            var logger = GetLogger(dispatcher, null, null, metaDataProvider, defaultMetaData);
+
+            // Execute
+            logger.LogNow("Hello, World!");
+
+            // Validate
+            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            var logEvent = dispatcher.DispatchNowEvents.Single();
+            Assert.Equal(3, logEvent.MetaData.Keys.Count);
+            Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
+            Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
+            Assert.Equal(ConsoleColor.Blue, logEvent.MetaData["FavoriteColor"]);
+        }
+
         #endregion Meta Data Provider Tests
 
         /// <summary>
         /// Gets the logger under test.
         /// </summary>
-        protected ILogger GetLogger(IDispatcher dispatcher, IEnumerable<string> defaultTags = null, ITagNormalizer tagNormalizer = null, IMetaDataProvider metaDataProvider = null)
+        protected ILogger GetLogger(IDispatcher dispatcher, IEnumerable<string> defaultTags = null, ITagNormalizer tagNormalizer = null, IMetaDataProvider metaDataProvider = null, IDictionary<string, object> defaultMetaData = null)
         {
             tagNormalizer = tagNormalizer ?? new StandardTagNormalizer();
-            return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags);
+            return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags, defaultMetaData);
         }
     }
 
