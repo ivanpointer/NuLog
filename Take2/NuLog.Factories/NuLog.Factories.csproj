@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\ConfigRule.cs" />
     <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\TagGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

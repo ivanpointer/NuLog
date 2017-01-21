@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 namespace NuLog.Factories.Configuration
 {
@@ -15,6 +13,5 @@ namespace NuLog.Factories.Configuration
         /// Returns the configuration provided by this provider.
         /// </summary>
         Config GetConfiguration();
-
     }
 }

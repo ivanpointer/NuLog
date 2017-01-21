@@ -7,18 +7,18 @@ using System.Collections.Generic;
 namespace NuLog.Factories.Configuration
 {
     /// <summary>
-    /// The configuration needed by the factories to build out the parts of NuLog.
+    /// Represents a single tag group in the NuLog configuration.
     /// </summary>
-    public class Config
+    public class TagGroup
     {
         /// <summary>
-        /// The rules within this configuration.
+        /// The base tag of the tag group.
         /// </summary>
-        public ICollection<ConfigRule> Rules { get; set; }
+        public string BaseTag { get; set; }
 
         /// <summary>
-        /// The tag groups within this configuration.
+        /// The aliases associated with the base tag.
         /// </summary>
-        public ICollection<TagGroup> TagGroups { get; set; }
+        public ICollection<string> Aliases { get; set; }
     }
 }
