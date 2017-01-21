@@ -105,11 +105,24 @@ namespace NuLog.Configuration
             // Iterate over each target element, and parse it out, adding it to the list
             foreach (var targetElement in targetsElement.SelectNodes("target"))
             {
-                targets.Add(new ConfigTarget());
+                targets.Add(ParseTarget((XmlElement)targetElement));
             }
 
             // Return the list of targets
             return targets;
+        }
+
+        /// <summary>
+        /// Parses out a single target from the given xmlElement.
+        /// </summary>
+        private static ConfigTarget ParseTarget(XmlElement xmlElement)
+        {
+            return new ConfigTarget
+            {
+                Name = GetStringAttribute(xmlElement, "name"),
+                Type = GetStringAttribute(xmlElement, "type"),
+                Properties = GetAttributesAsDictionary(xmlElement)
+            };
         }
 
         #endregion Parse Targets
@@ -222,6 +235,25 @@ namespace NuLog.Configuration
 
             // Return the value off the attribute, or null if no attribute was found
             return attribute != null ? attribute.Value : null;
+        }
+
+        /// <summary>
+        /// Returns the attributes on the XML element as a dictionary.
+        /// </summary>
+        private static IDictionary<string, string> GetAttributesAsDictionary(XmlElement xmlElement)
+        {
+            // The dictionary
+            var dict = new Dictionary<string, string>();
+
+            // Iterate over each attribute, adding it to the dictionary
+            foreach (var attribute in xmlElement.Attributes)
+            {
+                var attr = (XmlAttribute)attribute;
+                dict[attr.Name] = attr.Value;
+            }
+
+            // Return the dictionary
+            return dict;
         }
 
         #endregion Helpers

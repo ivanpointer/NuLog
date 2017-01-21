@@ -70,6 +70,7 @@
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigProviderTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigRuleParsingTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigTagGroupParsingTests.cs" />
+    <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigTargetTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigurationProviderTestsBase.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />

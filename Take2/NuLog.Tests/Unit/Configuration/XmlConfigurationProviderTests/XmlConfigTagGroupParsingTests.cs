@@ -8,7 +8,7 @@ using Xunit;
 namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
 {
     /// <summary>
-    /// Tests around parsing out rules from XML.
+    /// Documents (and verifies) the expected behavior of the standard configuration provider, specifically the rule config parsing.
     /// </summary>
     [Trait("Category", "Unit")]
     public class XmlConfigTagGroupParsingTests : XmlConfigurationProviderTestsBase
