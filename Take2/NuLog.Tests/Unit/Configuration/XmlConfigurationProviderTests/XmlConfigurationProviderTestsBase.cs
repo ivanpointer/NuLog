@@ -2,7 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-using NuLog.Factories.Configuration;
+using NuLog.Configuration;
 using System.Xml;
 
 namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests

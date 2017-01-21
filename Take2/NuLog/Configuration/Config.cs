@@ -4,7 +4,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Factories.Configuration
+namespace NuLog.Configuration
 {
     /// <summary>
     /// The configuration needed by the factories to build out the parts of NuLog.

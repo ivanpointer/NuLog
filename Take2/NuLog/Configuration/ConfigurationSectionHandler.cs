@@ -5,7 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using System.Configuration;
 using System.Xml;
 
-namespace NuLog.Factories.Configuration
+namespace NuLog.Configuration
 {
     public class ConfigurationSectionHandler : IConfigurationSectionHandler
     {

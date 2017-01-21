@@ -9,6 +9,9 @@ _Written in C# for .NET_
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
 
+## 1/21/2017 - Cancel IoC.
+Adding an IoC framework (like Ninject), will add that as a dependency to using NuLog.  I don't want any extra dependencies, so I'll just use a factory pattern to handle DI for NuLog.
+
 ## 1/21/2017 - Switching to AppVeyor.  Configuration built, switching to IoC.
 I'm switching to AppVeyor - a lot of the other open source projects I've seen use it, and Travis CI is a bit slow.  I've got the configuration part built out, reading XML from a custom config section.  Next, I'll be tying the config together with a factory, using Ninject (IoC) as the glue.  I've also started a new Slack group (nulog.slack.com) for the project - initially for AppVeyor build notifications, but if any one else joins the NuLog team, we can communicate this way.
 

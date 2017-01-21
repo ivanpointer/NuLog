@@ -2,7 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-namespace NuLog.Factories.Configuration
+namespace NuLog.Configuration
 {
     /// <summary>
     /// Defines the expected behavior of a configuration provider.

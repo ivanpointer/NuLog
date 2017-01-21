@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-namespace NuLog.Factories.Configuration
+namespace NuLog.Configuration
 {
     /// <summary>
     /// The standard implementation of a configuration provider, which parses an XmlElement to build

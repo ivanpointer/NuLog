@@ -4,7 +4,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Factories.Configuration
+namespace NuLog.Configuration
 {
     /// <summary>
     /// Represents a single rule in a NuLog configuration.

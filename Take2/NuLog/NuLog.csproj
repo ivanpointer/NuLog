@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,17 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\Configuration\Config.cs" />
-    <Compile Include="Factories\Configuration\ConfigRule.cs" />
-    <Compile Include="Factories\Configuration\ConfigTagGroup.cs" />
-    <Compile Include="Factories\Configuration\ConfigTarget.cs" />
-    <Compile Include="Factories\Configuration\IConfigurationProvider.cs" />
-    <Compile Include="Factories\Configuration\XmlConfigurationProvider.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\ConfigRule.cs" />
+    <Compile Include="Configuration\ConfigTagGroup.cs" />
+    <Compile Include="Configuration\ConfigTarget.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\XmlConfigurationProvider.cs" />
     <Compile Include="Dispatchers\StandardDispatcher.cs" />
     <Compile Include="Dispatchers\TagRouters\ITagRouter.cs" />
     <Compile Include="Dispatchers\TagRouters\Rule.cs" />
     <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
+    <Compile Include="Factories\StandardLogFactory.cs" />
     <Compile Include="ILogEvent.cs" />
+    <Compile Include="ILogFactory.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Loggers\IMetaDataProvider.cs" />
     <Compile Include="Loggers\ITagNormalizer.cs" />
@@ -67,9 +65,10 @@
     <Compile Include="Layouts\Standard\StandardLayout.cs" />
     <Compile Include="LogEvents\LogEvent.cs" />
     <Compile Include="LogEvents\DeferredLogEvent.cs" />
-    <Compile Include="Factories\Configuration\ConfigurationSectionHandler.cs" />
+    <Compile Include="Configuration\ConfigurationSectionHandler.cs" />
     <Compile Include="Loggers\IDispatcher.cs" />
     <Compile Include="Loggers\StandardLogger.cs" />
+    <Compile Include="LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Loggers\TagNormalizers\StandardTagNormalizer.cs" />
     <Compile Include="TagRouters\IRuleProcessor.cs" />
@@ -80,12 +79,7 @@
     <Compile Include="Targets\ILayout.cs" />
     <Compile Include="Targets\StreamTarget.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
