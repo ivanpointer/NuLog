@@ -1,0 +1,13 @@
+version: 1.0.{build}
+build:
+  project: Take2\NuLog.sln
+  verbosity: minimal
+test:
+  assemblies: NuLog.Tests
+notifications:
+- provider: Email
+  to:
+  - ivan@pointerplace.us
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
