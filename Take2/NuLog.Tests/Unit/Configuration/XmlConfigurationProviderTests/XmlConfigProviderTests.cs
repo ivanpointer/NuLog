@@ -123,5 +123,37 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
             // Validate
             Assert.Equal(2, config.Targets.Count);
         }
+
+        /// <summary>
+        /// The configuration should include one default meta data entry.
+        /// </summary>
+        [Fact(DisplayName = "Should_ContainOneMetaData")]
+        public void Should_ContainOneMetaData()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog><metaData><add key=\"thing_one\" /></metaData></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.Equal(1, config.MetaData.Count);
+        }
+
+        /// <summary>
+        /// The configuration should include multiple default meta data entries.
+        /// </summary>
+        [Fact(DisplayName = "Should_ContainMultipleMetaDataEntries")]
+        public void Should_ContainMultipleMetaDataEntries()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog><metaData><add key=\"thing_one\" /><add key=\"thing_two\" /></metaData></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.Equal(2, config.MetaData.Count);
+        }
     }
 }

@@ -25,5 +25,10 @@ namespace NuLog.Factories.Configuration
         /// The targets within this configuration.
         /// </summary>
         public ICollection<ConfigTarget> Targets { get; set; }
+
+        /// <summary>
+        /// Default meta data defined within this configuration.
+        /// </summary>
+        public IDictionary<string, string> MetaData { get; set; }
     }
 }

@@ -32,7 +32,8 @@ namespace NuLog.Configuration
             {
                 Rules = ParseRules(xmlElement),
                 TagGroups = ParseTagGroups(xmlElement),
-                Targets = ParseTargets(xmlElement)
+                Targets = ParseTargets(xmlElement),
+                MetaData = ParseMetaData(xmlElement)
             };
         }
 
@@ -169,6 +170,39 @@ namespace NuLog.Configuration
         }
 
         #endregion Parse Tag Groups
+
+        #region Parse MetaData
+
+        /// <summary>
+        /// Parse out the meta data defined in the given XML element.
+        /// </summary>
+        private static IDictionary<string, string> ParseMetaData(XmlElement xmlElement)
+        {
+            // The meta data
+            var metaData = new Dictionary<string, string>();
+
+            // Find the meta data element
+            var metaDataElement = xmlElement.SelectSingleNode("metaData");
+
+            // Check to see if we got the element, and return the empty dictionary if we didn't
+            if (metaDataElement == null)
+            {
+                return metaData;
+            }
+
+            // Iterate over each meta data element, parsing it out and adding it to the dictionary
+            foreach (var metaDataEntry in metaDataElement.SelectNodes("add"))
+            {
+                var key = GetStringAttribute((XmlElement)metaDataEntry, "key");
+                var value = GetStringAttribute((XmlElement)metaDataEntry, "value");
+                metaData[key] = value;
+            }
+
+            // Return the meta data
+            return metaData;
+        }
+
+        #endregion Parse MetaData
 
         #region Helpers
 
