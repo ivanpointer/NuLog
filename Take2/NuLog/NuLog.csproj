@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,9 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\ConfigRule.cs" />
-    <Compile Include="Configuration\ConfigTagGroup.cs" />
-    <Compile Include="Configuration\ConfigTarget.cs" />
+    <Compile Include="Configuration\RuleConfig.cs" />
+    <Compile Include="Configuration\TagGroupConfig.cs" />
+    <Compile Include="Configuration\TargetConfig.cs" />
+    <Compile Include="Configuration\ConfigurationManagerProvider.cs" />
     <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Configuration\XmlConfigurationProvider.cs" />
     <Compile Include="Dispatchers\StandardDispatcher.cs" />
@@ -76,8 +78,11 @@
     <Compile Include="TagRouters\RuleProcessors\StandardRuleProcessor.cs" />
     <Compile Include="TagRouters\StandardTagRouter.cs" />
     <Compile Include="TagRouters\TagGroupProcessors\StandardTagGroupProcessor.cs" />
+    <Compile Include="Targets\DebugTarget.cs" />
     <Compile Include="Targets\ILayout.cs" />
+    <Compile Include="Targets\LayoutTargetBase.cs" />
     <Compile Include="Targets\StreamTarget.cs" />
+    <Compile Include="Targets\TargetBase.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

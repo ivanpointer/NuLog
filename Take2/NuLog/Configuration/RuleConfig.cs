@@ -9,7 +9,7 @@ namespace NuLog.Configuration
     /// <summary>
     /// Represents a single rule in a NuLog configuration.
     /// </summary>
-    public class ConfigRule
+    public class RuleConfig
     {
         /// <summary>
         /// The include tags for this rule.

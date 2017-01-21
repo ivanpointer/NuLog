@@ -14,17 +14,17 @@ namespace NuLog.Configuration
         /// <summary>
         /// The rules within this configuration.
         /// </summary>
-        public ICollection<ConfigRule> Rules { get; set; }
+        public ICollection<RuleConfig> Rules { get; set; }
 
         /// <summary>
         /// The tag groups within this configuration.
         /// </summary>
-        public ICollection<ConfigTagGroup> TagGroups { get; set; }
+        public ICollection<TagGroupConfig> TagGroups { get; set; }
 
         /// <summary>
         /// The targets within this configuration.
         /// </summary>
-        public ICollection<ConfigTarget> Targets { get; set; }
+        public ICollection<TargetConfig> Targets { get; set; }
 
         /// <summary>
         /// Default meta data defined within this configuration.

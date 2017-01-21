@@ -41,10 +41,10 @@ namespace NuLog.Configuration
         /// <summary>
         /// Parse out the rules from the given xmlElement.
         /// </summary>
-        private static ICollection<ConfigRule> ParseRules(XmlElement xmlElement)
+        private static ICollection<RuleConfig> ParseRules(XmlElement xmlElement)
         {
             // A fresh, empty list of rules
-            var rules = new List<ConfigRule>();
+            var rules = new List<RuleConfig>();
 
             // Find the rules collection in the element
             var rulesElement = xmlElement.SelectSingleNode("rules");
@@ -68,10 +68,10 @@ namespace NuLog.Configuration
         /// <summary>
         /// Takes a single xmlElement that represents a single rule, and parses it out as a config rule.
         /// </summary>
-        private static ConfigRule ParseRule(XmlElement xmlElement)
+        private static RuleConfig ParseRule(XmlElement xmlElement)
         {
             // Stitch the rule together
-            return new ConfigRule
+            return new RuleConfig
             {
                 Includes = GetAttributeList(xmlElement, "include"),
                 Excludes = GetAttributeList(xmlElement, "exclude"),
@@ -88,10 +88,10 @@ namespace NuLog.Configuration
         /// <summary>
         /// Parse out the targets from the given xmlElement.
         /// </summary>
-        private static ICollection<ConfigTarget> ParseTargets(XmlElement xmlElement)
+        private static ICollection<TargetConfig> ParseTargets(XmlElement xmlElement)
         {
             // The list of targets
-            var targets = new List<ConfigTarget>();
+            var targets = new List<TargetConfig>();
 
             // Find the targets collection in the element
             var targetsElement = xmlElement.SelectSingleNode("targets");
@@ -115,9 +115,9 @@ namespace NuLog.Configuration
         /// <summary>
         /// Parses out a single target from the given xmlElement.
         /// </summary>
-        private static ConfigTarget ParseTarget(XmlElement xmlElement)
+        private static TargetConfig ParseTarget(XmlElement xmlElement)
         {
-            return new ConfigTarget
+            return new TargetConfig
             {
                 Name = GetStringAttribute(xmlElement, "name"),
                 Type = GetStringAttribute(xmlElement, "type"),
@@ -132,10 +132,10 @@ namespace NuLog.Configuration
         /// <summary>
         /// Parse out the tag groups from the given xmlElement.
         /// </summary>
-        private static ICollection<ConfigTagGroup> ParseTagGroups(XmlElement xmlElement)
+        private static ICollection<TagGroupConfig> ParseTagGroups(XmlElement xmlElement)
         {
             // The list of tag groups
-            var tagGroups = new List<ConfigTagGroup>();
+            var tagGroups = new List<TagGroupConfig>();
 
             // Find the tag groups collection in the element
             var tagGroupsElement = xmlElement.SelectSingleNode("tagGroups");
@@ -159,9 +159,9 @@ namespace NuLog.Configuration
         /// <summary>
         /// Parses out a single tag group from the given XML element.
         /// </summary>
-        private static ConfigTagGroup ParseTagGroup(XmlElement xmlElement)
+        private static TagGroupConfig ParseTagGroup(XmlElement xmlElement)
         {
-            return new ConfigTagGroup
+            return new TagGroupConfig
             {
                 BaseTag = GetStringAttribute(xmlElement, "baseTag"),
                 Aliases = GetAttributeList(xmlElement, "aliases")
@@ -273,10 +273,10 @@ namespace NuLog.Configuration
         /// <summary>
         /// Returns the attributes on the XML element as a dictionary.
         /// </summary>
-        private static IDictionary<string, string> GetAttributesAsDictionary(XmlElement xmlElement)
+        private static IDictionary<string, object> GetAttributesAsDictionary(XmlElement xmlElement)
         {
             // The dictionary
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, object>();
 
             // Iterate over each attribute, adding it to the dictionary
             foreach (var attribute in xmlElement.Attributes)

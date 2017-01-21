@@ -13,6 +13,6 @@ namespace NuLog
     /// </summary>
     public interface ILogFactory
     {
-        ICollection<ITarget> GetTargets(IEnumerable<ConfigTarget> configTargets);
+        ICollection<ITarget> GetTargets(IEnumerable<TargetConfig> configTargets);
     }
 }

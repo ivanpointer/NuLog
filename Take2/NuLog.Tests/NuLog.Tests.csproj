@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Integration\Configuration\ConfigurationManagerProviderTests.cs" />
     <Compile Include="Unit\Configuration\ConfigurationSectionHandlerTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigMetaDataTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigProviderTests.cs" />
@@ -74,9 +75,11 @@
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigTargetTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigurationProviderTestsBase.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
+    <Compile Include="Unit\Factories\StandardLogFactoryTests.cs" />
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
+    <Compile Include="Unit\Targets\TargetBaseTests.cs" />
     <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorExcludeRulesTests.cs" />
@@ -84,11 +87,11 @@
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorIncludeRulesTests.cs" />
     <Compile Include="Unit\TagRouters\RuleProcessors\RuleProcessorTestsBase.cs" />
     <Compile Include="Unit\TagRouters\TagGroupProcessors\TagGroupProcessorTests.cs" />
+    <Compile Include="Unit\Targets\DebugTargetTests.cs" />
+    <Compile Include="Unit\Targets\LayoutTargetBaseTests.cs" />
     <Compile Include="Unit\Targets\StreamTargetTests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unit\Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>

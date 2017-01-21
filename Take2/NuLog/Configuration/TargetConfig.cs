@@ -9,7 +9,7 @@ namespace NuLog.Configuration
     /// <summary>
     /// Represents a single target in the configuration.
     /// </summary>
-    public class ConfigTarget
+    public class TargetConfig
     {
         /// <summary>
         /// The name of the target; used to identify the target in the rules.
@@ -24,6 +24,6 @@ namespace NuLog.Configuration
         /// <summary>
         /// Additional properties of the target.
         /// </summary>
-        public IDictionary<string, string> Properties { get; set; }
+        public IDictionary<string, object> Properties { get; set; }
     }
 }

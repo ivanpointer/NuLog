@@ -13,7 +13,7 @@ namespace NuLog.Factories
     /// </summary>
     public class StandardLogFactory : ILogFactory
     {
-        public ICollection<ITarget> GetTargets(IEnumerable<ConfigTarget> configTargets)
+        public ICollection<ITarget> GetTargets(IEnumerable<TargetConfig> configTargets)
         {
             throw new NotImplementedException();
         }

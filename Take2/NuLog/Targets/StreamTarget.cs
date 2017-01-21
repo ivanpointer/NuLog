@@ -5,23 +5,30 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.LogEvents;
 using System.IO;
 using System.Text;
+using NuLog.Configuration;
+using System;
 
 namespace NuLog.Targets
 {
     /// <summary>
     /// A target for writing log events to a stream.
     /// </summary>
-    public class StreamTarget : ITarget
+    public class StreamTarget : TargetBase
     {
-        public string Name { get; set; }
+        private const int streamWriterBuffer = 4096;
 
-        private readonly ILayout layout;
+        private ILayout layout;
 
-        private readonly Stream stream;
+        private Stream stream;
 
-        private readonly StreamWriter streamWriter;
+        private StreamWriter streamWriter;
 
-        private readonly bool closeOnDispose;
+        private bool closeOnDispose;
+
+        public StreamTarget()
+        {
+            // Nothing to do
+        }
 
         /// <summary>
         /// Builds a new instance of this stream target.
@@ -41,19 +48,30 @@ namespace NuLog.Targets
 
             this.stream = stream;
 
-            this.streamWriter = new StreamWriter(stream, Encoding.Default, 4096, !closeOnDispose);
+            this.streamWriter = new StreamWriter(stream, Encoding.Default, streamWriterBuffer, !closeOnDispose);
 
             this.closeOnDispose = closeOnDispose;
         }
 
-        public void Write(LogEvent logEvent)
+        public override void Configure(TargetConfig config)
+        {
+            TryGetProperty(config, "layout", out this.layout);
+
+            TryGetProperty(config, "stream", out this.stream);
+
+            TryGetProperty(config, "closeOnDispose", out this.closeOnDispose);
+
+            BuildNewStreamWriter();
+        }
+
+        public override void Write(LogEvent logEvent)
         {
             var message = this.layout.Format(logEvent);
             this.streamWriter.Write(message);
             this.streamWriter.Flush();
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (this.closeOnDispose)
             {
@@ -63,5 +81,22 @@ namespace NuLog.Targets
 
             this.streamWriter.Dispose();
         }
+
+        #region Internals
+
+        private void BuildNewStreamWriter()
+        {
+            if (this.stream != null)
+            {
+                if (this.streamWriter != null)
+                {
+                    this.streamWriter.Dispose();
+                }
+
+                this.streamWriter = new StreamWriter(this.stream, Encoding.Default, streamWriterBuffer, !closeOnDispose);
+            }
+        }
+
+        #endregion
     }
 }
