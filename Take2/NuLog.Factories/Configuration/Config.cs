@@ -19,6 +19,11 @@ namespace NuLog.Factories.Configuration
         /// <summary>
         /// The tag groups within this configuration.
         /// </summary>
-        public ICollection<TagGroup> TagGroups { get; set; }
+        public ICollection<ConfigTagGroup> TagGroups { get; set; }
+
+        /// <summary>
+        /// The targets within this configuration.
+        /// </summary>
+        public ICollection<ConfigTarget> Targets { get; set; }
     }
 }

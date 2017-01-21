@@ -31,7 +31,8 @@ namespace NuLog.Configuration
             return new Config
             {
                 Rules = ParseRules(xmlElement),
-                TagGroups = ParseTagGroups(xmlElement)
+                TagGroups = ParseTagGroups(xmlElement),
+                Targets = ParseTargets(xmlElement)
             };
         }
 
@@ -82,15 +83,46 @@ namespace NuLog.Configuration
 
         #endregion Parse Rules
 
+        #region Parse Targets
+
+        /// <summary>
+        /// Parse out the targets from the given xmlElement.
+        /// </summary>
+        private static ICollection<ConfigTarget> ParseTargets(XmlElement xmlElement)
+        {
+            // The list of targets
+            var targets = new List<ConfigTarget>();
+
+            // Find the targets collection in the element
+            var targetsElement = xmlElement.SelectSingleNode("targets");
+
+            // Check to see if we have a targets element, and return the empty list if no
+            if (targetsElement == null)
+            {
+                return targets;
+            }
+
+            // Iterate over each target element, and parse it out, adding it to the list
+            foreach (var targetElement in targetsElement.SelectNodes("target"))
+            {
+                targets.Add(new ConfigTarget());
+            }
+
+            // Return the list of targets
+            return targets;
+        }
+
+        #endregion Parse Targets
+
         #region Parse Tag Groups
 
         /// <summary>
         /// Parse out the tag groups from the given xmlElement.
         /// </summary>
-        private static ICollection<TagGroup> ParseTagGroups(XmlElement xmlElement)
+        private static ICollection<ConfigTagGroup> ParseTagGroups(XmlElement xmlElement)
         {
             // The list of tag groups
-            var tagGroups = new List<TagGroup>();
+            var tagGroups = new List<ConfigTagGroup>();
 
             // Find the tag groups collection in the element
             var tagGroupsElement = xmlElement.SelectSingleNode("tagGroups");
@@ -107,16 +139,16 @@ namespace NuLog.Configuration
                 tagGroups.Add(ParseTagGroup((XmlElement)tagGroupElement));
             }
 
-            // Return it
+            // Return the list of tag groups
             return tagGroups;
         }
 
         /// <summary>
         /// Parses out a single tag group from the given XML element.
         /// </summary>
-        private static TagGroup ParseTagGroup(XmlElement xmlElement)
+        private static ConfigTagGroup ParseTagGroup(XmlElement xmlElement)
         {
-            return new TagGroup
+            return new ConfigTagGroup
             {
                 BaseTag = GetStringAttribute(xmlElement, "baseTag"),
                 Aliases = GetAttributeList(xmlElement, "aliases")

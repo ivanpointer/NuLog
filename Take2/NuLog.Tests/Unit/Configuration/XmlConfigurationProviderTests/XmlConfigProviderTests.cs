@@ -91,5 +91,37 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
             // Validate
             Assert.Equal(2, config.TagGroups.Count);
         }
+
+        /// <summary>
+        /// The configuration should provide one target.
+        /// </summary>
+        [Fact(DisplayName = "Should_ContainOneTarget")]
+        public void Should_ContainOneTarget()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog><targets><target /></targets></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.Equal(1, config.Targets.Count);
+        }
+
+        /// <summary>
+        /// The configuration should provide multiple targets.
+        /// </summary>
+        [Fact(DisplayName = "Should_ContainMultipleTargets")]
+        public void Should_ContainMultipleTargets()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog><targets><target /><target /></targets></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.Equal(2, config.Targets.Count);
+        }
     }
 }

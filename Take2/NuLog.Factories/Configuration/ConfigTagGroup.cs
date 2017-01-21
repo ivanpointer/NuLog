@@ -9,7 +9,7 @@ namespace NuLog.Factories.Configuration
     /// <summary>
     /// Represents a single tag group in the NuLog configuration.
     /// </summary>
-    public class TagGroup
+    public class ConfigTagGroup
     {
         /// <summary>
         /// The base tag of the tag group.
