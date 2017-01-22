@@ -2,7 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-namespace NuLog.Layouts.Standard
+namespace NuLog.Layouts
 {
     /// <summary>
     /// Represents a single parameter within a standard layout. Designed specifically for the

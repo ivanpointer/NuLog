@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NuLog.Layouts.Standard.PropertyParsers
+namespace NuLog.Layouts
 {
     /// <summary>
     /// The standard implementation of a property parser.

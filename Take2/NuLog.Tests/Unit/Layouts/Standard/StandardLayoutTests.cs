@@ -4,7 +4,6 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using FakeItEasy;
 using NuLog.Layouts;
-using NuLog.Layouts.Standard;
 using NuLog.LogEvents;
 using NuLog.Targets;
 using System;

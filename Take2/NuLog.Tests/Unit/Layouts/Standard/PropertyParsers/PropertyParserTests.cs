@@ -3,7 +3,6 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Layouts;
-using NuLog.Layouts.Standard.PropertyParsers;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -77,7 +76,8 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         }
 
         /// <summary>
-        /// The property parser should be able to find a top-level DateTime property.  This also checks the method's handling of structs.
+        /// The property parser should be able to find a top-level DateTime property. This also
+        /// checks the method's handling of structs.
         /// </summary>
         [Fact(DisplayName = "Should_FindDateTimeProperty")]
         public void Should_FindDateTimeProperty()

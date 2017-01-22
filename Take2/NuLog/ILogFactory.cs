@@ -13,6 +13,9 @@ namespace NuLog
     /// </summary>
     public interface ILogFactory
     {
-        ICollection<ITarget> GetTargets(IEnumerable<TargetConfig> configTargets);
+        /// <summary>
+        /// Get the targets defined in the given target config.
+        /// </summary>
+        ICollection<ITarget> GetTargets(IEnumerable<TargetConfig> targetConfigs);
     }
 }

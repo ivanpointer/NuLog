@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace NuLog.Layouts.Standard.LayoutParsers
+namespace NuLog.Layouts
 {
     /// <summary>
     /// The standard implementation of a layout parser.

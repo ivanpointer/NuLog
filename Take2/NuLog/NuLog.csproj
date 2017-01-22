@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activators\Layouts\StandardLayoutActivator.cs" />
+    <Compile Include="Activators\Layouts\StandardLayoutParserActivator.cs" />
+    <Compile Include="Activators\Layouts\StandardPropertyParserActivator.cs" />
+    <Compile Include="Activators\LogFactoryActivatorBase.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\RuleConfig.cs" />
     <Compile Include="Configuration\TagGroupConfig.cs" />
@@ -53,18 +57,21 @@
     <Compile Include="Dispatchers\TagRouters\Rule.cs" />
     <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
     <Compile Include="Factories\StandardLogFactory.cs" />
+    <Compile Include="IActivatorRegistry.cs" />
     <Compile Include="ILogEvent.cs" />
     <Compile Include="ILogFactory.cs" />
+    <Compile Include="ILogFactoryActivator.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="LogFactoryActivatorNull.cs" />
     <Compile Include="Loggers\IMetaDataProvider.cs" />
     <Compile Include="Loggers\ITagNormalizer.cs" />
     <Compile Include="Dispatchers\ITarget.cs" />
     <Compile Include="Layouts\IPropertyParser.cs" />
-    <Compile Include="Layouts\Standard\ILayoutParser.cs" />
-    <Compile Include="Layouts\Standard\LayoutParameter.cs" />
-    <Compile Include="Layouts\Standard\LayoutParsers\StandardLayoutParser.cs" />
-    <Compile Include="Layouts\Standard\PropertyParsers\StandardPropertyParser.cs" />
-    <Compile Include="Layouts\Standard\StandardLayout.cs" />
+    <Compile Include="Layouts\ILayoutParser.cs" />
+    <Compile Include="Layouts\LayoutParameter.cs" />
+    <Compile Include="Layouts\StandardLayoutParser.cs" />
+    <Compile Include="Layouts\StandardPropertyParser.cs" />
+    <Compile Include="Layouts\StandardLayout.cs" />
     <Compile Include="LogEvents\LogEvent.cs" />
     <Compile Include="LogEvents\DeferredLogEvent.cs" />
     <Compile Include="Configuration\ConfigurationSectionHandler.cs" />

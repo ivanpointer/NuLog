@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuLog.Layouts.Standard
+namespace NuLog.Layouts
 {
     /// <summary>
     /// The standard implementation of a layout.

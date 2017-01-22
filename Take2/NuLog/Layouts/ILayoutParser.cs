@@ -4,7 +4,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Layouts.Standard
+namespace NuLog.Layouts
 {
     /// <summary>
     /// Defines the expected behavior of a layout parser.
