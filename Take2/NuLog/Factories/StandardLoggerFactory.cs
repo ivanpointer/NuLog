@@ -40,7 +40,9 @@ namespace NuLog.Factories
 
         public ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags)
         {
-            throw new NotImplementedException();
+            var dispatcher = GetDispatcher();
+            var tagNormalizer = GetTagNormalizer();
+            return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags, ToMetaData(Config.MetaData));
         }
 
         #region Specific to the Standard Implementation
@@ -189,6 +191,27 @@ namespace NuLog.Factories
                 Targets = config.Targets,
                 Final = config.Final
             };
+        }
+
+        /// <summary>
+        /// Translates meta data from config, into the kind of meta data the logger expects.
+        /// </summary>
+        protected virtual IDictionary<string, object> ToMetaData(IDictionary<string, string> configMetaData)
+        {
+            var metaData = new Dictionary<string, object>();
+
+            // Should be tolerant of null config meta data.
+            if (configMetaData == null)
+            {
+                return metaData;
+            }
+
+            foreach (var entry in configMetaData)
+            {
+                metaData[entry.Key] = entry.Value;
+            }
+
+            return metaData;
         }
 
         #endregion Config Conversions

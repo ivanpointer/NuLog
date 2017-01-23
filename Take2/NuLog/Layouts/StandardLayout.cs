@@ -141,6 +141,12 @@ namespace NuLog.Layouts
         /// </summary>
         private static string GetFormattedValue(object value, string format)
         {
+            // If the value is null, return an empty string
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
             // If we have a string format, use that.
             if (string.IsNullOrWhiteSpace(format) == false)
             {

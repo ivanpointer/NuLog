@@ -356,5 +356,21 @@ namespace NuLog.Tests.Unit.Factories
             // Verify
             Assert.NotNull(layout);
         }
+
+        /// <summary>
+        /// The logger factory should build a logger instance.
+        /// </summary>
+        [Fact(DisplayName = "Should_BuildLogger")]
+        public void Should_BuildLogger()
+        {
+            // Setup
+            var factory = GetLogFactory(new Config());
+
+            // Execute
+            var logger = factory.GetLogger(null, null);
+
+            // Verify
+            Assert.NotNull(logger);
+        }
     }
 }

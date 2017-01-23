@@ -439,6 +439,37 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         }
 
         /// <summary>
+        /// The layout should be able to handle a null-valued property
+        /// </summary>
+        [Fact(DisplayName = "Should_HandleNullPropertyValue")]
+        public void Should_HandleNullPropertyValue()
+        {
+            // Setup
+            var parms = new List<LayoutParameter>
+            {
+                new LayoutParameter
+                {
+                    Path = "Enumerable"
+                }
+            };
+            var logEvent = new LogEvent();
+            var paramParser = A.Fake<IPropertyParser>();
+
+            // Set a return value in meta - null
+            A.CallTo(() => paramParser.GetProperty(A<object>.Ignored, A<string>.Ignored))
+                .Returns(null);
+
+            // Build our layout
+            var layout = GetLayout(parms, paramParser);
+
+            // Execute
+            var formatted = layout.Format(logEvent);
+
+            // Verify
+            Assert.Equal("", formatted);
+        }
+
+        /// <summary>
         /// Get a new instance of the layout under test.
         /// </summary>
         protected ILayout GetLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser)

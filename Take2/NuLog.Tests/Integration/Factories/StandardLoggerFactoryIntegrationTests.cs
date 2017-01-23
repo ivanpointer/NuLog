@@ -195,8 +195,8 @@ namespace NuLog.Tests.Integration.Factories
         /// <summary>
         /// The factory should set a default layout format, when none is provided by the target config.
         /// </summary>
-        [Fact(DisplayName = "Should_UseTargetsAndBuildTagRouter")]
-        public void ShouldUseDefaultLayoutFormat()
+        [Fact(DisplayName = "Should_UseDefaultLayoutFormat")]
+        public void Should_UseDefaultLayoutFormat()
         {
             // Setup
             var targetConfig = new TargetConfig
@@ -217,6 +217,174 @@ namespace NuLog.Tests.Integration.Factories
 
             // Validate
             Assert.Contains("hello, default layout!", formatted);
+        }
+
+        /// <summary>
+        /// The factory should assign a dispatcher to the built logger.
+        /// </summary>
+        [Fact(DisplayName = "Should_SetDispatcherToNewLogger")]
+        public void Should_SetDispatcherToNewLogger()
+        {
+            // Setup
+            var config = new Config
+            {
+                Targets = new List<TargetConfig>
+                {
+                    new TargetConfig
+                    {
+                        Name = "debug",
+                        Type = "NuLog.Targets.DebugTarget",
+                        Properties = new Dictionary<string, object>
+                        {
+                            { "layout", "${Message}" }
+                        }
+                    }
+                },
+                Rules = new List<RuleConfig>
+                {
+                    new RuleConfig
+                    {
+                        Includes = new string[] { "one_tag" },
+                        Targets = new string[] { "debug" }
+                    }
+                }
+            };
+            var factory = GetLogFactory(config);
+            var logger = factory.GetLogger(null, null);
+
+            // Execute
+            logger.LogNow("hello, logger factory dispatcher set!", "one_tag");
+
+            // Verify
+            Assert.Contains("hello, logger factory dispatcher set!", this.traceListener.Messages);
+        }
+
+        /// <summary>
+        /// The factory should assign the given meta data provider, to the new logger.
+        /// </summary>
+        [Fact(DisplayName = "Should_SetMetaDataProviderToNewLogger")]
+        public void Should_SetMetaDataProviderToNewLogger()
+        {
+            // Setup
+            var config = new Config
+            {
+                Targets = new List<TargetConfig>
+                {
+                    new TargetConfig
+                    {
+                        Name = "debug",
+                        Type = "NuLog.Targets.DebugTarget",
+                        Properties = new Dictionary<string, object>
+                        {
+                            { "layout", "${MyMetaData}" }
+                        }
+                    }
+                },
+                Rules = new List<RuleConfig>
+                {
+                    new RuleConfig
+                    {
+                        Includes = new string[] { "one_tag" },
+                        Targets = new string[] { "debug" }
+                    }
+                }
+            };
+            var factory = GetLogFactory(config);
+            var provider = A.Fake<IMetaDataProvider>();
+            A.CallTo(() => provider.ProvideMetaData())
+                .Returns(new Dictionary<string, object> { { "MyMetaData", "Meta data to my logger!" } });
+
+            var logger = factory.GetLogger(provider, null);
+
+            // Execute
+            logger.LogNow("nope", "one_tag");
+
+            // Verify
+            Assert.Contains("Meta data to my logger!", this.traceListener.Messages);
+        }
+
+        /// <summary>
+        /// The factory should set the given default tags to the new logger.
+        /// </summary>
+        [Fact(DisplayName = "Should_SetDefaultTagsToNewLogger")]
+        public void Should_SetDefaultTagsToNewLogger()
+        {
+            // Setup
+            var config = new Config
+            {
+                Targets = new List<TargetConfig>
+                {
+                    new TargetConfig
+                    {
+                        Name = "debug",
+                        Type = "NuLog.Targets.DebugTarget",
+                        Properties = new Dictionary<string, object>
+                        {
+                            { "layout", "${Tags}" }
+                        }
+                    }
+                },
+                Rules = new List<RuleConfig>
+                {
+                    new RuleConfig
+                    {
+                        Includes = new string[] { "one_tag" },
+                        Targets = new string[] { "debug" }
+                    }
+                }
+            };
+            var factory = GetLogFactory(config);
+            var logger = factory.GetLogger(null, new string[] { "default_tag" });
+
+            // Execute
+            logger.LogNow("nope", "one_tag");
+
+            // Verify
+            Assert.Contains("default_tag,one_tag", this.traceListener.Messages);
+        }
+
+        /// <summary>
+        /// The factory should set default meta data to the new logger.
+        /// </summary>
+        [Fact(DisplayName = "Should_SetDefaultMetaDataToNewLogger")]
+        public void Should_SetDefaultMetaDataToNewLogger()
+        {
+            // Setup
+            var config = new Config
+            {
+                Targets = new List<TargetConfig>
+                {
+                    new TargetConfig
+                    {
+                        Name = "debug",
+                        Type = "NuLog.Targets.DebugTarget",
+                        Properties = new Dictionary<string, object>
+                        {
+                            { "layout", "${MyMetaData}" }
+                        }
+                    }
+                },
+                Rules = new List<RuleConfig>
+                {
+                    new RuleConfig
+                    {
+                        Includes = new string[] { "one_tag" },
+                        Targets = new string[] { "debug" }
+                    }
+                },
+                MetaData = new Dictionary<string, string>
+                {
+                    { "MyMetaData", "Default meta data to my logger!" }
+                }
+            };
+            var factory = GetLogFactory(config);
+            var logger = factory.GetLogger(null, null);
+
+            // Execute
+            logger.LogNow("nope", "one_tag");
+
+            // Verify
+            Assert.Contains("Default meta data to my logger!", this.traceListener.Messages);
         }
     }
 }
