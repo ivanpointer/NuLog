@@ -77,22 +77,22 @@ namespace NuLog.Loggers
             Dispatcher.DispatchNow(BuildLogEvent(message, null, metaData, tags));
         }
 
-        public void Log(string message, Exception exception, params string[] tags)
+        public void Log(Exception exception, string message, params string[] tags)
         {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, null, tags));
         }
 
-        public void LogNow(string message, Exception exception, params string[] tags)
+        public void LogNow(Exception exception, string message, params string[] tags)
         {
             Dispatcher.DispatchNow(BuildLogEvent(message, exception, null, tags));
         }
 
-        public void Log(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags)
+        public void Log(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags)
         {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, metaData, tags));
         }
 
-        public void LogNow(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags)
+        public void LogNow(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags)
         {
             Dispatcher.DispatchNow(BuildLogEvent(message, exception, metaData, tags));
         }

@@ -361,7 +361,7 @@ namespace NuLog.Tests.Unit.Loggers
             var exception = new Exception("Caught me!");
 
             // Execute
-            logger.Log("Hello, World!", exception);
+            logger.Log(exception, "Hello, World!");
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
@@ -380,7 +380,7 @@ namespace NuLog.Tests.Unit.Loggers
             var exception = new Exception("Caught me!");
 
             // Execute
-            logger.LogNow("Hello, World!", exception);
+            logger.LogNow(exception, "Hello, World!");
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();
@@ -405,7 +405,7 @@ namespace NuLog.Tests.Unit.Loggers
             };
 
             // Execute
-            logger.Log("Hello, World!", exception, metaData);
+            logger.Log(exception, "Hello, World!", metaData);
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
@@ -433,7 +433,7 @@ namespace NuLog.Tests.Unit.Loggers
             };
 
             // Execute
-            logger.LogNow("Hello, World!", exception, metaData);
+            logger.LogNow(exception, "Hello, World!", metaData);
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();
@@ -561,7 +561,7 @@ namespace NuLog.Tests.Unit.Loggers
             var exception = new Exception("Caught me!");
 
             // Execute
-            logger.Log("Hello, World!", exception, "george", "willy", "fred");
+            logger.Log(exception, "Hello, World!", "george", "willy", "fred");
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
@@ -584,7 +584,7 @@ namespace NuLog.Tests.Unit.Loggers
             var exception = new Exception("Caught me!");
 
             // Execute
-            logger.LogNow("Hello, World!", exception, "george", "willy", "fred");
+            logger.LogNow(exception, "Hello, World!", "george", "willy", "fred");
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();
@@ -613,7 +613,7 @@ namespace NuLog.Tests.Unit.Loggers
             };
 
             // Execute
-            logger.Log("Hello, World!", exception, metaData, "george", "willy", "fred");
+            logger.Log(exception, "Hello, World!", metaData, "george", "willy", "fred");
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
@@ -645,7 +645,7 @@ namespace NuLog.Tests.Unit.Loggers
             };
 
             // Execute
-            logger.LogNow("Hello, World!", exception, metaData, "george", "willy", "fred");
+            logger.LogNow(exception, "Hello, World!", metaData, "george", "willy", "fred");
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();

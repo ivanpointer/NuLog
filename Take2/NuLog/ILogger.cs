@@ -35,21 +35,21 @@ namespace NuLog
         /// <summary>
         /// Log a message, and return immediately, before the message has been dispatched (fire and forget).
         /// </summary>
-        void Log(string message, Exception exception, params string[] tags);
+        void Log(Exception exception, string message, params string[] tags);
 
         /// <summary>
         /// Log a message, and don't return until it's been dispatched (fire and wait).
         /// </summary>
-        void LogNow(string message, Exception exception, params string[] tags);
+        void LogNow(Exception exception, string message, params string[] tags);
 
         /// <summary>
         /// Log a message, and return immediately, before the message has been dispatched (fire and forget).
         /// </summary>
-        void Log(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags);
+        void Log(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags);
 
         /// <summary>
         /// Log a message, and don't return until it's been dispatched (fire and wait).
         /// </summary>
-        void LogNow(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags);
+        void LogNow(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags);
     }
 }
