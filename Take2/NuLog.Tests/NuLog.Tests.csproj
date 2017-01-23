@@ -84,6 +84,7 @@
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
+    <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
     <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />

@@ -19,82 +19,82 @@ namespace NuLog.Loggers
         /// <summary>
         /// The dispatcher this logger is to send log events to.
         /// </summary>
-        private readonly IDispatcher dispatcher;
+        protected readonly IDispatcher Dispatcher;
 
         /// <summary>
         /// The tag normalizer to use when processing tags.
         /// </summary>
-        private readonly ITagNormalizer tagNormalizer;
+        protected readonly ITagNormalizer TagNormalizer;
 
         /// <summary>
         /// The meta data provider for this logger.
         /// </summary>
-        private readonly IMetaDataProvider metaDataProvider;
+        protected readonly IMetaDataProvider MetaDataProvider;
 
         /// <summary>
         /// Default tags to add to every log event originating from this logger.
         /// </summary>
-        private readonly IEnumerable<string> defaultTags;
+        protected readonly IEnumerable<string> DefaultTags;
 
         /// <summary>
         /// Default meta data to add to every log event originating from this logger.
         /// </summary>
-        private readonly IDictionary<string, object> defaultMetaData;
+        protected readonly IDictionary<string, object> DefaultMetaData;
 
         /// <summary>
         /// Sets up a new instance of the standard logger.
         /// </summary>
         public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null)
         {
-            this.dispatcher = dispatcher;
+            Dispatcher = dispatcher;
 
-            this.metaDataProvider = metaDataProvider;
+            MetaDataProvider = metaDataProvider;
 
-            this.tagNormalizer = tagNormalizer;
+            TagNormalizer = tagNormalizer;
 
-            this.defaultTags = tagNormalizer.NormalizeTags(defaultTags);
+            DefaultTags = tagNormalizer.NormalizeTags(defaultTags);
 
-            this.defaultMetaData = defaultMetaData;
+            DefaultMetaData = defaultMetaData;
         }
 
         public void Log(string message, params string[] tags)
         {
-            dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, null, tags));
+            Dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, null, tags));
         }
 
         public void LogNow(string message, params string[] tags)
         {
-            dispatcher.DispatchNow(BuildLogEvent(message, null, null, tags));
+            Dispatcher.DispatchNow(BuildLogEvent(message, null, null, tags));
         }
 
         public void Log(string message, Dictionary<string, object> metaData = null, params string[] tags)
         {
-            dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, metaData, tags));
+            Dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, metaData, tags));
         }
 
         public void LogNow(string message, Dictionary<string, object> metaData = null, params string[] tags)
         {
-            dispatcher.DispatchNow(BuildLogEvent(message, null, metaData, tags));
+            Dispatcher.DispatchNow(BuildLogEvent(message, null, metaData, tags));
         }
 
         public void Log(string message, Exception exception, params string[] tags)
         {
-            dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, null, tags));
+            Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, null, tags));
         }
 
         public void LogNow(string message, Exception exception, params string[] tags)
         {
-            dispatcher.DispatchNow(BuildLogEvent(message, exception, null, tags));
+            Dispatcher.DispatchNow(BuildLogEvent(message, exception, null, tags));
         }
 
         public void Log(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags)
         {
-            dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, metaData, tags));
+            Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, metaData, tags));
         }
 
         public void LogNow(string message, Exception exception, Dictionary<string, object> metaData = null, params string[] tags)
         {
-            dispatcher.DispatchNow(BuildLogEvent(message, exception, metaData, tags));
+            Dispatcher.DispatchNow(BuildLogEvent(message, exception, metaData, tags));
         }
 
         /// <summary>
@@ -121,29 +121,29 @@ namespace NuLog.Loggers
         {
             // Figure out/calculate the tags to return. Call the normalizer for any tags that haven't
             // been run through yet.
-            if (!HasTags(givenTags) && !HasTags(this.defaultTags))
+            if (!HasTags(givenTags) && !HasTags(DefaultTags))
             {
                 return null;
             }
-            else if (!HasTags(this.defaultTags))
+            else if (!HasTags(DefaultTags))
             {
-                return this.tagNormalizer.NormalizeTags(givenTags);
+                return TagNormalizer.NormalizeTags(givenTags);
             }
             else if (!HasTags(givenTags))
             {
-                return this.defaultTags;
+                return DefaultTags;
             }
             else
             {
-                var tags = defaultTags.Concat(givenTags);
-                return this.tagNormalizer.NormalizeTags(tags);
+                var tags = DefaultTags.Concat(givenTags);
+                return TagNormalizer.NormalizeTags(tags);
             }
         }
 
         /// <summary>
         /// Indicates if the given set of tags has any tags in it.
         /// </summary>
-        private static bool HasTags(IEnumerable<string> tags)
+        protected static bool HasTags(IEnumerable<string> tags)
         {
             return tags != null && tags.Count() > 0;
         }
@@ -160,11 +160,11 @@ namespace NuLog.Loggers
             var metaData = new Dictionary<string, object>();
 
             // Start with any default meta data
-            AddMetaData(this.defaultMetaData, metaData);
+            AddMetaData(DefaultMetaData, metaData);
 
             // Try to get the meta data from our provider
-            var providedMetaData = this.metaDataProvider != null
-                ? this.metaDataProvider.ProvideMetaData()
+            var providedMetaData = MetaDataProvider != null
+                ? MetaDataProvider.ProvideMetaData()
                 : null;
 
             // Add the provided meta data
@@ -180,7 +180,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Adds the source meta data to the target meta data.
         /// </summary>
-        private static void AddMetaData(IDictionary<string, object> sourceMetaData, IDictionary<string, object> targetMetaData)
+        protected static void AddMetaData(IDictionary<string, object> sourceMetaData, IDictionary<string, object> targetMetaData)
         {
             if (sourceMetaData != null)
             {
@@ -194,7 +194,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Determines if meta data exists in the given meta data.
         /// </summary>
-        private static bool HasMetaData(IDictionary<string, object> metaData)
+        protected static bool HasMetaData(IDictionary<string, object> metaData)
         {
             return metaData != null && metaData.Count > 0;
         }

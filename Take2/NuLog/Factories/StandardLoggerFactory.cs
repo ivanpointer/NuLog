@@ -13,6 +13,7 @@ using NuLog.TagRouters.TagGroupProcessors;
 using NuLog.Targets;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace NuLog.Factories
 {
@@ -21,6 +22,10 @@ namespace NuLog.Factories
     /// </summary>
     public class StandardLoggerFactory : ILoggerFactory
     {
+        /// <summary>
+        /// The type of the layout target base - used to identify which targets we need to assign
+        /// layouts to.
+        /// </summary>
         private static readonly Type LayoutTargetBaseType = typeof(LayoutTargetBase);
 
         /// <summary>
@@ -33,6 +38,90 @@ namespace NuLog.Factories
         /// </summary>
         protected readonly Config Config;
 
+        /// <summary>
+        /// A lock used for controlling the creation of the dispatcher, normalizer, etc. A highly
+        /// efficient version of the singleton pattern.
+        /// </summary>
+        private static readonly object FactoryLock = new object();
+
+        /// <summary>
+        /// The private instance of the dispatcher.
+        /// </summary>
+        private IDispatcher _dispatcher;
+
+        /// <summary>
+        /// The dispatcher for this factory - a thread safe implementation which calls GetDispatcher.
+        /// </summary>
+        protected IDispatcher Dispatcher
+        {
+            get
+            {
+                if (_dispatcher == null)
+                {
+                    lock (FactoryLock)
+                    {
+                        if (_dispatcher == null)
+                        {
+                            _dispatcher = GetDispatcher();
+                        }
+                    }
+                }
+                return _dispatcher;
+            }
+        }
+
+        /// <summary>
+        /// The private instance of the tag normalizer.
+        /// </summary>
+        private ITagNormalizer _tagNormalizer;
+
+        /// <summary>
+        /// The tag normalizer for this factory - a thread safe implementation which calls GetTagNormalizer.
+        /// </summary>
+        protected ITagNormalizer TagNormalizer
+        {
+            get
+            {
+                if (_tagNormalizer == null)
+                {
+                    lock (FactoryLock)
+                    {
+                        if (_tagNormalizer == null)
+                        {
+                            _tagNormalizer = GetTagNormalizer();
+                        }
+                    }
+                }
+                return _tagNormalizer;
+            }
+        }
+
+        /// <summary>
+        /// The default meta data for this factory.
+        /// </summary>
+        private IDictionary<string, object> _defaultMetaData;
+
+        /// <summary>
+        /// The default meta data for this factory - a thread safe implementation which calls ToMetaData.
+        /// </summary>
+        protected IDictionary<string, object> DefaultMetaData
+        {
+            get
+            {
+                if (_defaultMetaData == null)
+                {
+                    lock (FactoryLock)
+                    {
+                        if (_defaultMetaData == null)
+                        {
+                            _defaultMetaData = new ReadOnlyDictionary<string, object>(ToMetaData(Config.MetaData));
+                        }
+                    }
+                }
+                return _defaultMetaData;
+            }
+        }
+
         public StandardLoggerFactory(Config config)
         {
             Config = config;
@@ -40,12 +129,8 @@ namespace NuLog.Factories
 
         public ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags)
         {
-            var dispatcher = GetDispatcher();
-            var tagNormalizer = GetTagNormalizer();
-            return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags, ToMetaData(Config.MetaData));
+            return new StandardLogger(Dispatcher, TagNormalizer, metaDataProvider, defaultTags, DefaultMetaData);
         }
-
-        #region Specific to the Standard Implementation
 
         public virtual IDispatcher GetDispatcher()
         {
@@ -119,8 +204,6 @@ namespace NuLog.Factories
             // Stitch it together into a new standard layout
             return new StandardLayout(layoutParms, propertyParser);
         }
-
-        #endregion Specific to the Standard Implementation
 
         #region Config Conversions
 
