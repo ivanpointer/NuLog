@@ -41,10 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activators\Layouts\StandardLayoutActivator.cs" />
-    <Compile Include="Activators\Layouts\StandardLayoutParserActivator.cs" />
-    <Compile Include="Activators\Layouts\StandardPropertyParserActivator.cs" />
-    <Compile Include="Activators\LogFactoryActivatorBase.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\RuleConfig.cs" />
     <Compile Include="Configuration\TagGroupConfig.cs" />
@@ -56,11 +52,9 @@
     <Compile Include="Dispatchers\TagRouters\ITagRouter.cs" />
     <Compile Include="Dispatchers\TagRouters\Rule.cs" />
     <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
-    <Compile Include="Factories\StandardLogFactory.cs" />
-    <Compile Include="IActivatorRegistry.cs" />
+    <Compile Include="Factories\StandardLoggerFactory.cs" />
     <Compile Include="ILogEvent.cs" />
-    <Compile Include="ILogFactory.cs" />
-    <Compile Include="ILogFactoryActivator.cs" />
+    <Compile Include="ILoggerFactory.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="LogFactoryActivatorNull.cs" />
     <Compile Include="Loggers\IMetaDataProvider.cs" />
@@ -88,7 +82,6 @@
     <Compile Include="Targets\DebugTarget.cs" />
     <Compile Include="Targets\ILayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
-    <Compile Include="Targets\StreamTarget.cs" />
     <Compile Include="Targets\TargetBase.cs" />
   </ItemGroup>
   <ItemGroup />

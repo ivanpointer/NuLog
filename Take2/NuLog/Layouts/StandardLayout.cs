@@ -98,7 +98,7 @@ namespace NuLog.Layouts
             switch (parameter.Path)
             {
                 case "Tags":
-                    return string.Join(",", logEvent.Tags);
+                    return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
 
                 case "Exception":
                     return FormatException(logEvent.Exception);

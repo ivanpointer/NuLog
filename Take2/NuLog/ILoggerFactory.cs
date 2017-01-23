@@ -2,20 +2,20 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-using NuLog.Configuration;
+using NuLog.Loggers;
 using System.Collections.Generic;
 
 namespace NuLog
 {
     /// <summary>
-    /// Defines the expected behavior of a log factory. The log factory is responsible for providing
+    /// Defines the expected behavior of a logger factory. The logger factory is responsible for providing
     /// instances of the various parts of the NuLog system.
     /// </summary>
-    public interface ILogFactory
+    public interface ILoggerFactory
     {
         /// <summary>
-        /// Get the targets defined in the given target config.
+        /// Gets a logger.
         /// </summary>
-        ICollection<ITarget> GetTargets(IEnumerable<TargetConfig> targetConfigs);
+        ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags);
     }
 }

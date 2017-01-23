@@ -6,7 +6,6 @@ using FakeItEasy;
 using NuLog.LogEvents;
 using NuLog.Targets;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Xunit;
 
@@ -97,29 +96,6 @@ namespace NuLog.Tests.Unit.Targets
                     Message = "hello, world!"
                 });
             });
-        }
-    }
-
-    /// <summary>
-    /// A trace listener that simply dumps trace messages into a hash set.
-    /// </summary>
-    internal class HashSetTraceListener : TraceListener
-    {
-        public HashSet<string> Messages { get; private set; }
-
-        public HashSetTraceListener()
-        {
-            Messages = new HashSet<string>();
-        }
-
-        public override void Write(string message)
-        {
-            Messages.Add(message);
-        }
-
-        public override void WriteLine(string message)
-        {
-            Messages.Add(message);
         }
     }
 }

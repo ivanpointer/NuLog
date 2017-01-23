@@ -2,6 +2,8 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using System.Collections.Generic;
+
 namespace NuLog.Dispatchers.TagRouters
 {
     /// <summary>
@@ -18,6 +20,6 @@ namespace NuLog.Dispatchers.TagRouters
         /// <summary>
         /// The aliases for the base tag
         /// </summary>
-        public string[] Aliases { get; set; }
+        public ICollection<string> Aliases { get; set; }
     }
 }

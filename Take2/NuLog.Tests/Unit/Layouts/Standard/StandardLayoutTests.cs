@@ -296,6 +296,40 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         }
 
         /// <summary>
+        /// The formatter should be able to handle a null list of tags.
+        /// </summary>
+        [Fact(DisplayName = "Should_IgnoreNullTagsSpecial")]
+        public void Should_IgnoreNullTagsSpecial()
+        {
+            // Setup
+            var parms = new List<LayoutParameter>
+            {
+                new LayoutParameter
+                {
+                    Path = "Tags"
+                }
+            };
+            var logEvent = new LogEvent
+            {
+                Tags = null // Explicitly null
+            };
+            var paramParser = A.Fake<IPropertyParser>();
+
+            // Notice we don't setup a mock for the meta data or property - that's because we expect
+            // this to be processed before it even gets to that point - special properties are
+            // handled first.
+
+            // Build our layout
+            var layout = GetLayout(parms, paramParser);
+
+            // Execute
+            var formatted = layout.Format(logEvent);
+
+            // Verify
+            Assert.Equal("", formatted);
+        }
+
+        /// <summary>
         /// An exception is handled as a special parameter.
         /// </summary>
         [Fact(DisplayName = "Should_FormatExceptionSpecial")]
