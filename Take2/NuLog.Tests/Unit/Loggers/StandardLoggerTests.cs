@@ -443,6 +443,26 @@ namespace NuLog.Tests.Unit.Loggers
             Assert.Equal("Hodgenville, KY", logEvent.MetaData["Birthplace"]);
         }
 
+        /// <summary>
+        /// The logger should add an "exception" tag, when an exception is included in the log call,
+        /// for deferred dispatch.
+        /// </summary>
+        [Fact(DisplayName = "Should_IncludeExceptionTagOnException")]
+        public void Should_IncludeExceptionTagOnException()
+        {
+            // Setup
+            var dispatcher = new StubDispatcher<LogEvent>();
+            var logger = GetLogger(dispatcher);
+            var exception = new Exception("Caught me!");
+
+            // Execute
+            logger.Log(exception, "Hello, World!");
+
+            // Validate
+            var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
+            Assert.Contains("exception", logEvent.Tags);
+        }
+
         #endregion Exception Tests
 
         #region Tags - Simple Tests
@@ -565,10 +585,11 @@ namespace NuLog.Tests.Unit.Loggers
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
-            Assert.Equal(3, logEvent.Tags.Count());
+            Assert.Equal(4, logEvent.Tags.Count());
             Assert.Contains("george", logEvent.Tags);
             Assert.Contains("willy", logEvent.Tags);
             Assert.Contains("fred", logEvent.Tags);
+            Assert.Contains("exception", logEvent.Tags);
             Assert.Equal(exception, logEvent.Exception);
         }
 
@@ -588,10 +609,11 @@ namespace NuLog.Tests.Unit.Loggers
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();
-            Assert.Equal(3, logEvent.Tags.Count());
+            Assert.Equal(4, logEvent.Tags.Count());
             Assert.Contains("george", logEvent.Tags);
             Assert.Contains("willy", logEvent.Tags);
             Assert.Contains("fred", logEvent.Tags);
+            Assert.Contains("exception", logEvent.Tags);
             Assert.Equal(exception, logEvent.Exception);
         }
 
@@ -617,10 +639,11 @@ namespace NuLog.Tests.Unit.Loggers
 
             // Validate
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
-            Assert.Equal(3, logEvent.Tags.Count());
+            Assert.Equal(4, logEvent.Tags.Count());
             Assert.Contains("george", logEvent.Tags);
             Assert.Contains("willy", logEvent.Tags);
             Assert.Contains("fred", logEvent.Tags);
+            Assert.Contains("exception", logEvent.Tags);
             Assert.Equal(exception, logEvent.Exception);
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -649,10 +672,11 @@ namespace NuLog.Tests.Unit.Loggers
 
             // Validate
             var logEvent = dispatcher.DispatchNowEvents.Single();
-            Assert.Equal(3, logEvent.Tags.Count());
+            Assert.Equal(4, logEvent.Tags.Count());
             Assert.Contains("george", logEvent.Tags);
             Assert.Contains("willy", logEvent.Tags);
             Assert.Contains("fred", logEvent.Tags);
+            Assert.Contains("exception", logEvent.Tags);
             Assert.Equal(exception, logEvent.Exception);
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
