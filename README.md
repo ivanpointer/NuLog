@@ -9,6 +9,9 @@ _Written in C# for .NET_
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
 
+## 1/23/2017 - Good progress.  Nearing performance and memory tuning.
+I've got the tests built out up through the logger factory, and into the log manager.  I've got a little more work to do in the log manager, then I'll be ready to start looking into building out the various targets, and performance and memory tuning.  I'm coming into another work week, so development will slow until next weekend.
+
 ## 1/21/2017 - Cancel IoC.
 Adding an IoC framework (like Ninject), will add that as a dependency to using NuLog.  I don't want any extra dependencies, so I'll just use a factory pattern to handle DI for NuLog.
 
@@ -17,7 +20,7 @@ I'm switching to AppVeyor - a lot of the other open source projects I've seen us
 
 I've got to figure out how to get AppVeyor to automatically run xUnit tests.  I've listed the assembly for the tests, but I'm unsure if it's actually running the tests.  I suppose I can break a test and sync it to GitHub to see if the build fails...
 
-## 1/18/2017 - Slowing down - tying it together
+## 1/18/2017 - Slowing down - Tying it together
 Development is slowing a bit; I've got much of the "core" functionality built out.  By using the DIP, and TDD, NuLog has a highly modular design, but, this means building out the functional system takes an unwieldly number of classes.  It's time to shift my development efforts towards the factory for building everything out, and the configuration to drive the factory.  After this, the various targets need to be built out - such as for console, text files, the windows event log, etc.
 
 So now, I dig into figuring out how to approach the factory...
