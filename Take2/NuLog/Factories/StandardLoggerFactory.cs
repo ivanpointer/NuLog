@@ -138,7 +138,7 @@ namespace NuLog.Factories
 
         public ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags)
         {
-            return new StandardLogger(Dispatcher, TagNormalizer, metaDataProvider, defaultTags, DefaultMetaData);
+            return new StandardLogger(Dispatcher, TagNormalizer, metaDataProvider, defaultTags, DefaultMetaData, Config.IncludeStackFrame);
         }
 
         public virtual IDispatcher GetDispatcher()

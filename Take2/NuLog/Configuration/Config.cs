@@ -30,5 +30,11 @@ namespace NuLog.Configuration
         /// Default meta data defined within this configuration.
         /// </summary>
         public IDictionary<string, string> MetaData { get; set; }
+
+        /// <summary>
+        /// When True, creates loggers with their IncludeStackFrame flag set to true - which causes
+        /// the logger to include the stack frame in created log events.
+        /// </summary>
+        public bool IncludeStackFrame { get; set; }
     }
 }

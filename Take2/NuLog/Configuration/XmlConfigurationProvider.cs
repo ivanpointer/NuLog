@@ -27,13 +27,19 @@ namespace NuLog.Configuration
         public Config GetConfiguration()
         {
             // Stitch it all together
-            return new Config
+            var config = new Config
             {
                 Rules = ParseRules(xmlElement),
                 TagGroups = ParseTagGroups(xmlElement),
                 Targets = ParseTargets(xmlElement),
                 MetaData = ParseMetaData(xmlElement)
             };
+
+            // Get the "includeStackFrame" flag
+            config.IncludeStackFrame = GetBooleanAttribute(xmlElement, "includeStackFrame");
+
+            // Return the built config
+            return config;
         }
 
         #region Parse Rules

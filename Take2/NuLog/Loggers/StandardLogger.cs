@@ -47,9 +47,14 @@ namespace NuLog.Loggers
         protected readonly IDictionary<string, object> DefaultMetaData;
 
         /// <summary>
+        /// When True, instructs the logger to include the stack frame in the generated log event.
+        /// </summary>
+        public bool IncludeStackFrame { get; set; }
+
+        /// <summary>
         /// Sets up a new instance of the standard logger.
         /// </summary>
-        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null)
+        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null, bool includeStackFrame = false)
         {
             Dispatcher = dispatcher;
 
@@ -60,6 +65,8 @@ namespace NuLog.Loggers
             DefaultTags = tagNormalizer.NormalizeTags(defaultTags);
 
             DefaultMetaData = defaultMetaData;
+
+            IncludeStackFrame = includeStackFrame;
         }
 
         public void Log(string message, params string[] tags)
@@ -115,7 +122,7 @@ namespace NuLog.Loggers
                 MetaData = GetMetaData(metaData),
                 DateLogged = DateTime.UtcNow,
                 Thread = Thread.CurrentThread,
-                LoggingStackFrame = new StackFrame(2, false)
+                LoggingStackFrame = this.IncludeStackFrame ? new StackFrame(2, false) : null
             };
         }
 

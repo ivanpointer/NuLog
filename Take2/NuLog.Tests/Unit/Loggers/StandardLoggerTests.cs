@@ -150,6 +150,7 @@ namespace NuLog.Tests.Unit.Loggers
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
+            logger.IncludeStackFrame = true;
 
             // Execute
             logger.Log("I've been framed!");
@@ -169,6 +170,7 @@ namespace NuLog.Tests.Unit.Loggers
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
+            logger.IncludeStackFrame = true;
 
             // Execute
             logger.LogNow("I've been framed!");

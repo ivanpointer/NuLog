@@ -13,6 +13,11 @@ namespace NuLog
     public interface ILogger
     {
         /// <summary>
+        /// When True, instructs the logger to include the stack frame in the generated log event.
+        /// </summary>
+        bool IncludeStackFrame { get; set; }
+
+        /// <summary>
         /// Log a message, and return immediately, before the message has been dispatched (fire and forget).
         /// </summary>
         void Log(string message, params string[] tags);

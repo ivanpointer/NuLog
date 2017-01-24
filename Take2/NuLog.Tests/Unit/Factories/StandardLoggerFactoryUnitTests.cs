@@ -372,5 +372,25 @@ namespace NuLog.Tests.Unit.Factories
             // Verify
             Assert.NotNull(logger);
         }
+
+        /// <summary>
+        /// The factory should set the "IncludeStackFrame" flag on the logger when the config is also
+        /// set to.
+        /// </summary>
+        [Fact(DisplayName = "Should_SetStackFrameFlagOnLogger")]
+        public void Should_SetStackFrameFlagOnLogger()
+        {
+            // Setup
+            var factory = GetLogFactory(new Config
+            {
+                IncludeStackFrame = true
+            });
+
+            // Execute
+            var logger = factory.GetLogger(null, null);
+
+            // Verify
+            Assert.True(logger.IncludeStackFrame);
+        }
     }
 }

@@ -155,5 +155,22 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
             // Validate
             Assert.Equal(2, config.MetaData.Count);
         }
+
+        /// <summary>
+        /// The config provider should read the flag indicating to include stack frames in generated
+        /// log events.
+        /// </summary>
+        [Fact(DisplayName = "Should_ContainMultipleMetaDataEntries")]
+        public void Should_ReadIncludeStackFrameFlag()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog includeStackFrame=\"true\"></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.True(config.IncludeStackFrame);
+        }
     }
 }
