@@ -1,9 +1,6 @@
-﻿using NuLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 namespace NuLog.CLI.PerfTune
 {
@@ -14,8 +11,12 @@ namespace NuLog.CLI.PerfTune
     {
         private static readonly ILogger _logger = LogManager.GetLogger();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            for (var lp = 0; lp < 5000; lp++)
+            {
+                _logger.Log("Stress message " + lp);
+            }
         }
     }
 }

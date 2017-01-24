@@ -328,13 +328,18 @@ namespace NuLog.Factories
             {
                 // Signal that we're coming down
                 isDisposing = true;
-
-                if (_dispatcher != null)
-                {
-                    _dispatcher.Dispose();
-                    _dispatcher = null;
-                }
             }
+
+            if (_dispatcher != null)
+            {
+                _dispatcher.Dispose();
+                _dispatcher = null;
+            }
+        }
+
+        ~StandardLoggerFactory()
+        {
+            Dispose(false);
         }
 
         #endregion Disposal

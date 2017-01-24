@@ -111,10 +111,10 @@ namespace NuLog.Dispatchers
                 // Dispose and null out the timer
                 this.logEventQueueTimer.Dispose();
                 this.logEventQueueTimer = null;
-
-                // Flush the queue
-                ProcessLogQueue();
             }
+
+            // Flush the queue
+            ProcessLogQueue();
         }
 
         #endregion Disposal
