@@ -17,15 +17,19 @@ namespace NuLog.Layouts
 
         private readonly IDictionary<Type, IDictionary<string, PropertyInfo>> typeCache;
 
+        private readonly IDictionary<Type, bool> dictionaryTypes;
+
         public StandardPropertyParser()
         {
             this.typeCache = new Dictionary<Type, IDictionary<string, PropertyInfo>>();
+
+            this.dictionaryTypes = new Dictionary<Type, bool>();
         }
 
         public object GetProperty(object zobject, string[] path)
         {
             // Check for a null path
-            if(path == null)
+            if (path == null)
             {
                 return null;
             }
@@ -56,7 +60,7 @@ namespace NuLog.Layouts
                 var chainItem = propertyChain[depth];
 
                 // Determine if the object is a dictionary, otherwise treat it as just an object
-                if (DictionaryType.IsAssignableFrom(zobjectType) == false)
+                if (!IsDictionaryType(zobjectType))
                 {
                     // Try to get the element in the dictionary with the next name
                     var propertyDict = GetPropertyInfo(zobjectType);
@@ -97,24 +101,38 @@ namespace NuLog.Layouts
             // Check the cache to see if we already have property info for the type\ Otherwise, get
             // and cache the property info for the type
 
-            lock (typeCache)
+            if (!typeCache.ContainsKey(objectType))
             {
-                if (typeCache.ContainsKey(objectType))
+                var propertyInfo = objectType.GetProperties();
+                var dict = new Dictionary<string, PropertyInfo>();
+                foreach (var property in propertyInfo)
                 {
-                    return typeCache[objectType];
+                    dict[property.Name] = property;
                 }
-                else
-                {
-                    var propertyInfo = objectType.GetProperties();
-                    var dict = new Dictionary<string, PropertyInfo>();
-                    foreach (var property in propertyInfo)
-                    {
-                        dict[property.Name] = property;
-                    }
-                    typeCache[objectType] = dict;
-                    return dict;
-                }
+                typeCache[objectType] = dict;
+                return dict;
             }
+
+            // Return the item from the cache
+            return typeCache[objectType];
+        }
+
+        /// <summary>
+        /// Determines if the given type is the dictionary type that we traverse.
+        ///
+        /// We use a hash set to cache the types we know to be dictionary types - so we can avoid the
+        /// cost of reflection.
+        /// </summary>
+        private bool IsDictionaryType(Type objectType)
+        {
+            if (dictionaryTypes.ContainsKey(objectType))
+            {
+                return dictionaryTypes[objectType];
+            }
+
+            var isAssignable = DictionaryType.IsAssignableFrom(objectType);
+            dictionaryTypes[objectType] = isAssignable;
+            return isAssignable;
         }
     }
 }
