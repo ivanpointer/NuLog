@@ -386,5 +386,23 @@ namespace NuLog.Tests.Integration.Factories
             // Verify
             Assert.Contains("Default meta data to my logger!", this.traceListener.Messages);
         }
+
+        /// <summary>
+        /// The factory should dispose its dispatcher when the factory is disposed.
+        /// </summary>
+        [Fact(DisplayName = "Should_DisposeDispatcherOnDispose")]
+        public void Should_DisposeDispatcherOnDispose()
+        {
+            // Setup
+            var factory = GetLogFactory(new Config());
+            var logger = factory.GetLogger(null, null);
+            factory.Dispose();
+
+            // Execute / Verify
+            Assert.Throws(typeof(InvalidOperationException), () =>
+            {
+                logger.Log("Hello, world!");
+            });
+        }
     }
 }

@@ -112,5 +112,22 @@ namespace NuLog.Tests.Unit
             A.CallTo(() => factory.GetLogger(A<IMetaDataProvider>.Ignored, A<IEnumerable<string>>.Ignored))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        /// <summary>
+        /// The manager should dispose the factory when it shuts down.
+        /// </summary>
+        [Fact(DisplayName = "Should_DisposeFactoryOnShutdown")]
+        public void Should_DisposeFactoryOnShutdown()
+        {
+            // Setup
+            var factory = A.Fake<ILoggerFactory>();
+            LogManager.SetFactory(factory);
+
+            // Execute
+            LogManager.Shutdown();
+
+            // Verify
+            A.CallTo(() => factory.Dispose()).MustHaveHappened();
+        }
     }
 }

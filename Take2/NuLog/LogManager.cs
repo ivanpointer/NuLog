@@ -38,6 +38,15 @@ namespace NuLog
         }
 
         /// <summary>
+        /// Shuts down the logging operation. Shuts down the dispatcher, which should flush any
+        /// outgoing messages, and throw exceptions on any new messages.
+        /// </summary>
+        public static void Shutdown()
+        {
+            LoggerFactory.Dispose();
+        }
+
+        /// <summary>
         /// Uses reflection to get the class tag of the calling class
         /// </summary>
         private static string GetClassTag()

@@ -60,7 +60,11 @@ namespace NuLog.Factories
                 {
                     lock (FactoryLock)
                     {
-                        if (_dispatcher == null)
+                        if (isDisposing)
+                        {
+                            throw new InvalidOperationException("Cannot instantiate dispatcher after factory is disposed.");
+                        }
+                        else if (_dispatcher == null)
                         {
                             _dispatcher = GetDispatcher();
                         }
@@ -121,6 +125,11 @@ namespace NuLog.Factories
                 return _defaultMetaData;
             }
         }
+
+        /// <summary>
+        /// Used to prevent new log events from being enqueued after disposal has been initiated.
+        /// </summary>
+        private bool isDisposing;
 
         public StandardLoggerFactory(Config config)
         {
@@ -298,6 +307,37 @@ namespace NuLog.Factories
         }
 
         #endregion Config Conversions
+
+        #region Disposal
+
+        public void Dispose()
+        {
+            // Signal a true disposal
+            Dispose(true);
+
+            // Tell the GC that we've got it
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// The bulk of the clean-up code is implemented in Dispose(bool)
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Signal that we're coming down
+                isDisposing = true;
+
+                if (_dispatcher != null)
+                {
+                    _dispatcher.Dispose();
+                    _dispatcher = null;
+                }
+            }
+        }
+
+        #endregion Disposal
 
         #region Internals
 
