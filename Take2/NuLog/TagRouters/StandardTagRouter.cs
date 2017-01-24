@@ -4,7 +4,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Dispatchers.TagRouters;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace NuLog.TagRouters
 {
@@ -53,7 +53,12 @@ namespace NuLog.TagRouters
         /// </summary>
         private static string BuildTagsKey(IEnumerable<string> tags)
         {
-            return string.Join(";", tags.OrderBy(s => s));
+            var sb = new StringBuilder();
+            foreach (var tag in tags)
+            {
+                sb.Append(tag + ";");
+            }
+            return sb.ToString();
         }
     }
 }

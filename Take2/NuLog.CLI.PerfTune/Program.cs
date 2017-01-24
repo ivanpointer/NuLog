@@ -18,9 +18,15 @@ namespace NuLog.CLI.PerfTune
             Console.WriteLine("Press [Enter] to begin...");
             Console.ReadLine();
 
-            for (var lp = 0; lp < 10000; lp++)
+            for (var times = 0; times < 3; times++)
             {
-                _logger.Log("Stress message " + lp);
+                for (var lp = 0; lp < 10000; lp++)
+                {
+                    _logger.Log("Stress message " + lp);
+                }
+
+                Console.WriteLine("Press [Enter] to continue...");
+                Console.ReadLine();
             }
 
             LogManager.Shutdown();

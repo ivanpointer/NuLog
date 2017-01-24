@@ -37,6 +37,11 @@ namespace NuLog.Layouts
         private readonly IPropertyParser propertyParser;
 
         /// <summary>
+        /// A cache of split paths.
+        /// </summary>
+        private readonly IDictionary<string, string[]> splitPathCache;
+
+        /// <summary>
         /// Constructs a new instance of this standard layout, with the given parameters and property parser.
         /// </summary>
         public StandardLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser)
@@ -44,6 +49,8 @@ namespace NuLog.Layouts
             this.layoutParameters = layoutParameters;
 
             this.propertyParser = propertyParser;
+
+            this.splitPathCache = new Dictionary<string, string[]>();
         }
 
         public string Format(LogEvent logEvent)
@@ -78,7 +85,7 @@ namespace NuLog.Layouts
                 if (parameterValue == null)
                 {
                     // Split out our path
-                    var path = parameter.Path.Split('.');
+                    var path = GetSplitPath(parameter.Path);
 
                     // Try the meta data
                     parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent.MetaData, path);
@@ -94,6 +101,21 @@ namespace NuLog.Layouts
 
                 return parameterString;
             }
+        }
+
+        /// <summary>
+        /// Gets the split path. The "split" operation is so expensive, that we should cache this.
+        /// </summary>
+        private string[] GetSplitPath(string path)
+        {
+            if (splitPathCache.ContainsKey(path))
+            {
+                return splitPathCache[path];
+            }
+
+            var splitPath = path.Split('.');
+            splitPathCache[path] = splitPath;
+            return splitPath;
         }
 
         /// <summary>
