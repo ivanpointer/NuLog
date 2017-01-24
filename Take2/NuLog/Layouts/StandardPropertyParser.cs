@@ -4,7 +4,6 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace NuLog.Layouts
@@ -14,39 +13,25 @@ namespace NuLog.Layouts
     /// </summary>
     public class StandardPropertyParser : IPropertyParser
     {
-        private readonly IDictionary<Type, PropertyInfo[]> typeCache;
+        private static readonly Type DictionaryType = typeof(IDictionary<string, object>);
+
+        private readonly IDictionary<Type, IDictionary<string, PropertyInfo>> typeCache;
 
         public StandardPropertyParser()
         {
-            this.typeCache = new Dictionary<Type, PropertyInfo[]>();
+            this.typeCache = new Dictionary<Type, IDictionary<string, PropertyInfo>>();
         }
 
-        public object GetProperty(object zobject, string path)
+        public object GetProperty(object zobject, string[] path)
         {
-            // Make sure the path has something
-            if (string.IsNullOrWhiteSpace(path))
+            // Check for a null path
+            if(path == null)
             {
                 return null;
             }
 
-            // Split out our property chain and pass off
-            var propertyChain = path.Split('.');
-            return GetProperty(zobject, propertyChain);
-        }
-
-        private object GetProperty(object zobject, ICollection<string> propertyChain)
-        {
-            object property = null;
-
-            if (propertyChain != null && propertyChain.Count > 0)
-            {
-                // Recurse the object, looking for the property
-                property = property == null
-                    ? GetPropertyRecurse(zobject, propertyChain)
-                    : property;
-            }
-
-            return property;
+            // Recurse it
+            return GetPropertyRecurse(zobject, path);
         }
 
         /// <summary>
@@ -56,10 +41,10 @@ namespace NuLog.Layouts
         /// The complexity (cyclomatic) of this one is going to be high, which may not be avoidable,
         /// as this is no-kidding recursion.
         /// </summary>
-        private object GetPropertyRecurse(object zobject, ICollection<string> propertyChain, int depth = 0)
+        private object GetPropertyRecurse(object zobject, string[] propertyChain, int depth = 0)
         {
             // Exit condition
-            if (zobject == null || depth >= propertyChain.Count)
+            if (zobject == null || depth >= propertyChain.Length)
             {
                 // Either we have hit a dead-end (null) Or we have reached the end of the name chain
                 // (depth) and we have our value
@@ -67,12 +52,17 @@ namespace NuLog.Layouts
             }
             else
             {
+                var zobjectType = zobject.GetType();
+                var chainItem = propertyChain[depth];
+
                 // Determine if the object is a dictionary, otherwise treat it as just an object
-                if (typeof(IDictionary<string, object>).IsAssignableFrom(zobject.GetType()) == false)
+                if (DictionaryType.IsAssignableFrom(zobjectType) == false)
                 {
                     // Try to get the element in the dictionary with the next name
-                    var propertyList = GetPropertyInfo(zobject.GetType());
-                    var propertyInfo = propertyList.Where(_ => _.Name == propertyChain.ElementAt(depth)).FirstOrDefault();
+                    var propertyDict = GetPropertyInfo(zobjectType);
+                    var propertyInfo = propertyDict.ContainsKey(chainItem)
+                        ? propertyDict[chainItem]
+                        : null;
                     if (propertyInfo != null)
                     {
                         return GetPropertyRecurse(propertyInfo.GetValue(zobject, null), propertyChain, depth + 1);
@@ -86,10 +76,9 @@ namespace NuLog.Layouts
                 {
                     // Try to get the property of the object with the next name
                     var dictionary = (IDictionary<string, object>)zobject;
-                    var key = propertyChain.ElementAt(depth);
-                    if (dictionary.ContainsKey(key))
+                    if (dictionary.ContainsKey(chainItem))
                     {
-                        return GetPropertyRecurse(dictionary[key], propertyChain, depth + 1);
+                        return GetPropertyRecurse(dictionary[chainItem], propertyChain, depth + 1);
                     }
                     else
                     {
@@ -103,7 +92,7 @@ namespace NuLog.Layouts
         /// A property for retrieving the PropertyInfo of an object type Uses caching because the
         /// work of getting th properties of an object type is expensive.
         /// </summary>
-        private PropertyInfo[] GetPropertyInfo(Type objectType)
+        private IDictionary<string, PropertyInfo> GetPropertyInfo(Type objectType)
         {
             // Check the cache to see if we already have property info for the type\ Otherwise, get
             // and cache the property info for the type
@@ -117,8 +106,13 @@ namespace NuLog.Layouts
                 else
                 {
                     var propertyInfo = objectType.GetProperties();
-                    typeCache[objectType] = propertyInfo;
-                    return propertyInfo;
+                    var dict = new Dictionary<string, PropertyInfo>();
+                    foreach (var property in propertyInfo)
+                    {
+                        dict[property.Name] = property;
+                    }
+                    typeCache[objectType] = dict;
+                    return dict;
                 }
             }
         }

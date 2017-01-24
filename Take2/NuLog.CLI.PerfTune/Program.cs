@@ -2,6 +2,8 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using System;
+
 namespace NuLog.CLI.PerfTune
 {
     /// <summary>
@@ -13,10 +15,17 @@ namespace NuLog.CLI.PerfTune
 
         private static void Main(string[] args)
         {
-            for (var lp = 0; lp < 5000; lp++)
+            Console.WriteLine("Press [Enter] to begin...");
+            Console.ReadLine();
+
+            for (var lp = 0; lp < 10000; lp++)
             {
                 _logger.Log("Stress message " + lp);
             }
+
+            LogManager.Shutdown();
+            Console.WriteLine("Press [Enter] to exit...");
+            Console.ReadLine();
         }
     }
 }

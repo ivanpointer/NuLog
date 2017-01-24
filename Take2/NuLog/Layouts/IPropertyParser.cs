@@ -19,6 +19,6 @@ namespace NuLog.Layouts
         /// <param name="zobject">The object to traverse, looking for the path.</param>
         /// <param name="path">   The path to the desired property.</param>
         /// <returns>The property at the given path within the object, or null if not found.</returns>
-        object GetProperty(object zobject, string path);
+        object GetProperty(object zobject, string[] path);
     }
 }

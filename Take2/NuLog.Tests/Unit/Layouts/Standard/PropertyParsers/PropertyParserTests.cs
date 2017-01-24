@@ -49,7 +49,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zobject, "");
+            var value = parser.GetProperty(zobject, new string[] { "" });
 
             // Verify
             Assert.Null(value);
@@ -69,7 +69,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zobject, "Hello");
+            var value = parser.GetProperty(zobject, new string[] { "Hello" });
 
             // Verify
             Assert.Equal(zobject.Hello, value);
@@ -90,7 +90,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zobject, "MyDate");
+            var value = parser.GetProperty(zobject, new string[] { "MyDate" });
 
             // Verify
             Assert.Equal(zobject.MyDate, value);
@@ -110,7 +110,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zobject, "MyDate.Day");
+            var value = parser.GetProperty(zobject, new string[] { "MyDate", "Day" });
 
             // Verify
             Assert.Equal(16, value);
@@ -134,7 +134,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zdict, "ZObject.Hello");
+            var value = parser.GetProperty(zdict, new string[] { "ZObject", "Hello" });
 
             // Verify
             Assert.Equal("Howdy", value);
@@ -159,7 +159,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
             var parser = GetPropertyParser();
 
             // Execute
-            var value = parser.GetProperty(zobject, "MyStuffs.ZObject.Hello");
+            var value = parser.GetProperty(zobject, new string[] { "MyStuffs", "ZObject", "Hello" });
 
             // Verify
             Assert.Equal("Hey There!", value);

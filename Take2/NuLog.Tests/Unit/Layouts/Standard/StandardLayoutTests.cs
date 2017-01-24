@@ -62,12 +62,12 @@ namespace NuLog.Tests.Unit.Layouts.Standard
 
             // The standard layout looks at the meta first, and FakeItEasy returns an object by
             // default - instead of null. We need to override this default behavior to return null here...
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "Message"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("Message")))
                 .Returns(null);
 
             // Now, setup our mock parameter parser to return "hello, world!" when asked for
             // "Message" from the log event
-            A.CallTo(() => paramParser.GetProperty(logEvent, "Message"))
+            A.CallTo(() => paramParser.GetProperty(logEvent, A<string[]>.That.Contains("Message")))
                 .Returns("hello, world!");
 
             // Build our layout
@@ -98,7 +98,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Setup the response for some meta
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "SomeMeta"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("SomeMeta")))
                 .Returns(new DateTime(2017, 1, 16, 12, 1, 42));
 
             // Build our layout
@@ -130,9 +130,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Setup the response for our properties
-            A.CallTo(() => paramParser.GetProperty(logEvent, "Message"))
+            A.CallTo(() => paramParser.GetProperty(logEvent, A<string[]>.That.Contains("Message")))
                 .Returns("Me!");
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "Message"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("Message")))
                 .Returns("No, me!");
 
             // Build our layout
@@ -165,12 +165,12 @@ namespace NuLog.Tests.Unit.Layouts.Standard
 
             // The standard layout looks at the meta first, and FakeItEasy returns an object by
             // default - instead of null. We need to override this default behavior to return null here...
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "DateLogged"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("DateLogged")))
                 .Returns(null);
 
             // Now, setup our mock parameter parser to return "hello, world!" when asked for
             // "Message" from the log event
-            A.CallTo(() => paramParser.GetProperty(logEvent, "DateLogged"))
+            A.CallTo(() => paramParser.GetProperty(logEvent, A<string[]>.That.Contains("DateLogged")))
                 .Returns(new DateTime(2017, 1, 16, 12, 1, 42));
 
             // Build our layout
@@ -208,7 +208,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Set a return value in meta because it's easier.
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "MyStuffs"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("MyStuffs")))
                 .Returns("Super!");
 
             // Build our layout
@@ -246,9 +246,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Setup our returns
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "MyStuffs"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("MyStuffs")))
                 .Returns(null);
-            A.CallTo(() => paramParser.GetProperty(logEvent, "MyStuffs"))
+            A.CallTo(() => paramParser.GetProperty(logEvent, A<string[]>.That.Contains("MyStuffs")))
                 .Returns(null);
 
             // Build our layout
@@ -416,7 +416,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Set a return value in meta
-            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, "Enumerable"))
+            A.CallTo(() => paramParser.GetProperty(logEvent.MetaData, A<string[]>.That.Contains("Enumerable")))
                 .Returns(new ToStringTestClass[] {
                     new ToStringTestClass
                     {
@@ -456,7 +456,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
             var paramParser = A.Fake<IPropertyParser>();
 
             // Set a return value in meta - null
-            A.CallTo(() => paramParser.GetProperty(A<object>.Ignored, A<string>.Ignored))
+            A.CallTo(() => paramParser.GetProperty(A<object>.Ignored, A<string[]>.Ignored))
                 .Returns(null);
 
             // Build our layout

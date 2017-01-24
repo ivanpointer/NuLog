@@ -74,11 +74,18 @@ namespace NuLog.Layouts
                 // Check for special parameters
                 var parameterValue = GetSpecialParameter(logEvent, parameter);
 
-                // Try the meta data
-                parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent.MetaData, parameter.Path);
+                // If we don't yet have the value, try to recurse it
+                if (parameterValue == null)
+                {
+                    // Split out our path
+                    var path = parameter.Path.Split('.');
 
-                // Try the log event itself
-                parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent, parameter.Path);
+                    // Try the meta data
+                    parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent.MetaData, path);
+
+                    // Try the log event itself
+                    parameterValue = parameterValue ?? this.propertyParser.GetProperty(logEvent, path);
+                }
 
                 // If the parameter was not handled as a special parameter, treat it as a normal parameter
                 var parameterString = !parameter.Contingent || !IsNullOrEmptyString(parameterValue)
@@ -154,11 +161,13 @@ namespace NuLog.Layouts
             }
 
             // If not, check to see if it's enumerable (but not a string).
-            var valueType = value.GetType();
-
-            if (stringType.IsAssignableFrom(valueType) || iEnumerableType.IsAssignableFrom(valueType) == false)
+            if (value is string)
             {
-                // It's a string, or it's not enumerable, just convert it to a string.
+                return (string)value;
+            }
+            else if (iEnumerableType.IsAssignableFrom(value.GetType()) == false)
+            {
+                // It's not enumerable, just convert it to a string.
                 return Convert.ToString(value);
             }
             else

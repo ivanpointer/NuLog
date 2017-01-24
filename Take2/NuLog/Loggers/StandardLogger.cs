@@ -115,7 +115,7 @@ namespace NuLog.Loggers
                 MetaData = GetMetaData(metaData),
                 DateLogged = DateTime.UtcNow,
                 Thread = Thread.CurrentThread,
-                LoggingStackFrame = new StackFrame(2)
+                LoggingStackFrame = new StackFrame(2, false)
             };
         }
 
