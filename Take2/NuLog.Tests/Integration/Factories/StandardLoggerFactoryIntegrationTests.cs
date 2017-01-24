@@ -404,5 +404,72 @@ namespace NuLog.Tests.Integration.Factories
                 logger.Log("Hello, world!");
             });
         }
+
+        /// <summary>
+        /// All log events should be flushed when the factory is disposed.
+        /// </summary>
+        [Fact(DisplayName = "Should_FlushAllLogEventsOnDispose")]
+        public void Should_FlushAllLogEventsOnDispose()
+        {
+            // Setup
+            var config = new Config
+            {
+                Targets = new List<TargetConfig>
+                {
+                    new TargetConfig
+                    {
+                        Name = "slow",
+                        Type = typeof(SlowTarget).AssemblyQualifiedName
+                    }
+                },
+                Rules = new List<RuleConfig>
+                {
+                    new RuleConfig
+                    {
+                        Includes = new string[] { "*" },
+                        Targets = new string[] { "slow" }
+                    }
+                }
+            };
+
+            // Execute
+            using (var factory = GetLogFactory(config))
+            {
+                var logger = factory.GetLogger(null, null);
+                for (var lp = 0; lp < 5; lp++)
+                {
+                    logger.Log("Message " + lp, "tag");
+                }
+            }
+
+            // Verify
+            Assert.Equal(5, SlowTarget.CallCount);
+        }
+    }
+
+    /// <summary>
+    /// A slow target, for testing to make sure that all messages get flushed on dispose.
+    /// </summary>
+    internal class SlowTarget : ITarget
+    {
+        public string Name { get; set; }
+
+        public static int CallCount;
+
+        public void Configure(TargetConfig config)
+        {
+            // nope
+        }
+
+        public void Dispose()
+        {
+            // nope
+        }
+
+        public void Write(LogEvent logEvent)
+        {
+            Thread.Sleep(100);
+            CallCount++;
+        }
     }
 }

@@ -118,6 +118,24 @@ namespace NuLog.Tests.Unit.Dispatchers
         }
 
         /// <summary>
+        /// The dispatcher should dispose its targets, when it is disposed.
+        /// </summary>
+        [Fact(DisplayName = "Should_DisposeTargetsOnDispose")]
+        public void Should_DisposeTargetsOnDispose()
+        {
+            // Setup
+            var target = FakeTarget("fake_target");
+            var tagRouter = FakeTagRouter();
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter);
+
+            // Execute
+            dispatcher.Dispose();
+
+            // Verify
+            A.CallTo(() => target.Dispose()).MustHaveHappened();
+        }
+
+        /// <summary>
         /// Setup a fake target.
         /// </summary>
         protected static ITarget FakeTarget(string name)

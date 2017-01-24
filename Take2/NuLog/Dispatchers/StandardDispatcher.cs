@@ -115,6 +115,12 @@ namespace NuLog.Dispatchers
 
             // Flush the queue
             ProcessLogQueue();
+
+            // Dispose the targets
+            foreach (var target in this.targets)
+            {
+                target.Dispose();
+            }
         }
 
         #endregion Disposal
