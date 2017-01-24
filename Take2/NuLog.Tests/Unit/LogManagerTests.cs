@@ -129,5 +129,16 @@ namespace NuLog.Tests.Unit
             // Verify
             A.CallTo(() => factory.Dispose()).MustHaveHappened();
         }
+
+        /// <summary>
+        /// The manager should use the standard factory, if one isn't given.
+        /// </summary>
+        [Fact(DisplayName = "Should_ImplementStandardFactoryIfNotGiven")]
+        public void Should_ImplementStandardFactoryIfNotGiven()
+        {
+            // Setup / Execute
+            var logger = LogManager.GetLogger();
+            Assert.NotNull(logger);
+        }
     }
 }

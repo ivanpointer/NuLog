@@ -29,8 +29,8 @@ namespace NuLog.Tests.Integration.Configuration
             // Verify
             var target = config.Targets.Single();
             Assert.Equal("stream", target.Name);
-            Assert.Equal("NuLog.Targets.StreamTarget", target.Type);
-            Assert.Equal("some layout", target.Properties["layout"]);
+            Assert.Equal("NuLog.Targets.DebugTarget", target.Type);
+            Assert.Equal("${Message}", target.Properties["layout"]);
 
             var rule = config.Rules.Single();
             Assert.Contains("one_tag", rule.Includes);
