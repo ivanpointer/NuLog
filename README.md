@@ -9,7 +9,12 @@ _Written in C# for .NET_
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
 
-## 1/23/2017 - Good progress.  Nearing performance and memory tuning.
+## 1/23/2017 - Core functionality done.  Performance and memory tuning done.  Targets next.
+I've got the core functionality for NuLog in place.  The performance and memory tuning are done for this round of development.  Next, I start fleshing out common targets, like file, SMTP and Windows event logs.
+
+Also, I need some tests around making sure that all log events are dispatched when the system is shutting down.  I failed TDD when I added a finalizer to the logger factory, without writing unit tests to test that the finalizer actually makes sure that the log events are all flushed before disposal.
+
+## 1/22/2017 - Good progress.  Nearing performance and memory tuning.
 I've got the tests built out up through the logger factory, and into the log manager.  I've got a little more work to do in the log manager, then I'll be ready to start looking into building out the various targets, and performance and memory tuning.  I'm coming into another work week, so development will slow until next weekend.
 
 ## 1/21/2017 - Cancel IoC.
