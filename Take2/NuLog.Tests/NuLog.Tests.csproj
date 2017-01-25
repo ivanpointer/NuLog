@@ -97,6 +97,7 @@
     <Compile Include="Unit\TagRouters\TagGroupProcessors\TagGroupProcessorTests.cs" />
     <Compile Include="Unit\Targets\DebugTargetTests.cs" />
     <Compile Include="Unit\Targets\LayoutTargetBaseTests.cs" />
+    <Compile Include="Unit\Targets\TextFileTargetTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

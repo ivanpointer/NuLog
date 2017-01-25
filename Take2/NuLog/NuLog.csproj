@@ -84,6 +84,7 @@
     <Compile Include="Targets\ILayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
     <Compile Include="Targets\TargetBase.cs" />
+    <Compile Include="Targets\TextFileTarget.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
