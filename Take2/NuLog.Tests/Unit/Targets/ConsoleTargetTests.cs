@@ -113,7 +113,8 @@ namespace NuLog.Tests.Unit.Targets
             logger.Write(new LogEvent());
 
             // Validate
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Green background!" && m.BackgroundColor == ConsoleColor.DarkGreen));
+            var message = this.textWriter.ConsoleMessages.Single(m => m.Message == "Green background!");
+            Assert.Equal(ConsoleColor.DarkGreen, message.BackgroundColor);
         }
 
         /// <summary>
@@ -162,7 +163,8 @@ namespace NuLog.Tests.Unit.Targets
             logger.Write(new LogEvent());
 
             // Validate
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Red foreground!" && m.ForegroundColor == ConsoleColor.Red));
+            var message = this.textWriter.ConsoleMessages.Single(m => m.Message == "Red foreground!");
+            Assert.Equal(ConsoleColor.Red, message.ForegroundColor);
         }
 
         /// <summary>
