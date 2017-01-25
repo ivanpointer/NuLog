@@ -79,6 +79,7 @@
     <Compile Include="TagRouters\RuleProcessors\StandardRuleProcessor.cs" />
     <Compile Include="TagRouters\StandardTagRouter.cs" />
     <Compile Include="TagRouters\TagGroupProcessors\StandardTagGroupProcessor.cs" />
+    <Compile Include="Targets\ConsoleTarget.cs" />
     <Compile Include="Targets\DebugTarget.cs" />
     <Compile Include="Targets\ILayout.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
