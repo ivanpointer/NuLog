@@ -18,10 +18,11 @@ namespace NuLog.Tests.Unit.Targets
     /// <summary>
     /// Documents (and verifies) the expected behavior of the console target.
     /// </summary>
+    [Collection("ConsoleTargetTests")]
     [Trait("Category", "Unit")]
     public class ConsoleTargetTests : IDisposable
     {
-        private readonly DummyTextWriter textWriter;
+        protected readonly DummyTextWriter textWriter;
 
         private readonly TextWriter consoleTextWriter;
 
@@ -89,35 +90,6 @@ namespace NuLog.Tests.Unit.Targets
         }
 
         /// <summary>
-        /// The console logger should set the background color, if configured.
-        /// </summary>
-        [Fact(DisplayName = "Should_SetBackgroundColor")]
-        public void Should_SetBackgroundColor()
-        {
-            // Setup
-            var logger = new ConsoleTarget();
-            logger.Configure(new TargetConfig
-            {
-                Properties = new Dictionary<string, object>
-                {
-                    { "background", "DarkGreen" }
-                }
-            });
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
-
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
-                .Returns("Green background!");
-
-            // Execute
-            logger.Write(new LogEvent());
-
-            // Validate
-            var message = this.textWriter.ConsoleMessages.Single(m => m.Message == "Green background!");
-            Assert.Equal(ConsoleColor.DarkGreen, message.BackgroundColor);
-        }
-
-        /// <summary>
         /// The default background color should be used, when not explicitly set.
         /// </summary>
         [Fact(DisplayName = "Should_UseDefaultBackgroud")]
@@ -136,35 +108,6 @@ namespace NuLog.Tests.Unit.Targets
 
             // Validate
             Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Default background!" && m.BackgroundColor == defaultBackgroundColor));
-        }
-
-        /// <summary>
-        /// The console logger should set the foreground color, if configured.
-        /// </summary>
-        [Fact(DisplayName = "Should_SetForegroundColor")]
-        public void Should_SetForegroundColor()
-        {
-            // Setup
-            var logger = new ConsoleTarget();
-            logger.Configure(new TargetConfig
-            {
-                Properties = new Dictionary<string, object>
-                {
-                    { "foreground", "Red" }
-                }
-            });
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
-
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
-                .Returns("Red foreground!");
-
-            // Execute
-            logger.Write(new LogEvent());
-
-            // Validate
-            var message = this.textWriter.ConsoleMessages.Single(m => m.Message == "Red foreground!");
-            Assert.Equal(ConsoleColor.Red, message.ForegroundColor);
         }
 
         /// <summary>
@@ -227,7 +170,7 @@ namespace NuLog.Tests.Unit.Targets
     /// <summary>
     /// Stores a console message, including the text, and the colors at the time of writing.
     /// </summary>
-    internal class ConsoleMessage
+    public class ConsoleMessage
     {
         /// <summary>
         /// The background color at the time the message was written.
@@ -249,7 +192,7 @@ namespace NuLog.Tests.Unit.Targets
     /// A dummy text writer, which stores the messages written to it, and records the console's
     /// foreground and background colors at the time of writing.
     /// </summary>
-    internal class DummyTextWriter : TextWriter
+    public class DummyTextWriter : TextWriter
     {
         public List<ConsoleMessage> ConsoleMessages { get; private set; }
 

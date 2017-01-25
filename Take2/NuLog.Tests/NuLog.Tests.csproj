@@ -86,6 +86,7 @@
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
     <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
+    <Compile Include="Unit\Targets\ConsoleTargetXCludeTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
     <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
