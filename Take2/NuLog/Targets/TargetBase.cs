@@ -32,6 +32,12 @@ namespace NuLog.Targets
         /// </summary>
         protected TProperty GetProperty<TProperty>(TargetConfig config, string propertyName)
         {
+            // If the config doesn't have any properties, return the default for the type
+            if (config.Properties == null)
+            {
+                return default(TProperty);
+            }
+
             // Check for the property, return the default if it isn't in the config
             if (config.Properties.ContainsKey(propertyName) == false)
             {

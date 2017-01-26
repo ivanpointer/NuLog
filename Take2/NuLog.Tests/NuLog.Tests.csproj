@@ -87,6 +87,7 @@
     <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetXCludeTests.cs" />
+    <Compile Include="Unit\Targets\MailTargetTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
     <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />
     <Compile Include="Unit\TagNormalizerTests.cs" />
@@ -99,7 +100,9 @@
     <Compile Include="Unit\Targets\LayoutTargetBaseTests.cs" />
     <Compile Include="Unit\Targets\TextFileTargetTests.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Integration\Targets\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>

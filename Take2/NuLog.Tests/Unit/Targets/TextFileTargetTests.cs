@@ -71,6 +71,42 @@ namespace NuLog.Tests.Unit.Targets
             Assert.Equal("Should use layout!", text);
         }
 
+        /// <summary>
+        /// The text file target should write multiple lines to the text file.
+        /// </summary>
+        [Fact(DisplayName = "Should_WriteMultipleLines")]
+        public void Should_WriteMultipleLines()
+        {
+            // Setup
+            var target = new TextFileTarget();
+            var layout = A.Fake<ILayout>();
+            target.Configure(GetTargetConfig("Should_WriteText.txt"));
+            target.SetLayout(layout);
+
+            var event1 = new LogEvent
+            {
+                Message = "Event 1!"
+            };
+            var event2 = new LogEvent
+            {
+                Message = "Event 2!"
+            };
+
+            A.CallTo(() => layout.Format(event1))
+                .Returns("Event 1!\r\n");
+            A.CallTo(() => layout.Format(event2))
+                .Returns("Event 2!\r\n");
+
+            // Execute
+            target.Write(event1);
+            target.Write(event2);
+
+            // Verify
+            var lines = File.ReadAllLines("Should_WriteText.txt");
+            Assert.Contains("Event 1!", lines);
+            Assert.Contains("Event 2!", lines);
+        }
+
         private TargetConfig GetTargetConfig(string filePath)
         {
             testFiles.Add(filePath);

@@ -21,7 +21,7 @@ namespace NuLog.Targets
         public override void Write(LogEvent logEvent)
         {
             var message = Layout.Format(logEvent);
-            File.WriteAllText(filePath, message);
+            File.AppendAllText(filePath, message);
         }
 
         public override void Configure(TargetConfig config)

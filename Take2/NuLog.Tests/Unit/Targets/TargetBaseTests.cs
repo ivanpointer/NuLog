@@ -148,6 +148,23 @@ namespace NuLog.Tests.Unit.Targets
             Assert.Null(prop);
         }
 
+        /// <summary>
+        /// The base target should handle null properties when asked for a property, returning the
+        /// default of the type, instead.
+        /// </summary>
+        [Fact(DisplayName = "Should_HandleNullProperties")]
+        public void Should_HandleNullProperties()
+        {
+            // Setup
+            var target = new DummyTarget();
+
+            // Execute
+            var result = target.GetPropertyInternal<bool>(new TargetConfig(), "html");
+
+            // Verify
+            Assert.Equal(default(bool), result);
+        }
+
         #endregion Get Property Helpers
 
         #region Helpers

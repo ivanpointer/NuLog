@@ -82,7 +82,9 @@
     <Compile Include="Targets\ConsoleTarget.cs" />
     <Compile Include="Targets\DebugTarget.cs" />
     <Compile Include="Targets\ILayout.cs" />
+    <Compile Include="Targets\ISmtpClient.cs" />
     <Compile Include="Targets\LayoutTargetBase.cs" />
+    <Compile Include="Targets\MailTarget.cs" />
     <Compile Include="Targets\TargetBase.cs" />
     <Compile Include="Targets\TextFileTarget.cs" />
   </ItemGroup>
