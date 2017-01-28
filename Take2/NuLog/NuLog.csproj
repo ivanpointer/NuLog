@@ -48,11 +48,13 @@
     <Compile Include="Configuration\ConfigurationManagerProvider.cs" />
     <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Configuration\XmlConfigurationProvider.cs" />
+    <Compile Include="Dispatchers\IFallbackLogger.cs" />
     <Compile Include="Dispatchers\StandardDispatcher.cs" />
     <Compile Include="Dispatchers\TagRouters\ITagRouter.cs" />
     <Compile Include="Dispatchers\TagRouters\Rule.cs" />
     <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
     <Compile Include="Factories\StandardLoggerFactory.cs" />
+    <Compile Include="FallbackLoggers\StandardFallbackLogger.cs" />
     <Compile Include="ILogEvent.cs" />
     <Compile Include="ILoggerFactory.cs" />
     <Compile Include="ILogger.cs" />

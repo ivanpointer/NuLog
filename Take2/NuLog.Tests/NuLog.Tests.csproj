@@ -82,6 +82,7 @@
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigurationProviderTestsBase.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
     <Compile Include="Unit\Factories\StandardLoggerFactoryUnitTests.cs" />
+    <Compile Include="Unit\FallbackLoggers\StandardFallbackLoggerTests.cs" />
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />

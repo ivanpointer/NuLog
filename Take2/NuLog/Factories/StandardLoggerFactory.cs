@@ -145,7 +145,7 @@ namespace NuLog.Factories
         {
             var targets = GetTargets();
             var tagRouter = GetTagRouter();
-            return new StandardDispatcher(targets, tagRouter);
+            return new StandardDispatcher(targets, tagRouter, null);
         }
 
         public virtual ICollection<ITarget> GetTargets()

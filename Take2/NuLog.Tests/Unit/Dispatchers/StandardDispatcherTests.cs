@@ -178,7 +178,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// </summary>
         protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter)
         {
-            return new StandardDispatcher(targets, tagRouter);
+            return new StandardDispatcher(targets, tagRouter, null);
         }
     }
 

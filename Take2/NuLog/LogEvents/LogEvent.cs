@@ -68,12 +68,5 @@ namespace NuLog.LogEvents
         {
             // Nothing to do
         }
-
-        ///// <summary>
-        ///// A flag that if set to true, indicates to the system that no trace or debug messages should be written concerning
-        ///// processing this log event.  This is to help prevent "feedback" loops in trace/debug listeners.  Note that
-        ///// custom targets, and said trace/debug listeners must be programmed to honor this.
-        ///// </summary>
-        //public bool Silent { get; set; }
     }
 }

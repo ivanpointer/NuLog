@@ -28,6 +28,11 @@ namespace NuLog.Dispatchers
         private readonly ITagRouter tagRouter;
 
         /// <summary>
+        /// The fallback logger for recording exceptions that happen within the dispatcher and targets.
+        /// </summary>
+        private readonly IFallbackLogger fallbackLogger;
+
+        /// <summary>
         /// A queue for storing log events to be dispatched.
         /// </summary>
         private readonly ConcurrentQueue<ILogEvent> logEventQueue;
@@ -46,11 +51,13 @@ namespace NuLog.Dispatchers
         /// Instantiates a new instance of this standard dispatcher, with the given tag router for
         /// determining which targets to send events to, based on their tags.
         /// </summary>
-        public StandardDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter)
+        public StandardDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger)
         {
             this.targets = targets;
 
             this.tagRouter = tagRouter;
+
+            this.fallbackLogger = fallbackLogger;
 
             this.logEventQueue = new ConcurrentQueue<ILogEvent>();
 
