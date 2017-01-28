@@ -34,7 +34,8 @@ namespace NuLog.Targets
 
         public override void Write(LogEvent logEvent)
         {
-            eventLog.WriteEntry(source, logEvent.Message, entryType);
+            var message = Layout.Format(logEvent);
+            eventLog.WriteEntry(source, message, entryType);
         }
 
         public override void Configure(TargetConfig config)
