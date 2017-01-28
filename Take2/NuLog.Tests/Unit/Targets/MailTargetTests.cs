@@ -691,33 +691,4 @@ namespace NuLog.Tests.Unit.Targets
             return target;
         }
     }
-
-    internal class TargetConfigBuilder
-    {
-        private readonly TargetConfig targetConfig;
-
-        private TargetConfigBuilder()
-        {
-            targetConfig = new TargetConfig
-            {
-                Properties = new Dictionary<string, object>()
-            };
-        }
-
-        public static TargetConfigBuilder Start()
-        {
-            return new TargetConfigBuilder();
-        }
-
-        public TargetConfigBuilder Add(string key, string value)
-        {
-            targetConfig.Properties.Add(key, value);
-            return this;
-        }
-
-        public TargetConfig Build()
-        {
-            return this.targetConfig;
-        }
-    }
 }

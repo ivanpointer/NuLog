@@ -136,6 +136,26 @@ namespace NuLog.Tests.Unit.Dispatchers
         }
 
         /// <summary>
+        /// The dispatcher should catch, report, and "stuff" exceptions thrown by the targets.
+        ///
+        /// Exceptions in the logger shouldn't interfere with the logging application.
+        /// </summary>
+        [Fact(DisplayName = "Should_EncapsulateTargetExceptions", Skip = "Not implemented yet!")]
+        public void Should_EncapsulateTargetExceptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// When an exception is thrown in NuLog, have the option to fall back to a text file.
+        /// </summary>
+        [Fact(DisplayName = "Should_FalbackLogging", Skip = "Not implemented yet!")]
+        public void Should_FalbackLogging()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Setup a fake target.
         /// </summary>
         protected static ITarget FakeTarget(string name)

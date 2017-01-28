@@ -2,8 +2,10 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using NuLog.Configuration;
 using NuLog.LogEvents;
 using System;
+using System.Diagnostics;
 
 namespace NuLog.Targets
 {
@@ -12,11 +14,17 @@ namespace NuLog.Targets
     /// </summary>
     public class EventLogTarget : LayoutTargetBase
     {
+        private static readonly Type EventLogEntryTypeType = typeof(EventLogEntryType);
+
         private readonly IEventLog eventLog;
+
+        private string source;
+
+        private EventLogEntryType entryType;
 
         public EventLogTarget()
         {
-            eventLog = null;
+            eventLog = new EventLogShim();
         }
 
         public EventLogTarget(IEventLog eventLog)
@@ -26,7 +34,45 @@ namespace NuLog.Targets
 
         public override void Write(LogEvent logEvent)
         {
-            throw new NotImplementedException();
+            eventLog.WriteEntry(source, logEvent.Message, entryType);
+        }
+
+        public override void Configure(TargetConfig config)
+        {
+            // Parse out the source
+            source = GetProperty<string>(config, "source");
+            if (string.IsNullOrEmpty(source))
+            {
+                throw new InvalidOperationException("Source is required for the event log target.");
+            }
+
+            // Parse out the source log, or default it to "Application" if it isn't configured
+            var sourceLog = GetProperty<string>(config, "sourceLog");
+            if (string.IsNullOrEmpty(sourceLog))
+            {
+                sourceLog = "Application";
+            }
+
+            // Create the source if it doesn't yet exist
+            if (this.eventLog.SourceExists(source) == false)
+            {
+                this.eventLog.CreateEventSource(source, sourceLog);
+            }
+
+            // Parse out the entry type
+            var entryTypeRaw = GetProperty<string>(config, "entryType");
+            EventLogEntryType entryType;
+            if (Enum.TryParse(entryTypeRaw, out entryType))
+            {
+                this.entryType = entryType;
+            }
+            else
+            {
+                this.entryType = EventLogEntryType.Information;
+            }
+
+            // Let the base configure
+            base.Configure(config);
         }
     }
 }
