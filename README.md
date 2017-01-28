@@ -9,6 +9,9 @@ _Written in C# for .NET_
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
 
+## 1/26/2017 - Development continues, if slowly.
+Just finished out one of the more complex targets - the mail target.  Before looking into the next round of performance/memeory tuning, then NuGet packaging and compiling for different .Net versions - I want to finish one more target for writing to the Windows Event Log.  I'm considering XML and JSON file writers, but am growing a little weary of writing targets and want a change - so I may do those later.  I might also build a target which performs a HTTP POST to send the log event to a REST service endpoint.  Finally, I want to build extra "packages" for logging to more specific 3rd party destinations, like Slack, SignalR or Elmah.
+
 ## 1/23/2017 - Core functionality done.  Performance and memory tuning done.  Targets next.
 I've got the core functionality for NuLog in place.  The performance and memory tuning are done for this round of development.  Next, I start fleshing out common targets, like file, SMTP and Windows event logs.
 
