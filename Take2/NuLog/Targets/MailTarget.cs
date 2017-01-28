@@ -19,7 +19,7 @@ namespace NuLog.Targets
         /// <summary>
         /// The SmtpClient to use when sending email.
         /// </summary>
-        public ISmtpClient SmtpClient { get; set; }
+        private readonly ISmtpClient smtpClient;
 
         /// <summary>
         /// The layout for formatting the body.
@@ -56,6 +56,17 @@ namespace NuLog.Targets
         /// </summary>
         public bool DisposeSmtpClientOnDispose { get; set; }
 
+        public MailTarget()
+        {
+            this.smtpClient = new SmtpClientShim();
+            DisposeSmtpClientOnDispose = true;
+        }
+
+        public MailTarget(ISmtpClient smtpClient)
+        {
+            this.smtpClient = smtpClient;
+        }
+
         public override void Write(LogEvent logEvent)
         {
             var body = FormatBody(logEvent);
@@ -82,7 +93,7 @@ namespace NuLog.Targets
             }
 
             // Send the message
-            SmtpClient.Send(message);
+            smtpClient.Send(message);
         }
 
         /// <summary>
@@ -130,31 +141,24 @@ namespace NuLog.Targets
                 from = new MailAddress(fromString);
             }
 
-            // Make sure we've got a SmtpClient
-            if (SmtpClient == null)
-            {
-                SmtpClient = new SmtpClientShim();
-                DisposeSmtpClientOnDispose = true;
-            }
-
             // Parse out the SMTP user name and password
             var userNameString = GetProperty<string>(config, "smtpUserName");
             var password = GetProperty<string>(config, "smtpPassword");
-            SmtpClient.SetCredentials(userNameString, password);
+            smtpClient.SetCredentials(userNameString, password);
 
             // Parse out the "enable SSL" flag
             var enableSslFlagRaw = GetProperty<string>(config, "enableSsl");
             bool enableSslFlag;
             if (bool.TryParse(enableSslFlagRaw, out enableSslFlag))
             {
-                SmtpClient.SetEnableSsl(enableSslFlag);
+                smtpClient.SetEnableSsl(enableSslFlag);
             }
 
             // Parse out the SMTP server
             var smtpServer = GetProperty<string>(config, "smtpServer");
             if (string.IsNullOrEmpty(smtpServer) == false)
             {
-                SmtpClient.SetSmtpServer(smtpServer);
+                smtpClient.SetSmtpServer(smtpServer);
             }
 
             // Parse out the SMTP port
@@ -162,7 +166,7 @@ namespace NuLog.Targets
             int smtpPort;
             if (int.TryParse(smtpPortRaw, out smtpPort))
             {
-                SmtpClient.SetSmtpPort(smtpPort);
+                smtpClient.SetSmtpPort(smtpPort);
             }
 
             // Parse out the SMTP delivery method
@@ -170,14 +174,14 @@ namespace NuLog.Targets
             if (string.IsNullOrEmpty(smtpDeliveryMethodRaw) == false)
             {
                 var smtpDeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(SmtpDeliveryMethodType, smtpDeliveryMethodRaw);
-                SmtpClient.SetSmtpDeliveryMethod(smtpDeliveryMethod);
+                smtpClient.SetSmtpDeliveryMethod(smtpDeliveryMethod);
             }
 
             // Parse out the pickup directory location
             var pickupDirectoryLocation = GetProperty<string>(config, "pickupDirectoryLocation");
             if (string.IsNullOrEmpty(pickupDirectoryLocation) == false)
             {
-                SmtpClient.SetPickupDirectoryLocation(pickupDirectoryLocation);
+                smtpClient.SetPickupDirectoryLocation(pickupDirectoryLocation);
             }
 
             // Parse out the timeout
@@ -185,7 +189,7 @@ namespace NuLog.Targets
             int timeout;
             if (int.TryParse(timeoutRaw, out timeout))
             {
-                SmtpClient.SetTimeout(timeout);
+                smtpClient.SetTimeout(timeout);
             }
 
             // Let the base configure itself
@@ -197,7 +201,7 @@ namespace NuLog.Targets
             // Dispose the SMTP client
             if (DisposeSmtpClientOnDispose)
             {
-                SmtpClient.Dispose();
+                smtpClient.Dispose();
             }
 
             // Let the base cleanup

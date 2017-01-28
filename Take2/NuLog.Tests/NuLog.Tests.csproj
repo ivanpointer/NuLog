@@ -87,6 +87,7 @@
     <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetXCludeTests.cs" />
+    <Compile Include="Unit\Targets\EventLogTargetTests.cs" />
     <Compile Include="Unit\Targets\MailTargetTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
     <Compile Include="Unit\Loggers\StandardLoggerTests.cs" />

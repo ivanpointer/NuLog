@@ -25,7 +25,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SendEmail()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -34,7 +35,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent { Message = "Hello, MailTarget!" });
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.Ignored)).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.Ignored)).MustHaveHappened();
         }
 
         /// <summary>
@@ -44,7 +45,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_UseLayoutForBody()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
             var logEvent = new LogEvent { Message = "Hello, MailTarget!" };
             A.CallTo(() => target.BodyLayout.Format(A<LogEvent>.Ignored)).Returns("Hello, BodyLayout!");
 
@@ -56,7 +58,7 @@ namespace NuLog.Tests.Unit.Targets
 
             // Verify
             A.CallTo(() => target.BodyLayout.Format(logEvent)).MustHaveHappened();
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m != null && m.Body == "Hello, BodyLayout!"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m != null && m.Body == "Hello, BodyLayout!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -66,7 +68,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_UseLayoutForSubject()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
             var logEvent = new LogEvent { Message = "Hello, MailTarget!" };
             A.CallTo(() => target.SubjectLayout.Format(A<LogEvent>.Ignored)).Returns("Hello, SubjectLayout!");
 
@@ -78,7 +81,7 @@ namespace NuLog.Tests.Unit.Targets
 
             // Verify
             A.CallTo(() => target.SubjectLayout.Format(logEvent)).MustHaveHappened();
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m != null && m.Subject == "Hello, SubjectLayout!"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m != null && m.Subject == "Hello, SubjectLayout!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -88,7 +91,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_LoadHtmlFlag()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -98,7 +102,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.IsBodyHtml == true))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.IsBodyHtml == true))).MustHaveHappened();
         }
 
         /// <summary>
@@ -108,7 +112,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_DefaultHtmlFlag()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -117,7 +122,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.IsBodyHtml == false))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.IsBodyHtml == false))).MustHaveHappened();
         }
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace NuLog.Tests.Unit.Targets
             {
                 Properties = properties
             };
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             A.CallTo(() => target.BodyLayout.Format(A<LogEvent>.Ignored)).Returns("Hello\r\nworld!");
 
@@ -146,7 +152,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == @"Hello<br />world!"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == @"Hello<br />world!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -156,7 +162,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_DefaultConvertNewlineInHtmlFlag()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             A.CallTo(() => target.BodyLayout.Format(A<LogEvent>.Ignored)).Returns("Hello\r\nworld!");
 
@@ -167,7 +174,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == "Hello\r\nworld!"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == "Hello\r\nworld!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -177,7 +184,8 @@ namespace NuLog.Tests.Unit.Targets
         public void ShouldNotConvertNewlineWhenNotHtml()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             A.CallTo(() => target.BodyLayout.Format(A<LogEvent>.Ignored)).Returns("Hello\r\nworld!");
 
@@ -189,7 +197,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == "Hello\r\nworld!"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.Body == "Hello\r\nworld!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -199,7 +207,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseToAddress()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -208,7 +217,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.To.Count == 1 && m.To.Contains(new MailAddress("someone@somewhere.net"))))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.To.Count == 1 && m.To.Contains(new MailAddress("someone@somewhere.net"))))).MustHaveHappened();
         }
 
         /// <summary>
@@ -218,7 +227,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseMultipleToAddresses()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -227,7 +237,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(
                 m => m.To.Count == 2
                 && m.To.Contains(new MailAddress("someone@somewhere.net"))
                 && m.To.Contains(new MailAddress("another@somewhere.net"))
@@ -241,7 +251,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseFromAddress()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -251,7 +262,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.From.Address == "someone@somewhere.net")))
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.From.Address == "someone@somewhere.net")))
                 .MustHaveHappened();
         }
 
@@ -262,7 +273,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_DefaultFromAddress()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -271,7 +283,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Write(new LogEvent());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Send(A<MailMessage>.That.Matches(m => m.From == null))).MustHaveHappened();
+            A.CallTo(() => smtpClient.Send(A<MailMessage>.That.Matches(m => m.From == null))).MustHaveHappened();
         }
 
         /// <summary>
@@ -281,7 +293,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseSmtpUserName()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -290,7 +303,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetCredentials(A<string>.That.Matches(s => s == "alincoln"), A<string>.Ignored)).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetCredentials(A<string>.That.Matches(s => s == "alincoln"), A<string>.Ignored)).MustHaveHappened();
         }
 
         /// <summary>
@@ -300,7 +313,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseSmtpPassword()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -309,7 +323,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetCredentials(A<string>.Ignored, A<string>.That.Matches(s => s == "apassword"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetCredentials(A<string>.Ignored, A<string>.That.Matches(s => s == "apassword"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -319,7 +333,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseEnableSslFlag()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -328,7 +343,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetEnableSsl(true)).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetEnableSsl(true)).MustHaveHappened();
         }
 
         /// <summary>
@@ -338,7 +353,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreEnableSslFlagIfNotSet()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -346,7 +362,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetEnableSsl(A<bool>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetEnableSsl(A<bool>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -356,7 +372,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseUserNameAndPasswordTogether()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -366,7 +383,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetCredentials(A<string>.That.Matches(s => s == "alincoln"), A<string>.That.Matches(s => s == "apassword"))).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetCredentials(A<string>.That.Matches(s => s == "alincoln"), A<string>.That.Matches(s => s == "apassword"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -376,7 +393,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ParseSmtpServer()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -385,7 +403,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpServer("my.smtp.me.com")).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpServer("my.smtp.me.com")).MustHaveHappened();
         }
 
         /// <summary>
@@ -395,7 +413,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreSmtpServerIfNotSet()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -403,7 +422,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpServer(A<string>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpServer(A<string>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -413,7 +432,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetSmtpPort()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -422,7 +442,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpPort(4242)).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpPort(4242)).MustHaveHappened();
         }
 
         /// <summary>
@@ -432,7 +452,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreSmtpPort()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -440,7 +461,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpPort(A<int>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpPort(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -453,7 +474,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetSmtpDeliveryMethod(string settingValue, SmtpDeliveryMethod expectedCall)
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -462,7 +484,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpDeliveryMethod(expectedCall)).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpDeliveryMethod(expectedCall)).MustHaveHappened();
         }
 
         /// <summary>
@@ -472,7 +494,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreSmtpDeliveryMethodIfNotSet()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -480,7 +503,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetSmtpDeliveryMethod(A<SmtpDeliveryMethod>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetSmtpDeliveryMethod(A<SmtpDeliveryMethod>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -490,7 +513,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetPickupDirectoryLocation()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -499,7 +523,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetPickupDirectoryLocation("SomeDir")).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetPickupDirectoryLocation("SomeDir")).MustHaveHappened();
         }
 
         /// <summary>
@@ -509,7 +533,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnorePickupDirectoryLocation()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -517,7 +542,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetPickupDirectoryLocation(A<string>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetPickupDirectoryLocation(A<string>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -527,7 +552,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetTiemout()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -536,7 +562,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetTimeout(8675309)).MustHaveHappened();
+            A.CallTo(() => smtpClient.SetTimeout(8675309)).MustHaveHappened();
         }
 
         /// <summary>
@@ -546,7 +572,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreTimeoutWhenNotSet()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -554,7 +581,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            A.CallTo(() => target.SmtpClient.SetTimeout(A<int>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.SetTimeout(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         /// <summary>
@@ -564,7 +591,8 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_CreateNewSmtpClientOnConfig()
         {
             // Setup
-            var target = new MailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
 
             // Execute
             target.Configure(TargetConfigBuilder.Start()
@@ -572,7 +600,7 @@ namespace NuLog.Tests.Unit.Targets
                 .Build());
 
             // Verify
-            Assert.NotNull(target.SmtpClient);
+            Assert.NotNull(smtpClient);
         }
 
         /// <summary>
@@ -619,14 +647,15 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_DisposeSmtpClientOnDispose()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
             target.DisposeSmtpClientOnDispose = true;
 
             // Execute
             target.Dispose();
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Dispose()).MustHaveHappened();
+            A.CallTo(() => smtpClient.Dispose()).MustHaveHappened();
         }
 
         /// <summary>
@@ -636,20 +665,27 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_IgnoreDisposeWhenDisposeFlagFalse()
         {
             // Setup
-            var target = GetMailTarget();
+            ISmtpClient smtpClient;
+            var target = GetMailTarget(out smtpClient);
             target.DisposeSmtpClientOnDispose = false;
 
             // Execute
             target.Dispose();
 
             // Verify
-            A.CallTo(() => target.SmtpClient.Dispose()).MustNotHaveHappened();
+            A.CallTo(() => smtpClient.Dispose()).MustNotHaveHappened();
         }
 
         protected MailTarget GetMailTarget()
         {
-            var target = new MailTarget();
-            target.SmtpClient = A.Fake<ISmtpClient>();
+            ISmtpClient smtpClient;
+            return GetMailTarget(out smtpClient);
+        }
+
+        protected MailTarget GetMailTarget(out ISmtpClient smtpClient)
+        {
+            smtpClient = A.Fake<ISmtpClient>();
+            var target = new MailTarget(smtpClient);
             target.BodyLayout = A.Fake<ILayout>();
             target.SubjectLayout = A.Fake<ILayout>();
             return target;
