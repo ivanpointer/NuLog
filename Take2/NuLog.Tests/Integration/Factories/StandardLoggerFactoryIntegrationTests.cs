@@ -135,7 +135,7 @@ namespace NuLog.Tests.Integration.Factories
             var targetConfig = new TargetConfig
             {
                 Name = "debug",
-                Type = "NuLog.Targets.DebugTarget",
+                Type = "NuLog.Targets.TraceTarget",
                 Properties = new Dictionary<string, object>
                 {
                     { "layout", "${Message}" }
@@ -233,7 +233,7 @@ namespace NuLog.Tests.Integration.Factories
                     new TargetConfig
                     {
                         Name = "debug",
-                        Type = "NuLog.Targets.DebugTarget",
+                        Type = "NuLog.Targets.TraceTarget",
                         Properties = new Dictionary<string, object>
                         {
                             { "layout", "${Message}" }
@@ -273,7 +273,7 @@ namespace NuLog.Tests.Integration.Factories
                     new TargetConfig
                     {
                         Name = "debug",
-                        Type = "NuLog.Targets.DebugTarget",
+                        Type = "NuLog.Targets.TraceTarget",
                         Properties = new Dictionary<string, object>
                         {
                             { "layout", "${MyMetaData}" }
@@ -317,7 +317,7 @@ namespace NuLog.Tests.Integration.Factories
                     new TargetConfig
                     {
                         Name = "debug",
-                        Type = "NuLog.Targets.DebugTarget",
+                        Type = "NuLog.Targets.TraceTarget",
                         Properties = new Dictionary<string, object>
                         {
                             { "layout", "${Tags}" }
@@ -357,7 +357,7 @@ namespace NuLog.Tests.Integration.Factories
                     new TargetConfig
                     {
                         Name = "debug",
-                        Type = "NuLog.Targets.DebugTarget",
+                        Type = "NuLog.Targets.TraceTarget",
                         Properties = new Dictionary<string, object>
                         {
                             { "layout", "${MyMetaData}" }

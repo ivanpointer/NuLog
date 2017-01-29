@@ -196,7 +196,7 @@ namespace NuLog.Tests.Unit.Factories
                 },new TargetConfig
                 {
                     Name = "dummy",
-                    Type = "NuLog.Targets.DebugTarget, NuLog"
+                    Type = "NuLog.Targets.TraceTarget, NuLog"
                 }
             };
             var config = new Config
@@ -211,7 +211,7 @@ namespace NuLog.Tests.Unit.Factories
             // Validate
             Assert.Equal(2, targets.Count);
             Assert.True(targets.Any(t => typeof(DummyTarget).IsAssignableFrom(t.GetType())));
-            Assert.True(targets.Any(t => typeof(DebugTarget).IsAssignableFrom(t.GetType())));
+            Assert.True(targets.Any(t => typeof(TraceTarget).IsAssignableFrom(t.GetType())));
         }
 
         /// <summary>

@@ -12,51 +12,51 @@ using Xunit;
 namespace NuLog.Tests.Unit.Targets
 {
     /// <summary>
-    /// Documents (and verifies) the expected behavior of the debug target.
+    /// Documents (and verifies) the expected behavior of the trace target.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class DebugTargetTests : IDisposable
+    public class TraceTargetTests : IDisposable
     {
         private HashSetTraceListener traceListener;
 
-        public DebugTargetTests()
+        public TraceTargetTests()
         {
             this.traceListener = new HashSetTraceListener();
-            Debug.Listeners.Add(this.traceListener);
+            Trace.Listeners.Add(this.traceListener);
         }
 
         public void Dispose()
         {
-            Debug.Listeners.Remove(this.traceListener);
+            Trace.Listeners.Remove(this.traceListener);
             this.traceListener = null;
         }
 
         /// <summary>
-        /// The debug target should write to debug.
+        /// The trace target should write to trace.
         /// </summary>
-        [Fact(DisplayName = "Should_WriteToDebug")]
-        public void Should_WriteToDebug()
+        [Fact(DisplayName = "Should_WriteToTrace")]
+        public void Should_WriteToTrace()
         {
             // Setup
             var logEvent = new LogEvent
             {
-                Message = "Should_WriteToDebug - hello, world!"
+                Message = "Should_WriteToTrace - hello, world!"
             };
             var layout = A.Fake<ILayout>();
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored)).Returns(logEvent.Message);
 
-            var target = new DebugTarget();
+            var target = new TraceTarget();
             target.SetLayout(layout);
 
             // Execute
             target.Write(logEvent);
 
             // Verify
-            Assert.Contains("Should_WriteToDebug - hello, world!", this.traceListener.Messages);
+            Assert.Contains("Should_WriteToTrace - hello, world!", this.traceListener.Messages);
         }
 
         /// <summary>
-        /// The debug target should use the configured layout to format its messages.
+        /// The trace target should use the configured layout to format its messages.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
         public void Should_UseLayout()
@@ -64,7 +64,7 @@ namespace NuLog.Tests.Unit.Targets
             // Setup
             var layout = A.Fake<ILayout>();
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored)).Returns("Should_UseLayout - formatted");
-            var target = new DebugTarget();
+            var target = new TraceTarget();
             target.SetLayout(layout);
 
             // Execute
@@ -79,14 +79,14 @@ namespace NuLog.Tests.Unit.Targets
         }
 
         /// <summary>
-        /// The debug target should throw an invalid operation exception when no layout is given, and
+        /// The trace target should throw an invalid operation exception when no layout is given, and
         /// the target is asked to write a log message.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
         public void Should_ThrowInvalidOperationWithoutLayout()
         {
             // Setup
-            var target = new DebugTarget();
+            var target = new TraceTarget();
 
             // Execute / Verify
             Assert.Throws(typeof(InvalidOperationException), () =>

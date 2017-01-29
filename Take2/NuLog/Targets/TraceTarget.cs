@@ -9,9 +9,9 @@ using System.Diagnostics;
 namespace NuLog.Targets
 {
     /// <summary>
-    /// A logger target that writes to debug (System.Diagnostics).
+    /// A logger target that writes to trace (System.Diagnostics).
     /// </summary>
-    public class DebugTarget : LayoutTargetBase
+    public class TraceTarget : LayoutTargetBase
     {
         public override void Write(LogEvent logEvent)
         {
@@ -20,7 +20,7 @@ namespace NuLog.Targets
             {
                 // Use the layout to format the log event, before writing it to debug.
                 var formatted = this.Layout.Format(logEvent);
-                Debug.Write(formatted);
+                Trace.Write(formatted);
             }
             else
             {
