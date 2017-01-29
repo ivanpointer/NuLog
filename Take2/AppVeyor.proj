@@ -1,0 +1,20 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyorBuild">
+<PropertyGroup>
+  <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">0.0.0-rc0</APPVEYOR_BUILD_VERSION>
+</PropertyGroup>
+  <ItemGroup>
+      <ProjectToBuild Include="NuLog.sln" >
+          <Properties>Configuration=Release-3.5</Properties>
+      </ProjectToBuild>
+      <ProjectToBuild Include="NuLog.sln" >
+          <Properties>Configuration=Release-4</Properties>
+      </ProjectToBuild>
+      <ProjectToBuild Include="NuLog.sln" >
+          <Properties>Configuration=Release-4.5.2</Properties>
+      </ProjectToBuild>
+  </ItemGroup>
+  <Target Name="AppVeyorBuild">
+    <MSBuild Projects="@(ProjectToBuild)" />
+    <Exec Command="nuget pack NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)"/>
+  </Target>
+</Project>
