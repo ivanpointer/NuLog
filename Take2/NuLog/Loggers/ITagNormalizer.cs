@@ -23,6 +23,6 @@ namespace NuLog
         /// <summary>
         /// Normalizes and validates a list of tags. Expected to use the same logic as for a single tag.
         /// </summary>
-        IEnumerable<string> NormalizeTags(IEnumerable<string> tags);
+        ICollection<string> NormalizeTags(IEnumerable<string> tags);
     }
 }

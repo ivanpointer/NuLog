@@ -14,7 +14,6 @@ using NuLog.TagRouters.TagGroupProcessors;
 using NuLog.Targets;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace NuLog.Factories
 {
@@ -119,7 +118,8 @@ namespace NuLog.Factories
                     {
                         if (_defaultMetaData == null)
                         {
-                            _defaultMetaData = new ReadOnlyDictionary<string, object>(ToMetaData(Config.MetaData));
+                            //TODO: _defaultMetaData = new ReadOnlyDictionary<string, object>(ToMetaData(Config.MetaData));
+                            _defaultMetaData = new Dictionary<string, object>(ToMetaData(Config.MetaData));
                         }
                     }
                 }

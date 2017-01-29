@@ -41,7 +41,7 @@ namespace NuLog.LogEvents
         /// <summary>
         /// The list of tags associated with the log event
         /// </summary>
-        public IEnumerable<string> Tags { get; set; }
+        public ICollection<string> Tags { get; set; }
 
         /// <summary>
         /// The exception (if any) associated with the log event

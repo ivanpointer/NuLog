@@ -39,7 +39,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Default tags to add to every log event originating from this logger.
         /// </summary>
-        protected readonly IEnumerable<string> DefaultTags;
+        protected readonly ICollection<string> DefaultTags;
 
         /// <summary>
         /// Default meta data to add to every log event originating from this logger.
@@ -129,16 +129,16 @@ namespace NuLog.Loggers
         /// <summary>
         /// Mixes the given tags, with the default tags for this logger, and returns the mix.
         /// </summary>
-        protected virtual IEnumerable<string> GetTags(IEnumerable<string> givenTags, bool hasException)
+        protected virtual ICollection<string> GetTags(ICollection<string> givenTags, bool hasException)
         {
             // Check if we need to tack on an exception tag
-            IEnumerable<string> tags;
+            ICollection<string> tags;
 
             // Figure out/calculate the tags to return. Call the normalizer for any tags that haven't
             // been run through yet.
             if (!HasTags(givenTags) && !HasTags(DefaultTags))
             {
-                tags = new string[] { };
+                tags = new List<string>();
             }
             else if (!HasTags(DefaultTags))
             {
@@ -146,18 +146,30 @@ namespace NuLog.Loggers
             }
             else if (!HasTags(givenTags))
             {
-                tags = DefaultTags;
+                tags = new List<string>();
+                foreach (var tag in DefaultTags)
+                {
+                    tags.Add(tag);
+                }
             }
             else
             {
-                tags = DefaultTags.Concat(givenTags);
+                tags = new List<string>();
+                foreach (var tag in DefaultTags)
+                {
+                    tags.Add(tag);
+                }
+                foreach (var tag in givenTags)
+                {
+                    tags.Add(tag);
+                }
                 tags = TagNormalizer.NormalizeTags(tags);
             }
 
             // If we've got an exception, add on the exception tag
             if (hasException)
             {
-                tags = tags.Concat(new string[] { exceptionTag });
+                tags.Add(exceptionTag);
             }
 
             // Return the tags

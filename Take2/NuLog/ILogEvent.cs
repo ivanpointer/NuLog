@@ -15,7 +15,7 @@ namespace NuLog
         /// <summary>
         /// The list of tags associated with the log event
         /// </summary>
-        IEnumerable<string> Tags { get; set; }
+        ICollection<string> Tags { get; set; }
 
         /// <summary>
         /// the log event is to write itself to the given target.

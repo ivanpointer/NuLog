@@ -21,7 +21,7 @@ namespace NuLog
         public string NormalizeTag(string tag)
         {
             // Null or empty tags are not allowed
-            if (string.IsNullOrWhiteSpace(tag))
+            if (string.IsNullOrEmpty(tag))
                 throw new InvalidOperationException("Tags cannot be null or white space (empty).  One such tag was given.");
 
             // Trim white space off the tag
@@ -37,7 +37,7 @@ namespace NuLog
             return normalized;
         }
 
-        public IEnumerable<string> NormalizeTags(IEnumerable<string> tags)
+        public ICollection<string> NormalizeTags(IEnumerable<string> tags)
         {
             var hashSet = new HashSet<string>();
 

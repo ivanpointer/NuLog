@@ -5,7 +5,8 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Dispatchers.TagRouters;
 using NuLog.Loggers;
 using System;
-using System.Collections.Concurrent;
+
+//TODO: using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -36,7 +37,8 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// A queue for storing log events to be dispatched.
         /// </summary>
-        private readonly ConcurrentQueue<ILogEvent> logEventQueue;
+        //TODO: private readonly ConcurrentQueue<ILogEvent> logEventQueue;
+        private readonly Queue<ILogEvent> logEventQueue;
 
         /// <summary>
         /// The timer for processing the log queue.
@@ -60,7 +62,8 @@ namespace NuLog.Dispatchers
 
             this.fallbackLogger = fallbackLogger;
 
-            this.logEventQueue = new ConcurrentQueue<ILogEvent>();
+            //TODO: this.logEventQueue = new ConcurrentQueue<ILogEvent>();
+            this.logEventQueue = new Queue<ILogEvent>();
 
             this.logEventQueueTimer = new Timer(OnLogQueueTimerElapsed, this, 200, 200);
         }
@@ -189,9 +192,14 @@ namespace NuLog.Dispatchers
         /// </summary>
         protected void ProcessLogQueue()
         {
-            ILogEvent logEvent;
-            while (this.logEventQueue.TryDequeue(out logEvent))
+            //TODO: ILogEvent logEvent;
+            //while (this.logEventQueue.TryDequeue(out logEvent))
+            //{
+            //    DispatchNow(logEvent);
+            //}
+            while (this.logEventQueue.Count > 0)
             {
+                var logEvent = this.logEventQueue.Dequeue();
                 DispatchNow(logEvent);
             }
         }

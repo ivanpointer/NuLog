@@ -62,10 +62,18 @@ namespace NuLog.Targets
 
             // Parse out the entry type
             var entryTypeRaw = GetProperty<string>(config, "entryType");
-            EventLogEntryType entryType;
-            if (Enum.TryParse(entryTypeRaw, out entryType))
+            //EventLogEntryType entryType;
+            //TODO: if (Enum.TryParse(entryTypeRaw, out entryType))
+            //{
+            //    this.entryType = entryType;
+            //}
+            //else
+            //{
+            //    this.entryType = EventLogEntryType.Information;
+            //}
+            if (string.IsNullOrEmpty(entryTypeRaw) == false)
             {
-                this.entryType = entryType;
+                this.entryType = (EventLogEntryType)Enum.Parse(EventLogEntryTypeType, entryTypeRaw);
             }
             else
             {

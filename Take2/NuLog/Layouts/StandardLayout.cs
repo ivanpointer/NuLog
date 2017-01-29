@@ -7,6 +7,7 @@ using NuLog.Targets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NuLog.Layouts
@@ -127,7 +128,8 @@ namespace NuLog.Layouts
             switch (parameter.Path)
             {
                 case "Tags":
-                    return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+                    //TODO: return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+                    return logEvent.Tags != null ? string.Join(",", logEvent.Tags.ToArray()) : string.Empty;
 
                 case "Exception":
                     return FormatException(logEvent.Exception);
@@ -177,7 +179,7 @@ namespace NuLog.Layouts
             }
 
             // If we have a string format, use that.
-            if (string.IsNullOrWhiteSpace(format) == false)
+            if (string.IsNullOrEmpty(format) == false)
             {
                 return string.Format(format, value);
             }
@@ -202,12 +204,16 @@ namespace NuLog.Layouts
         /// <summary>
         /// Enumerates the values in the given enumerable value.
         /// </summary>
-        private static IEnumerable<string> EnumerateValues(IEnumerable items)
+        private static string[] EnumerateValues(IEnumerable items)
         {
+            var list = new List<string>();
+
             foreach (var item in items)
             {
-                yield return Convert.ToString(item);
+                list.Add(Convert.ToString(item));
             }
+
+            return list.ToArray();
         }
     }
 }

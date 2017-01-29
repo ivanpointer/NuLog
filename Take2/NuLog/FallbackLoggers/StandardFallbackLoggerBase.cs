@@ -5,6 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Dispatchers;
 using NuLog.LogEvents;
 using System;
+using System.Linq;
 
 namespace NuLog.FallbackLoggers
 {
@@ -35,7 +36,8 @@ namespace NuLog.FallbackLoggers
 
         private static string JoinTags(ILogEvent logEvent)
         {
-            return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+            //TODO: return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+            return logEvent.Tags != null ? string.Join(",", logEvent.Tags.ToArray()) : string.Empty;
         }
 
         private static string GetExceptionMessage(ILogEvent logEvent)

@@ -24,7 +24,7 @@ namespace NuLog.Targets
 
         public void Dispose()
         {
-            this.smtpClient.Dispose();
+            //TODO: this.smtpClient.Dispose();
         }
 
         public void Send(MailMessage mailMessage)
