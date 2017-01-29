@@ -234,16 +234,6 @@ namespace NuLog.Tests.Unit.Dispatchers
         }
 
         /// <summary>
-        /// The dispatcher should write the fallback message to trace, if no fallback logger is set
-        /// on the dispatcher.
-        /// </summary>
-        [Fact(DisplayName = "Should_FallbackToTraceIfNoFallbackSetLater", Skip = "Not implemented yet.")]
-        public void Should_FallbackToTraceIfNoFallbackSetLater()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Setup a fake target.
         /// </summary>
         protected static ITarget FakeTarget(string name)
@@ -266,7 +256,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// </summary>
         protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger = null)
         {
-            return new StandardDispatcher(targets, tagRouter, fallbackLogger);
+            return new StandardDispatcher(targets, tagRouter, fallbackLogger ?? A.Fake<IFallbackLogger>());
         }
     }
 

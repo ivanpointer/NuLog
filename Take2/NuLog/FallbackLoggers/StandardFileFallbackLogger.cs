@@ -24,8 +24,14 @@ namespace NuLog.FallbackLoggers
 
         public override void Log(Exception exception, ITarget target, ILogEvent logEvent)
         {
-            var message = FormatMessage(exception, target, logEvent);
-            File.AppendAllText(this.filePath, message);
+            var formatted = FormatMessage(exception, target, logEvent);
+            File.AppendAllText(this.filePath, formatted);
+        }
+
+        public override void Log(string message, params object[] args)
+        {
+            var formatted = FormatMessage(message, args);
+            File.AppendAllText(this.filePath, formatted);
         }
     }
 }

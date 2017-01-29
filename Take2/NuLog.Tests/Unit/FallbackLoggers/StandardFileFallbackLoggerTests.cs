@@ -45,5 +45,61 @@ namespace NuLog.Tests.Unit.FallbackLoggers
                 }
             }
         }
+
+        /// <summary>
+        /// The standard file fallback logger should write a simple message to file.
+        /// </summary>
+        [Fact(DisplayName = "Should_WriteSimpleMessageToFile")]
+        public void Should_WriteSimpleMessageToFile()
+        {
+            try
+            {
+                // Setup
+                var fallbackLogger = new StandardFileFallbackLogger("Should_WriteSimpleMessageToFile.txt");
+                var target = A.Fake<ITarget>();
+
+                // Execute
+                fallbackLogger.Log("Hello, simple message");
+
+                // Verify
+                var text = File.ReadAllText("Should_WriteSimpleMessageToFile.txt");
+                Assert.Contains("Hello, simple message", text);
+            }
+            finally
+            {
+                if (File.Exists("Should_WriteSimpleMessageToFile.txt"))
+                {
+                    File.Delete("Should_WriteSimpleMessageToFile.txt");
+                }
+            }
+        }
+
+        /// <summary>
+        /// The standard file fallback logger should write a formatted message to file.
+        /// </summary>
+        [Fact(DisplayName = "Should_WriteFormattedMessageToFile")]
+        public void Should_WriteFormattedMessageToFile()
+        {
+            try
+            {
+                // Setup
+                var fallbackLogger = new StandardFileFallbackLogger("Should_WriteFormattedMessageToFile.txt");
+                var target = A.Fake<ITarget>();
+
+                // Execute
+                fallbackLogger.Log("Hello, simple {0}!", "message");
+
+                // Verify
+                var text = File.ReadAllText("Should_WriteFormattedMessageToFile.txt");
+                Assert.Contains("Hello, simple message!", text);
+            }
+            finally
+            {
+                if (File.Exists("Should_WriteFormattedMessageToFile.txt"))
+                {
+                    File.Delete("Should_WriteFormattedMessageToFile.txt");
+                }
+            }
+        }
     }
 }

@@ -17,5 +17,11 @@ namespace NuLog.FallbackLoggers
             var message = this.FormatMessage(exception, target, logEvent);
             Trace.WriteLine(message);
         }
+
+        public override void Log(string message, params object[] args)
+        {
+            var formatted = this.FormatMessage(message, args);
+            Trace.WriteLine(formatted);
+        }
     }
 }

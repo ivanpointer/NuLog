@@ -36,5 +36,12 @@ namespace NuLog.Configuration
         /// the logger to include the stack frame in created log events.
         /// </summary>
         public bool IncludeStackFrame { get; set; }
+
+        /// <summary>
+        /// The (optional) path to a fallback log, which is used when failure occurs when logging a
+        /// log event. Can be useful when there are problems with the logging system, such as
+        /// programming errors in components, or configuration issues.
+        /// </summary>
+        public string FallbackLogPath { get; set; }
     }
 }

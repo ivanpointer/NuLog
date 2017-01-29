@@ -5,6 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Configuration;
 using NuLog.Dispatchers;
 using NuLog.Dispatchers.TagRouters;
+using NuLog.FallbackLoggers;
 using NuLog.Layouts;
 using NuLog.Loggers;
 using NuLog.TagRouters;
@@ -212,6 +213,18 @@ namespace NuLog.Factories
 
             // Stitch it together into a new standard layout
             return new StandardLayout(layoutParms, propertyParser);
+        }
+
+        public virtual IFallbackLogger GetFallbackLogger()
+        {
+            if (string.IsNullOrEmpty(Config.FallbackLogPath))
+            {
+                return new StandardTraceFallbackLogger();
+            }
+            else
+            {
+                return new StandardFileFallbackLogger(Config.FallbackLogPath);
+            }
         }
 
         #region Config Conversions

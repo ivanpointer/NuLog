@@ -185,6 +185,72 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         }
 
         /// <summary>
+        /// The fallback logger should write the current date/time stamp at the start of the log message.
+        /// </summary>
+        [Fact(DisplayName = "Should_SimpleMessageStartWithDateTimeStamp")]
+        public void Should_SimpleMessageStartWithDateTimeStamp()
+        {
+            // Setup
+            var fallbackLogger = GetFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log("Simple message!");
+
+            // Verify
+            var text = fallbackLogger.LoggedMessages.Single();
+            var pattern = new Regex(@"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} | .*$");
+            var now = DateTime.Now;
+            var midDateText = now.ToString("yyyy-MM-dd hh:mm");
+            var maxDateText = now.AddSeconds(1).ToString("yyyy-MM-dd hh:mm");
+
+            Assert.True(pattern.IsMatch(text), "Text loaded from file doesn't match regular expression for starting with a date time string.");
+            Assert.True(text.StartsWith(midDateText) || text.StartsWith(maxDateText), "Text loaded from file doesn't appear to be prefixed with the current time.");
+        }
+
+        /// <summary>
+        /// The fallback logger should write the current date/time stamp at the start of the log message.
+        /// </summary>
+        [Fact(DisplayName = "Should_FormattedMessageStartWithDateTimeStamp")]
+        public void Should_FormattedMessageStartWithDateTimeStamp()
+        {
+            // Setup
+            var fallbackLogger = GetFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log("Formatted {0}!", "message");
+
+            // Verify
+            var text = fallbackLogger.LoggedMessages.Single();
+            var pattern = new Regex(@"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} | .*$");
+            var now = DateTime.Now;
+            var midDateText = now.ToString("yyyy-MM-dd hh:mm");
+            var maxDateText = now.AddSeconds(1).ToString("yyyy-MM-dd hh:mm");
+
+            Assert.True(pattern.IsMatch(text), "Text loaded from file doesn't match regular expression for starting with a date time string.");
+            Assert.True(text.StartsWith(midDateText) || text.StartsWith(maxDateText), "Text loaded from file doesn't appear to be prefixed with the current time.");
+        }
+
+        /// <summary>
+        /// The fallback logger should format a simple message, with arguments.
+        /// </summary>
+        [Fact(DisplayName = "Should_FormatSimpleMessage")]
+        public void Should_FormatSimpleMessage()
+        {
+            // Setup
+            var fallbackLogger = GetFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log("Formatted {0}!", "message");
+
+            // Verify
+            var text = fallbackLogger.LoggedMessages.Single();
+            Assert.Contains("Formatted message!", text);
+        }
+
+        /// <summary>
         /// Gets the fallback logger under test.
         /// </summary>
         internal DummyStandardFallbackLogger GetFallbackLogger()
@@ -207,8 +273,14 @@ namespace NuLog.Tests.Unit.FallbackLoggers
 
         public override void Log(Exception exception, ITarget target, ILogEvent logEvent)
         {
-            var message = FormatMessage(exception, target, logEvent);
-            LoggedMessages.Add(message);
+            var formatted = FormatMessage(exception, target, logEvent);
+            LoggedMessages.Add(formatted);
+        }
+
+        public override void Log(string message, params object[] args)
+        {
+            var formatted = FormatMessage(message, args);
+            LoggedMessages.Add(formatted);
         }
     }
 }

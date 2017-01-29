@@ -38,6 +38,9 @@ namespace NuLog.Configuration
             // Get the "includeStackFrame" flag
             config.IncludeStackFrame = GetBooleanAttribute(xmlElement, "includeStackFrame");
 
+            // Get the fallback log path
+            config.FallbackLogPath = GetStringAttribute(xmlElement, "fallbackLog");
+
             // Return the built config
             return config;
         }

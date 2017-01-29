@@ -50,5 +50,39 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, StandardTraceFallbackLogger!")));
             Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, StandardTraceFallbackLogger Line Two!")));
         }
+
+        /// <summary>
+        /// A simple message should be written to trace.
+        /// </summary>
+        [Fact(DisplayName = "Should_WriteSimpleMessageToTrace")]
+        public void Should_WriteSimpleMessageToTrace()
+        {
+            // Setup
+            var fallbackLogger = new StandardTraceFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log("Hello, Simple Message!");
+
+            // Verify
+            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, Simple Message!")));
+        }
+
+        /// <summary>
+        /// A formatted message should be written to trace.
+        /// </summary>
+        [Fact(DisplayName = "Should_WriteFormattedMessageToTrace")]
+        public void Should_WriteFormattedMessageToTrace()
+        {
+            // Setup
+            var fallbackLogger = new StandardTraceFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log("Hello, Formatted {0}!", "Message");
+
+            // Verify
+            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, Formatted Message!")));
+        }
     }
 }

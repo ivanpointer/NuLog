@@ -17,5 +17,11 @@ namespace NuLog.Dispatchers
         /// Logs an exception that occurred while writing to the given target.
         /// </summary>
         void Log(Exception exception, ITarget target, ILogEvent logEvent);
+
+        /// <summary>
+        /// Logs an arbitrary message. Will format the message, if arguments are given, otherwise,
+        /// will just write it direct.
+        /// </summary>
+        void Log(string message, params object[] args);
     }
 }

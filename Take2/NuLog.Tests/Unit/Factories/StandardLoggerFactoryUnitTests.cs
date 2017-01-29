@@ -3,6 +3,7 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
+using NuLog.FallbackLoggers;
 using NuLog.Targets;
 using System.Collections.Generic;
 using System.Linq;
@@ -391,6 +392,43 @@ namespace NuLog.Tests.Unit.Factories
 
             // Verify
             Assert.True(logger.IncludeStackFrame);
+        }
+
+        /// <summary>
+        /// The factory should build a trace fallback logger when a fallback log (file path) isn't configured.
+        /// </summary>
+        [Fact(DisplayName = "Should_BuildTraceFallbackLoggerDefault")]
+        public void Should_BuildTraceFallbackLoggerDefault()
+        {
+            // Setup
+            var factory = GetLogFactory(new Config());
+
+            // Execute
+            var fallbackLogger = factory.GetFallbackLogger();
+
+            // Verify
+            Assert.NotNull(fallbackLogger);
+            Assert.True(typeof(StandardTraceFallbackLogger).IsAssignableFrom(fallbackLogger.GetType()));
+        }
+
+        /// <summary>
+        /// When a fallback path is configured, the factory should build the file fallback logger.
+        /// </summary>
+        [Fact(DisplayName = "Should_BuildFileFallbackLoggerWhenConfigured")]
+        public void Should_BuildFileFallbackLoggerWhenConfigured()
+        {
+            // Setup
+            var factory = GetLogFactory(new Config
+            {
+                FallbackLogPath = "fallbacklog.txt"
+            });
+
+            // Execute
+            var fallbackLogger = factory.GetFallbackLogger();
+
+            // Verify
+            Assert.NotNull(fallbackLogger);
+            Assert.True(typeof(StandardFileFallbackLogger).IsAssignableFrom(fallbackLogger.GetType()));
         }
     }
 }

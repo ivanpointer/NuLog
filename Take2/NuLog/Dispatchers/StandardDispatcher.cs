@@ -7,6 +7,7 @@ using NuLog.Loggers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -83,12 +84,22 @@ namespace NuLog.Dispatchers
                     }
                     catch (Exception cause)
                     {
-                        if (this.fallbackLogger != null)
-                        {
-                            this.fallbackLogger.Log(cause, target, logEvent);
-                        }
+                        // There was a problem writing to the target, report the error
+                        FallbackLog(cause, target, logEvent);
                     }
                 }
+            }
+        }
+
+        private void FallbackLog(Exception exception, ITarget target, ILogEvent logEvent)
+        {
+            try
+            {
+                this.fallbackLogger.Log(exception, target, logEvent);
+            }
+            catch (Exception cause)
+            {
+                Trace.TraceError("Failure writing exception to fallback logger: {0}\r\nOriginal Exception: {1}", cause, exception);
             }
         }
 

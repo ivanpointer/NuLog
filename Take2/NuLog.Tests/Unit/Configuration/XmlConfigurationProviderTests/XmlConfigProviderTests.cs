@@ -172,5 +172,21 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
             // Validate
             Assert.True(config.IncludeStackFrame);
         }
+
+        /// <summary>
+        /// The config provider should read the fallback log path.
+        /// </summary>
+        [Fact(DisplayName = "Should_ReadFallbackLogPath")]
+        public void Should_ReadFallbackLogPath()
+        {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog fallbackLog=\"fallbacklog.txt\"></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.Equal("fallbacklog.txt", config.FallbackLogPath);
+        }
     }
 }
