@@ -2,7 +2,6 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-using NuLog.LogEvents;
 using System;
 
 namespace NuLog.Dispatchers
@@ -17,6 +16,6 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// Logs an exception that occurred while writing to the given target.
         /// </summary>
-        void Log(Exception exception, ITarget target, LogEvent logEvent);
+        void Log(Exception exception, ITarget target, ILogEvent logEvent);
     }
 }

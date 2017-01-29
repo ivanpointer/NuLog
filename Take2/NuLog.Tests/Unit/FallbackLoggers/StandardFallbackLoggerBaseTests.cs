@@ -3,30 +3,22 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using FakeItEasy;
-using NuLog.Dispatchers;
 using NuLog.FallbackLoggers;
 using NuLog.LogEvents;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
 
 namespace NuLog.Tests.Unit.FallbackLoggers
 {
     /// <summary>
-    /// Documents (and verifies) the expected behavior of the standard fallback logger.
+    /// Documents (and verifies) the expected behavior of the standard fallback logger base class (abstract).
     /// </summary>
     [Trait("Category", "Unit")]
-    public class StandardFallbackLoggerTests : IDisposable
+    public class StandardFallbackLoggerBaseTests
     {
-        private readonly List<string> testFiles;
-
-        public StandardFallbackLoggerTests()
-        {
-            this.testFiles = new List<string>();
-        }
-
         /// <summary>
         /// The fallback logger should write the log event to file.
         /// </summary>
@@ -34,7 +26,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_WriteLogEvent()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_WriteLogEvent.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             // Execute
@@ -44,7 +36,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_WriteLogEvent.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             Assert.Contains("Fallback Logger!", text);
         }
 
@@ -55,7 +47,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_WriteMultipleEvents()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_WriteMultipleEvents.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             // Execute
@@ -69,7 +61,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_WriteMultipleEvents.txt");
+            var text = string.Join("\r\n", fallbackLogger.LoggedMessages);
             Assert.Contains("Fallback Logger!", text);
             Assert.Contains("Fallback Logger Two!", text);
         }
@@ -81,7 +73,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_StartWithDateTimeStamp()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_StartWithDateTimeStamp.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             // Execute
@@ -91,7 +83,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_StartWithDateTimeStamp.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             var pattern = new Regex(@"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} | .*$");
             var now = DateTime.Now;
             var midDateText = now.ToString("yyyy-MM-dd hh:mm");
@@ -108,7 +100,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_IncludeTargetNameAndType()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_IncludeTargetNameAndType.txt");
+            var fallbackLogger = GetFallbackLogger();
 
             var target = A.Fake<ITarget>();
             target.Name = "fakeTarget";
@@ -120,7 +112,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_IncludeTargetNameAndType.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             Assert.Contains("fakeTarget", text);
             Assert.Contains(target.GetType().FullName, text);
         }
@@ -132,7 +124,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_IncludeExceptionInformation()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_IncludeExceptionInformation.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             var exception = new InvalidOperationException("A Fake Exception");
@@ -144,7 +136,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_IncludeExceptionInformation.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             Assert.Contains(exception.ToString(), text);
         }
 
@@ -155,7 +147,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_IncludeTags()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_IncludeTags.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             // Execute
@@ -166,7 +158,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_IncludeTags.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             Assert.Contains("one_tag,two_tag,red_tag,blue_tag", text);
         }
 
@@ -177,7 +169,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         public void Should_IncludeLogEventExceptionMessage()
         {
             // Setup
-            var fallbackLogger = GetFallbackLogger("Should_IncludeLogEventExceptionMessage.txt");
+            var fallbackLogger = GetFallbackLogger();
             var target = A.Fake<ITarget>();
 
             // Execute
@@ -188,28 +180,35 @@ namespace NuLog.Tests.Unit.FallbackLoggers
             });
 
             // Verify
-            var text = File.ReadAllText("Should_IncludeLogEventExceptionMessage.txt");
+            var text = fallbackLogger.LoggedMessages.Single();
             Assert.Contains("LogEvent Exception: \"Log Event Exception Message!\"", text);
         }
 
         /// <summary>
         /// Gets the fallback logger under test.
         /// </summary>
-        protected IFallbackLogger GetFallbackLogger(string filePath)
+        internal DummyStandardFallbackLogger GetFallbackLogger()
         {
-            this.testFiles.Add(filePath);
-            return new StandardFallbackLogger(filePath);
+            return new DummyStandardFallbackLogger();
+        }
+    }
+
+    /// <summary>
+    /// A dummy class for testing the functionality of the standard fallback logger base class.
+    /// </summary>
+    internal class DummyStandardFallbackLogger : StandardFallbackLoggerBase
+    {
+        public List<string> LoggedMessages { get; private set; }
+
+        public DummyStandardFallbackLogger()
+        {
+            LoggedMessages = new List<string>();
         }
 
-        public void Dispose()
+        public override void Log(Exception exception, ITarget target, ILogEvent logEvent)
         {
-            foreach (var file in testFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
+            var message = FormatMessage(exception, target, logEvent);
+            LoggedMessages.Add(message);
         }
     }
 }

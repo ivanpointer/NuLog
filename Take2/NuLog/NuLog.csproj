@@ -54,7 +54,9 @@
     <Compile Include="Dispatchers\TagRouters\Rule.cs" />
     <Compile Include="Dispatchers\TagRouters\TagGroup.cs" />
     <Compile Include="Factories\StandardLoggerFactory.cs" />
-    <Compile Include="FallbackLoggers\StandardFallbackLogger.cs" />
+    <Compile Include="FallbackLoggers\StandardFileFallbackLogger.cs" />
+    <Compile Include="FallbackLoggers\StandardFallbackLoggerBase.cs" />
+    <Compile Include="FallbackLoggers\StandardTraceFallbackLogger.cs" />
     <Compile Include="ILogEvent.cs" />
     <Compile Include="ILoggerFactory.cs" />
     <Compile Include="ILogger.cs" />

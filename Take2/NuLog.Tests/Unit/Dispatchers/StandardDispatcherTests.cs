@@ -140,17 +140,105 @@ namespace NuLog.Tests.Unit.Dispatchers
         ///
         /// Exceptions in the logger shouldn't interfere with the logging application.
         /// </summary>
-        [Fact(DisplayName = "Should_EncapsulateTargetExceptions", Skip = "Not implemented yet!")]
-        public void Should_EncapsulateTargetExceptions()
+        [Fact(DisplayName = "Should_EncapsulateTargetExceptionsLater")]
+        public void Should_EncapsulateTargetExceptionsLater()
         {
-            throw new NotImplementedException();
+            // Setup
+            var target = FakeTarget("exceptional_target");
+            A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Returns(new string[] { "exceptional_target" });
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter);
+
+            // Execute / Verify (nothing should be thrown)
+            dispatcher.EnqueueForDispatch(new LogEvent
+            {
+                Message = "A doomed event."
+            });
+            dispatcher.Dispose();
         }
 
         /// <summary>
-        /// When an exception is thrown in NuLog, have the option to fall back to a text file.
+        /// The dispatcher should catch, report, and "stuff" exceptions thrown by the targets.
+        ///
+        /// Exceptions in the logger shouldn't interfere with the logging application.
         /// </summary>
-        [Fact(DisplayName = "Should_FalbackLogging", Skip = "Not implemented yet!")]
-        public void Should_FalbackLogging()
+        [Fact(DisplayName = "Should_EncapsulateTargetExceptionsNow")]
+        public void Should_EncapsulateTargetExceptionsNow()
+        {
+            // Setup
+            var target = FakeTarget("exceptional_target");
+            A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Returns(new string[] { "exceptional_target" });
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter);
+
+            // Execute / Verify (nothing should be thrown)
+            dispatcher.DispatchNow(new LogEvent
+            {
+                Message = "A doomed event."
+            });
+        }
+
+        /// <summary>
+        /// When an exception is thrown in NuLog, it should be logged to the fallback logger, instead
+        /// of bubbling up.
+        /// </summary>
+        [Fact(DisplayName = "Should_FallbackLoggingLater")]
+        public void Should_FallbackLoggingLater()
+        {
+            // Setup
+            var fallbackLogger = A.Fake<IFallbackLogger>();
+            var target = FakeTarget("exceptional_target");
+            A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Returns(new string[] { "exceptional_target" });
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter, fallbackLogger);
+
+            // Execute
+            dispatcher.EnqueueForDispatch(new LogEvent
+            {
+                Message = "A doomed event."
+            });
+            dispatcher.Dispose();
+
+            // Verify
+            A.CallTo(() => fallbackLogger.Log(A<Exception>.That.Matches(m => m.Message == "Uh, yer target done broke!"), target, A<LogEvent>.That.Matches(m => m.Message == "A doomed event.")))
+                .MustHaveHappened();
+        }
+
+        /// <summary>
+        /// When an exception is thrown in NuLog, it should be logged to the fallback logger, instead
+        /// of bubbling up.
+        /// </summary>
+        [Fact(DisplayName = "Should_FallbackLoggingNow")]
+        public void Should_FallbackLoggingNow()
+        {
+            // Setup
+            var fallbackLogger = A.Fake<IFallbackLogger>();
+            var target = FakeTarget("exceptional_target");
+            A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Returns(new string[] { "exceptional_target" });
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter, fallbackLogger);
+
+            // Execute
+            dispatcher.DispatchNow(new LogEvent
+            {
+                Message = "A doomed event."
+            });
+
+            // Verify
+            A.CallTo(() => fallbackLogger.Log(A<Exception>.That.Matches(m => m.Message == "Uh, yer target done broke!"), target, A<LogEvent>.That.Matches(m => m.Message == "A doomed event.")))
+                .MustHaveHappened();
+        }
+
+        /// <summary>
+        /// The dispatcher should write the fallback message to trace, if no fallback logger is set
+        /// on the dispatcher.
+        /// </summary>
+        [Fact(DisplayName = "Should_FallbackToTraceIfNoFallbackSetLater", Skip = "Not implemented yet.")]
+        public void Should_FallbackToTraceIfNoFallbackSetLater()
         {
             throw new NotImplementedException();
         }
@@ -176,9 +264,9 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// <summary>
         /// Get a new instance of the dispatcher under test.
         /// </summary>
-        protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter)
+        protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger = null)
         {
-            return new StandardDispatcher(targets, tagRouter, null);
+            return new StandardDispatcher(targets, tagRouter, fallbackLogger);
         }
     }
 

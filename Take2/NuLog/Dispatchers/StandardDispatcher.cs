@@ -76,8 +76,18 @@ namespace NuLog.Dispatchers
                 var target = targets.FirstOrDefault(t => string.Equals(targetName, t.Name, StringComparison.OrdinalIgnoreCase));
                 if (target != null)
                 {
-                    // We found it, tell the log event to write itself to the target
-                    logEvent.WriteTo(target);
+                    try
+                    {
+                        // We found it, tell the log event to write itself to the target
+                        logEvent.WriteTo(target);
+                    }
+                    catch (Exception cause)
+                    {
+                        if (this.fallbackLogger != null)
+                        {
+                            this.fallbackLogger.Log(cause, target, logEvent);
+                        }
+                    }
                 }
             }
         }
