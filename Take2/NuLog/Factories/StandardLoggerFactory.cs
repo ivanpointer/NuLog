@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 
 #if !PRENET45
+
 using System.Collections.ObjectModel;
+
 #endif
 
 namespace NuLog.Factories
@@ -41,6 +43,11 @@ namespace NuLog.Factories
         /// The config for this standard logger factory.
         /// </summary>
         protected readonly Config Config;
+
+        /// <summary>
+        /// The fallback logger to use for the logger factory.
+        /// </summary>
+        protected readonly IFallbackLogger FallbackLogger;
 
         /// <summary>
         /// A lock used for controlling the creation of the dispatcher, normalizer, etc. A highly
@@ -142,6 +149,21 @@ namespace NuLog.Factories
         public StandardLoggerFactory(Config config)
         {
             Config = config;
+
+            // Try to get the fallback logger, and fallback to a simple trace fallback logger, if we
+            // fail. It's bad to do anything in the constructor that could throw an exception,
+            // because this causes failures so early in the application life cycle that they are hard
+            // to handle. However, this is an exceptional condition, we want to know about this
+            // early, and, with the unit tests around the NuLog core items, this is reasonably safe.
+            try
+            {
+                FallbackLogger = GetFallbackLogger();
+            }
+            catch (Exception cause)
+            {
+                FallbackLogger = new StandardTraceFallbackLogger();
+                FallbackLogger.Log("Failed to get fallback logger for cause: {0}", cause);
+            }
         }
 
         public ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags)
@@ -168,7 +190,11 @@ namespace NuLog.Factories
 
             foreach (var targetConfig in Config.Targets)
             {
-                targets.Add(BuildTarget(targetConfig));
+                var target = BuildTarget(targetConfig);
+                if (target != null)
+                {
+                    targets.Add(target);
+                }
             }
 
             return targets;
@@ -224,7 +250,7 @@ namespace NuLog.Factories
 
         public virtual IFallbackLogger GetFallbackLogger()
         {
-            if (string.IsNullOrEmpty(Config.FallbackLogPath))
+            if (Config == null || string.IsNullOrEmpty(Config.FallbackLogPath))
             {
                 return new StandardTraceFallbackLogger();
             }
@@ -368,24 +394,44 @@ namespace NuLog.Factories
 
         protected virtual ITarget BuildTarget(TargetConfig targetConfig)
         {
-            // Use the activator to build out a new target instance
-            var type = Type.GetType(targetConfig.Type);
-            var target = (ITarget)Activator.CreateInstance(type);
-
-            // Configure and set the target's name
-            target.Configure(targetConfig);
-            target.Name = targetConfig.Name;
-
-            // Check to see if the target is a layout target, and set its layout if so
-            if (LayoutTargetBaseType.IsAssignableFrom(target.GetType()))
+            try
             {
-                var layout = GetLayout(targetConfig);
-                var layoutTarget = (LayoutTargetBase)target;
-                layoutTarget.SetLayout(layout);
-            }
+                // Use the activator to build out a new target instance
+                var type = Type.GetType(targetConfig.Type);
 
-            // Return the built target
-            return target;
+                if (type != null)
+                {
+                    var target = (ITarget)Activator.CreateInstance(type);
+
+                    // Configure and set the target's name
+                    target.Configure(targetConfig);
+                    target.Name = targetConfig.Name;
+
+                    // Check to see if the target is a layout target, and set its layout if so
+                    if (LayoutTargetBaseType.IsAssignableFrom(target.GetType()))
+                    {
+                        var layout = GetLayout(targetConfig);
+                        var layoutTarget = (LayoutTargetBase)target;
+                        layoutTarget.SetLayout(layout);
+                    }
+
+                    // Return the built target
+                    return target;
+                }
+                else
+                {
+                    FallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Failed to find concrete type by name.", targetConfig.Name, targetConfig.Type);
+                    return null;
+                }
+            }
+            catch (Exception cause)
+            {
+                FallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Exception thrown: {2}",
+                    targetConfig != null ? targetConfig.Name : string.Empty,
+                    targetConfig != null ? targetConfig.Type : string.Empty,
+                    cause);
+                return null;
+            }
         }
 
         #endregion Internals

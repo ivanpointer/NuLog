@@ -11,6 +11,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A tag based logging framework.  Powerfully Simple Logging.  Period.</description>
         <summary>NuLog - Powerfully Simple Logging - Period.</summary>
+        <releaseNotes>Release Notes</releaseNotes>
         <copyright>© 2017 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag</tags>

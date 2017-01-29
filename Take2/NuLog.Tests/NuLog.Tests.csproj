@@ -100,6 +100,7 @@
     <Compile Include="Integration\Configuration\ConfigurationManagerProviderTests.cs" />
     <Compile Include="StandardLoggerFactoryTestsBase.cs" />
     <Compile Include="TargetConfigBuilder.cs" />
+    <Compile Include="TraceListenerTestsBase.cs" />
     <Compile Include="Unit\Configuration\ConfigurationSectionHandlerTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigMetaDataTests.cs" />
     <Compile Include="Unit\Configuration\XmlConfigurationProviderTests\XmlConfigProviderTests.cs" />

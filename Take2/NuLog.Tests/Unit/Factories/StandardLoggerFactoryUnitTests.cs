@@ -3,11 +3,17 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
+using NuLog.Dispatchers;
+using NuLog.Factories;
 using NuLog.FallbackLoggers;
+using NuLog.LogEvents;
 using NuLog.Targets;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NuLog.Tests.Unit.Factories
 {
@@ -17,6 +23,26 @@ namespace NuLog.Tests.Unit.Factories
     [Trait("Category", "Unit")]
     public class StandardLoggerFactoryUnitTests : StandardLoggerFactoryTestsBase
     {
+        private HashSetTraceListener traceListener;
+
+        /// <summary>
+        /// Constructor hooks in the xUnit test output helper, which in a base class, is used in
+        /// conjunction with a trace listener, to route trace messages to output.
+        /// </summary>
+        public StandardLoggerFactoryUnitTests(ITestOutputHelper output) : base(output)
+        {
+            this.traceListener = new HashSetTraceListener();
+            Trace.Listeners.Add(this.traceListener);
+        }
+
+        public override void Dispose()
+        {
+            Trace.Listeners.Remove(this.traceListener);
+            this.traceListener = null;
+
+            base.Dispose();
+        }
+
         /// <summary>
         /// The standard logger factory should create a new target instance.
         /// </summary>
@@ -429,6 +455,119 @@ namespace NuLog.Tests.Unit.Factories
             // Verify
             Assert.NotNull(fallbackLogger);
             Assert.True(typeof(StandardFileFallbackLogger).IsAssignableFrom(fallbackLogger.GetType()));
+        }
+
+        /// <summary>
+        /// Failures in creating targets shouldn't bubble up through the dispatcher.
+        /// </summary>
+        [Fact(DisplayName = "Should_NotThrowExceptionForBadTargetType")]
+        public void Should_NotThrowExceptionForBadTargetType()
+        {
+            // Setup
+            var targetConfig = new TargetConfig
+            {
+                Name = "broken",
+                Type = "NuLog.Tests.Unit.Factories.DoesNotExist, NuLog.Tests"
+            };
+            var configs = new List<TargetConfig> { targetConfig };
+            var config = new Config
+            {
+                Targets = configs
+            };
+
+            var factory = GetLogFactory(config);
+
+            // Execute
+            var targets = factory.GetTargets();
+
+            // Validate
+            Assert.Equal(0, targets.Count);
+        }
+
+        /// <summary>
+        /// The factory shouldn't throw an exception for a target that exists, but that throws an
+        /// exception on construction.
+        /// </summary>
+        [Fact(DisplayName = "Should_NotThrowExceptionForBrokenTarget")]
+        public void Should_NotThrowExceptionForBrokenTarget()
+        {
+            // Setup
+            var targetConfig = new TargetConfig
+            {
+                Name = "broken",
+                Type = "NuLog.Tests.Unit.Factories.BrokenTarget, NuLog.Tests"
+            };
+            var configs = new List<TargetConfig> { targetConfig };
+            var config = new Config
+            {
+                Targets = configs
+            };
+
+            var factory = GetLogFactory(config);
+
+            // Execute
+            var targets = factory.GetTargets();
+
+            // Validate
+            Assert.Equal(0, targets.Count);
+        }
+
+        /// <summary>
+        /// The factory shouldn't throw an exception when there's a failure in getting the fallback
+        /// logger. It should instead, fallback to a trace fallback logger, and report the error there.
+        /// </summary>
+        [Fact(DisplayName = "Should_NotThrowExceptionForBadFallbackLogger")]
+        public void Should_NotThrowExceptionForBadFallbackLogger()
+        {
+            // Setup / Execute
+            var factory = new BrokenFactoryFallbackLogger(new Config());
+
+            // Verify
+            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Failed to get fallback logger for cause: ")), "No message was traced warning of the failed construction of the fallback logger.");
+        }
+    }
+
+    /// <summary>
+    /// A broken target, which throws a "NotImplementedException" in the constructor.
+    /// </summary>
+    internal class BrokenTarget : ITarget
+    {
+        public string Name { get; set; }
+
+        public BrokenTarget()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Configure(TargetConfig config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(LogEvent logEvent)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// A broken standard logger factory, which throws an exception when getting the fallback logger.
+    /// </summary>
+    internal class BrokenFactoryFallbackLogger : StandardLoggerFactory
+    {
+        public BrokenFactoryFallbackLogger(Config config) : base(config)
+        {
+        }
+
+        public override IFallbackLogger GetFallbackLogger()
+        {
+            // Deliberate - to test the "fallback" of the fallback logger, in the logger factory constructor.
+            throw new NotImplementedException();
         }
     }
 }

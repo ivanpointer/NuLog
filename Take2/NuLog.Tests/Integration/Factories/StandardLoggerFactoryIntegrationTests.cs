@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NuLog.Tests.Integration.Factories
 {
@@ -24,16 +25,25 @@ namespace NuLog.Tests.Integration.Factories
     {
         private HashSetTraceListener traceListener;
 
-        public StandardLoggerFactoryIntegrationTests()
+        /// <summary>
+        /// Constructor hooks in the xUnit test output helper, which in a base class, is used in
+        /// conjunction with a trace listener, to route trace messages to output.
+        ///
+        /// Also has a trace listener, because we're looking explicitly for some trace output in
+        /// these integration tests.
+        /// </summary>
+        public StandardLoggerFactoryIntegrationTests(ITestOutputHelper output) : base(output)
         {
             this.traceListener = new HashSetTraceListener();
-            Debug.Listeners.Add(this.traceListener);
+            Trace.Listeners.Add(this.traceListener);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Debug.Listeners.Remove(this.traceListener);
             this.traceListener = null;
+
+            base.Dispose();
         }
 
         /// <summary>

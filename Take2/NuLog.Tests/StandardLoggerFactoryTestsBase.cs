@@ -4,6 +4,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.Configuration;
 using NuLog.Factories;
+using Xunit.Abstractions;
 
 namespace NuLog.Tests
 {
@@ -12,8 +13,12 @@ namespace NuLog.Tests
     /// "Unit" and "Integration" categories, but test the same factory, so this has been brought to a
     /// common scope above each.
     /// </summary>
-    public abstract class StandardLoggerFactoryTestsBase
+    public abstract class StandardLoggerFactoryTestsBase : TraceListenerTestsBase
     {
+        public StandardLoggerFactoryTestsBase(ITestOutputHelper output) : base(output)
+        {
+        }
+
         /// <summary>
         /// Get the logger factory under test.
         /// </summary>
