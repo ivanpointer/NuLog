@@ -67,27 +67,47 @@ namespace NuLog.Dispatchers
 
         public void DispatchNow(ILogEvent logEvent)
         {
-            // Ask our tag router which targets we send to
-            var targetNames = tagRouter.Route(logEvent.Tags);
-
-            // For each target to dispatch to, do it
-            foreach (var targetName in targetNames)
+            try
             {
-                // Try to find the target by name
-                var target = targets.FirstOrDefault(t => string.Equals(targetName, t.Name, StringComparison.OrdinalIgnoreCase));
-                if (target != null)
+                // Ask our tag router which targets we send to
+                var targetNames = tagRouter.Route(logEvent.Tags);
+
+                // For each target to dispatch to, do it
+                foreach (var targetName in targetNames)
                 {
-                    try
+                    // Try to find the target by name
+                    var target = targets.FirstOrDefault(t => string.Equals(targetName, t.Name, StringComparison.OrdinalIgnoreCase));
+                    if (target != null)
                     {
-                        // We found it, tell the log event to write itself to the target
-                        logEvent.WriteTo(target);
-                    }
-                    catch (Exception cause)
-                    {
-                        // There was a problem writing to the target, report the error
-                        FallbackLog(cause, target, logEvent);
+                        try
+                        {
+                            // We found it, tell the log event to write itself to the target
+                            logEvent.WriteTo(target);
+                        }
+                        catch (Exception cause)
+                        {
+                            // There was a problem writing to the target, report the error
+                            FallbackLog(cause, target, logEvent);
+                        }
                     }
                 }
+            }
+            catch (Exception cause)
+            {
+                // A general failure, likely in the router, or in finding the target
+                FallbackLog("Failure dispatching log event: {0}", cause);
+            }
+        }
+
+        private void FallbackLog(string message, params object[] args)
+        {
+            try
+            {
+                this.fallbackLogger.Log(message, args);
+            }
+            catch (Exception cause)
+            {
+                Trace.TraceError("Failure writing message to fallback logger for cause: {0}", cause);
             }
         }
 
