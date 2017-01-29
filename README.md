@@ -1,4 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master)
+**Build Status:** [![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master)
+
+**Release Candidate NuGet Package Feed:** https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
 
 # NuLog
 _Powerfully Simple Logging. Period._  
@@ -8,6 +10,13 @@ _Written in C# for .NET_
 **Full Documentation:** Full documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
 **NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
 **Source:** The source and samples are available here on GitHub.  
+
+## 1/29/2017 - .Net Versions and NuGet Packaging Complete
+I've managed to get the solution building for .Net 3.5, 4 and 4.5.2 as a part of the AppVeyor CI builds.  I've also got the AppVeyor build producing a "release candidate" NuGet package, which is being collected as an artifact, and published on the AppVeyor NuGet feed:
+
+https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
+
+One step closer to having a viable product here!
 
 ## 1/28/2017 - Taking a break from targets - postponing performance/memory tuning - moving to NuGet packaging and .Net versions
 I've got the Windows Event Log and SMTP/Mail targets built out, and added some exception handling/fallback logging.  Instead of doing performance and memory tuning, I want to look into NuGet packaging and compiling for different .Net versions.  I'll look at performance/memory tuning later.
