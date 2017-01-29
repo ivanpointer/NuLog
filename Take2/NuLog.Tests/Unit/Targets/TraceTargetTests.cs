@@ -89,7 +89,7 @@ namespace NuLog.Tests.Unit.Targets
             var target = new TraceTarget();
 
             // Execute / Verify
-            Assert.Throws(typeof(NullReferenceException), () =>
+            Assert.Throws(typeof(InvalidOperationException), () =>
             {
                 target.Write(new LogEvent
                 {
