@@ -15,6 +15,10 @@ using NuLog.Targets;
 using System;
 using System.Collections.Generic;
 
+#if !PRENET45
+using System.Collections.ObjectModel;
+#endif
+
 namespace NuLog.Factories
 {
     /// <summary>
@@ -118,8 +122,11 @@ namespace NuLog.Factories
                     {
                         if (_defaultMetaData == null)
                         {
-                            //TODO: _defaultMetaData = new ReadOnlyDictionary<string, object>(ToMetaData(Config.MetaData));
+#if PRENET45
                             _defaultMetaData = new Dictionary<string, object>(ToMetaData(Config.MetaData));
+#else
+                            _defaultMetaData = new ReadOnlyDictionary<string, object>(ToMetaData(Config.MetaData));
+#endif
                         }
                     }
                 }

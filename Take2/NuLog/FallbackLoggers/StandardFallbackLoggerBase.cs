@@ -36,8 +36,11 @@ namespace NuLog.FallbackLoggers
 
         private static string JoinTags(ILogEvent logEvent)
         {
-            //TODO: return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+#if PRENET4
             return logEvent.Tags != null ? string.Join(",", logEvent.Tags.ToArray()) : string.Empty;
+#else
+            return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+#endif
         }
 
         private static string GetExceptionMessage(ILogEvent logEvent)

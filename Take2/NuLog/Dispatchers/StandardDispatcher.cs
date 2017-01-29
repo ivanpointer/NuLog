@@ -5,12 +5,16 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Dispatchers.TagRouters;
 using NuLog.Loggers;
 using System;
-
-//TODO: using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+
+#if !PRENET4
+
+using System.Collections.Concurrent;
+
+#endif
 
 namespace NuLog.Dispatchers
 {
@@ -37,8 +41,11 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// A queue for storing log events to be dispatched.
         /// </summary>
-        //TODO: private readonly ConcurrentQueue<ILogEvent> logEventQueue;
+#if PRENET4
         private readonly Queue<ILogEvent> logEventQueue;
+#else
+        private readonly ConcurrentQueue<ILogEvent> logEventQueue;
+#endif
 
         /// <summary>
         /// The timer for processing the log queue.
@@ -62,8 +69,11 @@ namespace NuLog.Dispatchers
 
             this.fallbackLogger = fallbackLogger;
 
-            //TODO: this.logEventQueue = new ConcurrentQueue<ILogEvent>();
+#if PRENET4
             this.logEventQueue = new Queue<ILogEvent>();
+#else
+            this.logEventQueue = new ConcurrentQueue<ILogEvent>();
+#endif
 
             this.logEventQueueTimer = new Timer(OnLogQueueTimerElapsed, this, 200, 200);
         }
@@ -192,16 +202,19 @@ namespace NuLog.Dispatchers
         /// </summary>
         protected void ProcessLogQueue()
         {
-            //TODO: ILogEvent logEvent;
-            //while (this.logEventQueue.TryDequeue(out logEvent))
-            //{
-            //    DispatchNow(logEvent);
-            //}
+#if PRENET4
             while (this.logEventQueue.Count > 0)
             {
                 var logEvent = this.logEventQueue.Dequeue();
                 DispatchNow(logEvent);
             }
+#else
+            ILogEvent logEvent;
+            while (this.logEventQueue.TryDequeue(out logEvent))
+            {
+                DispatchNow(logEvent);
+            }
+#endif
         }
 
         #endregion LogEvent Queue Management

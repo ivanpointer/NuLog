@@ -24,7 +24,9 @@ namespace NuLog.Targets
 
         public void Dispose()
         {
-            //TODO: this.smtpClient.Dispose();
+#if !PRENET4
+            this.smtpClient.Dispose();
+#endif
         }
 
         public void Send(MailMessage mailMessage)

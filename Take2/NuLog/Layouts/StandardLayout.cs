@@ -128,8 +128,11 @@ namespace NuLog.Layouts
             switch (parameter.Path)
             {
                 case "Tags":
-                    //TODO: return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+#if PRENET4
                     return logEvent.Tags != null ? string.Join(",", logEvent.Tags.ToArray()) : string.Empty;
+#else
+                    return logEvent.Tags != null ? string.Join(",", logEvent.Tags) : string.Empty;
+#endif
 
                 case "Exception":
                     return FormatException(logEvent.Exception);
