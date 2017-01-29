@@ -82,14 +82,14 @@ namespace NuLog.Tests.Unit.Targets
         /// The trace target should throw an invalid operation exception when no layout is given, and
         /// the target is asked to write a log message.
         /// </summary>
-        [Fact(DisplayName = "Should_UseLayout")]
+        [Fact(DisplayName = "Should_ThrowInvalidOperationWithoutLayout")]
         public void Should_ThrowInvalidOperationWithoutLayout()
         {
             // Setup
             var target = new TraceTarget();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
+            Assert.Throws(typeof(NullReferenceException), () =>
             {
                 target.Write(new LogEvent
                 {
