@@ -11,6 +11,18 @@ We feel that the best form of documentation for a software project, are well wri
 
 `Head over to GitHub <https://github.com/ivanpointer/NuLog/tree/master/Take2/NuLog.Tests>`_ to look through the unit and integration tests for the project.
 
+What's Changed From Version 1
+=============================
+Much of the functionality of version 1 has been rebuilt into version 2.  However, the functionality has been simplified, and some features were deprecated, and not brought over.  Here's a quick overview of what's changed:
+
+  * **Runtime Config Helpers** - The runtime config helpers...
+  * **MEF Deprecated**
+  * **Static Meta Data Providers Deprecated**
+  * **Configuration Changed from JSON to use standard XML-based config**
+  * **Legacy logging extension deprecated**
+  * **Configuration Extenders Deprecated**
+  * TODO - CONTINUE HERE
+
 .. toctree::
    :maxdepth: 2
    :caption: User Documentation
