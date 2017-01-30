@@ -1,6 +1,14 @@
+.. rst-class:: hideheader
+
 ###############
   License (MIT)
 ###############
+
+.. rst-class:: center
+
+.. image:: \images\sitetitle.png
+
+----
 
 The MIT License (MIT)
 =====================

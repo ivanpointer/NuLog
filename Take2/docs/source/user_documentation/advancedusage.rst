@@ -1,3 +1,9 @@
+.. rst-class:: center
+
+.. image:: \images\sitetitle.png
+
+----
+
 ################
   Advanced Usage
 ################
