@@ -2,6 +2,8 @@
 
 **Release Candidate NuGet Package Feed:** https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
 
+**Read the Docs:** http://nulog.readthedocs.io/en/latest/index.html
+
 # NuLog
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
