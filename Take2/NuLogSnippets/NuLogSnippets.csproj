@@ -48,6 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="StaticMetaDataConfig.config" />
+    <None Include="TagGroupsConfig.config" />
     <None Include="RulesConfig.config" />
     <None Include="GeneralSettingsApp.config" />
     <None Include="CopyPastaApp.config" />

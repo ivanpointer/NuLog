@@ -48,8 +48,8 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
    user_documentation/configuration/generalsettings
    user_documentation/configuration/rules
    user_documentation/configuration/taggroups
-   user_documentation/configuration/standardlayout
    user_documentation/configuration/staticmetadata
+   user_documentation/configuration/standardlayout
    user_documentation/advancedusage
 
 .. toctree::

@@ -7,7 +7,6 @@ using NuLog.Targets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace NuLog.Layouts
@@ -149,8 +148,9 @@ namespace NuLog.Layouts
         {
             var sb = new StringBuilder();
 
+            var depth = 0;
             bool inner = false;
-            while (exception != null)
+            while (exception != null && depth++ < 10)
             {
                 sb.Append(string.Format("{0}{1}: {2}\r\n", inner ? "Caused by " : "", exception.GetType().FullName, exception.Message));
                 sb.Append(string.Format("{0}\r\n", exception.StackTrace));

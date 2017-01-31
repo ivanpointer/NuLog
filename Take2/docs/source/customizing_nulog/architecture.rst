@@ -12,6 +12,8 @@ Logger, Dispatcher and Target
 =============================
 lorem ipsum.
 
+----
+
 .. _arch_princ:
 
 Architectural Principles
@@ -40,6 +42,8 @@ Here are our guiding principles, for the NuLog project.  These principles come t
   #. **External Dependencies in Extension Libraries** - Extenral dependencies need to be brought in through extension libraries.  An example of this would be a separate project for a target which posts log events to a `Slack <https://slack.com/>`_ channel.
 
   #. **NO TOLERANCE FOR *GPL. PERIOD.** - GPL is not to come within 1,000 miles of NuLog.  NuLog is a cancer the likes this world hasn't seen before, and as *mamma says, GPL is the devil*.  But-**NO.  PERIOD.**  We prefer MIT and Apache 2.0 around here.  This same policy applies for any *copyleft* style licenses, which are designed to restrict your freedom and rights, as opposed to protecting them.
+
+----
 
 Architectural Policies
 ======================
