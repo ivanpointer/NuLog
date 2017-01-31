@@ -48,6 +48,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ConsoleTargetConfig.config" />
+    <None Include="MailTargetConfig.config" />
+    <None Include="TextFileTargetConfig.config" />
+    <None Include="TraceTargetConfig.config" />
+    <None Include="TargetsConfig.config" />
     <None Include="StaticMetaDataConfig.config" />
     <None Include="TagGroupsConfig.config" />
     <None Include="RulesConfig.config" />
