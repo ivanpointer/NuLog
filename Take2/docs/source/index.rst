@@ -6,7 +6,7 @@
 
 .. rst-class:: center
 
-.. image:: images/sitetitle.png
+.. image:: sitetitle.png
 
 ----
 

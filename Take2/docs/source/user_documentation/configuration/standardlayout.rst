@@ -1,6 +1,6 @@
 .. rst-class:: center
 
-.. image:: ..\..\images\sitetitle.png
+.. image:: sitetitle.png
 
 ----
 
@@ -16,7 +16,7 @@ Layouts are a mechanism for converting log events into text, and are used by man
 
 Layouts are a combination of static text and layout parameters. Static text is anything that is not wrapped in a property enclosure :code:`${}`. Static text will always show in a log event formatted by the layout. Escaped characters are supported, and *suggested*, as newline characters are not automatically included at the end when a log event is being printed.
 
-.. image:: \images\introtolayouts.png
+.. image:: introtolayouts.png
 
 ----
 
@@ -33,7 +33,7 @@ Anatomy of a Layout Parameter
 =============================
 Parameters are wrapped with the property enclosure: :code:`${}`. A Single parameter in the layout format refers to a single property in the log event. Parameters have three parts:
 
-.. image:: \images\anatomyoflayoutparameter.png
+.. image:: anatomyoflayoutparameter.png
 
 Let's explore:
   #. **The Conditional Flag - *Optional*** - The conditional flag is a single :code:`?` located at the front of the property, inside the property property enclosure :code:`${}`. If the conditional flag is present, the property will only be included in the resulting text if the property is not null or empty.
@@ -46,7 +46,7 @@ Conditional Parameters
 ======================
 Using parameter formatting (which we will look at next), extra characters and text can be included in with a parameter. By using the conditional flag, you can tell the layout to only include the formatted text if the parameter identified by the name has a value. Take, for example:
 
-.. image:: \images\conditionalparameters.png
+.. image:: conditionalparameters.png
 
 Notice how the resulting text could be different, between :code:`Hello Layout!` and :code:`Hello Layout: 10/13/2014 15:34:12.572!`. The two differences between these are the characters :code:`:` and the date. Because of the conditional flag :code:`?` at the beginning of the parameter is set, the entire formatted text is not included when DateTime has no value, excluding the :code:`:`. This prevents the formatted text from reading :code:`Hello Layout: !` or :code:`Hello Layout: null!` if no date is provided.
 
@@ -56,6 +56,6 @@ Formatted Parameters
 ====================
 The format portion of the parameter is separated from the parameter name by the :code:`:` character. The format is wrapped in single quotes :code:`'` and is passed as the pattern or format to the :code:`System.String.Format` function. The first and only parameter passed for formatting is the matched parameter from the log event. The example below shows how we leverage the :code:`System.String.Format` functionality for formatting a :code:`DateTime`:
 
-.. image:: \images\formattedparameters.png
+.. image:: formattedparameters.png
 
 Also notice how in the format string, the date stamp is preceded by two characters - a colon and a space.
