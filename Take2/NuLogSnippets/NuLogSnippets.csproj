@@ -48,6 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="RulesConfig.config" />
+    <None Include="GeneralSettingsApp.config" />
+    <None Include="CopyPastaApp.config" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />

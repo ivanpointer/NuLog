@@ -4,9 +4,6 @@ pushd %~dp0
 
 REM Command file for Sphinx documentation
 
-REM DELETE THE BUILD DIRECTORY TO FORCE A FULL REBUILD:
-rmdir /s /q build
-
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )

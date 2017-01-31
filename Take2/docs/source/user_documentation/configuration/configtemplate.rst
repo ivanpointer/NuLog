@@ -16,7 +16,15 @@ The standard way to configure NuLog is via the standard custom configuration sec
 
 Copy Pasta
 ==========
-lorem ipsum.
+Here's a bare-bones configuration for using NuLog.  This will direct all log events to :code:`Trace`:
+
+.. highlight:: xml
+
+.. literalinclude:: /../../NuLogSnippets/CopyPastaApp.config
+   :lines: 1-5,9-25
+   :tab-width: 4
+   :emphasize-lines: 4,6-21
+   :linenos:
 
 NuGet Package
 =============

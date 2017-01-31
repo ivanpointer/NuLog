@@ -1,0 +1,5 @@
+
+REM DELETE THE BUILD DIRECTORY TO FORCE A FULL REBUILD:
+rmdir /s /q build
+
+make html
