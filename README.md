@@ -6,10 +6,9 @@
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
 ***
-**Quick Start:** For a quick start, see the [Developer Implementation Guide](https://github.com/ivanpointer/NuLog/wiki#developer-implementation-quick-start-guide).  
-**Full Documentation:** Full documentation can be found in the [NuLog Wiki](https://github.com/ivanpointer/NuLog/wiki).  
-**NuGet:** NuLog is provided as a NuGet package in the Gallery, just search for "NuLog".  [NuLog in NuGet Gallery](http://www.nuget.org/packages?q=NuLog)  
-**Source:** The source and samples are available here on GitHub.  
+
+## 1/30/2017 - Doco Well Under-Way
+I'm leveraging "Read the Docs" and Sphynx to build out the documentation.  It is coming along quite well.
 
 ## 1/29/2017 - .Net Versions and NuGet Packaging Complete
 I've managed to get the solution building for .Net 3.5, 4 and 4.5.2 as a part of the AppVeyor CI builds.  I've also got the AppVeyor build producing a "release candidate" NuGet package, which is being collected as an artifact, and published on the AppVeyor NuGet feed:
