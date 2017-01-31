@@ -9,6 +9,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+#if PRENET4
+
+using System.Linq;
+
+#endif
+
 namespace NuLog.Layouts
 {
     /// <summary>
