@@ -47,12 +47,15 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_WriteToConsole()
         {
             // Setup
-            var logger = new ConsoleTarget();
             var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
-
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Write to console!");
+
+            var logger = new ConsoleTarget();
+            logger.Configure(null, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent
@@ -72,11 +75,15 @@ namespace NuLog.Tests.Unit.Targets
         {
             // Setup
             var logger = new ConsoleTarget();
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
 
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Write to console using layout!");
+
+            logger.Configure(null, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent
@@ -96,12 +103,15 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_UseDefaultBackgroud()
         {
             // Setup
-            var logger = new ConsoleTarget();
             var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
-
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default background!");
+
+            var logger = new ConsoleTarget();
+            logger.Configure(null, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent());
@@ -117,12 +127,15 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_UseDefaultForeground()
         {
             // Setup
-            var logger = new ConsoleTarget();
             var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
-
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default foreground!");
+
+            var logger = new ConsoleTarget();
+            logger.Configure(null, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent());
@@ -138,20 +151,25 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_ResetColorAfterWrite()
         {
             // Setup
-            var logger = new ConsoleTarget();
-            logger.Configure(new TargetConfig
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
+                .Returns("White and Blue!");
+
+            var config = new TargetConfig
             {
                 Properties = new Dictionary<string, object>
                 {
                     { "foreground", "White" },
                     { "background", "DarkBlue" }
                 }
-            });
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
+            };
 
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
-                .Returns("White and Blue!");
+            var logger = new ConsoleTarget();
+            logger.Configure(config);
+            logger.Configure(config, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent());

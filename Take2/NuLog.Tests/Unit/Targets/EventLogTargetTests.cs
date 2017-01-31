@@ -30,9 +30,13 @@ namespace NuLog.Tests.Unit.Targets
             var target = GetEventLogTarget(out eventLog);
 
             var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns(logEventMessage);
-            target.SetLayout(layout);
+
+            target.Configure(null, layoutFactory);
 
             // Execute
             target.Write(new LogEvent());
@@ -55,15 +59,19 @@ namespace NuLog.Tests.Unit.Targets
             var target = GetEventLogTarget(out eventLog);
 
             var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Testing event log source.");
-            target.SetLayout(layout);
 
             // Execute
-            target.Configure(TargetConfigBuilder.Start()
+            var config = TargetConfigBuilder.Start()
                 .Add("source", source)
                 .Add("sourceLog", "HelloSourceLog")
-                .Build());
+                .Build();
+            target.Configure(config);
+            target.Configure(config, layoutFactory);
             target.Write(new LogEvent());
 
             // Verify
@@ -81,9 +89,13 @@ namespace NuLog.Tests.Unit.Targets
             var target = GetEventLogTarget(out eventLog);
 
             var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Formatted!");
-            target.SetLayout(layout);
+
+            target.Configure(null, layoutFactory);
 
             // Execute
             target.Write(new LogEvent { Message = "Hello, World!" });
@@ -110,16 +122,20 @@ namespace NuLog.Tests.Unit.Targets
             var target = GetEventLogTarget(out eventLog);
 
             var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Testing event log entry type.");
-            target.SetLayout(layout);
 
             // Execute
-            target.Configure(TargetConfigBuilder.Start()
+            var config = TargetConfigBuilder.Start()
                 .Add("entryType", entryTypeString)
                 .Add("source", "HelloSource")
                 .Add("sourceLog", "HelloSourceLog")
-                .Build());
+                .Build();
+            target.Configure(config);
+            target.Configure(config, layoutFactory);
             target.Write(new LogEvent());
 
             // Verify
@@ -138,15 +154,24 @@ namespace NuLog.Tests.Unit.Targets
             var target = GetEventLogTarget(out eventLog);
 
             var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Formatted!");
-            target.SetLayout(layout);
 
-            // Execute
-            target.Configure(TargetConfigBuilder.Start()
+            var logger = new ConsoleTarget();
+            logger.Configure(null, layoutFactory);
+
+            var config = TargetConfigBuilder.Start()
+                .Add("layout", "${Message}")
                 .Add("source", "HelloSource")
                 .Add("sourceLog", "HelloSourceLog")
-                .Build());
+                .Build();
+
+            // Execute
+            target.Configure(config);
+            target.Configure(config, layoutFactory);
             target.Write(new LogEvent { Message = "Testing event log entry type." });
 
             // Verify

@@ -118,6 +118,8 @@
     <Compile Include="TagRouters\StandardTagRouter.cs" />
     <Compile Include="TagRouters\TagGroupProcessors\StandardTagGroupProcessor.cs" />
     <Compile Include="Targets\ConsoleTarget.cs" />
+    <Compile Include="Targets\ILayoutFactory.cs" />
+    <Compile Include="Targets\ILayoutTarget.cs" />
     <Compile Include="Targets\TraceTarget.cs" />
     <Compile Include="Targets\EventLogShim.cs" />
     <Compile Include="Targets\EventLogTarget.cs" />

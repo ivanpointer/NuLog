@@ -372,13 +372,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(null);
 
             // Execute
-            var layout = factory.GetLayout(new TargetConfig
-            {
-                Properties = new Dictionary<string, object>
-                {
-                    { "layout", "${Message}" }
-                }
-            });
+            var layout = factory.GetLayout("${Message}");
 
             // Verify
             Assert.NotNull(layout);

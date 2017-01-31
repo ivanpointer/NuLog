@@ -42,11 +42,17 @@ namespace NuLog.Tests.Unit.Targets
             {
                 Message = "Should_WriteToTrace - hello, world!"
             };
-            var layout = A.Fake<ILayout>();
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored)).Returns(logEvent.Message);
 
             var target = new TraceTarget();
-            target.SetLayout(layout);
+
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
+                .Returns(logEvent.Message);
+
+            target.Configure(null, layoutFactory);
 
             // Execute
             target.Write(logEvent);
@@ -63,9 +69,14 @@ namespace NuLog.Tests.Unit.Targets
         {
             // Setup
             var layout = A.Fake<ILayout>();
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored)).Returns("Should_UseLayout - formatted");
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
+                .Returns("Should_UseLayout - formatted");
+
             var target = new TraceTarget();
-            target.SetLayout(layout);
+            target.Configure(null, layoutFactory);
 
             // Execute
             target.Write(new LogEvent

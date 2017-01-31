@@ -12,9 +12,11 @@ namespace NuLog.Targets
     /// <summary>
     /// The standard target for sending log events via email.
     /// </summary>
-    public class MailTarget : TargetBase
+    public class MailTarget : TargetBase, ILayoutTarget
     {
         private static readonly Type SmtpDeliveryMethodType = typeof(SmtpDeliveryMethod);
+
+        private const string DefaultBodyLayoutFormat = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
 
         /// <summary>
         /// The SmtpClient to use when sending email.
@@ -194,6 +196,28 @@ namespace NuLog.Targets
 
             // Let the base configure itself
             base.Configure(config);
+        }
+
+        public void Configure(TargetConfig config, ILayoutFactory layoutFactory)
+        {
+            // Parse out the body layout
+            var bodyFormat = GetProperty<string>(config, "body");
+            if (string.IsNullOrEmpty(bodyFormat))
+            {
+                bodyFormat = DefaultBodyLayoutFormat;
+            }
+            this.BodyLayout = layoutFactory.GetLayout(bodyFormat);
+
+            // Parse out the subject layout
+            var subjectFormat = GetProperty<string>(config, "subject");
+            if (string.IsNullOrEmpty(subjectFormat) == false)
+            {
+                this.SubjectLayout = layoutFactory.GetLayout(subjectFormat);
+            }
+            else
+            {
+                throw new InvalidOperationException("Subject is required when configuring the mail target; \"subject\" was not found in the target configuration.");
+            }
         }
 
         public override void Dispose()

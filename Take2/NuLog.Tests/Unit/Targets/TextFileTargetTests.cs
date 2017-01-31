@@ -34,11 +34,16 @@ namespace NuLog.Tests.Unit.Targets
         {
             // Setup
             var target = new TextFileTarget();
+
             var layout = A.Fake<ILayout>();
-            target.Configure(GetTargetConfig("Should_WriteText.txt"));
-            target.SetLayout(layout);
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Should write text!");
+
+            target.Configure(null, layoutFactory);
+            target.Configure(GetTargetConfig("Should_WriteText.txt"));
 
             // Execute
             target.Write(new LogEvent { Message = "Should write text!" });
@@ -56,11 +61,17 @@ namespace NuLog.Tests.Unit.Targets
         {
             // Setup
             var target = new TextFileTarget();
+
             var layout = A.Fake<ILayout>();
-            target.Configure(GetTargetConfig("Should_UseLayout.txt"));
-            target.SetLayout(layout);
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Should use layout!");
+
+            target.Configure(null, layoutFactory);
+
+            target.Configure(GetTargetConfig("Should_UseLayout.txt"));
 
             // Execute
             target.Write(new LogEvent { Message = "Hello, world!" });
@@ -79,9 +90,11 @@ namespace NuLog.Tests.Unit.Targets
         {
             // Setup
             var target = new TextFileTarget();
+
             var layout = A.Fake<ILayout>();
-            target.Configure(GetTargetConfig("Should_WriteText.txt"));
-            target.SetLayout(layout);
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
 
             var event1 = new LogEvent
             {
@@ -96,6 +109,10 @@ namespace NuLog.Tests.Unit.Targets
                 .Returns("Event 1!\r\n");
             A.CallTo(() => layout.Format(event2))
                 .Returns("Event 2!\r\n");
+
+            target.Configure(null, layoutFactory);
+
+            target.Configure(GetTargetConfig("Should_WriteText.txt"));
 
             // Execute
             target.Write(event1);

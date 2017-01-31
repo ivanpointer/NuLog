@@ -23,11 +23,15 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_LoadGivenLayout()
         {
             // Setup
-            var layout = A.Fake<ILayout>();
             var target = new DummyLayoutTarget();
 
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+
             // Execute
-            target.SetLayout(layout);
+            target.Configure(null, layoutFactory);
 
             // Verify
             Assert.Equal(layout, target.GetAssignedLayout());

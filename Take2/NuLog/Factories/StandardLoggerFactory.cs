@@ -26,18 +26,18 @@ namespace NuLog.Factories
     /// <summary>
     /// The standard implementation of the logger factory.
     /// </summary>
-    public class StandardLoggerFactory : ILoggerFactory
+    public class StandardLoggerFactory : ILoggerFactory, ILayoutFactory
     {
-        /// <summary>
-        /// The type of the layout target base - used to identify which targets we need to assign
-        /// layouts to.
-        /// </summary>
-        private static readonly Type LayoutTargetBaseType = typeof(LayoutTargetBase);
-
         /// <summary>
         /// The default layout format for the standard layout.
         /// </summary>
         public const string DefaultLayoutFormat = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
+
+        /// <summary>
+        /// The type of the layout target interface - used to identify which targets we need to
+        /// configure for layouts.
+        /// </summary>
+        private static readonly Type ILayoutTargetType = typeof(ILayoutTarget);
 
         /// <summary>
         /// The config for this standard logger factory.
@@ -232,13 +232,11 @@ namespace NuLog.Factories
             return new StandardPropertyParser();
         }
 
-        public virtual ILayout GetLayout(TargetConfig config)
+        public virtual ILayout GetLayout(string format)
         {
             // Get the layout parameters, or use the default format if we don't find it
             var layoutParser = GetLayoutParser();
-            var format = config.Properties != null && config.Properties.ContainsKey("layout")
-                ? (string)config.Properties["layout"]
-                : DefaultLayoutFormat;
+            format = string.IsNullOrEmpty(format) ? DefaultLayoutFormat : format;
             var layoutParms = layoutParser.Parse(format);
 
             // Get the property parser
@@ -408,11 +406,10 @@ namespace NuLog.Factories
                     target.Name = targetConfig.Name;
 
                     // Check to see if the target is a layout target, and set its layout if so
-                    if (LayoutTargetBaseType.IsAssignableFrom(target.GetType()))
+                    if (ILayoutTargetType.IsAssignableFrom(target.GetType()))
                     {
-                        var layout = GetLayout(targetConfig);
-                        var layoutTarget = (LayoutTargetBase)target;
-                        layoutTarget.SetLayout(layout);
+                        var layoutTarget = (ILayoutTarget)target;
+                        layoutTarget.Configure(targetConfig, this);
                     }
 
                     // Return the built target

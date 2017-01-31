@@ -30,19 +30,24 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetBackgroundColor()
         {
             // Setup
-            var logger = new ConsoleTarget();
-            logger.Configure(new TargetConfig
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
+                .Returns("Green background!");
+
+            var config = new TargetConfig
             {
                 Properties = new Dictionary<string, object>
                 {
                     { "background", "DarkGreen" }
                 }
-            });
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
+            };
 
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
-                .Returns("Green background!");
+            var logger = new ConsoleTarget();
+            logger.Configure(config);
+            logger.Configure(config, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent());
@@ -59,19 +64,24 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_SetForegroundColor()
         {
             // Setup
-            var logger = new ConsoleTarget();
-            logger.Configure(new TargetConfig
+            var layout = A.Fake<ILayout>();
+            var layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+                .Returns(layout);
+            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
+                .Returns("Red foreground!");
+
+            var config = new TargetConfig
             {
                 Properties = new Dictionary<string, object>
                 {
                     { "foreground", "Red" }
                 }
-            });
-            var layout = A.Fake<ILayout>();
-            logger.SetLayout(layout);
+            };
 
-            A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
-                .Returns("Red foreground!");
+            var logger = new ConsoleTarget();
+            logger.Configure(config);
+            logger.Configure(config, layoutFactory);
 
             // Execute
             logger.Write(new LogEvent());

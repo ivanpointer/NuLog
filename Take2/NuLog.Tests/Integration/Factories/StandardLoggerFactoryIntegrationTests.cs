@@ -182,15 +182,8 @@ namespace NuLog.Tests.Integration.Factories
         public void Should_UseLayoutParmsAndPropertyParser()
         {
             // Setup
-            var targetConfig = new TargetConfig
-            {
-                Properties = new Dictionary<string, object>
-                {
-                    { "layout", "${Message}" }
-                }
-            };
             var factory = GetLogFactory(null);
-            var layout = factory.GetLayout(targetConfig);
+            var layout = factory.GetLayout("${Message}");
 
             // Execute
             var formatted = layout.Format(new LogEvent
@@ -209,12 +202,8 @@ namespace NuLog.Tests.Integration.Factories
         public void Should_UseDefaultLayoutFormat()
         {
             // Setup
-            var targetConfig = new TargetConfig
-            {
-                // notably vacant of default layouts...
-            };
             var factory = GetLogFactory(null);
-            var layout = factory.GetLayout(targetConfig);
+            var layout = factory.GetLayout(null);
 
             // Execute
             var formatted = layout.Format(new LogEvent
