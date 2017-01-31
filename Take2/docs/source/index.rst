@@ -6,11 +6,11 @@
 
 .. rst-class:: center
 
-.. image:: \images\sitetitle.png
+.. image:: images\sitetitle.png
 
 ----
 
-A blurb about NuLog here.
+Welcome to the NuLog documentation!  These docs are under heavy development, and will be finished soon.  Check back soon!
 
 Martin's First Law of Documentation
 ===================================
