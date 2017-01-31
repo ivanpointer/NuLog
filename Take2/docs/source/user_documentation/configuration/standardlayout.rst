@@ -6,9 +6,9 @@
 
 .. _standardlayout:
 
-##################
-  Standard Layouts
-##################
+####################
+  Layouts/Log Format
+####################
 
 Introduction to Layouts
 =======================
