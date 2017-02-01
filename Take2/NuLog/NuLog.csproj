@@ -105,7 +105,6 @@
     <Compile Include="Layouts\StandardPropertyParser.cs" />
     <Compile Include="Layouts\StandardLayout.cs" />
     <Compile Include="LogEvents\LogEvent.cs" />
-    <Compile Include="LogEvents\DeferredLogEvent.cs" />
     <Compile Include="Configuration\ConfigurationSectionHandler.cs" />
     <Compile Include="Loggers\IDispatcher.cs" />
     <Compile Include="Loggers\StandardLogger.cs" />

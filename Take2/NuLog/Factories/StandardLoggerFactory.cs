@@ -31,7 +31,7 @@ namespace NuLog.Factories
         /// <summary>
         /// The default layout format for the standard layout.
         /// </summary>
-        public const string DefaultLayoutFormat = "${DateTime:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
+        public const string DefaultLayoutFormat = "${DateLogged:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
 
         /// <summary>
         /// The type of the layout target interface - used to identify which targets we need to
