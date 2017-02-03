@@ -18,11 +18,11 @@
         <tags>log logging nulog tag</tags>
     </metadata>
     <files>
-        <file src="NuLog\bin\Release-3.5\NuLog.dll" target="lib\net35\NuLog.dll" />
-        <file src="NuLog\bin\Release-3.5\NuLog.pdb" target="lib\net35\NuLog.pdb" />
-        <file src="NuLog\bin\Release-4\NuLog.dll" target="lib\net40\NuLog.dll" />
-        <file src="NuLog\bin\Release-4\NuLog.pdb" target="lib\net40\NuLog.pdb" />
-        <file src="NuLog\bin\Release-4.5.2\NuLog.dll" target="lib\net452\NuLog.dll" />
-        <file src="NuLog\bin\Release-4.5.2\NuLog.pdb" target="lib\net452\NuLog.pdb" />
+        <file src="..\NuLog\bin\Release-3.5\NuLog.dll" target="lib\net35\NuLog.dll" />
+        <file src="..\NuLog\bin\Release-3.5\NuLog.pdb" target="lib\net35\NuLog.pdb" />
+        <file src="..\NuLog\bin\Release-4\NuLog.dll" target="lib\net40\NuLog.dll" />
+        <file src="..\NuLog\bin\Release-4\NuLog.pdb" target="lib\net40\NuLog.pdb" />
+        <file src="..\NuLog\bin\Release-4.5.2\NuLog.dll" target="lib\net452\NuLog.dll" />
+        <file src="..\NuLog\bin\Release-4.5.2\NuLog.pdb" target="lib\net452\NuLog.pdb" />
     </files>
 </package>
