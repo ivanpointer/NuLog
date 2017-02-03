@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>NuLog.Configuration</id>
+        <version>0.0.0-rc0</version>
+        <title>NuLog Configuration</title>
+        <authors>Ivan Andrew Pointer</authors>
+        <owners>Ivan Andrew Pointer</owners>
+        <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
+        <projectUrl>http://nulog.readthedocs.io/</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Source/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <developmentDependency>true</developmentDependency>
+        <description>A template/starter Web/App config for leveraging NuLog.</description>
+        <summary>A template/starter Web/App config for leveraging NuLog.</summary>
+        <releaseNotes>A release candidate, of the initial release of the 2nd generation of NuLog.</releaseNotes>
+        <copyright>© 2017 Ivan Andrew Pointer</copyright>
+        <language>en-US</language>
+        <tags>log logging nulog tag config</tags>
+    </metadata>
+    <files>
+		<file src="web.config.install.xdt" target="content" />
+		<file src="app.config.install.xdt" target="content" />
+    </files>
+</package>
