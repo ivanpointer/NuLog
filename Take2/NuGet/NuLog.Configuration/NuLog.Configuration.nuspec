@@ -22,7 +22,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="app.config.install.xdt" target="content\app.config.install.xdt" />
-        <file src="web.config.install.xdt" target="content\web.config.install.xdt" />
+        <file src="app.config.transform" target="content\app.config.transform" />
+        <file src="web.config.transform" target="content\web.config.transform" />
     </files>
 </package>

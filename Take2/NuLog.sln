@@ -18,9 +18,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLogSnippets", "NuLogSnipp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuLog.Configuration", "NuLog.Configuration", "{31DA7066-7937-4031-B5A7-8D9E955381A5}"
 	ProjectSection(SolutionItems) = preProject
-		NuGet\NuLog.Configuration\app.config.install.xdt = NuGet\NuLog.Configuration\app.config.install.xdt
+		NuGet\NuLog.Configuration\app.config.transform = NuGet\NuLog.Configuration\app.config.transform
 		NuGet\NuLog.Configuration\NuLog.Configuration.nuspec = NuGet\NuLog.Configuration\NuLog.Configuration.nuspec
-		NuGet\NuLog.Configuration\web.config.install.xdt = NuGet\NuLog.Configuration\web.config.install.xdt
+		NuGet\NuLog.Configuration\web.config.transform = NuGet\NuLog.Configuration\web.config.transform
 	EndProjectSection
 EndProject
 Global
