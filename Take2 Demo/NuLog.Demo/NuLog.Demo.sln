@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog", "..\..\Take2\NuLog\NuLog.csproj", "{100467BE-E1B1-4D5A-A40B-CA633015EC42}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Demo.Mvc", "NuLog.Demo.Mvc\NuLog.Demo.Mvc.csproj", "{AEBB6514-AC69-46A7-ACFB-5A055685ED5E}"
 EndProject
 Global
@@ -16,16 +14,6 @@ Global
 		Release-4|Any CPU = Release-4|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-3.5|Any CPU.ActiveCfg = Release-3.5|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-3.5|Any CPU.Build.0 = Release-3.5|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-4.5.2|Any CPU.ActiveCfg = Release-4.5.2|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-4.5.2|Any CPU.Build.0 = Release-4.5.2|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-4|Any CPU.ActiveCfg = Release-4|Any CPU
-		{100467BE-E1B1-4D5A-A40B-CA633015EC42}.Release-4|Any CPU.Build.0 = Release-4|Any CPU
 		{AEBB6514-AC69-46A7-ACFB-5A055685ED5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEBB6514-AC69-46A7-ACFB-5A055685ED5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEBB6514-AC69-46A7-ACFB-5A055685ED5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
