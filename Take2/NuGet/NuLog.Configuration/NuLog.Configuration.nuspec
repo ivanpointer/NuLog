@@ -17,9 +17,12 @@
         <copyright>© 2017 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag config</tags>
+        <dependencies>
+            <dependency id="NuLog" />
+        </dependencies>
     </metadata>
     <files>
-		<file src="web.config.install.xdt" target="content" />
-		<file src="app.config.install.xdt" target="content" />
+        <file src="app.config.install.xdt" target="content\app.config.install.xdt" />
+        <file src="web.config.install.xdt" target="content\web.config.install.xdt" />
     </files>
 </package>
