@@ -15,6 +15,7 @@
   </ItemGroup>
   <Target Name="AppVeyorBuild">
     <MSBuild Projects="@(ProjectToBuild)" />
-    <Exec Command="nuget pack NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)"/>
+    <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)"/>
+    <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_BUILD_VERSION)"/>
   </Target>
 </Project>
