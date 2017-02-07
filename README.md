@@ -9,6 +9,9 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 2/7/2017 - Short Hiatus
+I'm putting my house on the market.  Between replacing lenolium, caulking baseboards and packing, I'm not finding much time for this.  I'll be back soon from a sunnier place!
+
 ## 1/30/2017 - Doco Well Under-Way
 I'm leveraging "Read the Docs" and Sphynx to build out the documentation.  It is coming along quite well.
 
