@@ -9,6 +9,9 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 2/24/2017 - Still Here
+NuLog is still burning in my mind, but the sale of my home and move to someplace sunnier is heavily under way.  My fingers are sore from cleaning old interior caulk, painting, etc.  I'll be back to take NuLog live, hopefully in a couple months!  Keep checking back!
+
 ## 2/7/2017 - Short Hiatus
 I'm putting my house on the market.  Between replacing lenolium, caulking baseboards and packing, I'm not finding much time for this.  I'll be back soon from a sunnier place!
 
