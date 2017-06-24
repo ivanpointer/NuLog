@@ -64,9 +64,20 @@ namespace NuLog.LogEvents
             target.Write(this);
         }
 
-        public virtual void Dispose()
+        #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
         {
-            // Nothing to do
+            // Eh, nothing to do..
         }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }
