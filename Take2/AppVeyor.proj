@@ -43,6 +43,9 @@
       <Properties>Configuration=Release-4.5.2</Properties>
     </ProjectToBuild>
   </ItemGroup>
+  <Target Name="AppVeyor" DependsOnTargets="AppVeyorBuild;Inspect">
+    
+  </Target>
   <Target Name="AppVeyorBuild">
     <MSBuild Projects="@(ProjectToBuild)" />
     <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
