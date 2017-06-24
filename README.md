@@ -1,4 +1,8 @@
-**Build Status:** [![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master)
+**Build Status and Metrics ([AppVeyor](https://ci.appveyor.com/project/ivanpointer/nulog) and [Sonar](https://sonarcloud.io/dashboard?id=NuLog)):**  
+[![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master)
+[![Tests](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=tests)](https://sonarcloud.io/dashboard/index/NuLog)
+[![Lines](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=ncloc)](https://sonarcloud.io/dashboard/index/NuLog)
+[![Coverage](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=coverage)](https://sonarcloud.io/dashboard/index/NuLog)
 
 **Release Candidate NuGet Package Feed:** https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
 
