@@ -7,11 +7,11 @@
   <FullPath>C:\Users\ivan\Source\Repos\NuLog\Take2\NuLogSnippets\NuLogSnippets.csproj</FullPath>
   <IsExcluded>false</IsExcluded>
   <AnalysisResults>
-    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\ivan\Source\Repos\NuLog\Take2\.sonarqube\out\\NuLogSnippets_6370\FilesToAnalyze.txt" />
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\ivan\Source\Repos\NuLog\Take2\.sonarqube\out\\NuLogSnippets_8861\FilesToAnalyze.txt" />
   </AnalysisResults>
   <AnalysisSettings>
-    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\ivan\Source\Repos\NuLog\Take2\NuLogSnippets\bin\Release\NuLogSnippets.exe.RoslynCA.json</Property>
-    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\ivan\Source\Repos\NuLog\Take2\.sonarqube\out\\NuLogSnippets_6370</Property>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\ivan\Source\Repos\NuLog\Take2\NuLogSnippets\bin\Debug\NuLogSnippets.exe.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\ivan\Source\Repos\NuLog\Take2\.sonarqube\out\\NuLogSnippets_8861</Property>
     <Property Name="sonar.stylecop.projectFilePath">C:\Users\ivan\Source\Repos\NuLog\Take2\NuLogSnippets\NuLogSnippets.csproj</Property>
   </AnalysisSettings>
 </ProjectInfo>

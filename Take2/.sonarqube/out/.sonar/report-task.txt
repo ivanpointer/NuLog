@@ -3,5 +3,5 @@ projectKey=NuLog
 serverUrl=https://sonarcloud.io
 serverVersion=6.5.0.26088
 dashboardUrl=https://sonarcloud.io/dashboard/index/NuLog
-ceTaskId=AVzbKndjIFNNGQWIvNxu
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AVzbKndjIFNNGQWIvNxu
+ceTaskId=AVzbRU6CgIkbjTX1x6rU
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AVzbRU6CgIkbjTX1x6rU
