@@ -16,7 +16,7 @@
     
     <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.6.519</OC_VERSION>
     <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]*</OC_FILTER>
+    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[*XCludeTests*]*</OC_FILTER>
     <OC_SEARCHDIR Condition="'$(OC_SEARCHDIR)' == ''">NuLog.Tests\bin\Debug</OC_SEARCHDIR>
     <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLL) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -searchdirs:"$(OC_SEARCHDIR)"</OC_COMMAND>
 
