@@ -48,7 +48,7 @@
       <Properties>Configuration=Debug</Properties>
     </SQ_PROJECT>
   </ItemGroup>
-  <Target Name="AppVeyor" DependsOnTargets="AppVeyorBuild;Inspect">
+  <Target Name="AppVeyor" DependsOnTargets="Inspect;AppVeyorBuild">
     
   </Target>
   <Target Name="AppVeyorBuild">
