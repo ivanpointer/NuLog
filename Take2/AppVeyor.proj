@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyorBuild">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
   <PropertyGroup>
     <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">0.0.0-rc0</APPVEYOR_BUILD_VERSION>
     
@@ -21,12 +21,12 @@
     <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\SonarQube.Scanner.MSBuild.exe</SQ_SCANNER>
     <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
     <SQ_BUILD_PROJECT Condition="'$(SQ_BUILD_PROJECT)' == ''">$(SQ_PROJECT).sln</SQ_BUILD_PROJECT>
-    <SQ_BUILD_CONFIGURATION Condition="'$(SQ_BUILD_CONFIGURATION)' == ''">Configuration=Release-4.5.2</SQ_BUILD_CONFIGURATION>
+    <SQ_BUILD_CONFIGURATION Condition="'$(SQ_BUILD_CONFIGURATION)' == ''">Configuration=Debug</SQ_BUILD_CONFIGURATION>
     <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
     <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
     <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
 
-    <SQ_OPENCOVERFILE Condition="'$(SQ_OPENCOVERFILE)' == ''">%CD%\opencover.xml</SQ_OPENCOVERFILE>
+    <SQ_OPENCOVERFILE Condition="'$(SQ_OPENCOVERFILE)' == ''">opencover.xml</SQ_OPENCOVERFILE>
     <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.organization=$(SQ_ORG)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="$(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="$(OC_RESULTSFILE)"</SQ_PREPARE_COMMAND>
     <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
 
