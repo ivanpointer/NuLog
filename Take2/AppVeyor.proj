@@ -12,7 +12,7 @@
     <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.2.0</XU_VERSION>
     <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\xunit.console.exe</XU_RUNNER>
     <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
-    <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLL) $(XU_EXCLUDE) -xml @(XU_RESULTSFILE)</XU_COMMAND>
+    <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLL) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
     
     <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.6.519</OC_VERSION>
     <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
@@ -54,9 +54,9 @@
     <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
     <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
   </Target>
-  <Target Name="Inspect" DependsOnTargets="SonarQube;InspectCleanup">
+  <Target Name="Inspect" DependsOnTargets="SonarQube">
   </Target>
-  <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube">
+  <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
   </Target>
   <Target Name="PrepareSonarQube">
     <Exec Command="$(SQ_PREPARE_COMMAND)" />
@@ -73,7 +73,7 @@
   <Target Name="FinalizeSonarQube">
     <Exec Command="$(SQ_END_COMMAND)" />
   </Target>
-  <Target Name="InspectCleanup">
+  <Target Name="CleanupSonarQube">
     <Delete Files="@(SQ_RESULTSFILES)" />
   </Target>
 </Project>
