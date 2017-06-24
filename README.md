@@ -9,6 +9,17 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 4/11/2017 - Settling In - Hoping to Start Again Soon
+Our move is finished.  We're still settling, unpacking boxes, installing appliances - learning that the garage needs to stay clear for the last-minute alerts of half-dollar sized hail...
+
+I expect we'll be settled soon, at which point, I'll continue polishing, and promoting, the project.
+
+## 2/24/2017 - Still Here
+NuLog is still burning in my mind, but the sale of my home and move to someplace sunnier is heavily under way.  My fingers are sore from cleaning old interior caulk, painting, etc.  I'll be back to take NuLog live, hopefully in a couple months!  Keep checking back!
+
+## 2/7/2017 - Short Hiatus
+I'm putting my house on the market.  Between replacing lenolium, caulking baseboards and packing, I'm not finding much time for this.  I'll be back soon from a sunnier place!
+
 ## 1/30/2017 - Doco Well Under-Way
 I'm leveraging "Read the Docs" and Sphynx to build out the documentation.  It is coming along quite well.
 
