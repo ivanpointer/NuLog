@@ -45,7 +45,7 @@
     </ProjectToBuild>
   
     <SQ_PROJECT Include="NuLog.sln">
-      <Properties>Configuration=Debug;debugSymbols=true</Properties>
+      <Properties>Configuration=Debug</Properties>
     </SQ_PROJECT>
   </ItemGroup>
   <Target Name="AppVeyor" DependsOnTargets="AppVeyorBuild;Inspect">
