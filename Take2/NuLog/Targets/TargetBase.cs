@@ -19,11 +19,6 @@ namespace NuLog.Targets
             // Does nothing
         }
 
-        public virtual void Dispose()
-        {
-            // Does nothing
-        }
-
         public abstract void Write(LogEvent logEvent);
 
         /// <summary>
@@ -74,5 +69,21 @@ namespace NuLog.Targets
             property = (TProperty)obj;
             return true;
         }
+
+        #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // Eh, nothing to do..
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public virtual void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }
