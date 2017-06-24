@@ -30,8 +30,6 @@
     <SQ_OPENCOVERFILE Condition="'$(SQ_OPENCOVERFILE)' == ''">opencover.xml</SQ_OPENCOVERFILE>
     <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.organization=$(SQ_ORG)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)"</SQ_PREPARE_COMMAND>
     <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
-
-    
   </PropertyGroup>
   <ItemGroup>
     <ProjectToBuild Include="NuLog.sln">

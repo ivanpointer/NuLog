@@ -184,6 +184,12 @@ namespace NuLog.Dispatchers
             }
         }
 
+        ~StandardDispatcher()
+        {
+            // Take control from the GC, we've got it.
+            Dispose(false);
+        }
+
         #endregion Disposal
 
         #region LogEvent Queue Management
