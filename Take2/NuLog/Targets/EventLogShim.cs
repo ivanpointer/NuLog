@@ -23,7 +23,7 @@ namespace NuLog.Targets
 
         public void WriteEntry(string source, string message, EventLogEntryType type)
         {
-            WriteEntry(source, message, type);
+            EventLog.WriteEntry(source, message, type);
         }
     }
 }
