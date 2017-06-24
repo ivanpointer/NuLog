@@ -23,6 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuLog.Configuration", "NuLo
 		NuGet\NuLog.Configuration\web.config.transform = NuGet\NuLog.Configuration\web.config.transform
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{52C6572A-BFEA-45F5-9897-1FB4B89C07DD}"
+	ProjectSection(SolutionItems) = preProject
+		AppVeyor.proj = AppVeyor.proj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
