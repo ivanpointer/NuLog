@@ -220,16 +220,26 @@ namespace NuLog.Targets
             }
         }
 
-        public override void Dispose()
-        {
-            // Dispose the SMTP client
-            if (DisposeSmtpClientOnDispose)
-            {
-                smtpClient.Dispose();
-            }
+        private bool disposedValue = false; // To detect redundant calls
 
-            // Let the base cleanup
-            base.Dispose();
+        protected override void Dispose(bool disposing)
+        {
+            // Dispose the base
+            base.Dispose(disposing);
+
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose the SMTP client
+                    if (DisposeSmtpClientOnDispose)
+                    {
+                        smtpClient.Dispose();
+                    }
+                }
+
+                disposedValue = true;
+            }
         }
     }
 }
