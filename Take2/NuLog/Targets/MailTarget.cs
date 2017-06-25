@@ -229,13 +229,10 @@ namespace NuLog.Targets
 
             if (!disposedValue)
             {
-                if (disposing)
+                if (disposing && DisposeSmtpClientOnDispose)
                 {
                     // Dispose the SMTP client
-                    if (DisposeSmtpClientOnDispose)
-                    {
-                        smtpClient.Dispose();
-                    }
+                    smtpClient.Dispose();
                 }
 
                 disposedValue = true;
