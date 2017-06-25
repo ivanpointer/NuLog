@@ -117,6 +117,7 @@
     <Compile Include="Unit\Layouts\Standard\LayoutParsers\LayoutParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\PropertyParsers\PropertyParserTests.cs" />
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
+    <Compile Include="Unit\LogEventTests.cs" />
     <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
     <Compile Include="Unit\Targets\ConsoleTargetXCludeTests.cs" />
