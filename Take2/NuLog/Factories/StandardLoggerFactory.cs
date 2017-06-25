@@ -47,7 +47,7 @@ namespace NuLog.Factories
         /// <summary>
         /// The fallback logger to use for the logger factory.
         /// </summary>
-        protected readonly IFallbackLogger FallbackLogger;
+        private IFallbackLogger _fallbackLogger;
 
         /// <summary>
         /// A lock used for controlling the creation of the dispatcher, normalizer, etc. A highly
@@ -61,28 +61,49 @@ namespace NuLog.Factories
         private IDispatcher _dispatcher;
 
         /// <summary>
-        /// The dispatcher for this factory - a thread safe implementation which calls GetDispatcher.
+        /// The dispatcher for this factory - a thread safe implementation which calls MakeDispatcher.
         /// </summary>
-        protected IDispatcher Dispatcher
+        protected IDispatcher GetDispatcher()
         {
-            get
+            if (_dispatcher == null)
             {
-                if (_dispatcher == null)
+                lock (FactoryLock)
                 {
-                    lock (FactoryLock)
+                    if (isDisposing)
                     {
-                        if (isDisposing)
+                        throw new InvalidOperationException("Cannot instantiate dispatcher after factory is disposed.");
+                    }
+                    else if (_dispatcher == null)
+                    {
+                        _dispatcher = MakeDispatcher();
+                    }
+                }
+            }
+            return _dispatcher;
+        }
+
+        protected IFallbackLogger GetFallbackLogger()
+        {
+            if (_fallbackLogger == null)
+            {
+                lock (FactoryLock)
+                {
+                    if (_fallbackLogger == null)
+                    {
+                        try
                         {
-                            throw new InvalidOperationException("Cannot instantiate dispatcher after factory is disposed.");
+                            _fallbackLogger = MakeFallbackLogger();
                         }
-                        else if (_dispatcher == null)
+                        catch (Exception cause)
                         {
-                            _dispatcher = GetDispatcher();
+                            _fallbackLogger = new StandardTraceFallbackLogger();
+                            _fallbackLogger.Log("Failed to get fallback logger for cause: {0}", cause);
                         }
                     }
                 }
-                return _dispatcher;
             }
+
+            return _fallbackLogger;
         }
 
         /// <summary>
@@ -103,7 +124,7 @@ namespace NuLog.Factories
                     {
                         if (_tagNormalizer == null)
                         {
-                            _tagNormalizer = GetTagNormalizer();
+                            _tagNormalizer = MakeTagNormalizer();
                         }
                     }
                 }
@@ -149,36 +170,21 @@ namespace NuLog.Factories
         public StandardLoggerFactory(Config config)
         {
             Config = config;
-
-            // Try to get the fallback logger, and fallback to a simple trace fallback logger, if we
-            // fail. It's bad to do anything in the constructor that could throw an exception,
-            // because this causes failures so early in the application life cycle that they are hard
-            // to handle. However, this is an exceptional condition, we want to know about this
-            // early, and, with the unit tests around the NuLog core items, this is reasonably safe.
-            try
-            {
-                FallbackLogger = GetFallbackLogger();
-            }
-            catch (Exception cause)
-            {
-                FallbackLogger = new StandardTraceFallbackLogger();
-                FallbackLogger.Log("Failed to get fallback logger for cause: {0}", cause);
-            }
         }
 
         public ILogger GetLogger(IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags)
         {
-            return new StandardLogger(Dispatcher, TagNormalizer, metaDataProvider, defaultTags, DefaultMetaData, Config.IncludeStackFrame);
+            return new StandardLogger(GetDispatcher(), TagNormalizer, metaDataProvider, defaultTags, DefaultMetaData, Config.IncludeStackFrame);
         }
 
-        public virtual IDispatcher GetDispatcher()
+        public virtual IDispatcher MakeDispatcher()
         {
-            var targets = GetTargets();
-            var tagRouter = GetTagRouter();
+            var targets = MakeTargets();
+            var tagRouter = MakeTagRouter();
             return new StandardDispatcher(targets, tagRouter, null);
         }
 
-        public virtual ICollection<ITarget> GetTargets()
+        public virtual ICollection<ITarget> MakeTargets()
         {
             var targets = new List<ITarget>();
 
@@ -200,53 +206,53 @@ namespace NuLog.Factories
             return targets;
         }
 
-        public virtual ITagGroupProcessor GetTagGroupProcessor()
+        public virtual ITagGroupProcessor MakeTagGroupProcessor()
         {
             return new StandardTagGroupProcessor(ToTagGroups(Config.TagGroups));
         }
 
-        public virtual IRuleProcessor GetRuleProcessor()
+        public virtual IRuleProcessor MakeRuleProcessor()
         {
-            var tagGroupProcessor = GetTagGroupProcessor();
+            var tagGroupProcessor = MakeTagGroupProcessor();
             return new StandardRuleProcessor(ToRules(Config.Rules), tagGroupProcessor);
         }
 
-        public virtual ITagRouter GetTagRouter()
+        public virtual ITagRouter MakeTagRouter()
         {
-            var ruleProcessor = GetRuleProcessor();
+            var ruleProcessor = MakeRuleProcessor();
             return new StandardTagRouter(ruleProcessor);
         }
 
-        public virtual ITagNormalizer GetTagNormalizer()
+        public virtual ITagNormalizer MakeTagNormalizer()
         {
             return new StandardTagNormalizer();
         }
 
-        public virtual ILayoutParser GetLayoutParser()
+        public virtual ILayoutParser MakeLayoutParser()
         {
             return new StandardLayoutParser();
         }
 
-        public virtual IPropertyParser GetPropertyParser()
+        public virtual IPropertyParser MakePropertyParser()
         {
             return new StandardPropertyParser();
         }
 
-        public virtual ILayout GetLayout(string format)
+        public virtual ILayout MakeLayout(string format)
         {
             // Get the layout parameters, or use the default format if we don't find it
-            var layoutParser = GetLayoutParser();
+            var layoutParser = MakeLayoutParser();
             format = string.IsNullOrEmpty(format) ? DefaultLayoutFormat : format;
             var layoutParms = layoutParser.Parse(format);
 
             // Get the property parser
-            var propertyParser = GetPropertyParser();
+            var propertyParser = MakePropertyParser();
 
             // Stitch it together into a new standard layout
             return new StandardLayout(layoutParms, propertyParser);
         }
 
-        public virtual IFallbackLogger GetFallbackLogger()
+        public virtual IFallbackLogger MakeFallbackLogger()
         {
             if (Config == null || string.IsNullOrEmpty(Config.FallbackLogPath))
             {
@@ -406,7 +412,7 @@ namespace NuLog.Factories
                     target.Name = targetConfig.Name;
 
                     // Check to see if the target is a layout target, and set its layout if so
-                    if (ILayoutTargetType.IsAssignableFrom(target.GetType()))
+                    if (ILayoutTargetType.IsInstanceOfType(target.GetType()))
                     {
                         var layoutTarget = (ILayoutTarget)target;
                         layoutTarget.Configure(targetConfig, this);
@@ -417,13 +423,15 @@ namespace NuLog.Factories
                 }
                 else
                 {
-                    FallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Failed to find concrete type by name.", targetConfig.Name, targetConfig.Type);
+                    var fallbackLogger = GetFallbackLogger();
+                    fallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Failed to find concrete type by name.", targetConfig.Name, targetConfig.Type);
                     return null;
                 }
             }
             catch (Exception cause)
             {
-                FallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Exception thrown: {2}",
+                var fallbackLogger = GetFallbackLogger();
+                fallbackLogger.Log("Failure creating new target \"{0}\" with named type \"{1}\"; Exception thrown: {2}",
                     targetConfig != null ? targetConfig.Name : string.Empty,
                     targetConfig != null ? targetConfig.Type : string.Empty,
                     cause);

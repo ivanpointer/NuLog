@@ -67,7 +67,7 @@ namespace NuLog.Tests.Integration.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var tagGroupProcessor = factory.GetTagGroupProcessor();
+            var tagGroupProcessor = factory.MakeTagGroupProcessor();
 
             // Validate
             var tags = tagGroupProcessor.GetAliases("red_tag");
@@ -101,7 +101,7 @@ namespace NuLog.Tests.Integration.Factories
                 TagGroups = new List<TagGroupConfig> { tagGroupConfig }
             };
             var factory = GetLogFactory(config);
-            var ruleProcessor = factory.GetRuleProcessor();
+            var ruleProcessor = factory.MakeRuleProcessor();
 
             // Execute
             var targets = ruleProcessor.DetermineTargets(new string[] { "red_tag" });
@@ -125,7 +125,7 @@ namespace NuLog.Tests.Integration.Factories
             };
             var config = new Config { Rules = new List<RuleConfig> { ruleConfig } };
             var factory = GetLogFactory(config);
-            var tagRouter = factory.GetTagRouter();
+            var tagRouter = factory.MakeTagRouter();
 
             // Execute
             var targets = tagRouter.Route(new string[] { "one_tag" });
@@ -162,7 +162,7 @@ namespace NuLog.Tests.Integration.Factories
                 Rules = new List<RuleConfig> { ruleConfig }
             };
             var factory = GetLogFactory(config);
-            var dispatcher = factory.GetDispatcher();
+            var dispatcher = factory.MakeDispatcher();
 
             // Execute
             dispatcher.DispatchNow(new LogEvent
@@ -183,7 +183,7 @@ namespace NuLog.Tests.Integration.Factories
         {
             // Setup
             var factory = GetLogFactory(null);
-            var layout = factory.GetLayout("${Message}");
+            var layout = factory.MakeLayout("${Message}");
 
             // Execute
             var formatted = layout.Format(new LogEvent
@@ -203,7 +203,7 @@ namespace NuLog.Tests.Integration.Factories
         {
             // Setup
             var factory = GetLogFactory(null);
-            var layout = factory.GetLayout(null);
+            var layout = factory.MakeLayout(null);
 
             // Execute
             var formatted = layout.Format(new LogEvent

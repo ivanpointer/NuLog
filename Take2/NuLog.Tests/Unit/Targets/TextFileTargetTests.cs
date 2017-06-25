@@ -37,7 +37,7 @@ namespace NuLog.Tests.Unit.Targets
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Should write text!");
@@ -64,7 +64,7 @@ namespace NuLog.Tests.Unit.Targets
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Should use layout!");
@@ -93,7 +93,7 @@ namespace NuLog.Tests.Unit.Targets
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             var event1 = new LogEvent

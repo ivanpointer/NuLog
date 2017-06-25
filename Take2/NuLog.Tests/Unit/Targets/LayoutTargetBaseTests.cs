@@ -27,7 +27,7 @@ namespace NuLog.Tests.Unit.Targets
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             // Execute

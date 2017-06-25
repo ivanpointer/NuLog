@@ -206,13 +206,13 @@ namespace NuLog.Targets
             {
                 bodyFormat = DefaultBodyLayoutFormat;
             }
-            this.BodyLayout = layoutFactory.GetLayout(bodyFormat);
+            this.BodyLayout = layoutFactory.MakeLayout(bodyFormat);
 
             // Parse out the subject layout
             var subjectFormat = GetProperty<string>(config, "subject");
             if (string.IsNullOrEmpty(subjectFormat) == false)
             {
-                this.SubjectLayout = layoutFactory.GetLayout(subjectFormat);
+                this.SubjectLayout = layoutFactory.MakeLayout(subjectFormat);
             }
             else
             {

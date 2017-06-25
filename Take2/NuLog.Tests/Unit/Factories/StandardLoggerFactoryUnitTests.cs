@@ -64,7 +64,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             var target = targets.Single();
@@ -86,7 +86,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             Assert.Equal(0, targets.Count);
@@ -112,7 +112,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             var target = targets.Single();
@@ -140,7 +140,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             var target = targets.Single();
@@ -168,7 +168,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             var target = (DummyTarget)targets.Single();
@@ -201,7 +201,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             var layoutTarget = (DummyLayoutTarget)targets.Single();
@@ -232,7 +232,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             Assert.Equal(2, targets.Count);
@@ -250,7 +250,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(new Config());
 
             // Execute
-            var dispatcher = factory.GetDispatcher();
+            var dispatcher = factory.MakeDispatcher();
 
             // Verify
             Assert.NotNull(dispatcher);
@@ -266,7 +266,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(new Config());
 
             // Execute
-            var normalizer = factory.GetTagNormalizer();
+            var normalizer = factory.MakeTagNormalizer();
 
             // Verify
             Assert.NotNull(normalizer);
@@ -282,7 +282,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(new Config());
 
             // Execute
-            var tagGroupProcessor = factory.GetTagGroupProcessor();
+            var tagGroupProcessor = factory.MakeTagGroupProcessor();
 
             // Verify
             Assert.NotNull(tagGroupProcessor);
@@ -308,7 +308,7 @@ namespace NuLog.Tests.Unit.Factories
             });
 
             // Execute
-            var ruleProcessor = factory.GetRuleProcessor();
+            var ruleProcessor = factory.MakeRuleProcessor();
 
             // Verify
             Assert.NotNull(ruleProcessor);
@@ -324,7 +324,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(new Config());
 
             // Execute
-            var tagRouter = factory.GetTagRouter();
+            var tagRouter = factory.MakeTagRouter();
 
             // Verify
             Assert.NotNull(tagRouter);
@@ -340,7 +340,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(null);
 
             // Execute
-            var layoutParser = factory.GetLayoutParser();
+            var layoutParser = factory.MakeLayoutParser();
 
             // Verify
             Assert.NotNull(layoutParser);
@@ -356,7 +356,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(null);
 
             // Execute
-            var propertyParser = factory.GetPropertyParser();
+            var propertyParser = factory.MakePropertyParser();
 
             // Verify
             Assert.NotNull(propertyParser);
@@ -372,7 +372,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(null);
 
             // Execute
-            var layout = factory.GetLayout("${Message}");
+            var layout = factory.MakeLayout("${Message}");
 
             // Verify
             Assert.NotNull(layout);
@@ -424,7 +424,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(new Config());
 
             // Execute
-            var fallbackLogger = factory.GetFallbackLogger();
+            var fallbackLogger = factory.MakeFallbackLogger();
 
             // Verify
             Assert.NotNull(fallbackLogger);
@@ -444,7 +444,7 @@ namespace NuLog.Tests.Unit.Factories
             });
 
             // Execute
-            var fallbackLogger = factory.GetFallbackLogger();
+            var fallbackLogger = factory.MakeFallbackLogger();
 
             // Verify
             Assert.NotNull(fallbackLogger);
@@ -472,7 +472,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             Assert.Equal(0, targets.Count);
@@ -500,7 +500,7 @@ namespace NuLog.Tests.Unit.Factories
             var factory = GetLogFactory(config);
 
             // Execute
-            var targets = factory.GetTargets();
+            var targets = factory.MakeTargets();
 
             // Validate
             Assert.Equal(0, targets.Count);
@@ -558,7 +558,7 @@ namespace NuLog.Tests.Unit.Factories
         {
         }
 
-        public override IFallbackLogger GetFallbackLogger()
+        public override IFallbackLogger MakeFallbackLogger()
         {
             // Deliberate - to test the "fallback" of the fallback logger, in the logger factory constructor.
             throw new NotImplementedException();

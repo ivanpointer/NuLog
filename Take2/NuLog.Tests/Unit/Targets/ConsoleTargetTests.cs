@@ -49,7 +49,7 @@ namespace NuLog.Tests.Unit.Targets
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Write to console!");
@@ -78,7 +78,7 @@ namespace NuLog.Tests.Unit.Targets
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Write to console using layout!");
@@ -105,7 +105,7 @@ namespace NuLog.Tests.Unit.Targets
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default background!");
@@ -129,7 +129,7 @@ namespace NuLog.Tests.Unit.Targets
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default foreground!");
@@ -153,7 +153,7 @@ namespace NuLog.Tests.Unit.Targets
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("White and Blue!");

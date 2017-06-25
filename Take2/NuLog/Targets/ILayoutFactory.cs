@@ -12,6 +12,6 @@ namespace NuLog.Targets
         /// <summary>
         /// Builds a new layout for the given format.
         /// </summary>
-        ILayout GetLayout(string format);
+        ILayout MakeLayout(string format);
     }
 }

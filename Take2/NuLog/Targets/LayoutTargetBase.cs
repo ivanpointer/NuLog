@@ -21,7 +21,7 @@ namespace NuLog.Targets
             var format = config != null && config.Properties != null && config.Properties.ContainsKey("layout")
                 ? (string)config.Properties["layout"]
                 : null;
-            var layout = layoutFactory.GetLayout(format);
+            var layout = layoutFactory.MakeLayout(format);
 
             this.Layout = layout;
         }

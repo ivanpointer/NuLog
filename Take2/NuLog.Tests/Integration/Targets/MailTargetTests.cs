@@ -40,14 +40,14 @@ namespace NuLog.Tests.Integration.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Layout!");
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             // Execute
             target.Configure(config, layoutFactory);
 
             // Verify
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.That.Matches(m => string.IsNullOrEmpty(m) == false && m != "Hello, Subject!"))).MustHaveHappened();
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.That.Matches(m => string.IsNullOrEmpty(m) == false && m != "Hello, Subject!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace NuLog.Tests.Integration.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Body Layout!");
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             // Execute
             target.Configure(config, layoutFactory);
 
             // Verify
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.That.Matches(m => m == "${Message}"))).MustHaveHappened();
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.That.Matches(m => m == "${Message}"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -105,14 +105,14 @@ namespace NuLog.Tests.Integration.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Subject Layout!");
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             // Execute
             target.Configure(config, layoutFactory);
 
             // Verify
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.That.Matches(m => m == "Hello, Subject!"))).MustHaveHappened();
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.That.Matches(m => m == "Hello, Subject!"))).MustHaveHappened();
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace NuLog.Tests.Integration.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Subject Layout!");
             var layoutFactory = A.Fake<ILayoutFactory>();
-            A.CallTo(() => layoutFactory.GetLayout(A<string>.Ignored))
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
             // Execute / Verify
