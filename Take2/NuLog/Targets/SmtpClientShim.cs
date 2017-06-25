@@ -22,6 +22,34 @@ namespace NuLog.Targets
             this.smtpClient = new SmtpClient();
         }
 
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+#if !PRENET4
+                    this.smtpClient.Dispose();
+#endif
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
+
         public void Send(MailMessage mailMessage)
         {
             this.smtpClient.Send(mailMessage);
@@ -61,33 +89,5 @@ namespace NuLog.Targets
         {
             this.smtpClient.Timeout = timeout;
         }
-
-        #region IDisposable Support
-
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-#if !PRENET4
-                    this.smtpClient.Dispose();
-#endif
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-        }
-
-        #endregion IDisposable Support
     }
 }
