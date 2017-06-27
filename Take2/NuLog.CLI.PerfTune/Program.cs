@@ -9,7 +9,7 @@ namespace NuLog.CLI.PerfTune
     /// <summary>
     /// A "throwaway" project for performance tuning NuLog.
     /// </summary>
-    public class Program
+    public static class Program
     {
         private static readonly ILogger _logger = LogManager.GetLogger();
 
