@@ -105,12 +105,12 @@ namespace NuLog.TagRouters.RuleProcessors
                 }
 
                 // Switch based on strict mode
-                if (ruleMatch && rule.StrictInclude == false)
+                if (ruleMatch && !rule.StrictInclude)
                 {
                     // Strict mode is off, which means any one match will work -
                     return true;
                 }
-                else if (ruleMatch == false && rule.StrictInclude)
+                else if (!ruleMatch && rule.StrictInclude)
                 {
                     return false;
                 }
@@ -129,7 +129,7 @@ namespace NuLog.TagRouters.RuleProcessors
         private bool IsExcludeMatch(Rule rule, IEnumerable<string> tags)
         {
             // If there are no exclude rules, there's nothing to disqualify
-            if (rule.Exclude == null || rule.Exclude.Count() == 0)
+            if (rule.Exclude == null || !rule.Exclude.Any())
             {
                 return false;
             }
@@ -184,7 +184,7 @@ namespace NuLog.TagRouters.RuleProcessors
         /// </summary>
         private Regex GetRuleTagPattern(string ruleTag)
         {
-            if (ruleTagPatterns.ContainsKey(ruleTag) == false)
+            if (!ruleTagPatterns.ContainsKey(ruleTag))
             {
                 // First, make safe any dots in the rule.
                 var regexRuleTag = ruleTag.Replace(".", @"\.");

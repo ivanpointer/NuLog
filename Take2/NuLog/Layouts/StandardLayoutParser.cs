@@ -48,7 +48,7 @@ namespace NuLog.Layouts
             }
 
             // Catch the "static text" at the end of the format
-            if (string.IsNullOrEmpty(runningFormat) == false)
+            if (!string.IsNullOrEmpty(runningFormat))
             {
                 parameters.Add(new LayoutParameter
                 {

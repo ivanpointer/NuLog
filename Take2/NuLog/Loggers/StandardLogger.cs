@@ -181,7 +181,7 @@ namespace NuLog.Loggers
         /// </summary>
         protected static bool HasTags(IEnumerable<string> tags)
         {
-            return tags != null && tags.Count() > 0;
+            return tags != null && tags.Any();
         }
 
         /// <summary>
