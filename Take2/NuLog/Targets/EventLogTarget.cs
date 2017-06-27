@@ -20,6 +20,8 @@ namespace NuLog.Targets
 
         private EventLogEntryType entryType;
 
+        private static readonly Type EventLogEntryTypeType = typeof(EventLogEntryType);
+
         public EventLogTarget()
         {
             eventLog = new EventLogShim();
@@ -61,7 +63,6 @@ namespace NuLog.Targets
             // Parse out the entry type
             var entryTypeRaw = GetProperty<string>(config, "entryType");
 
-#if PRENET4
             if (string.IsNullOrEmpty(entryTypeRaw) == false)
             {
                 this.entryType = (EventLogEntryType)Enum.Parse(EventLogEntryTypeType, entryTypeRaw);
@@ -70,17 +71,6 @@ namespace NuLog.Targets
             {
                 this.entryType = EventLogEntryType.Information;
             }
-#else
-            EventLogEntryType parsedEntryType;
-            if (Enum.TryParse(entryTypeRaw, out parsedEntryType))
-            {
-                this.entryType = parsedEntryType;
-            }
-            else
-            {
-                this.entryType = EventLogEntryType.Information;
-            }
-#endif
 
             // Let the base configure
             base.Configure(config);
