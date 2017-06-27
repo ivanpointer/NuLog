@@ -14,8 +14,6 @@ namespace NuLog.Targets
     /// </summary>
     public class EventLogTarget : LayoutTargetBase
     {
-        private static readonly Type EventLogEntryTypeType = typeof(EventLogEntryType);
-
         private readonly IEventLog eventLog;
 
         private string source;
@@ -73,10 +71,10 @@ namespace NuLog.Targets
                 this.entryType = EventLogEntryType.Information;
             }
 #else
-            EventLogEntryType entryType;
-            if (Enum.TryParse(entryTypeRaw, out entryType))
+            EventLogEntryType parsedEntryType;
+            if (Enum.TryParse(entryTypeRaw, out parsedEntryType))
             {
-                this.entryType = entryType;
+                this.entryType = parsedEntryType;
             }
             else
             {
