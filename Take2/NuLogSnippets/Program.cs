@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* © 2017 Ivan Pointer
+MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
+Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 namespace NuLogSnippets
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            // Nothing to do. Code is here for documentation purposes.
         }
     }
 }
