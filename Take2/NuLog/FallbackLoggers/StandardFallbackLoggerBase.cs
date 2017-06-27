@@ -5,7 +5,6 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog.Dispatchers;
 using NuLog.LogEvents;
 using System;
-using System.Linq;
 
 namespace NuLog.FallbackLoggers
 {
@@ -45,9 +44,10 @@ namespace NuLog.FallbackLoggers
 
         private static string GetExceptionMessage(ILogEvent logEvent)
         {
-            if (logEvent is LogEvent)
+            var castEvent = logEvent as LogEvent;
+            if (castEvent != null)
             {
-                var exception = ((LogEvent)logEvent).Exception;
+                var exception = castEvent.Exception;
                 return string.Format("LogEvent Exception: \"{0}\"", exception != null ? exception.Message : string.Empty);
             }
             else
