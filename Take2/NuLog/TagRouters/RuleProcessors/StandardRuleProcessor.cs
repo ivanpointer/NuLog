@@ -190,7 +190,7 @@ namespace NuLog.TagRouters.RuleProcessors
                 var regexRuleTag = ruleTag.Replace(".", @"\.");
 
                 // Convert our simple wild-card "*" to the regex wild-card ".*"
-                regexRuleTag = ruleTag.Replace("*", ".*");
+                regexRuleTag = regexRuleTag.Replace("*", ".*");
 
                 // Build our pattern
                 var ruleTagPattern = new Regex(regexRuleTag, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Compiled);
