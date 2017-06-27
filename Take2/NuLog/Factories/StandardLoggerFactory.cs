@@ -82,7 +82,7 @@ namespace NuLog.Factories
             return _dispatcher;
         }
 
-        protected IFallbackLogger GetFallbackLogger()
+        public IFallbackLogger GetFallbackLogger()
         {
             if (_fallbackLogger == null)
             {
@@ -412,7 +412,7 @@ namespace NuLog.Factories
                     target.Name = targetConfig.Name;
 
                     // Check to see if the target is a layout target, and set its layout if so
-                    if (ILayoutTargetType.IsInstanceOfType(target.GetType()))
+                    if (ILayoutTargetType.IsAssignableFrom(target.GetType()))
                     {
                         var layoutTarget = (ILayoutTarget)target;
                         layoutTarget.Configure(targetConfig, this);

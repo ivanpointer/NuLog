@@ -515,6 +515,7 @@ namespace NuLog.Tests.Unit.Factories
         {
             // Setup / Execute
             var factory = new BrokenFactoryFallbackLogger(new Config());
+            var fallback = factory.GetFallbackLogger();
 
             // Verify
             Assert.True(this.traceListener.Messages.Any(m => m.Contains("Failed to get fallback logger for cause: ")), "No message was traced warning of the failed construction of the fallback logger.");
