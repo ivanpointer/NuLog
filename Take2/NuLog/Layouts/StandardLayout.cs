@@ -28,11 +28,6 @@ namespace NuLog.Layouts
         private static readonly Type iEnumerableType = typeof(IEnumerable);
 
         /// <summary>
-        /// The string type, for formatting values.
-        /// </summary>
-        private static readonly Type stringType = typeof(string);
-
-        /// <summary>
         /// The layout parameters used to format a log event.
         /// </summary>
         private readonly IEnumerable<LayoutParameter> layoutParameters;
