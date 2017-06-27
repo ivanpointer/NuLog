@@ -54,41 +54,55 @@ namespace NuLog.Layouts
                 // (depth) and we have our value
                 return zobject;
             }
+
+            // We haven't hit the bottom of the chain, keep digging
+            return GetPropertyInternal(zobject, propertyChain, depth);
+        }
+
+        private object GetPropertyInternal(object zobject, string[] propertyChain, int depth)
+        {
+            var zobjectType = zobject.GetType();
+            var chainItem = propertyChain[depth];
+
+            // Determine if the object is a dictionary, otherwise treat it as just an object
+            if (!IsDictionaryType(zobjectType))
+            {
+                return GetObjectProperty(zobjectType, zobject, chainItem, propertyChain, depth);
+            }
             else
             {
-                var zobjectType = zobject.GetType();
-                var chainItem = propertyChain[depth];
+                return GetDictionaryProperty(zobject, chainItem, propertyChain, depth);
+            }
+        }
 
-                // Determine if the object is a dictionary, otherwise treat it as just an object
-                if (!IsDictionaryType(zobjectType))
-                {
-                    // Try to get the element in the dictionary with the next name
-                    var propertyDict = GetPropertyInfo(zobjectType);
-                    var propertyInfo = propertyDict.ContainsKey(chainItem)
-                        ? propertyDict[chainItem]
-                        : null;
-                    if (propertyInfo != null)
-                    {
-                        return GetPropertyRecurse(propertyInfo.GetValue(zobject, null), propertyChain, depth + 1);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    // Try to get the property of the object with the next name
-                    var dictionary = (IDictionary<string, object>)zobject;
-                    if (dictionary.ContainsKey(chainItem))
-                    {
-                        return GetPropertyRecurse(dictionary[chainItem], propertyChain, depth + 1);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
+        private object GetObjectProperty(Type zobjectType, object zobject, string chainItem, string[] propertyChain, int depth)
+        {
+            // Try to get the element in the dictionary with the next name
+            var propertyDict = GetPropertyInfo(zobjectType);
+            var propertyInfo = propertyDict.ContainsKey(chainItem)
+                ? propertyDict[chainItem]
+                : null;
+            if (propertyInfo != null)
+            {
+                return GetPropertyRecurse(propertyInfo.GetValue(zobject, null), propertyChain, depth + 1);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private object GetDictionaryProperty(object zobject, string chainItem, string[] propertyChain, int depth)
+        {
+            // Try to get the property of the object with the next name
+            var dictionary = (IDictionary<string, object>)zobject;
+            if (dictionary.ContainsKey(chainItem))
+            {
+                return GetPropertyRecurse(dictionary[chainItem], propertyChain, depth + 1);
+            }
+            else
+            {
+                return null;
             }
         }
 
