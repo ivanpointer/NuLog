@@ -1,7 +1,5 @@
 **Build Status and Metrics ([AppVeyor](https://ci.appveyor.com/project/ivanpointer/nulog) and [Sonar](https://sonarcloud.io/dashboard?id=NuLog)):**  
 [![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master)
-[![Tests](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=tests)](https://sonarcloud.io/dashboard/index/NuLog)
-[![Lines](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=ncloc)](https://sonarcloud.io/dashboard/index/NuLog)
 [![Coverage](https://sonarcloud.io/api/badges/measure?key=NuLog&metric=coverage)](https://sonarcloud.io/dashboard/index/NuLog)
 
 **Release Candidate NuGet Package Feed:** https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
@@ -12,6 +10,9 @@
 _Powerfully Simple Logging. Period._  
 _Written in C# for .NET_
 ***
+
+## 6/26/2017 - Back on it - But, Cleanup First
+We've finally settled into our new home in bright-and-sunny Texas.  At my day-job, I've been asked to present a case-study of TDD with my experience with the rewrite of NuLog.  This prompted me to integrate into the CI process for NuLog, Sonar.  Sonar found a few bugs and smells.  I'm getting these cleaned up, then I'll finish the documentation, then put out the first release of this new version of NuLog.
 
 ## 4/11/2017 - Settling In - Hoping to Start Again Soon
 Our move is finished.  We're still settling, unpacking boxes, installing appliances - learning that the garage needs to stay clear for the last-minute alerts of half-dollar sized hail...
