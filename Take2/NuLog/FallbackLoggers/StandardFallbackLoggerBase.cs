@@ -6,6 +6,10 @@ using NuLog.Dispatchers;
 using NuLog.LogEvents;
 using System;
 
+#if PRENET4
+using System.Linq;
+#endif
+
 namespace NuLog.FallbackLoggers
 {
     /// <summary>
