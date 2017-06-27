@@ -65,18 +65,5 @@ namespace NuLog
                 throw new InvalidOperationException(string.Format("tag \"{0}\" contains invalid characters.", tag));
             }
         }
-
-        /// <summary>
-        /// Checks the tags to make sure they look legit. Will throw an InvalidOperationException if
-        /// a tag is found that isn't compliant.
-        /// </summary>
-        /// <param name="tags">The tags to check.</param>
-        private void ValidateTags(string[] tags)
-        {
-            foreach (var tag in tags)
-            {
-                ValidateTag(tag);
-            }
-        }
     }
 }
