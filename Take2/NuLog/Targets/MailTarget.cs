@@ -131,14 +131,14 @@ namespace NuLog.Targets
 
             // Parse out the recipient addresses
             var recipientsString = GetProperty<string>(config, "to");
-            if (string.IsNullOrEmpty(recipientsString) == false)
+            if (!string.IsNullOrEmpty(recipientsString))
             {
                 to = recipientsString.Split(';');
             }
 
             // Parse out the from address
             var fromString = GetProperty<string>(config, "from");
-            if (string.IsNullOrEmpty(fromString) == false)
+            if (!string.IsNullOrEmpty(fromString))
             {
                 from = new MailAddress(fromString);
             }
@@ -158,7 +158,7 @@ namespace NuLog.Targets
 
             // Parse out the SMTP server
             var smtpServer = GetProperty<string>(config, "smtpServer");
-            if (string.IsNullOrEmpty(smtpServer) == false)
+            if (!string.IsNullOrEmpty(smtpServer))
             {
                 smtpClient.SetSmtpServer(smtpServer);
             }
@@ -173,7 +173,7 @@ namespace NuLog.Targets
 
             // Parse out the SMTP delivery method
             var smtpDeliveryMethodRaw = GetProperty<string>(config, "smtpDeliveryMethod");
-            if (string.IsNullOrEmpty(smtpDeliveryMethodRaw) == false)
+            if (!string.IsNullOrEmpty(smtpDeliveryMethodRaw))
             {
                 var smtpDeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(SmtpDeliveryMethodType, smtpDeliveryMethodRaw);
                 smtpClient.SetSmtpDeliveryMethod(smtpDeliveryMethod);
@@ -181,7 +181,7 @@ namespace NuLog.Targets
 
             // Parse out the pickup directory location
             var pickupDirectoryLocation = GetProperty<string>(config, "pickupDirectoryLocation");
-            if (string.IsNullOrEmpty(pickupDirectoryLocation) == false)
+            if (!string.IsNullOrEmpty(pickupDirectoryLocation))
             {
                 smtpClient.SetPickupDirectoryLocation(pickupDirectoryLocation);
             }
@@ -210,7 +210,7 @@ namespace NuLog.Targets
 
             // Parse out the subject layout
             var subjectFormat = GetProperty<string>(config, "subject");
-            if (string.IsNullOrEmpty(subjectFormat) == false)
+            if (!string.IsNullOrEmpty(subjectFormat))
             {
                 this.SubjectLayout = layoutFactory.MakeLayout(subjectFormat);
             }

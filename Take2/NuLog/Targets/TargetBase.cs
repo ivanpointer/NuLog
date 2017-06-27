@@ -34,7 +34,7 @@ namespace NuLog.Targets
             }
 
             // Check for the property, return the default if it isn't in the config
-            if (config.Properties.ContainsKey(propertyName) == false)
+            if (!config.Properties.ContainsKey(propertyName))
             {
                 return default(TProperty);
             }
@@ -50,7 +50,7 @@ namespace NuLog.Targets
         protected bool TryGetProperty<TProperty>(TargetConfig config, string propertyName, out TProperty property)
         {
             // Check for the property, return the default if it isn't in the config
-            if (config.Properties.ContainsKey(propertyName) == false)
+            if (!config.Properties.ContainsKey(propertyName))
             {
                 property = default(TProperty);
                 return false;

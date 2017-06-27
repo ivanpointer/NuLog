@@ -27,7 +27,7 @@ namespace NuLog.TagRouters.TagGroupProcessors
         public IEnumerable<string> GetAliases(string tag)
         {
             // Fist, check our cache
-            if (aliasCache.ContainsKey(tag) == false)
+            if (!aliasCache.ContainsKey(tag))
             {
                 var aliases = CalculateAliases(tag);
                 aliasCache[tag] = aliases.ToArray();
@@ -50,7 +50,6 @@ namespace NuLog.TagRouters.TagGroupProcessors
                         if (alias == tag)
                         {
                             yield return tagGroup.BaseTag;
-                            continue;
                         }
                     }
                 }

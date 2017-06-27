@@ -39,7 +39,7 @@ namespace NuLog.TagRouters
             var cacheKey = BuildTagsKey(tags);
 
             // Check to see if our route cache has the entry already
-            if (routeCache.ContainsKey(cacheKey) == false)
+            if (!routeCache.ContainsKey(cacheKey))
             {
                 routeCache[cacheKey] = this.ruleProcessor.DetermineTargets(tags);
             }

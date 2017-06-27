@@ -55,7 +55,7 @@ namespace NuLog.Targets
             }
 
             // Create the source if it doesn't yet exist
-            if (this.eventLog.SourceExists(source) == false)
+            if (!this.eventLog.SourceExists(source))
             {
                 this.eventLog.CreateEventSource(source, sourceLog);
             }
@@ -63,7 +63,7 @@ namespace NuLog.Targets
             // Parse out the entry type
             var entryTypeRaw = GetProperty<string>(config, "entryType");
 
-            if (string.IsNullOrEmpty(entryTypeRaw) == false)
+            if (!string.IsNullOrEmpty(entryTypeRaw))
             {
                 this.entryType = (EventLogEntryType)Enum.Parse(EventLogEntryTypeType, entryTypeRaw);
             }

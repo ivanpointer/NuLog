@@ -56,14 +56,14 @@ namespace NuLog.Targets
         {
             // Check for a background color in the config
             var bgColorName = GetProperty<string>(config, "background");
-            if (string.IsNullOrEmpty(bgColorName) == false)
+            if (!string.IsNullOrEmpty(bgColorName))
             {
                 backgroundColor = (ConsoleColor)Enum.Parse(consoleColorType, bgColorName);
             }
 
             // Check for a foreground color in the config
             var fgColorName = GetProperty<string>(config, "foreground");
-            if (string.IsNullOrEmpty(fgColorName) == false)
+            if (!string.IsNullOrEmpty(fgColorName))
             {
                 foregroundColor = (ConsoleColor)Enum.Parse(consoleColorType, fgColorName);
             }
