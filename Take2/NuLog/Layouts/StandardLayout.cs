@@ -168,7 +168,7 @@ namespace NuLog.Layouts
         private static bool IsNullOrEmptyString(object value)
         {
             return value == null
-                || (typeof(string).IsAssignableFrom(value.GetType()) && string.IsNullOrEmpty((string)value));
+                || (value is string && string.IsNullOrEmpty((string)value));
         }
 
         /// <summary>
@@ -183,17 +183,18 @@ namespace NuLog.Layouts
             }
 
             // If we have a string format, use that.
-            if (string.IsNullOrEmpty(format) == false)
+            if (!string.IsNullOrEmpty(format))
             {
                 return string.Format(format, value);
             }
 
             // If not, check to see if it's enumerable (but not a string).
-            if (value is string)
+            var stringValue = value as string;
+            if (stringValue != null)
             {
-                return (string)value;
+                return stringValue;
             }
-            else if (iEnumerableType.IsAssignableFrom(value.GetType()) == false)
+            else if (!iEnumerableType.IsAssignableFrom(value.GetType()))
             {
                 // It's not enumerable, just convert it to a string.
                 return Convert.ToString(value);
