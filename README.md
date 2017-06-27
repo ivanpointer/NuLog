@@ -11,6 +11,9 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 6/29/2017 - Code Smells Done - Back to Doco
+I've got the code smells taken care of (well, the ones I agreed with).  Now, I swing back to documentation!
+
 ## 6/26/2017 - Back on it - But, Cleanup First
 We've finally settled into our new home in bright-and-sunny Texas.  At my day-job, I've been asked to present a case-study of TDD with my experience with the rewrite of NuLog.  This prompted me to integrate into the CI process for NuLog, Sonar.  Sonar found a few bugs and smells.  I'm getting these cleaned up, then I'll finish the documentation, then put out the first release of this new version of NuLog.
 
