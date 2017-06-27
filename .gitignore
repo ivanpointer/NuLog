@@ -5,7 +5,11 @@
 /**/.suo
 /*/*/bin
 /*/*/obj
+/**/*/bin
+/**/*/obj
 /**/*.vspx
 /**/*.psess
 /**/*.vsp
 /**/docs/build
+/**/.axoCover
+/**/.vs
