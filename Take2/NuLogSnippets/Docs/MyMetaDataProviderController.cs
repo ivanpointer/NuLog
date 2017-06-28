@@ -9,7 +9,7 @@ namespace NuLogSnippets.Docs
 {
     public class MyMetaDataProviderController : Controller
     {
-        private ILogger myLogger;
+        private readonly ILogger myLogger;
 
         public MyMetaDataProviderController()
         {
