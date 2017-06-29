@@ -49,7 +49,8 @@ The most conventional way to customize NuLog, is to create your own implemenmtat
 finally assigning it as the factory for the `LogManager`:
 
 .. literalinclude:: /../../NuLogSnippets/Docs/SetLogManagerLoggerFactory.cs
-   :lines: 13-16
+   :start-after: start_snippet
+   :end-before: end_snippet
    :tab-width: 4
    :dedent: 2
    :linenos:
