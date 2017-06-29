@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace NuLogSnippets.Docs.CustomTargets
 {
+    // start_snippet
     public class HelloWorldTarget : ITarget
     {
         public string Name { get; set; }
@@ -18,14 +19,26 @@ namespace NuLogSnippets.Docs.CustomTargets
             // Nothing to do
         }
 
-        public void Dispose()
-        {
-            // Nothing to do
-        }
-
         public void Write(LogEvent logEvent)
         {
             Debug.WriteLine(logEvent.Message);
         }
+
+        #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // Nothing to do
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
+
+    // end_snippet
 }

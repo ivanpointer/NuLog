@@ -47,7 +47,8 @@ A target must implement the `ITarget` interface.  This states that a target must
 The lowest level implementation of a target may look something like this:
 
 .. literalinclude:: /../../NuLogSnippets/Docs/CustomTargets/HelloWorldTarget.cs
-   :lines: 12-30
+   :start-after: start_snippet
+   :end-before: end_snippet
    :tab-width: 4
    :dedent: 1
    :linenos:
