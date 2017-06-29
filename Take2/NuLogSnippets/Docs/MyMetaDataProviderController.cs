@@ -19,7 +19,7 @@ namespace NuLogSnippets.Docs
 
         public ActionResult Index()
         {
-            myLogger.Log("Will include my custom, request specific meta data.");
+            myLogger.Log("Will include my custom, request specific meta data.", "index");
             return View();
         }
     }

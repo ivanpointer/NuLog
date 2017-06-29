@@ -79,6 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="StrictIncludeRule.config" />
     <None Include="ConsoleTargetConfig.config" />
     <None Include="MailTargetConfig.config" />
     <None Include="packages.config" />

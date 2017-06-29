@@ -33,7 +33,7 @@ Here are our guiding principles, for the NuLog project.  These principles come t
   
   #. **Extensible** - Build using the *'Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>'_*.  Developers who leverage the framework must be able to replace any portion of the framework with their own pieces, given that they conform to the *'Liskov Substitution Principle <https://en.wikipedia.org/wiki/Liskov_substitution_principle>'_*.
   
-  #. **SOLID Principles** - We adhere to the *'SOLID Principles <https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)>'_, as best we reasonably can.
+  #. **SOLID Principles** - We adhere to the *'SOLID Principles <https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)>'_*, as best we reasonably can.
 
   #. **Business-Driven-Development** - We believe that the best documentation of a system are well written unit and integration tests.  We demand that there be *near* complete code coverage, and the checks must be high quality.  All code that can be tested, must be done so before said code is written.  Tests are first to document the expected behavior of the code, and second, have an ansilary benifit of verifying that the implementation actually does what is expected.  * **Any code (pull requests, etc.) that is not properly covered will be rejected.** *
   
