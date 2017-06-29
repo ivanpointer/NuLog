@@ -72,6 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Docs\CustomTargets\ConfigurationHelpersTarget.cs" />
+    <Compile Include="Docs\CustomTargets\CustomConfigTarget.cs" />
     <Compile Include="Docs\CustomTargets\HelloLayoutTarget.cs" />
     <Compile Include="Docs\CustomTargets\HelloWorldShortTarget.cs" />
     <Compile Include="Docs\CustomTargets\HelloWorldTarget.cs" />
@@ -90,6 +92,7 @@
     <None Include="MailTargetConfig.config" />
     <None Include="packages.config" />
     <None Include="ConsoleOnlyRule.config" />
+    <None Include="CustomTargetConfig.config" />
     <None Include="TextFileTargetConfig.config" />
     <None Include="HelloWorldTargetConfig.config" />
     <None Include="TraceTargetConfig.config" />

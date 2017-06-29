@@ -4,9 +4,9 @@
 
 ----
 
-###############################
-  Custom Targets - Introduction
-###############################
+################
+  Custom Targets
+################
 
 We believe that the most common customization of NuLog that will be sought after, will be custom targets.  Here's what it takes.
 
@@ -41,7 +41,7 @@ A target must implement the `ITarget` interface.  This states that a target must
 .. literalinclude:: /../../NuLog/ITarget.cs
    :lines: 14-30
    :tab-width: 4
-   :dedent: 1
+   :dedent: 4
    :linenos:
 
 The lowest level implementation of a target may look something like this:
@@ -50,7 +50,7 @@ The lowest level implementation of a target may look something like this:
    :start-after: start_snippet
    :end-before: end_snippet
    :tab-width: 4
-   :dedent: 1
+   :dedent: 4
    :linenos:
 
 Using Your Custom Target
@@ -74,7 +74,7 @@ You can actually implement your custom target in fewer lines of code by leverage
 .. literalinclude:: /../../NuLogSnippets/Docs/CustomTargets/HelloWorldShortTarget.cs
    :lines: 11-17
    :tab-width: 4
-   :dedent: 1
+   :dedent: 4
    :linenos:
 
 Most Useful: Extend the LayoutTargetBase
@@ -94,7 +94,7 @@ When extending the `LayoutTargetBase`, you get access to the automatically confi
 .. literalinclude:: /../../NuLogSnippets/Docs/CustomTargets/HelloLayoutTarget.cs
    :lines: 11-18
    :tab-width: 4
-   :dedent: 1
+   :dedent: 4
    :emphasize-lines: 5
    :linenos:
 
@@ -102,8 +102,55 @@ Now, when referencing your custom target in your config, you can set the layout:
 
 .. literalinclude:: /../../NuLogSnippets/HelloLayoutTargetConfig.config
    :language: xml
-   :lines: 6-14
+   :start-after: start_snippet
+   :end-before: end_snippet
    :tab-width: 4
-   :dedent: 1
-   :emphasize-lines: 4-6
+   :dedent: 3
+   :linenos:
+
+Target configuration
+====================
+
+If you're building a custom target, chances are, you'll need some kind of custom configuration for your target.
+
+Configuration Interface
+-----------------------
+
+The `ITarget` interface defines a method for receiving configuration from the factory:
+
+.. literalinclude:: /../../NuLog/ITarget.cs
+   :lines: 24
+   :dedent: 8
+
+This method recieves a `TargetConfig` object, which contains the `Name` of the target, the `Type` name of the object, and a `Dictionary` of `Properties`.
+
+The properties are read from the XML configuration, and are the attributes of the XML `target` element from the config.  Consider the following example:
+
+.. literalinclude:: /../../NuLogSnippets/CustomTargetConfig.config
+   :language: xml
+   :start-after: start_snippet
+   :end-before: end_snippet
+   :dedent: 3
+   :tab-width: 4
+   :linenos:
+
+The `myCustomProperty` property would be included in the `TargetConfig` object's `Properties` `Dictionary` with a key of "`myCustomProperty`" and a value of "`Yellow, World!`".
+
+`myCustomProperty` could then be retrieved in our configure method, like so:
+
+.. literalinclude:: /../../NuLogSnippets/Docs/CustomTargets/CustomConfigTarget.cs
+   :start-after: start_snippet
+   :end-before: end_snippet
+   :dedent: 8
+   :linenos:
+
+Configuration Helpers in TargetBase
+-----------------------------------
+
+The `TargetBase` abstract class provides a couple helpers to make accessing properties a bit easier:
+
+.. literalinclude:: /../../NuLogSnippets/Docs/CustomTargets/ConfigurationHelpersTarget.cs
+   :start-after: start_snippet
+   :end-before: end_snippet
+   :dedent: 8
    :linenos:
