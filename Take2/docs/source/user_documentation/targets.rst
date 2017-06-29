@@ -8,14 +8,13 @@
   Targets
 #########
 
-.. highlight:: xml
-
 Configuration
 =============
 
 NuLog comes with a number of built-in targets.  Targets are configured within the :code:`<targets>` section of the NuLog configuration:
 
 .. literalinclude:: /../../NuLogSnippets/TargetsConfig.config
+   :language: xml
    :lines: 1-
    :tab-width: 4
    :emphasize-lines: 9
@@ -35,6 +34,7 @@ Trace Target
 The trace target writes log events to `Trace`:
 
 .. literalinclude:: /../../NuLogSnippets/TraceTargetConfig.config
+   :language: xml
    :lines: 9-10
    :tab-width: 4
    :dedent: 3
@@ -53,6 +53,7 @@ Console Target
 The console target writes log events to `Console`:
 
 .. literalinclude:: /../../NuLogSnippets/ConsoleTargetConfig.config
+   :language: xml
    :lines: 9-12
    :tab-width: 4
    :dedent: 3
@@ -73,6 +74,7 @@ Text File Target
 The text file target writes log events to a text file:
 
 .. literalinclude:: /../../NuLogSnippets/TextFileTargetConfig.config
+   :language: xml
    :lines: 9-11
    :tab-width: 4
    :dedent: 3
@@ -92,6 +94,7 @@ Mail Target
 The mail target sends log events via a SMTP server:
 
 .. literalinclude:: /../../NuLogSnippets/MailTargetConfig.config
+   :language: xml
    :lines: 9-23
    :tab-width: 4
    :dedent: 3

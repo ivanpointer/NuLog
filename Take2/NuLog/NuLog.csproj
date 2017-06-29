@@ -97,7 +97,7 @@
     <Compile Include="LogFactoryActivatorNull.cs" />
     <Compile Include="Loggers\IMetaDataProvider.cs" />
     <Compile Include="Loggers\ITagNormalizer.cs" />
-    <Compile Include="Dispatchers\ITarget.cs" />
+    <Compile Include="ITarget.cs" />
     <Compile Include="Layouts\IPropertyParser.cs" />
     <Compile Include="Layouts\ILayoutParser.cs" />
     <Compile Include="Layouts\LayoutParameter.cs" />

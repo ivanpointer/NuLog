@@ -8,11 +8,37 @@
   Architectural Overview
 ########################
 
-Logger, Dispatcher and Target
-=============================
-lorem ipsum.
+.. _arch_overview:
+
+Factory, Logger, Dispatcher and Targets
+=======================================
+
+.. rst-class:: center
+
+.. image:: arch-overview.png
 
 ----
+
+Overview
+--------
+
+* **Factory** - Responsible for building loggers, the dispatcher, and everything the dispatcher depends on.  NuLog conforms to the 'Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>'_, forcing all the construction up to the factory.
+* **Logger** - Constructed by the factory, and given a reference to a dispatcher, the logger is responsible for building log events and passing them to the dispatcher.
+* **Dispatcher** - Responsible for receiving log events and managing them in a queue, telling them to log to certain targets at the appropriate times, based on the configured rules.
+* **Targets** - Targets are responsible for writing log events to their medium, such as trace, console, text file, or a plethora of others.
+
+Log Event Lifecycle
+-------------------
+
+  #. Application code calls a `Logger`, sending data over to be converted into a `LogEvent`.
+
+  #. The `Logger` converts the data into a `LogEvent` and passes it to the logger's `Dispatcher`, either for immediate, or deferred dispatch.
+
+  #. The `Dispatcher` receives the `LogEvent`, and either sends it immediately, or places it into a queue to be dispatched later.
+
+  #. The `Dispatcher`, either immediately, or as it works through its queue, figures out which targets each log event need to go to, based on the tags on the log event, and the configured rules.
+
+  #. The `Dispatcher` then tells the `LogEvent` to present itself to the appropriate `Target` instances for writing.
 
 .. _arch_princ:
 
@@ -31,9 +57,9 @@ Here are our guiding principles, for the NuLog project.  These principles come t
   
   #. **Tag-Based** - Offers more simplicity, and more flexibility, than the traditional "level" based logging.
   
-  #. **Extensible** - Build using the *'Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>'_*.  Developers who leverage the framework must be able to replace any portion of the framework with their own pieces, given that they conform to the *'Liskov Substitution Principle <https://en.wikipedia.org/wiki/Liskov_substitution_principle>'_*.
+  #. **Extensible** - Build using the 'Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>'_.  Developers who leverage the framework must be able to replace any portion of the framework with their own pieces, given that they conform to the 'Liskov Substitution Principle <https://en.wikipedia.org/wiki/Liskov_substitution_principle>'_.
   
-  #. **SOLID Principles** - We adhere to the *'SOLID Principles <https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)>'_*, as best we reasonably can.
+  #. **SOLID Principles** - We adhere to the 'SOLID Principles <https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)>'_, as best we reasonably can.
 
   #. **Business-Driven-Development** - We believe that the best documentation of a system are well written unit and integration tests.  We demand that there be *near* complete code coverage, and the checks must be high quality.  All code that can be tested, must be done so before said code is written.  Tests are first to document the expected behavior of the code, and second, have an ansilary benifit of verifying that the implementation actually does what is expected.  * **Any code (pull requests, etc.) that is not properly covered will be rejected.** *
   

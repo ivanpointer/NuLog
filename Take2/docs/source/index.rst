@@ -58,6 +58,7 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
    :caption: Customizing NuLog
 
    customizing_nulog/architecture
+   customizing_nulog/customtargets
    customizing_nulog/loggerfactlogmanager
    
 .. toctree::

@@ -8,6 +8,32 @@
   Advanced Usage
 ################
 
+Shutting Down NuLog
+===================
+
+Standard method
+---------------
+
+If for any reason you want to shut NuLog down before application exit, the most standard way to do this is using the `Shutdown` method
+of the `LogManager`.  You would do this if you are using the `LogManager` to manage your logging construction needs:
+
+.. literalinclude:: /../../NuLogSnippets/Docs/ShutdownLogManager.cs
+   :lines: 11-18
+   :tab-width: 4
+   :dedent: 2
+   :linenos:
+
+StandardLoggerFactory Finalizer
+-------------------------------
+The standard logger factory implementation has a finalizer, which disposes the assets managed by the factory, namely, the `IDispatcher` assigned to it, when garbage collection deconstructs it.
+
+Disposing the Dispatcher
+------------------------
+It is important to dispose the dispatcher, so that the queued log events can be sent to their targets before application exit.
+
+Like the `StandardLoggerFactory` the `StandardDispatcher` also has a finalizer, which will dispose the dispatcher when disposed of by the garbage
+collector.
+
 Meta Data Providers
 ===================
 Much like static meta data, dynamic meta data can be included in log events to be delivered to the targets.  To do this, a `IMetaDataProvider`
@@ -62,9 +88,8 @@ Examples
 
 Let's say that you want to send messages with the "consoleonly" tag, only to console, but have a general, catch-all rule in place.  In the following example, events with the `consoleonly` tag will be routed only to the console target, all others will only go to the file target:
 
-.. highlight:: xml
-
 .. literalinclude:: /../../NuLogSnippets/ConsoleOnlyRule.config
+   :language: xml
    :lines: 8-16
    :tab-width: 4
    :dedent: 2
@@ -76,6 +101,7 @@ We use the `strictInclude` flag to state that all tags/patterns in the "include"
 to zero in on specific log events:
 
 .. literalinclude:: /../../NuLogSnippets/StrictIncludeRule.config
+   :language: xml
    :lines: 8-13
    :tab-width: 4
    :dedent: 2
