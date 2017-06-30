@@ -59,7 +59,8 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
 
    customizing_nulog/architecture
    customizing_nulog/customtargets
-   customizing_nulog/loggerfactlogmanager
+   customizing_nulog/logfactman
+   customizing_nulog/extendstandardlogfact
    
 .. toctree::
    :maxdepth: 2
