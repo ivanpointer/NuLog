@@ -12,7 +12,7 @@ namespace NuLog.CLI.Benchmarking
     {
         private static void Main(string[] args)
         {
-            LogNow();
+            Log();
 
             Teardown();
         }

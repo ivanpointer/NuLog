@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace NuLog.Tests.Unit.Targets
@@ -182,60 +181,6 @@ namespace NuLog.Tests.Unit.Targets
         public void Dispose()
         {
             Console.SetOut(this.consoleTextWriter);
-        }
-    }
-
-    /// <summary>
-    /// Stores a console message, including the text, and the colors at the time of writing.
-    /// </summary>
-    public class ConsoleMessage
-    {
-        /// <summary>
-        /// The background color at the time the message was written.
-        /// </summary>
-        public ConsoleColor BackgroundColor { get; set; }
-
-        /// <summary>
-        /// The foreground color at the time the message was written.
-        /// </summary>
-        public ConsoleColor ForegroundColor { get; set; }
-
-        /// <summary>
-        /// The message that was written.
-        /// </summary>
-        public string Message { get; set; }
-    }
-
-    /// <summary>
-    /// A dummy text writer, which stores the messages written to it, and records the console's
-    /// foreground and background colors at the time of writing.
-    /// </summary>
-    public class DummyTextWriter : TextWriter
-    {
-        public List<ConsoleMessage> ConsoleMessages { get; private set; }
-
-        public DummyTextWriter()
-        {
-            ConsoleMessages = new List<ConsoleMessage>();
-        }
-
-        public override Encoding Encoding
-        {
-            get
-            {
-                return Encoding.Default;
-            }
-        }
-
-        public override void Write(string value)
-        {
-            var message = new ConsoleMessage
-            {
-                BackgroundColor = Console.BackgroundColor,
-                ForegroundColor = Console.ForegroundColor,
-                Message = value
-            };
-            ConsoleMessages.Add(message);
         }
     }
 }

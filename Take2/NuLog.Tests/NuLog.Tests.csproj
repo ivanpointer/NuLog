@@ -91,8 +91,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleMessage.cs" />
     <Compile Include="DummyLayoutTarget.cs" />
     <Compile Include="DummyTarget.cs" />
+    <Compile Include="DummyTextWriter.cs" />
     <Compile Include="HashSetTraceListener.cs" />
     <Compile Include="Integration\Factories\StandardLoggerFactoryIntegrationTests.cs" />
     <Compile Include="Integration\TagRouters\StandardTagRouterTests.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Unit\LogManagerTests.cs" />
     <Compile Include="Unit\Targets\ColorConsoleTargetTests.cs" />
     <Compile Include="Unit\Targets\ColorConsoleTargetXCludeTests.cs" />
+    <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
     <Compile Include="Unit\Targets\EventLogTargetTests.cs" />
     <Compile Include="Unit\Targets\MailTargetTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
