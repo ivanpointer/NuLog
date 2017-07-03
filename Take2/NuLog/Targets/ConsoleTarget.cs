@@ -4,7 +4,6 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.LogEvents;
 using System;
-using System.Threading.Tasks;
 
 namespace NuLog.Targets
 {
