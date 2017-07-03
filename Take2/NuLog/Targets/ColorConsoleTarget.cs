@@ -11,7 +11,7 @@ namespace NuLog.Targets
     /// <summary>
     /// A target that writes to console, and can have custom colors.
     /// </summary>
-    public class ConsoleTarget : LayoutTargetBase
+    public class ColorConsoleTarget : LayoutTargetBase
     {
         /// <summary>
         /// Lock to keep colors straight during threaded writes.
@@ -33,7 +33,7 @@ namespace NuLog.Targets
         /// </summary>
         private ConsoleColor foregroundColor;
 
-        public ConsoleTarget() : base()
+        public ColorConsoleTarget() : base()
         {
             this.backgroundColor = Console.BackgroundColor;
             this.foregroundColor = Console.ForegroundColor;

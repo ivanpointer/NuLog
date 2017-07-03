@@ -18,9 +18,9 @@ namespace NuLog.Tests.Unit.Targets
     /// <summary>
     /// Documents (and verifies) the expected behavior of the console target.
     /// </summary>
-    [Collection("ConsoleTargetTests")]
+    [Collection("ColorConsoleTargetTests")]
     [Trait("Category", "Unit")]
-    public class ConsoleTargetTests : IDisposable
+    public class ColorConsoleTargetTests : IDisposable
     {
         protected readonly DummyTextWriter textWriter;
 
@@ -30,7 +30,7 @@ namespace NuLog.Tests.Unit.Targets
 
         private readonly ConsoleColor defaultForegroundColor;
 
-        public ConsoleTargetTests()
+        public ColorConsoleTargetTests()
         {
             this.textWriter = new DummyTextWriter();
             this.consoleTextWriter = Console.Out;
@@ -54,7 +54,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Write to console!");
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(null, layoutFactory);
 
             // Execute
@@ -74,7 +74,7 @@ namespace NuLog.Tests.Unit.Targets
         public void Should_UseLayout()
         {
             // Setup
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
 
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -110,7 +110,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default background!");
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(null, layoutFactory);
 
             // Execute
@@ -134,7 +134,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Default foreground!");
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(null, layoutFactory);
 
             // Execute
@@ -167,7 +167,7 @@ namespace NuLog.Tests.Unit.Targets
                 }
             };
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(config);
             logger.Configure(config, layoutFactory);
 

@@ -160,7 +160,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Hello, Formatted!");
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(null, layoutFactory);
 
             var config = TargetConfigBuilder.Start()

@@ -19,9 +19,9 @@ namespace NuLog.Tests.Unit.Targets
     /// These tests are excluded from the AppVeyor build - as something about them fails in AppVeyor
     /// - it seems that setting the console color doesn't work there.
     /// </summary>
-    [Collection("ConsoleTargetTests")]
+    [Collection("ColorConsoleTargetTests")]
     [Trait("Category", "Unit-Exclude")]
-    public class ConsoleTargetXCludeTests : ConsoleTargetTests
+    public class ColorConsoleTargetXCludeTests : ColorConsoleTargetTests
     {
         /// <summary>
         /// The console logger should set the background color, if configured.
@@ -45,7 +45,7 @@ namespace NuLog.Tests.Unit.Targets
                 }
             };
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(config);
             logger.Configure(config, layoutFactory);
 
@@ -79,7 +79,7 @@ namespace NuLog.Tests.Unit.Targets
                 }
             };
 
-            var logger = new ConsoleTarget();
+            var logger = new ColorConsoleTarget();
             logger.Configure(config);
             logger.Configure(config, layoutFactory);
 

@@ -119,8 +119,8 @@
     <Compile Include="Unit\Layouts\Standard\StandardLayoutTests.cs" />
     <Compile Include="Unit\LogEventTests.cs" />
     <Compile Include="Unit\LogManagerTests.cs" />
-    <Compile Include="Unit\Targets\ConsoleTargetTests.cs" />
-    <Compile Include="Unit\Targets\ConsoleTargetXCludeTests.cs" />
+    <Compile Include="Unit\Targets\ColorConsoleTargetTests.cs" />
+    <Compile Include="Unit\Targets\ColorConsoleTargetXCludeTests.cs" />
     <Compile Include="Unit\Targets\EventLogTargetTests.cs" />
     <Compile Include="Unit\Targets\MailTargetTests.cs" />
     <Compile Include="Unit\Targets\TargetBaseTests.cs" />
