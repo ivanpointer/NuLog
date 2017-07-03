@@ -69,5 +69,5 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
    introtologging
    intrototaglogging
    about
-   performance
+   benchmark
    license
