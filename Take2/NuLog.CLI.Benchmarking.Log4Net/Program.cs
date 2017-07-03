@@ -43,7 +43,7 @@ namespace NuLog.CLI.Benchmarking.Log4Net
         private static void RecordBenchmark(TimeSpan executionTime, int iterations, string benchmarkType, string comments)
         {
             var currentTime = DateTime.Now;
-            var timePerIteration = Math.Ceiling((double)executionTime.TotalMilliseconds / (double)iterations);
+            var timePerIteration = Math.Ceiling(executionTime.TotalMilliseconds / (double)iterations);
             var entry = string.Format("\r\n{0:MM/dd/yyyy hh:mm:ss} | {1} | {2} | {3} | {4} | {5}", currentTime, benchmarkType, executionTime, iterations, timePerIteration, comments);
             File.AppendAllText(BENCHMARK_LOG_PATH, entry);
         }

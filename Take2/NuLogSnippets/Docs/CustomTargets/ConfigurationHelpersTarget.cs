@@ -23,9 +23,7 @@ namespace NuLogSnippets.Docs.CustomTargets
             this.MyStringProperty = GetProperty<string>(config, "oneFish");
 
             bool isTwoFish;
-            this.MyBoolProperty = TryGetProperty<bool>(config, "twoFish", out isTwoFish)
-                ? isTwoFish
-                : false; // default
+            this.MyBoolProperty = TryGetProperty<bool>(config, "twoFish", out isTwoFish) && isTwoFish;
         }
 
         // end_snippet

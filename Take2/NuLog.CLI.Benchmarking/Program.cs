@@ -19,28 +19,6 @@ namespace NuLog.CLI.Benchmarking
         private static void Main(string[] args)
         {
             Log();
-
-            Teardown();
-        }
-
-        private static void Teardown()
-        {
-            if (File.Exists("benchmark.log"))
-            {
-                File.Delete("benchmark.log");
-            }
-        }
-
-        private static void ToConsole()
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            for (var lp = 1; lp < 10001; lp++)
-            {
-                Console.WriteLine("Benchmark message " + lp);
-            }
-            sw.Stop();
-            Console.WriteLine("Elapsed: " + sw.Elapsed);
         }
 
         private static void Log()
@@ -58,24 +36,10 @@ namespace NuLog.CLI.Benchmarking
             RecordBenchmark(sw.Elapsed, ITERATIONS, BENCHMARK_TYPE, BENCHMARK_COMMENTS);
         }
 
-        private static void LogNow()
-        {
-            var logger = LogManager.GetLogger();
-            var sw = new Stopwatch();
-            sw.Start();
-            for (var lp = 1; lp < 10001; lp++)
-            {
-                logger.LogNow("Benchmark message " + lp);
-            }
-            LogManager.Shutdown();
-            sw.Stop();
-            Console.WriteLine("Elapsed: " + sw.Elapsed);
-        }
-
         private static void RecordBenchmark(TimeSpan executionTime, int iterations, string benchmarkType, string comments)
         {
             var currentTime = DateTime.Now;
-            var timePerIteration = Math.Ceiling((double)executionTime.TotalMilliseconds / (double)iterations);
+            var timePerIteration = Math.Ceiling(executionTime.TotalMilliseconds / (double)iterations);
             var entry = string.Format("\r\n{0:MM/dd/yyyy hh:mm:ss} | {1} | {2} | {3} | {4} | {5}", currentTime, benchmarkType, executionTime, iterations, timePerIteration, comments);
             File.AppendAllText(BENCHMARK_LOG_PATH, entry);
         }
