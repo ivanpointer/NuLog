@@ -11,6 +11,9 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 7/6/2017 - Doco done, now to promote NuLog
+I've got the documentation in a managable state.  It's now time to start getting some users!  I've written a blog post to announce NuLog, which I'll be sending to Hanselman, and it's time to start with the shameless plug.  I've also got to promote the latest build to the first official release.
+
 ## 6/29/2017 - Code Smells Done - Back to Doco
 I've got the code smells taken care of (well, the ones I agreed with).  Now, I swing back to documentation!
 
