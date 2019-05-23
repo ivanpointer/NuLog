@@ -13,12 +13,12 @@
         <developmentDependency>true</developmentDependency>
         <description>A template/starter Web/App config for leveraging NuLog.</description>
         <summary>A template/starter Web/App config for leveraging NuLog.</summary>
-        <releaseNotes>A release candidate, of the initial release of the 2nd generation of NuLog.</releaseNotes>
-        <copyright>© 2017 Ivan Andrew Pointer</copyright>
+        <releaseNotes>The 2nd generation of NuLog.</releaseNotes>
+        <copyright>© 2019 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag config</tags>
         <dependencies>
-            <dependency id="NuLog" />
+            <dependency id="NuLog" version="2.1.1" />
         </dependencies>
     </metadata>
     <files>
