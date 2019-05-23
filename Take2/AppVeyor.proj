@@ -16,7 +16,7 @@
 
         <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
         <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-        <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
+        <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog]* -[NuLog.Tests]* -[NuLog.CLI*]*</OC_FILTER>
         <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
         <OC_SEARCHDIR Condition="'$(OC_SEARCHDIR)' == ''">NuLog.Tests\bin\Debug</OC_SEARCHDIR>
         <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLL) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIR)"</OC_COMMAND>
@@ -29,7 +29,6 @@
         <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
         <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
 
-        <SQ_OPENCOVERFILE Condition="'$(SQ_OPENCOVERFILE)' == ''">opencover.xml</SQ_OPENCOVERFILE>
         <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)"</SQ_PREPARE_COMMAND>
         <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
     </PropertyGroup>
