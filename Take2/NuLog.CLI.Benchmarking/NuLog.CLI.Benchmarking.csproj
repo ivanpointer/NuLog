@@ -34,8 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NuLog, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NuLog.2.1.1-rc185\lib\net452\NuLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NuLog.2.1.1\lib\net452\NuLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
