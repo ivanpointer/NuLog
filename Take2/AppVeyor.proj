@@ -25,12 +25,11 @@
         <SQ_MINOR_VERSION Condition="'$(SQ_MINOR_VERSION)' == ''">1930</SQ_MINOR_VERSION>
         <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\sonar-scanner-msbuild-$(SQ_VERSION).$(SQ_MINOR_VERSION)-net46\SonarScanner.MSBuild.exe</SQ_SCANNER>
         <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
-        <SQ_EXCLUSIONS Condition="'$(SQ_EXCLUSIONS)' == ''">**/NuLogSnippets*</SQ_EXCLUSIONS>
         <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
         <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
         <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
 
-        <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE) /d:sonar.exclusions="@(SQ_EXCLUSIONS)""</SQ_PREPARE_COMMAND>
+        <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)"</SQ_PREPARE_COMMAND>
         <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
     </PropertyGroup>
     <ItemGroup>
