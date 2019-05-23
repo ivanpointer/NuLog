@@ -57,8 +57,9 @@
     </Target>
     <Target Name="AppVeyorBuild">
         <ItemGroup>
-            <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
             <AssemblyInfoFiles Include="**\NuLog*\**\AssemblyInfo.cs" />
+            <NuspecFiles Include="**\NuLog*\**\*.nuspec" />
+            <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
         </ItemGroup>
 
         <AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
@@ -68,8 +69,7 @@
         
         <MSBuild Projects="@(ProjectToBuild)" />
 
-        <XmlFile TaskAction="UpdateElement" File="NuGet\NuLog.nuspec" XPath="/package/metadata/releaseNotes" InnerText="$(APPVEYOR_REPO_COMMIT_MESSAGE)" />
-        <XmlFile TaskAction="UpdateElement" File="NuGet\NuLog.Configuration\NuLog.Configuration.nuspec" XPath="/package/metadata/releaseNotes" InnerText="$(APPVEYOR_REPO_COMMIT_MESSAGE)" />
+        <XmlFile TaskAction="UpdateElement" File="%(NuspecFiles.FullPath)" XPath="/package/metadata/releaseNotes" InnerText="Hello, World!" />
         
         <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
         <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
