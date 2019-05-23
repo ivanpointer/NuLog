@@ -30,7 +30,7 @@
         <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
         <SQ_COV_EXCL Condition="'$(SQ_COV_EXCL)' == ''">NuLogSnippets/*</SQ_COV_EXCL>
 
-        <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)" /d:"sonar.coverage.exclusions=@(SQ_COV_EXCL)"</SQ_PREPARE_COMMAND>
+        <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)" /d:sonar.coverage.exclusions="@(SQ_COV_EXCL)"</SQ_PREPARE_COMMAND>
         <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
     </PropertyGroup>
     <ItemGroup>
