@@ -22,7 +22,7 @@
 
         <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.6.0</SQ_VERSION>
         <SQ_MINOR_VERSION Condition="'$(SQ_MINOR_VERSION)' == ''">1930</SQ_MINOR_VERSION>
-        <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\sonar-scanner-msbuild-$(SQ_VERSION).$(SQ_MINOR_VERSION)-net46</SQ_SCANNER>
+        <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\sonar-scanner-msbuild-$(SQ_VERSION).$(SQ_MINOR_VERSION)-net46\SonarScanner.MSBuild.exe</SQ_SCANNER>
         <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
         <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
         <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
