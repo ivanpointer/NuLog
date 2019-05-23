@@ -2,12 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-!/**/packages
+/**/NuLog*/**/bin
+/**/NuLog*/**/obj
 /**/.suo
-/*/*/bin
-/*/*/obj
-/**/*/bin
-/**/*/obj
 /**/*.vspx
 /**/*.psess
 /**/*.vsp
