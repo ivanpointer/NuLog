@@ -64,13 +64,13 @@ namespace NuLog.TagRouters.RuleProcessors
                     {
                         targets.Add(target);
                     }
-                }
 
-                // Check for the final flag on the rule
-                if (rule.Final)
-                {
-                    // The rule is marked final, don't process any more rules
-                    break;
+                    // If the rule is final, we're done.
+                    if (rule.Final)
+                    {
+                        // The rule is marked final, don't process any more rules
+                        break;
+                    }
                 }
             }
 

@@ -51,5 +51,42 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             Assert.Contains("super_target", targets);
             Assert.Contains("duper_target", targets);
         }
+
+                /// <summary>
+        /// The router should stop processing rules once a rule that is marked final is matched.
+        /// </summary>
+        [Fact(DisplayName = "Should_StopProcessingOnFirstFinalHit")]
+        public void Should_StopProcessingOnFirstFinalHit()
+        {
+            // Setup
+            var rules = new List<Rule>
+            {
+                new Rule
+                {
+                    Include = new string[] { "first_tag" },
+                    Targets = new string[] { "super_target" },
+                    Final = true
+                },
+                new Rule
+                {
+                    Include = new string[] { "hello_tag" },
+                    Targets = new string[] { "duper_target" },
+                    Final = true
+                },
+                new Rule
+                {
+                    Include = new string[] { "*" },
+                    Targets = new string[] { "califragilistic" }
+                }
+            };
+            var processor = GetRuleProcessor(rules);
+
+            // Execute
+            var targets = processor.DetermineTargets(new string[] { "hello_tag" });
+
+            // Verify
+            Assert.Equal(1, targets.Count());
+            Assert.Contains("duper_target", targets);
+        }
     }
 }
