@@ -1,5 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
     <UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo" />
+    <UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Xml.XmlFile" />
     <ItemGroup>
         <XU_RESULTSFILE Include="XUnitResults.xml" />
         <OC_RESULTSFILE Include="opencover.xml" />
@@ -66,8 +67,12 @@
               AssemblyFileVersion="$(APPVEYOR_BUILD_VERSION)" />
         
         <MSBuild Projects="@(ProjectToBuild)" />
-        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME) -Properties PackageReleaseNotes=&quot;$(APPVEYOR_REPO_COMMIT_MESSAGE)&quot;" />
-        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME) -Properties PackageReleaseNotes=&quot;$(APPVEYOR_REPO_COMMIT_MESSAGE)&quot;" />
+
+        <XmlFile TaskAction="UpdateElement" File="NuGet\NuLog.nuspec" XPath="/package/metadata/releaseNotes" InnerText="$(APPVEYOR_REPO_COMMIT_MESSAGE)" />
+        <XmlFile TaskAction="UpdateElement" File="NuGet\NuLog.Configuration\NuLog.Configuration.nuspec" XPath="/package/metadata/releaseNotes" InnerText="$(APPVEYOR_REPO_COMMIT_MESSAGE)" />
+        
+        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
+        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
         
         <Delete Files="@(FilesToDelete)" />
     </Target>
