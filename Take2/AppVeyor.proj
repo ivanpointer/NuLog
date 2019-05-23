@@ -6,6 +6,7 @@
     </ItemGroup>
     <PropertyGroup>
         <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">0.0.0-rc0</APPVEYOR_BUILD_VERSION>
+        <APPVEYOR_REPO_TAG_NAME Condition="'$(APPVEYOR_REPO_TAG_NAME)' == ''">$(APPVEYOR_BUILD_VERSION)</APPVEYOR_REPO_TAG_NAME>
 
         <TESTS_DLL Condition="'$(TESTS_DLL)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll</TESTS_DLL>
 
@@ -52,8 +53,8 @@
     </Target>
     <Target Name="AppVeyorBuild">
         <MSBuild Projects="@(ProjectToBuild)" />
-        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
-        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
+        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
+        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
 
         <ItemGroup>
             <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
