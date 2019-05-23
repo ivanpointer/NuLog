@@ -54,6 +54,12 @@
         <MSBuild Projects="@(ProjectToBuild)" />
         <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
         <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_BUILD_VERSION)" />
+
+        <ItemGroup>
+            <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
+        </ItemGroup>
+        
+        <Delete Files="@(FilesToDelete)" />
     </Target>
     <Target Name="Inspect" DependsOnTargets="SonarQube">
     </Target>
