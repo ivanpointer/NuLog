@@ -1,4 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
+    <UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo" />
     <ItemGroup>
         <XU_RESULTSFILE Include="XUnitResults.xml" />
         <OC_RESULTSFILE Include="opencover.xml" />
