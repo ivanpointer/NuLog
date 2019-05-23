@@ -66,8 +66,8 @@
               AssemblyFileVersion="$(APPVEYOR_BUILD_VERSION)" />
         
         <MSBuild Projects="@(ProjectToBuild)" />
-        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
-        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
+        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME) -Properties PackageReleaseNotes=&quot;$(APPVEYOR_REPO_COMMIT_MESSAGE)&quot;" />
+        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME) -Properties PackageReleaseNotes=&quot;$(APPVEYOR_REPO_COMMIT_MESSAGE)&quot;" />
         
         <Delete Files="@(FilesToDelete)" />
     </Target>

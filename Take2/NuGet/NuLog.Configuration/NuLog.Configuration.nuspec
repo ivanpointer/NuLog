@@ -13,7 +13,7 @@
         <developmentDependency>true</developmentDependency>
         <description>A template/starter Web/App config for leveraging NuLog.</description>
         <summary>A template/starter Web/App config for leveraging NuLog.</summary>
-        <releaseNotes>The 2nd generation of NuLog.</releaseNotes>
+        <releaseNotes></releaseNotes>
         <copyright>© 2019 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag config</tags>
