@@ -89,19 +89,19 @@
             InputFilename="%(AssemblyInfoFiles.Identity)"
             OutputFilename="%(AssemblyInfoFiles.Identity)"
             MatchExpression="AssemblyCopyright\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="$(ASSEMBLY_COPYRIGHT)" />
+            ReplacementText="AssemblyCopyright(&quot;$(ASSEMBLY_COPYRIGHT)&quot;)" />
 
         <ReplaceFileText
             InputFilename="%(AssemblyInfoFiles.Identity)"
             OutputFilename="%(AssemblyInfoFiles.Identity)"
             MatchExpression="AssemblyVersion\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="$(APPVEYOR_BUILD_VERSION)" />
+            ReplacementText="AssemblyVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
         <ReplaceFileText
             InputFilename="%(AssemblyInfoFiles.Identity)"
             OutputFilename="%(AssemblyInfoFiles.Identity)"
             MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="$(APPVEYOR_BUILD_VERSION)" />
+            ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
         <!--<AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
               AssemblyCopyright="$(ASSEMBLY_COPYRIGHT)"
