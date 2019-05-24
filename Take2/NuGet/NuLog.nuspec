@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Powerfully Simple Logging. Period.</description>
         <summary>Powerfully Simple Logging. Period.</summary>
-        <releaseNotes>The next release of NuLog!</releaseNotes>
+        <releaseNotes>$releaseNotes$</releaseNotes>
         <copyright>© 2019 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag</tags>

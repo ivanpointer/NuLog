@@ -1,5 +1,29 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
-    <UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo" />
+    <!--<UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo" />-->
+
+    <UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <InputFilename ParameterType="System.String" Required="true" />
+            <OutputFilename ParameterType="System.String" Required="true" />
+            <MatchExpression ParameterType="System.String" Required="true" />
+            <ReplacementText ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Reference Include="System.Core" />
+            <Using Namespace="System" />
+            <Using Namespace="System.IO" />
+            <Using Namespace="System.Text.RegularExpressions" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                    File.WriteAllText(
+                        OutputFilename,
+                        Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText)
+                        );
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
     <ItemGroup>
         <XU_RESULTSFILE Include="XUnitResults.xml" />
         <OC_RESULTSFILE Include="opencover.xml" />
@@ -58,18 +82,45 @@
         <ItemGroup>
             <AssemblyInfoFiles Include="**\NuLog*\**\AssemblyInfo.cs" />
             <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
+            <NuspecFiles Include="**\NuLog*\**\*.nuspec" />
         </ItemGroup>
 
-        <AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
+        <ReplaceFileText
+            InputFilename="%(AssemblyInfoFiles.Identity)"
+            OutputFilename="%(AssemblyInfoFiles.Identity)"
+            MatchExpression="AssemblyCopyright\(&quot;[^&quot;]*&quot;\)"
+            ReplacementText="$(ASSEMBLY_COPYRIGHT)" />
+
+        <ReplaceFileText
+            InputFilename="%(AssemblyInfoFiles.Identity)"
+            OutputFilename="%(AssemblyInfoFiles.Identity)"
+            MatchExpression="AssemblyVersion\(&quot;[^&quot;]*&quot;\)"
+            ReplacementText="$(APPVEYOR_BUILD_VERSION)" />
+
+        <ReplaceFileText
+            InputFilename="%(AssemblyInfoFiles.Identity)"
+            OutputFilename="%(AssemblyInfoFiles.Identity)"
+            MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
+            ReplacementText="$(APPVEYOR_BUILD_VERSION)" />
+
+        <!--<AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
               AssemblyCopyright="$(ASSEMBLY_COPYRIGHT)"
               AssemblyVersion="$(APPVEYOR_BUILD_VERSION)"
-              AssemblyFileVersion="$(APPVEYOR_BUILD_VERSION)" />
-        
+              AssemblyFileVersion="$(APPVEYOR_BUILD_VERSION)" />-->
+
         <MSBuild Projects="@(ProjectToBuild)" />
 
-        <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
-        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
-        
+        <ReplaceFileText
+            InputFilename="%(NuspecFiles.Identity)"
+            OutputFilename="%(NuspecFiles.Identity)"
+            MatchExpression="\$releaseNotes\$"
+            ReplacementText="Hello, world!" />
+
+        <!--<Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
+        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />-->
+
+        <Exec Command="nuget pack %(NuspecFiles.Identity) -version $(APPVEYOR_REPO_TAG_NAME)" />
+
         <Delete Files="@(FilesToDelete)" />
     </Target>
     <Target Name="Inspect" DependsOnTargets="SonarQube">
@@ -77,21 +128,21 @@
     <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
     </Target>
     <Target Name="PrepareSonarQube">
-        <Exec Command="$(SQ_PREPARE_COMMAND)" />
+        <!--<Exec Command="$(SQ_PREPARE_COMMAND)" />-->
     </Target>
     <Target Name="SonarQubeBuild">
-        <MSBuild Projects="@(SQ_PROJECT)" />
+        <!--<MSBuild Projects="@(SQ_PROJECT)" />-->
     </Target>
     <Target Name="ExecuteXUnit">
-        <Exec Command="$(XU_COMMAND)" />
+        <!--<Exec Command="$(XU_COMMAND)" />-->
     </Target>
     <Target Name="ExecuteOpenCover">
-        <Exec Command="$(OC_COMMAND)" />
+        <!--<Exec Command="$(OC_COMMAND)" />-->
     </Target>
     <Target Name="FinalizeSonarQube">
-        <Exec Command="$(SQ_END_COMMAND)" />
+        <!--<Exec Command="$(SQ_END_COMMAND)" />-->
     </Target>
     <Target Name="CleanupSonarQube">
-        <Delete Files="@(SQ_RESULTSFILES)" />
+        <!--<Delete Files="@(SQ_RESULTSFILES)" />-->
     </Target>
 </Project>
