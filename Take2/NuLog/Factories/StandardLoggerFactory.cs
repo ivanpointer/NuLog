@@ -344,8 +344,8 @@ namespace NuLog.Factories {
                     target.Name = targetConfig.Name;
 
                     // Check to see if the target is a layout target, and set its layout if so
-                    if(target is ILayoutTarget) {
-                        var layoutTarget = (ILayoutTarget)target;
+                    var layoutTarget = target as ILayoutTarget;
+                    if (layoutTarget != null) {
                         layoutTarget.Configure(targetConfig, this);
                     }
 
