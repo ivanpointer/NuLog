@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -11,14 +11,14 @@ using System.Linq;
 using System.Threading;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Loggers
-{
+namespace NuLog.Tests.Unit.Loggers {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard logger.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class StandardLoggerTests
-    {
+    public class StandardLoggerTests {
+
         #region Simple Log Event Properties Tests
 
         // Tests around making sure that the logger sets the minimum expected properties on the log event.
@@ -27,8 +27,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should send a message to the dispatcher, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_LogMessage_Later")]
-        public void Should_LogMessage_Later()
-        {
+        public void Should_LogMessage_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -46,8 +45,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should send a message to the dispatcher, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_LogMessage_Now")]
-        public void Should_LogMessage_Now()
-        {
+        public void Should_LogMessage_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -65,8 +63,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the date logged on the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetDateLoggedUtc_Later")]
-        public void Should_SetDateLoggedUtc_Later()
-        {
+        public void Should_SetDateLoggedUtc_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -86,8 +83,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the date logged on the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetDateLoggedUtc_Now")]
-        public void Should_SetDateLoggedUtc_Now()
-        {
+        public void Should_SetDateLoggedUtc_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -107,8 +103,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the originating thread on the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetThread_Later")]
-        public void Should_SetThread_Later()
-        {
+        public void Should_SetThread_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -126,8 +121,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the originating thread on the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetThread_Now")]
-        public void Should_SetThread_Now()
-        {
+        public void Should_SetThread_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -145,8 +139,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the originating stack frame on the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetStackFrame_Later")]
-        public void Should_SetStackFrame_Later()
-        {
+        public void Should_SetStackFrame_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -165,8 +158,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The logger should set the originating stack frame on the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetStackFrame_Now")]
-        public void Should_SetStackFrame_Now()
-        {
+        public void Should_SetStackFrame_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -189,8 +181,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given meta data onto the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetMetaData_Later")]
-        public void Should_SetMetaData_Later()
-        {
+        public void Should_SetMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -216,8 +207,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given meta data onto the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetMetaData_Now")]
-        public void Should_SetMetaData_Now()
-        {
+        public void Should_SetMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -243,8 +233,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should include default meta data, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeDefaultMetaData_Later")]
-        public void Should_IncludeDefaultMetaData_Later()
-        {
+        public void Should_IncludeDefaultMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var dob = new DateTime(1809, 2, 12);
@@ -270,8 +259,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should include default meta data, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeDefaultMetaData_Now")]
-        public void Should_IncludeDefaultMetaData_Now()
-        {
+        public void Should_IncludeDefaultMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var dob = new DateTime(1809, 2, 12);
@@ -297,8 +285,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Given meta data should override default meta data, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_GivenMetaDataOverrideDefaultMetaData_Later")]
-        public void Should_GivenMetaDataOverrideDefaultMetaData_Later()
-        {
+        public void Should_GivenMetaDataOverrideDefaultMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultMetaData = new Dictionary<string, object>
@@ -324,8 +311,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Given meta data should override default meta data, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_GivenMetaDataOverrideDefaultMetaData_Now")]
-        public void Should_GivenMetaDataOverrideDefaultMetaData_Now()
-        {
+        public void Should_GivenMetaDataOverrideDefaultMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultMetaData = new Dictionary<string, object>
@@ -355,8 +341,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given exception into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetException_Later")]
-        public void Should_SetException_Later()
-        {
+        public void Should_SetException_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -374,8 +359,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given exception into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetException_Now")]
-        public void Should_SetException_Now()
-        {
+        public void Should_SetException_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -393,8 +377,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given exception, and meta data into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetExceptionAndMetaData_Later")]
-        public void Should_SetExceptionAndMetaData_Later()
-        {
+        public void Should_SetExceptionAndMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -421,8 +404,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given exception, and meta data into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetExceptionAndMetaData_Now")]
-        public void Should_SetExceptionAndMetaData_Now()
-        {
+        public void Should_SetExceptionAndMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -450,8 +432,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeExceptionTagOnException")]
-        public void Should_IncludeExceptionTagOnException()
-        {
+        public void Should_IncludeExceptionTagOnException() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -473,8 +454,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTags_Later")]
-        public void Should_SetTags_Later()
-        {
+        public void Should_SetTags_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -494,8 +474,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTags_Now")]
-        public void Should_SetTags_Now()
-        {
+        public void Should_SetTags_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -515,8 +494,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, and meta data into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsAndMetaData_Later")]
-        public void Should_SetTagsAndMetaData_Later()
-        {
+        public void Should_SetTagsAndMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -545,8 +523,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, and meta data into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsAndMetaData_Now")]
-        public void Should_SetTagsAndMetaData_Now()
-        {
+        public void Should_SetTagsAndMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -575,8 +552,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, and exception into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsAndException_Later")]
-        public void Should_SetTagsAndException_Later()
-        {
+        public void Should_SetTagsAndException_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -599,8 +575,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, and exception into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsAndException_Now")]
-        public void Should_SetTagsAndException_Now()
-        {
+        public void Should_SetTagsAndException_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -623,8 +598,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, exception and meta data into the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsExceptionAndMetaData_Later")]
-        public void Should_SetTagsExceptionAndMetaData_Later()
-        {
+        public void Should_SetTagsExceptionAndMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -656,8 +630,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Should set the given tags, exception and meta data into the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_SetTagsExceptionAndMetaData_Now")]
-        public void Should_SetTagsExceptionAndMetaData_Now()
-        {
+        public void Should_SetTagsExceptionAndMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var logger = GetLogger(dispatcher);
@@ -693,8 +666,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The default tags on the logger should be included with the log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeDefaultTags_Later")]
-        public void Should_IncludeDefaultTags_Later()
-        {
+        public void Should_IncludeDefaultTags_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultTags = new string[] { "one_tag", "two_tag" };
@@ -716,8 +688,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// The default tags on the logger should be included with the log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeDefaultTags_Now")]
-        public void Should_IncludeDefaultTags_Now()
-        {
+        public void Should_IncludeDefaultTags_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultTags = new string[] { "one_tag", "two_tag" };
@@ -740,8 +711,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// given by the caller, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeOnlyDefaultTags_Later")]
-        public void Should_IncludeOnlyDefaultTags_Later()
-        {
+        public void Should_IncludeOnlyDefaultTags_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultTags = new string[] { "one_tag", "two_tag" };
@@ -762,8 +732,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// given by the caller, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeOnlyDefaultTags_Now")]
-        public void Should_IncludeOnlyDefaultTags_Now()
-        {
+        public void Should_IncludeOnlyDefaultTags_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var defaultTags = new string[] { "one_tag", "two_tag" };
@@ -784,8 +753,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeTags_Later")]
-        public void Should_NormalizeTags_Later()
-        {
+        public void Should_NormalizeTags_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -803,8 +771,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeTags_Now")]
-        public void Should_NormalizeTags_Now()
-        {
+        public void Should_NormalizeTags_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -822,8 +789,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// except on construction, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCall_Later")]
-        public void Should_NormalizeDefaultTags_WithCall_Later()
-        {
+        public void Should_NormalizeDefaultTags_WithCall_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -841,8 +807,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// except on construction, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCall_Now")]
-        public void Should_NormalizeDefaultTags_WithCall_Now()
-        {
+        public void Should_NormalizeDefaultTags_WithCall_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -860,8 +825,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// except on construction, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCallWithTags_Later")]
-        public void Should_NormalizeDefaultTags_WithCallWithTags_Later()
-        {
+        public void Should_NormalizeDefaultTags_WithCallWithTags_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -879,8 +843,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// except on construction, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_NormalizeDefaultTags_WithCallWithTags_Now")]
-        public void Should_NormalizeDefaultTags_WithCallWithTags_Now()
-        {
+        public void Should_NormalizeDefaultTags_WithCallWithTags_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
             var fakeNormalizer = A.Fake<ITagNormalizer>();
@@ -902,8 +865,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// log event, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_GetMetaDataFromProvider_Later")]
-        public void Should_GetMetaDataFromProvider_Later()
-        {
+        public void Should_GetMetaDataFromProvider_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -935,8 +897,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// log event, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_GetMetaDataFromProvider_Now")]
-        public void Should_GetMetaDataFromProvider_Now()
-        {
+        public void Should_GetMetaDataFromProvider_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -967,8 +928,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Meta data from a provider, and from a log call, should be combined together, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_CombineMetaDataFromProviderAndCall_Later")]
-        public void Should_CombineMetaDataFromProviderAndCall_Later()
-        {
+        public void Should_CombineMetaDataFromProviderAndCall_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1004,8 +964,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_CombineMetaDataFromProviderAndCall_Now")]
-        public void Should_CombineMetaDataFromProviderAndCall_Now()
-        {
+        public void Should_CombineMetaDataFromProviderAndCall_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1041,8 +1000,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// given meta data takes precedence, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_OverwriteProviderMetaDataWithGivenMetaData_Later")]
-        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Later()
-        {
+        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1077,8 +1035,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// given meta data takes precedence, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_OverwriteProviderMetaDataWithGivenMetaData_Now")]
-        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Now()
-        {
+        public void Should_OverwriteProviderMetaDataWithGivenMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1112,8 +1069,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Provided meta data should override default meta data, for deferred dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_ProvidedMetaDataOverrideDefaultMetaData_Later")]
-        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Later()
-        {
+        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Later() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1151,8 +1107,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// Provided meta data should override default meta data, for immediate dispatch.
         /// </summary>
         [Fact(DisplayName = "Should_ProvidedMetaDataOverrideDefaultMetaData_Now")]
-        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Now()
-        {
+        public void Should_ProvidedMetaDataOverrideDefaultMetaData_Now() {
             // Setup
             var dispatcher = new StubDispatcher<LogEvent>();
 
@@ -1191,8 +1146,7 @@ namespace NuLog.Tests.Unit.Loggers
         /// <summary>
         /// Gets the logger under test.
         /// </summary>
-        protected ILogger GetLogger(IDispatcher dispatcher, IEnumerable<string> defaultTags = null, ITagNormalizer tagNormalizer = null, IMetaDataProvider metaDataProvider = null, IDictionary<string, object> defaultMetaData = null)
-        {
+        protected ILogger GetLogger(IDispatcher dispatcher, IEnumerable<string> defaultTags = null, ITagNormalizer tagNormalizer = null, IMetaDataProvider metaDataProvider = null, IDictionary<string, object> defaultMetaData = null) {
             tagNormalizer = tagNormalizer ?? new StandardTagNormalizer();
             return new StandardLogger(dispatcher, tagNormalizer, metaDataProvider, defaultTags, defaultMetaData);
         }
@@ -1201,33 +1155,28 @@ namespace NuLog.Tests.Unit.Loggers
     /// <summary>
     /// A stub dispatcher for testing the logger.
     /// </summary>
-    internal class StubDispatcher<TLogEvent> : IDispatcher where TLogEvent : ILogEvent
-    {
+    internal class StubDispatcher<TLogEvent> : IDispatcher where TLogEvent : ILogEvent {
         public List<TLogEvent> DispatchNowEvents { get; set; }
 
         public List<TLogEvent> EnqueueForDispatchEvents { get; set; }
 
         public bool Disposed { get; private set; }
 
-        public StubDispatcher()
-        {
+        public StubDispatcher() {
             DispatchNowEvents = new List<TLogEvent>();
 
             EnqueueForDispatchEvents = new List<TLogEvent>();
         }
 
-        public void DispatchNow(ILogEvent logEvent)
-        {
+        public void DispatchNow(ILogEvent logEvent) {
             DispatchNowEvents.Add((TLogEvent)logEvent);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Disposed = true;
         }
 
-        public void EnqueueForDispatch(ILogEvent logEvent)
-        {
+        public void EnqueueForDispatch(ILogEvent logEvent) {
             EnqueueForDispatchEvents.Add((TLogEvent)logEvent);
         }
     }

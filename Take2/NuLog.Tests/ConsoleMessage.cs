@@ -1,16 +1,16 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 
-namespace NuLog.Tests
-{
+namespace NuLog.Tests {
+
     /// <summary>
     /// Stores a console message, including the text, and the colors at the time of writing.
     /// </summary>
-    public class ConsoleMessage
-    {
+    public class ConsoleMessage {
+
         /// <summary>
         /// The background color at the time the message was written.
         /// </summary>

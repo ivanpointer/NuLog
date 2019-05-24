@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,20 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace NuLog
-{
+namespace NuLog {
+
     /// <summary>
     /// The standard implementation of a tag normalizer.
     /// </summary>
-    public class StandardTagNormalizer : ITagNormalizer
-    {
+    public class StandardTagNormalizer : ITagNormalizer {
+
         /// <summary>
         /// A regular expression for validating the tags coming in.
         /// </summary>
         private static readonly Regex tagValPattern = new Regex(@"[a-zA-Z0-9_\.]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-        public string NormalizeTag(string tag)
-        {
+        public string NormalizeTag(string tag) {
             // Null or empty tags are not allowed
             if (string.IsNullOrEmpty(tag))
                 throw new InvalidOperationException("Tags cannot be null or white space (empty).  One such tag was given.");
@@ -37,14 +36,11 @@ namespace NuLog
             return normalized;
         }
 
-        public ICollection<string> NormalizeTags(IEnumerable<string> tags)
-        {
+        public ICollection<string> NormalizeTags(IEnumerable<string> tags) {
             var hashSet = new HashSet<string>();
 
-            if (tags != null)
-            {
-                foreach (var tag in tags)
-                {
+            if (tags != null) {
+                foreach (var tag in tags) {
                     var normalizedTag = NormalizeTag(tag);
                     hashSet.Add(normalizedTag);
                 }
@@ -58,10 +54,8 @@ namespace NuLog
         /// the tag isn't compliant.
         /// </summary>
         /// <param name="tag">The tag to check.</param>
-        private void ValidateTag(string tag)
-        {
-            if (!tagValPattern.IsMatch(tag))
-            {
+        private void ValidateTag(string tag) {
+            if (!tagValPattern.IsMatch(tag)) {
                 throw new InvalidOperationException(string.Format("tag \"{0}\" contains invalid characters.", tag));
             }
         }

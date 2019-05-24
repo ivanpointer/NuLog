@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,31 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NuLog.Layouts
-{
+namespace NuLog.Layouts {
+
     /// <summary>
     /// The standard implementation of a property parser.
     /// </summary>
-    public class StandardPropertyParser : IPropertyParser
-    {
+    public class StandardPropertyParser : IPropertyParser {
         private static readonly Type DictionaryType = typeof(IDictionary<string, object>);
 
         private readonly IDictionary<Type, IDictionary<string, PropertyInfo>> typeCache;
 
         private readonly IDictionary<Type, bool> dictionaryTypes;
 
-        public StandardPropertyParser()
-        {
+        public StandardPropertyParser() {
             this.typeCache = new Dictionary<Type, IDictionary<string, PropertyInfo>>();
 
             this.dictionaryTypes = new Dictionary<Type, bool>();
         }
 
-        public object GetProperty(object zobject, string[] path)
-        {
+        public object GetProperty(object zobject, string[] path) {
             // Check for a null path
-            if (path == null)
-            {
+            if (path == null) {
                 return null;
             }
 
@@ -45,11 +41,9 @@ namespace NuLog.Layouts
         /// The complexity (cyclomatic) of this one is going to be high, which may not be avoidable,
         /// as this is no-kidding recursion.
         /// </summary>
-        private object GetPropertyRecurse(object zobject, string[] propertyChain, int depth = 0)
-        {
+        private object GetPropertyRecurse(object zobject, string[] propertyChain, int depth = 0) {
             // Exit condition
-            if (zobject == null || depth >= propertyChain.Length)
-            {
+            if (zobject == null || depth >= propertyChain.Length) {
                 // Either we have hit a dead-end (null) Or we have reached the end of the name chain
                 // (depth) and we have our value
                 return zobject;
@@ -59,49 +53,37 @@ namespace NuLog.Layouts
             return GetPropertyInternal(zobject, propertyChain, depth);
         }
 
-        private object GetPropertyInternal(object zobject, string[] propertyChain, int depth)
-        {
+        private object GetPropertyInternal(object zobject, string[] propertyChain, int depth) {
             var zobjectType = zobject.GetType();
             var chainItem = propertyChain[depth];
 
             // Determine if the object is a dictionary, otherwise treat it as just an object
-            if (!IsDictionaryType(zobjectType))
-            {
+            if (!IsDictionaryType(zobjectType)) {
                 return GetObjectProperty(zobjectType, zobject, chainItem, propertyChain, depth);
-            }
-            else
-            {
+            } else {
                 return GetDictionaryProperty(zobject, chainItem, propertyChain, depth);
             }
         }
 
-        private object GetObjectProperty(Type zobjectType, object zobject, string chainItem, string[] propertyChain, int depth)
-        {
+        private object GetObjectProperty(Type zobjectType, object zobject, string chainItem, string[] propertyChain, int depth) {
             // Try to get the element in the dictionary with the next name
             var propertyDict = GetPropertyInfo(zobjectType);
             var propertyInfo = propertyDict.ContainsKey(chainItem)
                 ? propertyDict[chainItem]
                 : null;
-            if (propertyInfo != null)
-            {
+            if (propertyInfo != null) {
                 return GetPropertyRecurse(propertyInfo.GetValue(zobject, null), propertyChain, depth + 1);
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
 
-        private object GetDictionaryProperty(object zobject, string chainItem, string[] propertyChain, int depth)
-        {
+        private object GetDictionaryProperty(object zobject, string chainItem, string[] propertyChain, int depth) {
             // Try to get the property of the object with the next name
             var dictionary = (IDictionary<string, object>)zobject;
-            if (dictionary.ContainsKey(chainItem))
-            {
+            if (dictionary.ContainsKey(chainItem)) {
                 return GetPropertyRecurse(dictionary[chainItem], propertyChain, depth + 1);
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
@@ -110,17 +92,14 @@ namespace NuLog.Layouts
         /// A property for retrieving the PropertyInfo of an object type Uses caching because the
         /// work of getting th properties of an object type is expensive.
         /// </summary>
-        private IDictionary<string, PropertyInfo> GetPropertyInfo(Type objectType)
-        {
+        private IDictionary<string, PropertyInfo> GetPropertyInfo(Type objectType) {
             // Check the cache to see if we already have property info for the type\ Otherwise, get
             // and cache the property info for the type
 
-            if (!typeCache.ContainsKey(objectType))
-            {
+            if (!typeCache.ContainsKey(objectType)) {
                 var propertyInfo = objectType.GetProperties();
                 var dict = new Dictionary<string, PropertyInfo>();
-                foreach (var property in propertyInfo)
-                {
+                foreach (var property in propertyInfo) {
                     dict[property.Name] = property;
                 }
                 typeCache[objectType] = dict;
@@ -137,10 +116,8 @@ namespace NuLog.Layouts
         /// We use a hash set to cache the types we know to be dictionary types - so we can avoid the
         /// cost of reflection.
         /// </summary>
-        private bool IsDictionaryType(Type objectType)
-        {
-            if (dictionaryTypes.ContainsKey(objectType))
-            {
+        private bool IsDictionaryType(Type objectType) {
+            if (dictionaryTypes.ContainsKey(objectType)) {
                 return dictionaryTypes[objectType];
             }
 

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,15 +7,15 @@ using NuLog.Factories;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace NuLog
-{
+namespace NuLog {
+
     /// <summary>
     /// The log manager ties it all together. This is the "single point of entry" for applications
     /// leveraging NuLog, such as getting a logger instance, and is where the standard behavior of
     /// NuLog can be overridden.
     /// </summary>
-    public static class LogManager
-    {
+    public static class LogManager {
+
         /// <summary>
         /// A lock for making the log manager more thread safe.
         /// </summary>
@@ -30,10 +30,8 @@ namespace NuLog
         /// Sets the factory for this log manager to use in creating new loggers.
         /// </summary>
         /// <param name="loggerFactory">The logger factory to use.</param>
-        public static void SetFactory(ILoggerFactory loggerFactory)
-        {
-            lock (LogManagerLock)
-            {
+        public static void SetFactory(ILoggerFactory loggerFactory) {
+            lock (LogManagerLock) {
                 _loggerFactory = loggerFactory;
             }
         }
@@ -41,8 +39,7 @@ namespace NuLog
         /// <summary>
         /// Gets the logger for the calling class.
         /// </summary>
-        public static ILogger GetLogger(IMetaDataProvider metaDataProvider = null, params string[] defaultTags)
-        {
+        public static ILogger GetLogger(IMetaDataProvider metaDataProvider = null, params string[] defaultTags) {
             var classTag = GetClassTag();
             var factory = GetLoggerFactory();
             return factory.GetLogger(metaDataProvider, GetDefaultTags(defaultTags, classTag));
@@ -52,12 +49,9 @@ namespace NuLog
         /// Shuts down the logging operation. Shuts down the dispatcher, which should flush any
         /// outgoing messages, and throw exceptions on any new messages.
         /// </summary>
-        public static void Shutdown()
-        {
-            lock (LogManagerLock)
-            {
-                if (_loggerFactory != null)
-                {
+        public static void Shutdown() {
+            lock (LogManagerLock) {
+                if (_loggerFactory != null) {
                     _loggerFactory.Dispose();
                     _loggerFactory = null;
                 }
@@ -67,8 +61,7 @@ namespace NuLog
         /// <summary>
         /// Uses reflection to get the class tag of the calling class
         /// </summary>
-        private static string GetClassTag()
-        {
+        private static string GetClassTag() {
             var method = new StackFrame(2).GetMethod();
             return method.ReflectedType.FullName;
         }
@@ -76,14 +69,11 @@ namespace NuLog
         /// <summary>
         /// Merges the class tag into the given tags, returning the resulting set.
         /// </summary>
-        private static IEnumerable<string> GetDefaultTags(IEnumerable<string> givenTags, string classTag)
-        {
+        private static IEnumerable<string> GetDefaultTags(IEnumerable<string> givenTags, string classTag) {
             var hashSet = new HashSet<string>();
 
-            if (givenTags != null)
-            {
-                foreach (var tag in givenTags)
-                {
+            if (givenTags != null) {
+                foreach (var tag in givenTags) {
                     hashSet.Add(tag);
                 }
             }
@@ -93,14 +83,10 @@ namespace NuLog
             return hashSet;
         }
 
-        private static ILoggerFactory GetLoggerFactory()
-        {
-            if (_loggerFactory == null)
-            {
-                lock (LogManagerLock)
-                {
-                    if (_loggerFactory == null)
-                    {
+        private static ILoggerFactory GetLoggerFactory() {
+            if (_loggerFactory == null) {
+                lock (LogManagerLock) {
+                    if (_loggerFactory == null) {
                         var configProvider = new ConfigurationManagerProvider();
                         var config = configProvider.GetConfiguration();
                         _loggerFactory = new StandardLoggerFactory(config);

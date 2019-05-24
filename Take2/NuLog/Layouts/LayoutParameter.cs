@@ -1,15 +1,15 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
-namespace NuLog.Layouts
-{
+namespace NuLog.Layouts {
+
     /// <summary>
     /// Represents a single parameter within a standard layout. Designed specifically for the
     /// StandardLayout, but can be used by other layouts.
     /// </summary>
-    public class LayoutParameter
-    {
+    public class LayoutParameter {
+
         /// <summary>
         /// Whether or not this parameter represents static text within a layout format
         /// </summary>

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,20 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
-{
+namespace NuLog.Tests.Unit.TagRouters.RuleProcessors {
+
     /// <summary>
     /// Documents the expected behavior around "excludes" rules.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class RuleProcessorFinalRulesTests : RuleProcessorTestsBase
-    {
+    public class RuleProcessorFinalRulesTests : RuleProcessorTestsBase {
+
         /// <summary>
         /// The router should stop processing rules once a rule that is marked final is matched.
         /// </summary>
         [Fact(DisplayName = "Should_StopProcessingOnFinal")]
-        public void Should_StopProcessingOnFinal()
-        {
+        public void Should_StopProcessingOnFinal() {
             // Setup
             var rules = new List<Rule>
             {
@@ -52,12 +51,11 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             Assert.Contains("duper_target", targets);
         }
 
-                /// <summary>
+        /// <summary>
         /// The router should stop processing rules once a rule that is marked final is matched.
         /// </summary>
         [Fact(DisplayName = "Should_StopProcessingOnFirstFinalHit")]
-        public void Should_StopProcessingOnFirstFinalHit()
-        {
+        public void Should_StopProcessingOnFirstFinalHit() {
             // Setup
             var rules = new List<Rule>
             {

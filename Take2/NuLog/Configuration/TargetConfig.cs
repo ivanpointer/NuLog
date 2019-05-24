@@ -1,16 +1,16 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Configuration
-{
+namespace NuLog.Configuration {
+
     /// <summary>
     /// Represents a single target in the configuration.
     /// </summary>
-    public class TargetConfig
-    {
+    public class TargetConfig {
+
         /// <summary>
         /// The name of the target; used to identify the target in the rules.
         /// </summary>

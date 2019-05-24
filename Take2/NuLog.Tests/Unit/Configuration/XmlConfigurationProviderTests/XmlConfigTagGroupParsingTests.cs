@@ -1,25 +1,24 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
-{
+namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard configuration provider,
     /// specifically the rule config parsing.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class XmlConfigTagGroupParsingTests : XmlConfigurationProviderTestsBase
-    {
+    public class XmlConfigTagGroupParsingTests : XmlConfigurationProviderTestsBase {
+
         /// <summary>
         /// Tag groups should contain a base tag.
         /// </summary>
         [Fact(DisplayName = "Should_ContainBaseTag")]
-        public void Should_ContainBaseTag()
-        {
+        public void Should_ContainBaseTag() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><tagGroups><group baseTag=\"one_tag\" /></tagGroups></nulog>");
 
@@ -35,8 +34,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The tag group should contain one alias tag.
         /// </summary>
         [Fact(DisplayName = "Should_ContainOneAliasTag")]
-        public void Should_ContainOneAliasTag()
-        {
+        public void Should_ContainOneAliasTag() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><tagGroups><group aliases=\"one_tag\" /></tagGroups></nulog>");
 
@@ -53,8 +51,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The tag group should contain multiple alias tags.
         /// </summary>
         [Fact(DisplayName = "Should_ContainMultipleAliasTags")]
-        public void Should_ContainMultipleAliasTags()
-        {
+        public void Should_ContainMultipleAliasTags() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><tagGroups><group aliases=\"one_tag,two_tag\" /></tagGroups></nulog>");
 

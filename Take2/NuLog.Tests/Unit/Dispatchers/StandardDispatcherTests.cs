@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -13,24 +13,22 @@ using System.Diagnostics;
 using System.Threading;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Dispatchers
-{
+namespace NuLog.Tests.Unit.Dispatchers {
+
     /// <summary>
     /// Tests to document the expected behavior of the standard dispatcher.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class StandardDispatcherTests
-    {
+    public class StandardDispatcherTests {
+
         /// <summary>
         /// The dispatcher should ask the tag router about which target to dispatch to, and tell the
         /// log event to write itself to the target. The call should be made on the same thread.
         /// </summary>
         [Fact(DisplayName = "Should_DispatchNow")]
-        public void Should_DispatchNow()
-        {
+        public void Should_DispatchNow() {
             // Setup
-            var logEvent = new StubLogEvent
-            {
+            var logEvent = new StubLogEvent {
                 Tags = new string[] { "my_tag" }
             };
             var target = FakeTarget("fake_target");
@@ -53,11 +51,9 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// The dispatcher should defer/delay the call to have the log event write itself to the target.
         /// </summary>
         [Fact(DisplayName = "Should_DispatchLater")]
-        public void Should_DispatchLater()
-        {
+        public void Should_DispatchLater() {
             // Setup
-            var logEvent = new StubLogEvent
-            {
+            var logEvent = new StubLogEvent {
                 Tags = new string[] { "my_tag" }
             };
             var target = FakeTarget("fake_target");
@@ -75,8 +71,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             // Because we're threaded, wait for the event to be handled - give up after 5 seconds.
             var sw = new Stopwatch();
             sw.Start();
-            while (logEvent.Dispatched == false && sw.ElapsedMilliseconds < 5000)
-            {
+            while (logEvent.Dispatched == false && sw.ElapsedMilliseconds < 5000) {
                 Thread.Sleep(50);
             }
 
@@ -91,11 +86,9 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// being disposed.
         /// </summary>
         [Fact(DisplayName = "Should_RefuseNewLogEventsAfterDispose")]
-        public void Should_RefuseNewLogEventsAfterDispose()
-        {
+        public void Should_RefuseNewLogEventsAfterDispose() {
             // Setup
-            var logEvent = new StubLogEvent
-            {
+            var logEvent = new StubLogEvent {
                 Tags = new string[] { "my_tag" }
             };
             var target = FakeTarget("fake_target");
@@ -111,8 +104,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             dispatcher.Dispose();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
+            Assert.Throws(typeof(InvalidOperationException), () => {
                 dispatcher.EnqueueForDispatch(logEvent);
             });
         }
@@ -121,8 +113,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// The dispatcher should dispose its targets, when it is disposed.
         /// </summary>
         [Fact(DisplayName = "Should_DisposeTargetsOnDispose")]
-        public void Should_DisposeTargetsOnDispose()
-        {
+        public void Should_DisposeTargetsOnDispose() {
             // Setup
             var target = FakeTarget("fake_target");
             var tagRouter = FakeTagRouter();
@@ -141,8 +132,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// Exceptions in the logger shouldn't interfere with the logging application.
         /// </summary>
         [Fact(DisplayName = "Should_EncapsulateTargetExceptionsLater")]
-        public void Should_EncapsulateTargetExceptionsLater()
-        {
+        public void Should_EncapsulateTargetExceptionsLater() {
             // Setup
             var target = FakeTarget("exceptional_target");
             A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
@@ -151,8 +141,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter);
 
             // Execute / Verify (nothing should be thrown)
-            dispatcher.EnqueueForDispatch(new LogEvent
-            {
+            dispatcher.EnqueueForDispatch(new LogEvent {
                 Message = "A doomed event."
             });
             dispatcher.Dispose();
@@ -164,8 +153,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// Exceptions in the logger shouldn't interfere with the logging application.
         /// </summary>
         [Fact(DisplayName = "Should_EncapsulateTargetExceptionsNow")]
-        public void Should_EncapsulateTargetExceptionsNow()
-        {
+        public void Should_EncapsulateTargetExceptionsNow() {
             // Setup
             var target = FakeTarget("exceptional_target");
             A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
@@ -174,8 +162,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter);
 
             // Execute / Verify (nothing should be thrown)
-            dispatcher.DispatchNow(new LogEvent
-            {
+            dispatcher.DispatchNow(new LogEvent {
                 Message = "A doomed event."
             });
         }
@@ -185,8 +172,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// of bubbling up.
         /// </summary>
         [Fact(DisplayName = "Should_FallbackLoggingLater")]
-        public void Should_FallbackLoggingLater()
-        {
+        public void Should_FallbackLoggingLater() {
             // Setup
             var fallbackLogger = A.Fake<IFallbackLogger>();
             var target = FakeTarget("exceptional_target");
@@ -196,8 +182,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter, fallbackLogger);
 
             // Execute
-            dispatcher.EnqueueForDispatch(new LogEvent
-            {
+            dispatcher.EnqueueForDispatch(new LogEvent {
                 Message = "A doomed event."
             });
             dispatcher.Dispose();
@@ -212,8 +197,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// of bubbling up.
         /// </summary>
         [Fact(DisplayName = "Should_FallbackLoggingNow")]
-        public void Should_FallbackLoggingNow()
-        {
+        public void Should_FallbackLoggingNow() {
             // Setup
             var fallbackLogger = A.Fake<IFallbackLogger>();
             var target = FakeTarget("exceptional_target");
@@ -223,8 +207,7 @@ namespace NuLog.Tests.Unit.Dispatchers
             var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter, fallbackLogger);
 
             // Execute
-            dispatcher.DispatchNow(new LogEvent
-            {
+            dispatcher.DispatchNow(new LogEvent {
                 Message = "A doomed event."
             });
 
@@ -236,8 +219,7 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// <summary>
         /// Setup a fake target.
         /// </summary>
-        protected static ITarget FakeTarget(string name)
-        {
+        protected static ITarget FakeTarget(string name) {
             var target = A.Fake<ITarget>();
             target.Name = name;
             return target;
@@ -246,16 +228,14 @@ namespace NuLog.Tests.Unit.Dispatchers
         /// <summary>
         /// Setup a fake router.
         /// </summary>
-        protected static ITagRouter FakeTagRouter()
-        {
+        protected static ITagRouter FakeTagRouter() {
             return A.Fake<ITagRouter>();
         }
 
         /// <summary>
         /// Get a new instance of the dispatcher under test.
         /// </summary>
-        protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger = null)
-        {
+        protected static IDispatcher GetDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger = null) {
             return new StandardDispatcher(targets, tagRouter, fallbackLogger ?? A.Fake<IFallbackLogger>());
         }
     }
@@ -263,14 +243,12 @@ namespace NuLog.Tests.Unit.Dispatchers
     /// <summary>
     /// A stub log event for testing the behavior of the dispatcher under test.
     /// </summary>
-    internal class StubLogEvent : LogEvent
-    {
+    internal class StubLogEvent : LogEvent {
         public bool Dispatched { get; set; }
 
         public int ManagedThreadId { get; set; }
 
-        public override void WriteTo(ITarget target)
-        {
+        public override void WriteTo(ITarget target) {
             this.ManagedThreadId = Thread.CurrentThread.ManagedThreadId;
 
             target.Write(this);

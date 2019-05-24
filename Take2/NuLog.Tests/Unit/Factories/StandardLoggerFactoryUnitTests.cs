@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -15,28 +15,25 @@ using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NuLog.Tests.Unit.Factories
-{
+namespace NuLog.Tests.Unit.Factories {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard logger factory.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class StandardLoggerFactoryUnitTests : StandardLoggerFactoryTestsBase
-    {
+    public class StandardLoggerFactoryUnitTests : StandardLoggerFactoryTestsBase {
         private HashSetTraceListener traceListener;
 
         /// <summary>
         /// Constructor hooks in the xUnit test output helper, which in a base class, is used in
         /// conjunction with a trace listener, to route trace messages to output.
         /// </summary>
-        public StandardLoggerFactoryUnitTests(ITestOutputHelper output) : base(output)
-        {
+        public StandardLoggerFactoryUnitTests(ITestOutputHelper output) : base(output) {
             this.traceListener = new HashSetTraceListener();
             Trace.Listeners.Add(this.traceListener);
         }
 
-        public override void Dispose()
-        {
+        public override void Dispose() {
             Trace.Listeners.Remove(this.traceListener);
             this.traceListener = null;
 
@@ -47,17 +44,14 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should create a new target instance.
         /// </summary>
         [Fact(DisplayName = "Should_CreateNewTargetInstance")]
-        public void Should_CreateNewTargetInstance()
-        {
+        public void Should_CreateNewTargetInstance() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "dummy",
                 Type = "NuLog.Tests.DummyTarget, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -75,11 +69,9 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should be lenient of a null set of target configs
         /// </summary>
         [Fact(DisplayName = "Should_SupportNullTargetConfig")]
-        public void Should_SupportNullTargetConfig()
-        {
+        public void Should_SupportNullTargetConfig() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = null // Explicitly null
             };
 
@@ -96,17 +88,14 @@ namespace NuLog.Tests.Unit.Factories
         /// When creating a new target, the factory should set the target's name.
         /// </summary>
         [Fact(DisplayName = "Should_SetTargetNameOnCreate")]
-        public void Should_SetTargetNameOnCreate()
-        {
+        public void Should_SetTargetNameOnCreate() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "dummy",
                 Type = "NuLog.Tests.DummyTarget, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
             var factory = GetLogFactory(config);
@@ -123,17 +112,14 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should call "configure" on the target when it is created.
         /// </summary>
         [Fact(DisplayName = "Should_CallConfigure")]
-        public void Should_CallConfigure()
-        {
+        public void Should_CallConfigure() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "dummy",
                 Type = "NuLog.Tests.DummyTarget, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -151,17 +137,14 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should pass the target's configuration to the call to config on the target.
         /// </summary>
         [Fact(DisplayName = "Should_PassConfigToConfigCall")]
-        public void Should_PassConfigToConfigCall()
-        {
+        public void Should_PassConfigToConfigCall() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "dummy",
                 Type = "NuLog.Tests.DummyTarget, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -180,11 +163,9 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should set the layout on a new layout target.
         /// </summary>
         [Fact(DisplayName = "Should_SetLayout")]
-        public void Should_SetLayout()
-        {
+        public void Should_SetLayout() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "dummy",
                 Type = "NuLog.Tests.DummyLayoutTarget, NuLog.Tests",
                 Properties = new Dictionary<string, object>
@@ -193,8 +174,7 @@ namespace NuLog.Tests.Unit.Factories
                 }
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -212,8 +192,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should create multiple new target instances.
         /// </summary>
         [Fact(DisplayName = "Should_CreateMultipleTargets")]
-        public void Should_CreateMultipleTargets()
-        {
+        public void Should_CreateMultipleTargets() {
             // Setup
             var configs = new List<TargetConfig> { new TargetConfig
                 {
@@ -225,8 +204,7 @@ namespace NuLog.Tests.Unit.Factories
                     Type = "NuLog.Targets.TraceTarget, NuLog"
                 }
             };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
             var factory = GetLogFactory(config);
@@ -244,8 +222,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should create a new dispatcher.
         /// </summary>
         [Fact(DisplayName = "Should_BuildDispatcher")]
-        public void Should_BuildDispatcher()
-        {
+        public void Should_BuildDispatcher() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -260,8 +237,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should create a new tag normalizer.
         /// </summary>
         [Fact(DisplayName = "Should_BuildTagNormalizer")]
-        public void Should_BuildTagNormalizer()
-        {
+        public void Should_BuildTagNormalizer() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -276,8 +252,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a tag group processor.
         /// </summary>
         [Fact(DisplayName = "Should_BuildTagGroupProcessor")]
-        public void Should_BuildTagGroupProcessor()
-        {
+        public void Should_BuildTagGroupProcessor() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -292,11 +267,9 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a rule processor.
         /// </summary>
         [Fact(DisplayName = "Should_BuildRuleProcessor")]
-        public void Should_BuildRuleProcessor()
-        {
+        public void Should_BuildRuleProcessor() {
             // Setup
-            var factory = GetLogFactory(new Config
-            {
+            var factory = GetLogFactory(new Config {
                 Rules = new List<RuleConfig>
                 {
                     new RuleConfig
@@ -318,8 +291,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a tag router.
         /// </summary>
         [Fact(DisplayName = "Should_BuildTagRouter")]
-        public void Should_BuildTagRouter()
-        {
+        public void Should_BuildTagRouter() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -334,8 +306,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a layout parser.
         /// </summary>
         [Fact(DisplayName = "Should_BuildLayoutParser")]
-        public void Should_BuildLayoutParser()
-        {
+        public void Should_BuildLayoutParser() {
             // Setup
             var factory = GetLogFactory(null);
 
@@ -350,8 +321,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a property parser.
         /// </summary>
         [Fact(DisplayName = "Should_BuildPropertyParser")]
-        public void Should_BuildPropertyParser()
-        {
+        public void Should_BuildPropertyParser() {
             // Setup
             var factory = GetLogFactory(null);
 
@@ -366,8 +336,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The standard logger factory should build a layout.
         /// </summary>
         [Fact(DisplayName = "Should_BuildLayout")]
-        public void Should_BuildLayout()
-        {
+        public void Should_BuildLayout() {
             // Setup
             var factory = GetLogFactory(null);
 
@@ -382,8 +351,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The logger factory should build a logger instance.
         /// </summary>
         [Fact(DisplayName = "Should_BuildLogger")]
-        public void Should_BuildLogger()
-        {
+        public void Should_BuildLogger() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -399,11 +367,9 @@ namespace NuLog.Tests.Unit.Factories
         /// set to.
         /// </summary>
         [Fact(DisplayName = "Should_SetStackFrameFlagOnLogger")]
-        public void Should_SetStackFrameFlagOnLogger()
-        {
+        public void Should_SetStackFrameFlagOnLogger() {
             // Setup
-            var factory = GetLogFactory(new Config
-            {
+            var factory = GetLogFactory(new Config {
                 IncludeStackFrame = true
             });
 
@@ -418,8 +384,7 @@ namespace NuLog.Tests.Unit.Factories
         /// The factory should build a trace fallback logger when a fallback log (file path) isn't configured.
         /// </summary>
         [Fact(DisplayName = "Should_BuildTraceFallbackLoggerDefault")]
-        public void Should_BuildTraceFallbackLoggerDefault()
-        {
+        public void Should_BuildTraceFallbackLoggerDefault() {
             // Setup
             var factory = GetLogFactory(new Config());
 
@@ -435,11 +400,9 @@ namespace NuLog.Tests.Unit.Factories
         /// When a fallback path is configured, the factory should build the file fallback logger.
         /// </summary>
         [Fact(DisplayName = "Should_BuildFileFallbackLoggerWhenConfigured")]
-        public void Should_BuildFileFallbackLoggerWhenConfigured()
-        {
+        public void Should_BuildFileFallbackLoggerWhenConfigured() {
             // Setup
-            var factory = GetLogFactory(new Config
-            {
+            var factory = GetLogFactory(new Config {
                 FallbackLogPath = "fallbacklog.txt"
             });
 
@@ -455,17 +418,14 @@ namespace NuLog.Tests.Unit.Factories
         /// Failures in creating targets shouldn't bubble up through the dispatcher.
         /// </summary>
         [Fact(DisplayName = "Should_NotThrowExceptionForBadTargetType")]
-        public void Should_NotThrowExceptionForBadTargetType()
-        {
+        public void Should_NotThrowExceptionForBadTargetType() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "broken",
                 Type = "NuLog.Tests.Unit.Factories.DoesNotExist, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -483,17 +443,14 @@ namespace NuLog.Tests.Unit.Factories
         /// exception on construction.
         /// </summary>
         [Fact(DisplayName = "Should_NotThrowExceptionForBrokenTarget")]
-        public void Should_NotThrowExceptionForBrokenTarget()
-        {
+        public void Should_NotThrowExceptionForBrokenTarget() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "broken",
                 Type = "NuLog.Tests.Unit.Factories.BrokenTarget, NuLog.Tests"
             };
             var configs = new List<TargetConfig> { targetConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = configs
             };
 
@@ -511,8 +468,7 @@ namespace NuLog.Tests.Unit.Factories
         /// logger. It should instead, fallback to a trace fallback logger, and report the error there.
         /// </summary>
         [Fact(DisplayName = "Should_NotThrowExceptionForBadFallbackLogger")]
-        public void Should_NotThrowExceptionForBadFallbackLogger()
-        {
+        public void Should_NotThrowExceptionForBadFallbackLogger() {
             // Setup / Execute
             var factory = new BrokenFactoryFallbackLogger(new Config());
             var fallback = factory.GetFallbackLogger();
@@ -525,27 +481,22 @@ namespace NuLog.Tests.Unit.Factories
     /// <summary>
     /// A broken target, which throws a "NotImplementedException" in the constructor.
     /// </summary>
-    internal class BrokenTarget : ITarget
-    {
+    internal class BrokenTarget : ITarget {
         public string Name { get; set; }
 
-        public BrokenTarget()
-        {
+        public BrokenTarget() {
             throw new NotImplementedException();
         }
 
-        public void Configure(TargetConfig config)
-        {
+        public void Configure(TargetConfig config) {
             throw new NotImplementedException();
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             throw new NotImplementedException();
         }
 
-        public void Write(LogEvent logEvent)
-        {
+        public void Write(LogEvent logEvent) {
             throw new NotImplementedException();
         }
     }
@@ -553,14 +504,12 @@ namespace NuLog.Tests.Unit.Factories
     /// <summary>
     /// A broken standard logger factory, which throws an exception when getting the fallback logger.
     /// </summary>
-    internal class BrokenFactoryFallbackLogger : StandardLoggerFactory
-    {
-        public BrokenFactoryFallbackLogger(Config config) : base(config)
-        {
+    internal class BrokenFactoryFallbackLogger : StandardLoggerFactory {
+
+        public BrokenFactoryFallbackLogger(Config config) : base(config) {
         }
 
-        public override IFallbackLogger MakeFallbackLogger()
-        {
+        public override IFallbackLogger MakeFallbackLogger() {
             // Deliberate - to test the "fallback" of the fallback logger, in the logger factory constructor.
             throw new NotImplementedException();
         }

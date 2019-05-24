@@ -1,25 +1,24 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
-{
+namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard configuration provider,
     /// specifically the target config parsing.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class XmlConfigTargetTests : XmlConfigurationProviderTestsBase
-    {
+    public class XmlConfigTargetTests : XmlConfigurationProviderTestsBase {
+
         /// <summary>
         /// The target should contain a name.
         /// </summary>
         [Fact(DisplayName = "Should_ContainName")]
-        public void Should_ContainName()
-        {
+        public void Should_ContainName() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><targets><target name=\"one_target\" /></targets></nulog>");
 
@@ -35,8 +34,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The target should contain a type.
         /// </summary>
         [Fact(DisplayName = "Should_ContainType")]
-        public void Should_ContainType()
-        {
+        public void Should_ContainType() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><targets><target type=\"NuLog.Targets.FakeTarget\" /></targets></nulog>");
 
@@ -52,8 +50,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The target should contain a property.
         /// </summary>
         [Fact(DisplayName = "Should_ContainProperty")]
-        public void Should_ContainProperty()
-        {
+        public void Should_ContainProperty() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><targets><target someProperty=\"hello, world!\" /></targets></nulog>");
 
@@ -70,8 +67,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The target should contain multiple properties.
         /// </summary>
         [Fact(DisplayName = "Should_ContainMultipleProperties")]
-        public void Should_ContainMultipleProperties()
-        {
+        public void Should_ContainMultipleProperties() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><targets><target someProperty=\"hello, world!\" another=\"one fish, two fish...\" /></targets></nulog>");
 
@@ -88,8 +84,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// The properties should include the name and type of the target.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeNameAndTypeInProperties")]
-        public void Should_IncludeNameAndTypeInProperties()
-        {
+        public void Should_IncludeNameAndTypeInProperties() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><targets><target name=\"props\" type=\"NuLog.Targets.FakePropsTarget\" someProperty=\"hello, world!\" another=\"one fish, two fish...\" /></targets></nulog>");
 

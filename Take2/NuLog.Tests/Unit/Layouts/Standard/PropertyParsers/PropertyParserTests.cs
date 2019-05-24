@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,23 +7,21 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
-{
+namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the property parser.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class PropertyParserTests
-    {
+    public class PropertyParserTests {
+
         /// <summary>
         /// Passing a null path, should return a null value.
         /// </summary>
         [Fact(DisplayName = "Should_HandleNullPath")]
-        public void Should_HandleNullPath()
-        {
+        public void Should_HandleNullPath() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 Hello = "World"
             };
             var parser = GetPropertyParser();
@@ -39,11 +37,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// Passing a null path, should return a null value.
         /// </summary>
         [Fact(DisplayName = "Should_HandleEmptyPath")]
-        public void Should_HandleEmptyPath()
-        {
+        public void Should_HandleEmptyPath() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 Hello = "World"
             };
             var parser = GetPropertyParser();
@@ -59,11 +55,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// The property parser should be able to find a top-level simple property.
         /// </summary>
         [Fact(DisplayName = "Should_FindSimpleProperty")]
-        public void Should_FindSimpleProperty()
-        {
+        public void Should_FindSimpleProperty() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 Hello = "World"
             };
             var parser = GetPropertyParser();
@@ -80,11 +74,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// checks the method's handling of structs.
         /// </summary>
         [Fact(DisplayName = "Should_FindDateTimeProperty")]
-        public void Should_FindDateTimeProperty()
-        {
+        public void Should_FindDateTimeProperty() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 MyDate = new DateTime(2017, 1, 16, 9, 42, 43)
             };
             var parser = GetPropertyParser();
@@ -100,11 +92,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// Should find a property that is nested down a layer.
         /// </summary>
         [Fact(DisplayName = "Should_FindSimpleNestedProperty")]
-        public void Should_FindSimpleNestedProperty()
-        {
+        public void Should_FindSimpleNestedProperty() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 MyDate = new DateTime(2017, 1, 16, 9, 42, 43)
             };
             var parser = GetPropertyParser();
@@ -120,11 +110,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// The parser should recognize a dictionary, and be able to traverse it - at the top level.
         /// </summary>
         [Fact(DisplayName = "Should_HandleDictionary")]
-        public void Should_HandleDictionary()
-        {
+        public void Should_HandleDictionary() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 Hello = "Howdy"
             };
             var zdict = new Dictionary<string, object>
@@ -144,11 +132,9 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// The parser should recognize a dictionary, and be able to traverse it - at a nested level.
         /// </summary>
         [Fact(DisplayName = "Should_HandleNestedDictionary")]
-        public void Should_HandleNextedDictionary()
-        {
+        public void Should_HandleNextedDictionary() {
             // Setup
-            var zobject = new MyTestClass
-            {
+            var zobject = new MyTestClass {
                 MyStuffs = new Dictionary<string, object>
                 {
                     { "ZObject", new MyTestClass {
@@ -168,8 +154,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
         /// <summary>
         /// Returns a new instance of the property parser under test.
         /// </summary>
-        protected IPropertyParser GetPropertyParser()
-        {
+        protected IPropertyParser GetPropertyParser() {
             return new StandardPropertyParser();
         }
     }
@@ -177,8 +162,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.PropertyParsers
     /// <summary>
     /// A test class for exercising our property parser
     /// </summary>
-    internal class MyTestClass
-    {
+    internal class MyTestClass {
         public string Hello { get; set; }
 
         public DateTime MyDate { get; set; }

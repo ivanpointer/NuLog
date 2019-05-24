@@ -1,27 +1,24 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Configuration;
 using System.Xml;
 
-namespace NuLog.Configuration
-{
+namespace NuLog.Configuration {
+
     /// <summary>
     /// A configuration provider which loads the configuration from the configuration manager - I.E.
     /// from Web.config or App.config.
     /// </summary>
-    public class ConfigurationManagerProvider : IConfigurationProvider
-    {
+    public class ConfigurationManagerProvider : IConfigurationProvider {
         private readonly string sectionName;
 
-        public ConfigurationManagerProvider(string sectionName = "nulog")
-        {
+        public ConfigurationManagerProvider(string sectionName = "nulog") {
             this.sectionName = sectionName;
         }
 
-        public Config GetConfiguration()
-        {
+        public Config GetConfiguration() {
             // Get our XML element
             var xmlElement = (XmlElement)ConfigurationManager.GetSection(this.sectionName);
 

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -9,24 +9,21 @@ using System;
 using System.Diagnostics;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the trace target.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TraceTargetTests : IDisposable
-    {
+    public class TraceTargetTests : IDisposable {
         private HashSetTraceListener traceListener;
 
-        public TraceTargetTests()
-        {
+        public TraceTargetTests() {
             this.traceListener = new HashSetTraceListener();
             Trace.Listeners.Add(this.traceListener);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Trace.Listeners.Remove(this.traceListener);
             this.traceListener = null;
         }
@@ -35,11 +32,9 @@ namespace NuLog.Tests.Unit.Targets
         /// The trace target should write to trace.
         /// </summary>
         [Fact(DisplayName = "Should_WriteToTrace")]
-        public void Should_WriteToTrace()
-        {
+        public void Should_WriteToTrace() {
             // Setup
-            var logEvent = new LogEvent
-            {
+            var logEvent = new LogEvent {
                 Message = "Should_WriteToTrace - hello, world!"
             };
 
@@ -65,8 +60,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The trace target should use the configured layout to format its messages.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
-        public void Should_UseLayout()
-        {
+        public void Should_UseLayout() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -79,8 +73,7 @@ namespace NuLog.Tests.Unit.Targets
             target.Configure(null, layoutFactory);
 
             // Execute
-            target.Write(new LogEvent
-            {
+            target.Write(new LogEvent {
                 Message = "hello, world!"
             });
 
@@ -94,16 +87,13 @@ namespace NuLog.Tests.Unit.Targets
         /// the target is asked to write a log message.
         /// </summary>
         [Fact(DisplayName = "Should_ThrowInvalidOperationWithoutLayout")]
-        public void Should_ThrowInvalidOperationWithoutLayout()
-        {
+        public void Should_ThrowInvalidOperationWithoutLayout() {
             // Setup
             var target = new TraceTarget();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
-                target.Write(new LogEvent
-                {
+            Assert.Throws(typeof(InvalidOperationException), () => {
+                target.Write(new LogEvent {
                     Message = "hello, world!"
                 });
             });

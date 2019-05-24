@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -10,8 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Integration.TagRouters
-{
+namespace NuLog.Tests.Integration.TagRouters {
+
     /// <summary>
     /// Documents the expected behavior of the integrated tag router. These aren't unit tests, but
     /// instead, make sure that the particular makeup of the tag router work as a sum of parts.
@@ -20,15 +20,14 @@ namespace NuLog.Tests.Integration.TagRouters
     /// processor and tag group processor are both being consulted when routing an event.
     /// </summary>
     [Trait("Category", "Integration")]
-    public class StandardTagRouterTests
-    {
+    public class StandardTagRouterTests {
+
         /// <summary>
         /// Makes sure that the standard tag router is using both the tag group processor and the
         /// rule processor in conjunction, in a simple use-case.
         /// </summary>
         [Fact(DisplayName = "Should_RouteUsingTagGroups")]
-        public void Should_RouteUsingTagGroups()
-        {
+        public void Should_RouteUsingTagGroups() {
             // Setup
             var tagGroupProcessor = new StandardTagGroupProcessor(new List<TagGroup>
             {

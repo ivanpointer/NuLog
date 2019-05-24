@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -14,15 +14,14 @@ using System.Threading;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NuLog.Tests.Integration.Factories
-{
+namespace NuLog.Tests.Integration.Factories {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard logger factory, but will cross
     /// boundaries into other classes, making these integration tests, and not unit tests.
     /// </summary>
     [Trait("Category", "Integration")]
-    public class StandardLoggerFactoryIntegrationTests : StandardLoggerFactoryTestsBase, IDisposable
-    {
+    public class StandardLoggerFactoryIntegrationTests : StandardLoggerFactoryTestsBase, IDisposable {
         private HashSetTraceListener traceListener;
 
         /// <summary>
@@ -32,14 +31,12 @@ namespace NuLog.Tests.Integration.Factories
         /// Also has a trace listener, because we're looking explicitly for some trace output in
         /// these integration tests.
         /// </summary>
-        public StandardLoggerFactoryIntegrationTests(ITestOutputHelper output) : base(output)
-        {
+        public StandardLoggerFactoryIntegrationTests(ITestOutputHelper output) : base(output) {
             this.traceListener = new HashSetTraceListener();
             Trace.Listeners.Add(this.traceListener);
         }
 
-        public override void Dispose()
-        {
+        public override void Dispose() {
             Debug.Listeners.Remove(this.traceListener);
             this.traceListener = null;
 
@@ -51,17 +48,14 @@ namespace NuLog.Tests.Integration.Factories
         /// tag group processor.
         /// </summary>
         [Fact(DisplayName = "Should_UseTagGroupConfigs")]
-        public void Should_UseTagGroupConfigs()
-        {
+        public void Should_UseTagGroupConfigs() {
             // Setup
-            var tagGroupConfig = new TagGroupConfig
-            {
+            var tagGroupConfig = new TagGroupConfig {
                 BaseTag = "base_tag",
                 Aliases = new string[] { "one_tag", "two_tag", "red_tag", "blue_tag" }
             };
             var tagGroupConfigs = new List<TagGroupConfig> { tagGroupConfig };
-            var config = new Config
-            {
+            var config = new Config {
                 TagGroups = tagGroupConfigs
             };
             var factory = GetLogFactory(config);
@@ -79,24 +73,20 @@ namespace NuLog.Tests.Integration.Factories
         /// configs, and tag group processor.
         /// </summary>
         [Fact(DisplayName = "Should_UseRuleConfigsAndTagGroupProcessor")]
-        public void Should_UseRuleConfigsAndTagGroupProcessor()
-        {
+        public void Should_UseRuleConfigsAndTagGroupProcessor() {
             // Setup
             var tagGroupProcessor = A.Fake<ITagGroupProcessor>();
             A.CallTo(() => tagGroupProcessor.GetAliases(A<string>.Ignored))
                 .Returns(new string[] { "base_tag", "red_tag" });
-            var ruleConfig = new RuleConfig
-            {
+            var ruleConfig = new RuleConfig {
                 Includes = new List<string> { "base_tag" },
                 Targets = new List<string> { "fake_target" }
             };
-            var tagGroupConfig = new TagGroupConfig
-            {
+            var tagGroupConfig = new TagGroupConfig {
                 BaseTag = "base_tag",
                 Aliases = new string[] { "red_tag" }
             };
-            var config = new Config
-            {
+            var config = new Config {
                 Rules = new List<RuleConfig> { ruleConfig },
                 TagGroups = new List<TagGroupConfig> { tagGroupConfig }
             };
@@ -115,11 +105,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The standard logger factory should create a tag router, and hand it the given rule processor.
         /// </summary>
         [Fact(DisplayName = "Should_UseRuleProcessor")]
-        public void Should_UseRuleProcessor()
-        {
+        public void Should_UseRuleProcessor() {
             // Setup
-            var ruleConfig = new RuleConfig
-            {
+            var ruleConfig = new RuleConfig {
                 Includes = new string[] { "one_tag" },
                 Targets = new string[] { "fake_target" }
             };
@@ -139,11 +127,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The standard logger factory should use the given targets, and build and use the tag router.
         /// </summary>
         [Fact(DisplayName = "Should_UseTargetsAndBuildTagRouter")]
-        public void Should_UseTargetsAndBuildTagRouter()
-        {
+        public void Should_UseTargetsAndBuildTagRouter() {
             // Setup
-            var targetConfig = new TargetConfig
-            {
+            var targetConfig = new TargetConfig {
                 Name = "debug",
                 Type = "NuLog.Targets.TraceTarget",
                 Properties = new Dictionary<string, object>
@@ -151,13 +137,11 @@ namespace NuLog.Tests.Integration.Factories
                     { "layout", "${Message}" }
                 }
             };
-            var ruleConfig = new RuleConfig
-            {
+            var ruleConfig = new RuleConfig {
                 Includes = new string[] { "one_tag" },
                 Targets = new string[] { "debug" }
             };
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig> { targetConfig },
                 Rules = new List<RuleConfig> { ruleConfig }
             };
@@ -165,8 +149,7 @@ namespace NuLog.Tests.Integration.Factories
             var dispatcher = factory.MakeDispatcher();
 
             // Execute
-            dispatcher.DispatchNow(new LogEvent
-            {
+            dispatcher.DispatchNow(new LogEvent {
                 Message = "test dispatch targets and router",
                 Tags = new string[] { "one_tag" }
             });
@@ -179,15 +162,13 @@ namespace NuLog.Tests.Integration.Factories
         /// The layout built by the factory should leverage the layout properties and property parser.
         /// </summary>
         [Fact(DisplayName = "Should_UseTargetsAndBuildTagRouter")]
-        public void Should_UseLayoutParmsAndPropertyParser()
-        {
+        public void Should_UseLayoutParmsAndPropertyParser() {
             // Setup
             var factory = GetLogFactory(null);
             var layout = factory.MakeLayout("${Message}");
 
             // Execute
-            var formatted = layout.Format(new LogEvent
-            {
+            var formatted = layout.Format(new LogEvent {
                 Message = "hello, world!"
             });
 
@@ -199,15 +180,13 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should set a default layout format, when none is provided by the target config.
         /// </summary>
         [Fact(DisplayName = "Should_UseDefaultLayoutFormat")]
-        public void Should_UseDefaultLayoutFormat()
-        {
+        public void Should_UseDefaultLayoutFormat() {
             // Setup
             var factory = GetLogFactory(null);
             var layout = factory.MakeLayout(null);
 
             // Execute
-            var formatted = layout.Format(new LogEvent
-            {
+            var formatted = layout.Format(new LogEvent {
                 Message = "hello, default layout!",
                 Tags = new string[] { "dummy_event" },
                 Thread = Thread.CurrentThread,
@@ -222,11 +201,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should assign a dispatcher to the built logger.
         /// </summary>
         [Fact(DisplayName = "Should_SetDispatcherToNewLogger")]
-        public void Should_SetDispatcherToNewLogger()
-        {
+        public void Should_SetDispatcherToNewLogger() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig>
                 {
                     new TargetConfig
@@ -262,11 +239,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should assign the given meta data provider, to the new logger.
         /// </summary>
         [Fact(DisplayName = "Should_SetMetaDataProviderToNewLogger")]
-        public void Should_SetMetaDataProviderToNewLogger()
-        {
+        public void Should_SetMetaDataProviderToNewLogger() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig>
                 {
                     new TargetConfig
@@ -306,11 +281,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should set the given default tags to the new logger.
         /// </summary>
         [Fact(DisplayName = "Should_SetDefaultTagsToNewLogger")]
-        public void Should_SetDefaultTagsToNewLogger()
-        {
+        public void Should_SetDefaultTagsToNewLogger() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig>
                 {
                     new TargetConfig
@@ -346,11 +319,9 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should set default meta data to the new logger.
         /// </summary>
         [Fact(DisplayName = "Should_SetDefaultMetaDataToNewLogger")]
-        public void Should_SetDefaultMetaDataToNewLogger()
-        {
+        public void Should_SetDefaultMetaDataToNewLogger() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig>
                 {
                     new TargetConfig
@@ -390,16 +361,14 @@ namespace NuLog.Tests.Integration.Factories
         /// The factory should dispose its dispatcher when the factory is disposed.
         /// </summary>
         [Fact(DisplayName = "Should_DisposeDispatcherOnDispose")]
-        public void Should_DisposeDispatcherOnDispose()
-        {
+        public void Should_DisposeDispatcherOnDispose() {
             // Setup
             var factory = GetLogFactory(new Config());
             var logger = factory.GetLogger(null, null);
             factory.Dispose();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
+            Assert.Throws(typeof(InvalidOperationException), () => {
                 logger.Log("Hello, world!");
             });
         }
@@ -408,11 +377,9 @@ namespace NuLog.Tests.Integration.Factories
         /// All log events should be flushed when the factory is disposed.
         /// </summary>
         [Fact(DisplayName = "Should_FlushAllLogEventsOnDispose")]
-        public void Should_FlushAllLogEventsOnDispose()
-        {
+        public void Should_FlushAllLogEventsOnDispose() {
             // Setup
-            var config = new Config
-            {
+            var config = new Config {
                 Targets = new List<TargetConfig>
                 {
                     new TargetConfig
@@ -432,11 +399,9 @@ namespace NuLog.Tests.Integration.Factories
             };
 
             // Execute
-            using (var factory = GetLogFactory(config))
-            {
+            using (var factory = GetLogFactory(config)) {
                 var logger = factory.GetLogger(null, null);
-                for (var lp = 0; lp < 5; lp++)
-                {
+                for (var lp = 0; lp < 5; lp++) {
                     logger.Log("Message " + lp, "tag");
                 }
             }
@@ -449,24 +414,20 @@ namespace NuLog.Tests.Integration.Factories
     /// <summary>
     /// A slow target, for testing to make sure that all messages get flushed on dispose.
     /// </summary>
-    internal class SlowTarget : ITarget
-    {
+    internal class SlowTarget : ITarget {
         public string Name { get; set; }
 
         public static int CallCount;
 
-        public void Configure(TargetConfig config)
-        {
+        public void Configure(TargetConfig config) {
             // nope
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             // nope
         }
 
-        public void Write(LogEvent logEvent)
-        {
+        public void Write(LogEvent logEvent) {
             Thread.Sleep(100);
             CallCount++;
         }

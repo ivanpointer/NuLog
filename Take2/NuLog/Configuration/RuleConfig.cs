@@ -1,16 +1,16 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Configuration
-{
+namespace NuLog.Configuration {
+
     /// <summary>
     /// Represents a single rule in a NuLog configuration.
     /// </summary>
-    public class RuleConfig
-    {
+    public class RuleConfig {
+
         /// <summary>
         /// The include tags for this rule.
         /// </summary>

@@ -1,6 +1,7 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
+
 using FakeItEasy;
 using NuLog.LogEvents;
 using NuLog.Targets;
@@ -8,16 +9,14 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     [Collection("ColorConsoleTargetTests")]
     [Trait("Category", "Unit")]
-    public class ConsoleTargetTests
-    {
+    public class ConsoleTargetTests {
         protected readonly DummyTextWriter textWriter;
 
-        public ConsoleTargetTests()
-        {
+        public ConsoleTargetTests() {
             this.textWriter = new DummyTextWriter();
             Console.SetOut(this.textWriter);
         }
@@ -26,8 +25,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should write to the console.
         /// </summary>
         [Fact(DisplayName = "Should_WriteToConsole")]
-        public void Should_WriteToConsole()
-        {
+        public void Should_WriteToConsole() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -40,8 +38,7 @@ namespace NuLog.Tests.Unit.Targets
             logger.Configure(null, layoutFactory);
 
             // Execute
-            logger.Write(new LogEvent
-            {
+            logger.Write(new LogEvent {
                 Message = "Write to console!"
             });
 
@@ -53,8 +50,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should use the layout when writing to console.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
-        public void Should_UseLayout()
-        {
+        public void Should_UseLayout() {
             // Setup
             var logger = new ConsoleTarget();
 
@@ -68,8 +64,7 @@ namespace NuLog.Tests.Unit.Targets
             logger.Configure(null, layoutFactory);
 
             // Execute
-            logger.Write(new LogEvent
-            {
+            logger.Write(new LogEvent {
                 Message = "Write to console!"
             });
 

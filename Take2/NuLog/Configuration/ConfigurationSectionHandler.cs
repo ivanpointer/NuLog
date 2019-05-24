@@ -1,14 +1,14 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Configuration;
 using System.Xml;
 
-namespace NuLog.Configuration
-{
-    public class ConfigurationSectionHandler : IConfigurationSectionHandler
-    {
+namespace NuLog.Configuration {
+
+    public class ConfigurationSectionHandler : IConfigurationSectionHandler {
+
         /// <summary>
         /// Parses the configuration section.
         /// </summary>
@@ -24,8 +24,7 @@ namespace NuLog.Configuration
         /// <remarks>
         /// <para>Returns the <see cref="XmlNode" /> containing the configuration data,</para>
         /// </remarks>
-        public object Create(object parent, object configContext, XmlNode section)
-        {
+        public object Create(object parent, object configContext, XmlNode section) {
             return section;
         }
     }

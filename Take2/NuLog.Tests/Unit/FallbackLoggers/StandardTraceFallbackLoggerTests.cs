@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -10,24 +10,21 @@ using System.Diagnostics;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.FallbackLoggers
-{
+namespace NuLog.Tests.Unit.FallbackLoggers {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard trace fallback logger.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class StandardTraceFallbackLoggerTests : IDisposable
-    {
+    public class StandardTraceFallbackLoggerTests : IDisposable {
         private HashSetTraceListener traceListener;
 
-        public StandardTraceFallbackLoggerTests()
-        {
+        public StandardTraceFallbackLoggerTests() {
             this.traceListener = new HashSetTraceListener();
             Trace.Listeners.Add(this.traceListener);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Trace.Listeners.Remove(this.traceListener);
             this.traceListener = null;
         }
@@ -36,8 +33,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         /// The standard trace fallback logger should write to trace.
         /// </summary>
         [Fact(DisplayName = "Should_WriteToTrace")]
-        public void Should_WriteToTrace()
-        {
+        public void Should_WriteToTrace() {
             // Setup
             var fallbackLogger = new StandardTraceFallbackLogger();
             var target = A.Fake<ITarget>();
@@ -55,8 +51,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         /// A simple message should be written to trace.
         /// </summary>
         [Fact(DisplayName = "Should_WriteSimpleMessageToTrace")]
-        public void Should_WriteSimpleMessageToTrace()
-        {
+        public void Should_WriteSimpleMessageToTrace() {
             // Setup
             var fallbackLogger = new StandardTraceFallbackLogger();
             var target = A.Fake<ITarget>();
@@ -72,8 +67,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers
         /// A formatted message should be written to trace.
         /// </summary>
         [Fact(DisplayName = "Should_WriteFormattedMessageToTrace")]
-        public void Should_WriteFormattedMessageToTrace()
-        {
+        public void Should_WriteFormattedMessageToTrace() {
             // Setup
             var fallbackLogger = new StandardTraceFallbackLogger();
             var target = A.Fake<ITarget>();

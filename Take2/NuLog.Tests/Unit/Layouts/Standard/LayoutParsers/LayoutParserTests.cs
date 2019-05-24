@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,20 +6,19 @@ using NuLog.Layouts;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
-{
+namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of a layout parser.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class LayoutParserTests
-    {
+    public class LayoutParserTests {
+
         /// <summary>
         /// The layout parser should find simple static text
         /// </summary>
         [Fact(DisplayName = "Should_ParseSimpleStaticText")]
-        public void Should_ParseSimpleStaticText()
-        {
+        public void Should_ParseSimpleStaticText() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -37,8 +36,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should find a simple parameter
         /// </summary>
         [Fact(DisplayName = "Should_ParseSimpleParameter")]
-        public void Should_ParseSimpleParameter()
-        {
+        public void Should_ParseSimpleParameter() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -56,8 +54,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should find a nested parameter
         /// </summary>
         [Fact(DisplayName = "Should_ParseNestedParameter")]
-        public void Should_ParseNestedParameter()
-        {
+        public void Should_ParseNestedParameter() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -74,8 +71,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should find a parameter format
         /// </summary>
         [Fact(DisplayName = "Should_ParseParameterFormat")]
-        public void Should_ParseParameterFormat()
-        {
+        public void Should_ParseParameterFormat() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -93,8 +89,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should find a parameter format, of a nested parameter
         /// </summary>
         [Fact(DisplayName = "Should_ParseNestedParameterFormat")]
-        public void Should_ParseNestedParameterFormat()
-        {
+        public void Should_ParseNestedParameterFormat() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -112,8 +107,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should find a simple contingent parameter
         /// </summary>
         [Fact(DisplayName = "Should_ParseSimpleContingentParameter")]
-        public void Should_ParseSimpleContingentParameter()
-        {
+        public void Should_ParseSimpleContingentParameter() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -132,8 +126,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// The layout parser should parse a complex layout.
         /// </summary>
         [Fact(DisplayName = "Should_ParseComplexLayout")]
-        public void Should_ParseComplexLayout()
-        {
+        public void Should_ParseComplexLayout() {
             // Setup
             var layoutParser = GetLayoutParser();
 
@@ -200,8 +193,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard.LayoutParsers
         /// <summary>
         /// Gets a new instance of the layout parser under test.
         /// </summary>
-        protected ILayoutParser GetLayoutParser()
-        {
+        protected ILayoutParser GetLayoutParser() {
             return new StandardLayoutParser();
         }
     }

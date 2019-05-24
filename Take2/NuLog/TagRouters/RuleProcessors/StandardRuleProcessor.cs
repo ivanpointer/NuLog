@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NuLog.TagRouters.RuleProcessors
-{
+namespace NuLog.TagRouters.RuleProcessors {
+
     /// <summary>
     /// The standard implementation of a rule processor.
     /// </summary>
-    public class StandardRuleProcessor : IRuleProcessor
-    {
+    public class StandardRuleProcessor : IRuleProcessor {
+
         /// <summary>
         /// The list of rules that this router is working off of.
         /// </summary>
@@ -32,8 +32,7 @@ namespace NuLog.TagRouters.RuleProcessors
         /// <summary>
         /// Builds an instance of this standard rule processor, for the given set of rules.
         /// </summary>
-        public StandardRuleProcessor(IEnumerable<Rule> rules, ITagGroupProcessor tagGroupProcessor)
-        {
+        public StandardRuleProcessor(IEnumerable<Rule> rules, ITagGroupProcessor tagGroupProcessor) {
             this.rules = rules ?? new Rule[] { };
 
             this.tagGroupProcessor = tagGroupProcessor;
@@ -41,33 +40,27 @@ namespace NuLog.TagRouters.RuleProcessors
             this.ruleTagPatterns = new Dictionary<string, Regex>();
         }
 
-        public IEnumerable<string> DetermineTargets(IEnumerable<string> tags)
-        {
+        public IEnumerable<string> DetermineTargets(IEnumerable<string> tags) {
             // Our distinct set of targets to route to
             var targets = new HashSet<string>();
 
             // Ready, set... SEARCH!
-            foreach (var rule in rules)
-            {
+            foreach (var rule in rules) {
                 // First, check for any disqualification
-                if (IsExcludeMatch(rule, tags))
-                {
+                if (IsExcludeMatch(rule, tags)) {
                     // The rule is disqualified, continue
                     continue;
                 }
 
                 // The rule isn't disqualified, check to see if it matches
-                if (IsIncludeMatch(rule, tags))
-                {
+                if (IsIncludeMatch(rule, tags)) {
                     // Add all the targets
-                    foreach (var target in rule.Targets)
-                    {
+                    foreach (var target in rule.Targets) {
                         targets.Add(target);
                     }
 
                     // If the rule is final, we're done.
-                    if (rule.Final)
-                    {
+                    if (rule.Final) {
                         // The rule is marked final, don't process any more rules
                         break;
                     }
@@ -83,20 +76,16 @@ namespace NuLog.TagRouters.RuleProcessors
         /// </summary>
         /// <param name="rule">The rule being checked.</param>
         /// <param name="tags">The tags to check against the rule.</param>
-        private bool IsIncludeMatch(Rule rule, IEnumerable<string> tags)
-        {
+        private bool IsIncludeMatch(Rule rule, IEnumerable<string> tags) {
             var anyMatch = false;
 
             // Start checking includes
-            foreach (var ruleTag in rule.Include)
-            {
+            foreach (var ruleTag in rule.Include) {
                 var ruleMatch = false;
 
                 // Check each given tag against this include
-                foreach (var tag in tags)
-                {
-                    if (IsTagMatch(ruleTag, tag))
-                    {
+                foreach (var tag in tags) {
+                    if (IsTagMatch(ruleTag, tag)) {
                         // We found a match, signal and break
                         anyMatch = true;
                         ruleMatch = true;
@@ -105,13 +94,10 @@ namespace NuLog.TagRouters.RuleProcessors
                 }
 
                 // Switch based on strict mode
-                if (ruleMatch && !rule.StrictInclude)
-                {
+                if (ruleMatch && !rule.StrictInclude) {
                     // Strict mode is off, which means any one match will work -
                     return true;
-                }
-                else if (!ruleMatch && rule.StrictInclude)
-                {
+                } else if (!ruleMatch && rule.StrictInclude) {
                     return false;
                 }
             }
@@ -126,21 +112,16 @@ namespace NuLog.TagRouters.RuleProcessors
         /// <param name="rule">The rule being checked.</param>
         /// <param name="tags">The tags to check against the rule.</param>
         /// <returns>True if the rule is disqualified, False otherwise.</returns>
-        private bool IsExcludeMatch(Rule rule, IEnumerable<string> tags)
-        {
+        private bool IsExcludeMatch(Rule rule, IEnumerable<string> tags) {
             // If there are no exclude rules, there's nothing to disqualify
-            if (rule.Exclude == null || !rule.Exclude.Any())
-            {
+            if (rule.Exclude == null || !rule.Exclude.Any()) {
                 return false;
             }
 
             // Check each exclude rule for disqualification
-            foreach (var ruleTag in rule.Exclude)
-            {
-                foreach (var tag in tags)
-                {
-                    if (IsTagMatch(ruleTag, tag))
-                    {
+            foreach (var ruleTag in rule.Exclude) {
+                foreach (var tag in tags) {
+                    if (IsTagMatch(ruleTag, tag)) {
                         // We matched an exclude tag - the rule is disqualified.
                         return true;
                     }
@@ -158,18 +139,15 @@ namespace NuLog.TagRouters.RuleProcessors
         ///
         /// Returns True if they are a match.
         /// </summary>
-        private bool IsTagMatch(string ruleTag, string tag)
-        {
+        private bool IsTagMatch(string ruleTag, string tag) {
             // Get our rule tag pattern
             var ruleTagPattern = GetRuleTagPattern(ruleTag);
 
             // Iterate over the aliases of the group, checking each for a match
             var anyMatch = false;
-            foreach (var alias in tagGroupProcessor.GetAliases(tag))
-            {
+            foreach (var alias in tagGroupProcessor.GetAliases(tag)) {
                 // Run the check
-                if (ruleTagPattern.IsMatch(alias))
-                {
+                if (ruleTagPattern.IsMatch(alias)) {
                     anyMatch = true;
                     break;
                 }
@@ -182,10 +160,8 @@ namespace NuLog.TagRouters.RuleProcessors
         /// <summary>
         /// Computes, caches and returns the regex pattern for a given rule tag.
         /// </summary>
-        private Regex GetRuleTagPattern(string ruleTag)
-        {
-            if (!ruleTagPatterns.ContainsKey(ruleTag))
-            {
+        private Regex GetRuleTagPattern(string ruleTag) {
+            if (!ruleTagPatterns.ContainsKey(ruleTag)) {
                 // First, make safe any dots in the rule.
                 var regexRuleTag = ruleTag.Replace(".", @"\.");
 

@@ -1,17 +1,17 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Dispatchers.TagRouters
-{
+namespace NuLog.Dispatchers.TagRouters {
+
     /// <summary>
     /// Defines a single rule for tag routing. See the comments around each property to see how the
     /// rules should work.
     /// </summary>
-    public class Rule
-    {
+    public class Rule {
+
         /// <summary>
         /// The tags that trigger a match on this rule. See <see cref="Rule.StrictInclude" /> to see
         /// how that flag changes the behavior around these tags.

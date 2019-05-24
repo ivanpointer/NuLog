@@ -1,19 +1,19 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.TagRouters
-{
+namespace NuLog.TagRouters {
+
     /// <summary>
     /// Defines the expected behavior of a tag group processor.
     ///
     /// Tag group processors are responsible for interpreting tag groups, performing lookups for
     /// rules to see if an incoming tag matches the tag expected by the rule.
     /// </summary>
-    public interface ITagGroupProcessor
-    {
+    public interface ITagGroupProcessor {
+
         /// <summary>
         /// Returns a list of tags that the given tag should also match for.
         ///

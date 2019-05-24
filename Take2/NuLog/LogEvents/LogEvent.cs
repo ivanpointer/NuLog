@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace NuLog.LogEvents
-{
+namespace NuLog.LogEvents {
+
     /// <summary>
     /// A LogEvent represents a single log event (or message) that is to be delivered to the
     /// different targets. The LogEvent carries all the information needed, including a MetaData
     /// mechanism to allow for sending any kind of information to targets, standard and custom.
     /// </summary>
-    public class LogEvent : ILogEvent
-    {
+    public class LogEvent : ILogEvent {
+
         /// <summary>
         /// Represents the point-in-time that the event was logged (not necessarily written, as
         /// writes are often deferred).
@@ -59,21 +59,18 @@ namespace NuLog.LogEvents
         /// Write this log event to the target.
         /// </summary>
         /// <param name="target">The target to write to.</param>
-        public virtual void WriteTo(ITarget target)
-        {
+        public virtual void WriteTo(ITarget target) {
             target.Write(this);
         }
 
         #region IDisposable Support
 
-        protected virtual void Dispose(bool disposing)
-        {
+        protected virtual void Dispose(bool disposing) {
             // Eh, nothing to do..
         }
 
         // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
+        public void Dispose() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
         }

@@ -1,17 +1,17 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 using System.Collections.Generic;
 
-namespace NuLog
-{
+namespace NuLog {
+
     /// <summary>
     /// Defines the expected behavior of a log event.
     /// </summary>
-    public interface ILogEvent : IDisposable
-    {
+    public interface ILogEvent : IDisposable {
+
         /// <summary>
         /// The list of tags associated with the log event
         /// </summary>

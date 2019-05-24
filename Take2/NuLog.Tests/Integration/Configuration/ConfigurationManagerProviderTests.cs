@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,20 +6,19 @@ using NuLog.Configuration;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Integration.Configuration
-{
+namespace NuLog.Tests.Integration.Configuration {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the configuration manager provider
     /// </summary>
     [Trait("Category", "Integration")]
-    public class ConfigurationManagerProviderTests
-    {
+    public class ConfigurationManagerProviderTests {
+
         /// <summary>
         /// The configuration manager provider should load the config from the App.config.
         /// </summary>
         [Fact(DisplayName = "Should_LoadAppConfig")]
-        public void Should_LoadAppConfig()
-        {
+        public void Should_LoadAppConfig() {
             // Setup
             IConfigurationProvider provider = new ConfigurationManagerProvider();
 

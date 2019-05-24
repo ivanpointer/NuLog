@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -16,13 +16,13 @@ using System.Collections.Concurrent;
 
 #endif
 
-namespace NuLog.Dispatchers
-{
+namespace NuLog.Dispatchers {
+
     /// <summary>
     /// The standard dispatcher
     /// </summary>
-    public class StandardDispatcher : IDispatcher
-    {
+    public class StandardDispatcher : IDispatcher {
+
         /// <summary>
         /// The list of targets being dispatched to.
         /// </summary>
@@ -61,8 +61,7 @@ namespace NuLog.Dispatchers
         /// Instantiates a new instance of this standard dispatcher, with the given tag router for
         /// determining which targets to send events to, based on their tags.
         /// </summary>
-        public StandardDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger)
-        {
+        public StandardDispatcher(IEnumerable<ITarget> targets, ITagRouter tagRouter, IFallbackLogger fallbackLogger) {
             this.targets = targets;
 
             this.tagRouter = tagRouter;
@@ -78,69 +77,50 @@ namespace NuLog.Dispatchers
             this.logEventQueueTimer = new Timer(OnLogQueueTimerElapsed, this, 200, 200);
         }
 
-        public void DispatchNow(ILogEvent logEvent)
-        {
-            try
-            {
+        public void DispatchNow(ILogEvent logEvent) {
+            try {
                 // Ask our tag router which targets we send to
                 var targetNames = tagRouter.Route(logEvent.Tags);
 
                 // For each target to dispatch to, do it
-                foreach (var targetName in targetNames)
-                {
+                foreach (var targetName in targetNames) {
                     // Try to find the target by name
                     var target = targets.FirstOrDefault(t => string.Equals(targetName, t.Name, StringComparison.OrdinalIgnoreCase));
-                    if (target != null)
-                    {
-                        try
-                        {
+                    if (target != null) {
+                        try {
                             // We found it, tell the log event to write itself to the target
                             logEvent.WriteTo(target);
-                        }
-                        catch (Exception cause)
-                        {
+                        } catch (Exception cause) {
                             // There was a problem writing to the target, report the error
                             FallbackLog(cause, target, logEvent);
                         }
                     }
                 }
-            }
-            catch (Exception cause)
-            {
+            } catch (Exception cause) {
                 // A general failure, likely in the router, or in finding the target
                 FallbackLog("Failure dispatching log event: {0}", cause);
             }
         }
 
-        private void FallbackLog(string message, params object[] args)
-        {
-            try
-            {
+        private void FallbackLog(string message, params object[] args) {
+            try {
                 this.fallbackLogger.Log(message, args);
-            }
-            catch (Exception cause)
-            {
+            } catch (Exception cause) {
                 Trace.TraceError("Failure writing message to fallback logger for cause: {0}", cause);
             }
         }
 
-        private void FallbackLog(Exception exception, ITarget target, ILogEvent logEvent)
-        {
-            try
-            {
+        private void FallbackLog(Exception exception, ITarget target, ILogEvent logEvent) {
+            try {
                 this.fallbackLogger.Log(exception, target, logEvent);
-            }
-            catch (Exception cause)
-            {
+            } catch (Exception cause) {
                 Trace.TraceError("Failure writing exception to fallback logger: {0}\r\nOriginal Exception: {1}", cause, exception);
             }
         }
 
-        public void EnqueueForDispatch(ILogEvent logEvent)
-        {
+        public void EnqueueForDispatch(ILogEvent logEvent) {
             // Make sure that we're still accepting log events
-            if (isDisposing)
-            {
+            if (isDisposing) {
                 throw new InvalidOperationException("This dispatcher has been disposed, and cannot enqueue new log events.");
             }
 
@@ -150,8 +130,7 @@ namespace NuLog.Dispatchers
 
         #region Disposal
 
-        public void Dispose()
-        {
+        public void Dispose() {
             // Signal a true disposal
             Dispose(true);
 
@@ -162,10 +141,8 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// The bulk of the clean-up code is implemented in Dispose(bool)
         /// </summary>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected virtual void Dispose(bool disposing) {
+            if (disposing) {
                 // Signal that we're coming down
                 isDisposing = true;
 
@@ -178,14 +155,12 @@ namespace NuLog.Dispatchers
             ProcessLogQueue();
 
             // Dispose the targets
-            foreach (var target in this.targets)
-            {
+            foreach (var target in this.targets) {
                 target.Dispose();
             }
         }
 
-        ~StandardDispatcher()
-        {
+        ~StandardDispatcher() {
             // Take control from the GC, we've got it.
             Dispose(false);
         }
@@ -197,8 +172,7 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// Each "tick" of the log queue timer.
         /// </summary>
-        private static void OnLogQueueTimerElapsed(object dispatcherInstance)
-        {
+        private static void OnLogQueueTimerElapsed(object dispatcherInstance) {
             var dispatcher = dispatcherInstance as StandardDispatcher;
             dispatcher.ProcessLogQueue();
         }
@@ -206,8 +180,7 @@ namespace NuLog.Dispatchers
         /// <summary>
         /// Works through the log queue, dispatching each one.
         /// </summary>
-        protected void ProcessLogQueue()
-        {
+        protected void ProcessLogQueue() {
 #if PRENET4
             while (this.logEventQueue.Count > 0)
             {
@@ -216,8 +189,7 @@ namespace NuLog.Dispatchers
             }
 #else
             ILogEvent logEvent;
-            while (this.logEventQueue.TryDequeue(out logEvent))
-            {
+            while (this.logEventQueue.TryDequeue(out logEvent)) {
                 DispatchNow(logEvent);
             }
 #endif

@@ -1,18 +1,18 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog
-{
+namespace NuLog {
+
     /// <summary>
     /// Defines the expected behavior of a tag normalizer.
     ///
     /// Tag normalizers are responsible for standardizing/normalizing, and validating tags.
     /// </summary>
-    public interface ITagNormalizer
-    {
+    public interface ITagNormalizer {
+
         /// <summary>
         /// Normalizes and validates the tag. Can be as simple as trimming white space and making
         /// lower case, but could be as extensive as even replacing invalid characters with an

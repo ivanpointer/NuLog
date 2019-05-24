@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,17 +7,15 @@ using NuLog.LogEvents;
 using NuLog.Targets;
 using System;
 
-namespace NuLogSnippets.Docs.CustomTargets
-{
-    public class ConfigurationHelpersTarget : TargetBase
-    {
+namespace NuLogSnippets.Docs.CustomTargets {
+
+    public class ConfigurationHelpersTarget : TargetBase {
         public string MyStringProperty { get; set; }
 
         public bool MyBoolProperty { get; set; }
 
         // start_snippet
-        public override void Configure(TargetConfig config)
-        {
+        public override void Configure(TargetConfig config) {
             base.Configure(config);
 
             this.MyStringProperty = GetProperty<string>(config, "oneFish");
@@ -28,8 +26,7 @@ namespace NuLogSnippets.Docs.CustomTargets
 
         // end_snippet
 
-        public override void Write(LogEvent logEvent)
-        {
+        public override void Write(LogEvent logEvent) {
             throw new NotImplementedException();
         }
     }

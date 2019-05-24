@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,20 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
-{
+namespace NuLog.Tests.Unit.TagRouters.RuleProcessors {
+
     /// <summary>
     /// Documents the expected behavior of a tag router's "include" rules.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class RuleProcessorIncludeRulesTests : RuleProcessorTestsBase
-    {
+    public class RuleProcessorIncludeRulesTests : RuleProcessorTestsBase {
+
         /// <summary>
         /// Should handle receiving a "null" list of rules.
         /// </summary>
         [Fact(DisplayName = "Should_HandleNullRules")]
-        public void Should_HandleNullRules()
-        {
+        public void Should_HandleNullRules() {
             // Setup
             var processor = GetRuleProcessor(null);
 
@@ -35,8 +34,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// Should handle routing to a single target using a single tag, defined in a single rule.
         /// </summary>
         [Fact(DisplayName = "Should_RouteSingleTag")]
-        public void Should_RouteSingleTag()
-        {
+        public void Should_RouteSingleTag() {
             // Setup
             var rules = new List<Rule>
             {
@@ -59,8 +57,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// Tag matching should be case insensitive.
         /// </summary>
         [Fact(DisplayName = "Should_MatchTagsCaseInsensitive")]
-        public void Should_MatchTagsCaseInsensitive()
-        {
+        public void Should_MatchTagsCaseInsensitive() {
             // Setup
             var rules = new List<Rule>
             {
@@ -83,8 +80,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// The result list of targets shouldn't be null if there is no match on rules.
         /// </summary>
         [Fact(DisplayName = "Should_ReturnNonNullOnNoMatch")]
-        public void Should_ReturnNonNullOnNoMatch()
-        {
+        public void Should_ReturnNonNullOnNoMatch() {
             // Setup
             var rules = new List<Rule>
             {
@@ -107,8 +103,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// Should return a complete list of targets, if a tag matches multiple rules.
         /// </summary>
         [Fact(DisplayName = "Should_ReturnMultipleRules")]
-        public void Should_ReturnMultipleRules()
-        {
+        public void Should_ReturnMultipleRules() {
             // Setup
             var rules = new List<Rule>
             {
@@ -138,8 +133,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// Should return a distinct list of targets, if a target is listed in multiple matched rules.
         /// </summary>
         [Fact(DisplayName = "Should_ReturnDistinctTargetList")]
-        public void Should_ReturnDistinctTargetList()
-        {
+        public void Should_ReturnDistinctTargetList() {
             // Setup
             var rules = new List<Rule>
             {
@@ -169,8 +163,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         /// Should match multiple rules, which have different tags, by sending in multiple tags.
         /// </summary>
         [Fact(DisplayName = "Should_MatchMultipleRulesWithMultipleTags")]
-        public void Should_MatchMultipleRulesWithMultipleTags()
-        {
+        public void Should_MatchMultipleRulesWithMultipleTags() {
             // Setup
             var rules = new List<Rule>
             {
@@ -215,8 +208,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         [InlineData("some*thing", "thing", false)]
         [InlineData("some*thing", "somenope", false)]
         [InlineData("some*thing", "nopething", false)]
-        public void Should_MatchWildcardRule(string tagRule, string matchTag, bool shouldMatch)
-        {
+        public void Should_MatchWildcardRule(string tagRule, string matchTag, bool shouldMatch) {
             // Setup
             var rules = new List<Rule>
             {
@@ -232,12 +224,9 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
             var targets = processor.DetermineTargets(new string[] { matchTag });
 
             // Verify
-            if (shouldMatch)
-            {
+            if (shouldMatch) {
                 Assert.Contains("super_target", targets);
-            }
-            else
-            {
+            } else {
                 Assert.Equal(0, targets.Count());
             }
         }
@@ -249,8 +238,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors
         [Theory(DisplayName = "Should_RequireAllTagsToMatchWithStrictIncludeFlag")]
         [InlineData(new string[] { "hello_tag" }, 1)]
         [InlineData(new string[] { "hello_tag", "missed_me" }, 2)]
-        public void Should_RequireAllTagsToMatchWithStrictIncludeFlag(string[] tags, int expectedCount)
-        {
+        public void Should_RequireAllTagsToMatchWithStrictIncludeFlag(string[] tags, int expectedCount) {
             // Setup
             var rules = new List<Rule>
             {

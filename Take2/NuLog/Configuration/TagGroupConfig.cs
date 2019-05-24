@@ -1,16 +1,16 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Collections.Generic;
 
-namespace NuLog.Configuration
-{
+namespace NuLog.Configuration {
+
     /// <summary>
     /// Represents a single tag group in the NuLog configuration.
     /// </summary>
-    public class TagGroupConfig
-    {
+    public class TagGroupConfig {
+
         /// <summary>
         /// The base tag of the tag group.
         /// </summary>

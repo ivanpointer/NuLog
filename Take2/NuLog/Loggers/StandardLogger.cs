@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -9,13 +9,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace NuLog.Loggers
-{
+namespace NuLog.Loggers {
+
     /// <summary>
     /// The standard logger.
     /// </summary>
-    public class StandardLogger : ILogger
-    {
+    public class StandardLogger : ILogger {
+
         /// <summary>
         /// The tag to add when logging with an exception.
         /// </summary>
@@ -54,8 +54,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Sets up a new instance of the standard logger.
         /// </summary>
-        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null, bool includeStackFrame = false)
-        {
+        public StandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null, bool includeStackFrame = false) {
             Dispatcher = dispatcher;
 
             MetaDataProvider = metaDataProvider;
@@ -69,53 +68,43 @@ namespace NuLog.Loggers
             IncludeStackFrame = includeStackFrame;
         }
 
-        public void Log(string message, params string[] tags)
-        {
+        public void Log(string message, params string[] tags) {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, null, tags));
         }
 
-        public void LogNow(string message, params string[] tags)
-        {
+        public void LogNow(string message, params string[] tags) {
             Dispatcher.DispatchNow(BuildLogEvent(message, null, null, tags));
         }
 
-        public void Log(string message, Dictionary<string, object> metaData = null, params string[] tags)
-        {
+        public void Log(string message, Dictionary<string, object> metaData = null, params string[] tags) {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, null, metaData, tags));
         }
 
-        public void LogNow(string message, Dictionary<string, object> metaData = null, params string[] tags)
-        {
+        public void LogNow(string message, Dictionary<string, object> metaData = null, params string[] tags) {
             Dispatcher.DispatchNow(BuildLogEvent(message, null, metaData, tags));
         }
 
-        public void Log(Exception exception, string message, params string[] tags)
-        {
+        public void Log(Exception exception, string message, params string[] tags) {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, null, tags));
         }
 
-        public void LogNow(Exception exception, string message, params string[] tags)
-        {
+        public void LogNow(Exception exception, string message, params string[] tags) {
             Dispatcher.DispatchNow(BuildLogEvent(message, exception, null, tags));
         }
 
-        public void Log(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags)
-        {
+        public void Log(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags) {
             Dispatcher.EnqueueForDispatch(BuildLogEvent(message, exception, metaData, tags));
         }
 
-        public void LogNow(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags)
-        {
+        public void LogNow(Exception exception, string message, Dictionary<string, object> metaData = null, params string[] tags) {
             Dispatcher.DispatchNow(BuildLogEvent(message, exception, metaData, tags));
         }
 
         /// <summary>
         /// Build and return a new log event, setting the default values on it.
         /// </summary>
-        protected virtual LogEvent BuildLogEvent(string message, Exception exception, Dictionary<string, object> metaData, string[] tags)
-        {
-            return new LogEvent
-            {
+        protected virtual LogEvent BuildLogEvent(string message, Exception exception, Dictionary<string, object> metaData, string[] tags) {
+            return new LogEvent {
                 Message = message,
                 Exception = exception,
                 Tags = GetTags(tags, exception != null),
@@ -129,46 +118,34 @@ namespace NuLog.Loggers
         /// <summary>
         /// Mixes the given tags, with the default tags for this logger, and returns the mix.
         /// </summary>
-        protected virtual ICollection<string> GetTags(ICollection<string> givenTags, bool hasException)
-        {
+        protected virtual ICollection<string> GetTags(ICollection<string> givenTags, bool hasException) {
             // Check if we need to tack on an exception tag
             ICollection<string> tags;
 
             // Figure out/calculate the tags to return. Call the normalizer for any tags that haven't
             // been run through yet.
-            if (!HasTags(givenTags) && !HasTags(DefaultTags))
-            {
+            if (!HasTags(givenTags) && !HasTags(DefaultTags)) {
                 tags = new List<string>();
-            }
-            else if (!HasTags(DefaultTags))
-            {
+            } else if (!HasTags(DefaultTags)) {
                 tags = TagNormalizer.NormalizeTags(givenTags);
-            }
-            else if (!HasTags(givenTags))
-            {
+            } else if (!HasTags(givenTags)) {
                 tags = new List<string>();
-                foreach (var tag in DefaultTags)
-                {
+                foreach (var tag in DefaultTags) {
                     tags.Add(tag);
                 }
-            }
-            else
-            {
+            } else {
                 tags = new List<string>();
-                foreach (var tag in DefaultTags)
-                {
+                foreach (var tag in DefaultTags) {
                     tags.Add(tag);
                 }
-                foreach (var tag in givenTags)
-                {
+                foreach (var tag in givenTags) {
                     tags.Add(tag);
                 }
                 tags = TagNormalizer.NormalizeTags(tags);
             }
 
             // If we've got an exception, add on the exception tag
-            if (hasException)
-            {
+            if (hasException) {
                 tags.Add(exceptionTag);
             }
 
@@ -179,8 +156,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Indicates if the given set of tags has any tags in it.
         /// </summary>
-        protected static bool HasTags(IEnumerable<string> tags)
-        {
+        protected static bool HasTags(IEnumerable<string> tags) {
             return tags != null && tags.Any();
         }
 
@@ -190,8 +166,7 @@ namespace NuLog.Loggers
         ///
         /// Given meta data takes priority over meta data from a provider.
         /// </summary>
-        protected IDictionary<string, object> GetMetaData(IDictionary<string, object> givenMetaData)
-        {
+        protected IDictionary<string, object> GetMetaData(IDictionary<string, object> givenMetaData) {
             // Our own copy so that we don't modify the given.
             var metaData = new Dictionary<string, object>();
 
@@ -216,12 +191,9 @@ namespace NuLog.Loggers
         /// <summary>
         /// Adds the source meta data to the target meta data.
         /// </summary>
-        protected static void AddMetaData(IDictionary<string, object> sourceMetaData, IDictionary<string, object> targetMetaData)
-        {
-            if (sourceMetaData != null)
-            {
-                foreach (var item in sourceMetaData)
-                {
+        protected static void AddMetaData(IDictionary<string, object> sourceMetaData, IDictionary<string, object> targetMetaData) {
+            if (sourceMetaData != null) {
+                foreach (var item in sourceMetaData) {
                     targetMetaData[item.Key] = item.Value;
                 }
             }
@@ -230,8 +202,7 @@ namespace NuLog.Loggers
         /// <summary>
         /// Determines if meta data exists in the given meta data.
         /// </summary>
-        protected static bool HasMetaData(IDictionary<string, object> metaData)
-        {
+        protected static bool HasMetaData(IDictionary<string, object> metaData) {
             return metaData != null && metaData.Count > 0;
         }
     }

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -9,22 +9,21 @@ using System;
 using System.Diagnostics;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the event log target.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class EventLogTargetTests
-    {
+    public class EventLogTargetTests {
+
         /// <summary>
         /// The event log target should write an event.
         /// </summary>
         [Theory(DisplayName = "Should_WriteEvent")]
         [InlineData("Hello, LogEventTarget!")]
         [InlineData("Hello, LogEventTarget Two!")]
-        public void Should_WriteEvent(string logEventMessage)
-        {
+        public void Should_WriteEvent(string logEventMessage) {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -52,8 +51,7 @@ namespace NuLog.Tests.Unit.Targets
         [Theory(DisplayName = "Should_WriteSource")]
         [InlineData("TestEventLogTargetSource")]
         [InlineData("TestEventLogTargetSourceTwo")]
-        public void Should_WriteSource(string source)
-        {
+        public void Should_WriteSource(string source) {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -82,8 +80,7 @@ namespace NuLog.Tests.Unit.Targets
         /// <summary>
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
-        public void Should_UseLayout()
-        {
+        public void Should_UseLayout() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -115,8 +112,7 @@ namespace NuLog.Tests.Unit.Targets
         [InlineData("Information", EventLogEntryType.Information)]
         [InlineData("SuccessAudit", EventLogEntryType.SuccessAudit)]
         [InlineData("FailureAudit", EventLogEntryType.FailureAudit)]
-        public void Should_WriteEventLogEntryType(string entryTypeString, EventLogEntryType entryType)
-        {
+        public void Should_WriteEventLogEntryType(string entryTypeString, EventLogEntryType entryType) {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -147,8 +143,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The entry type should default to info if not configured.
         /// </summary>
         [Fact(DisplayName = "Should_DefaultEntryTypeInfo")]
-        public void Should_DefaultEntryTypeInfo()
-        {
+        public void Should_DefaultEntryTypeInfo() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -183,8 +178,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should check if the log source exists when configured.
         /// </summary>
         [Fact(DisplayName = "Should_CheckIfSourceExists")]
-        public void Should_CheckIfSourceExists()
-        {
+        public void Should_CheckIfSourceExists() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -204,8 +198,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should create the source if it doesn't exist.
         /// </summary>
         [Fact(DisplayName = "Should_CreateSourceIfNotExists")]
-        public void Should_CreateSourceIfNotExists()
-        {
+        public void Should_CreateSourceIfNotExists() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -228,8 +221,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target shouldn't create the source if it exists.
         /// </summary>
         [Fact(DisplayName = "Should_NotCreateSourceIfExists")]
-        public void Should_NotCreateSourceIfExists()
-        {
+        public void Should_NotCreateSourceIfExists() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -254,8 +246,7 @@ namespace NuLog.Tests.Unit.Targets
         [Theory(DisplayName = "Should_LoadSourceLogFromConfig")]
         [InlineData("HelloSourceLog")]
         [InlineData("HelloSourceLogTwo")]
-        public void Should_LoadSourceLogFromConfig(string sourceLog)
-        {
+        public void Should_LoadSourceLogFromConfig(string sourceLog) {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -278,15 +269,13 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should require the source setting in the config.
         /// </summary>
         [Fact(DisplayName = "Should_RequireSourceInConfig")]
-        public void Should_RequireSourceInConfig()
-        {
+        public void Should_RequireSourceInConfig() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
+            Assert.Throws(typeof(InvalidOperationException), () => {
                 target.Configure(TargetConfigBuilder.Start()
                     .Add("sourceLog", "Hello")
                 .Build());
@@ -297,8 +286,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should default the source log to "Application", when not configured.
         /// </summary>
         [Fact(DisplayName = "Should_DefaultSourceLogToApplication")]
-        public void Should_DefaultSourceLogToApplication()
-        {
+        public void Should_DefaultSourceLogToApplication() {
             // Setup
             IEventLog eventLog;
             var target = GetEventLogTarget(out eventLog);
@@ -316,8 +304,7 @@ namespace NuLog.Tests.Unit.Targets
                 .MustHaveHappened();
         }
 
-        protected EventLogTarget GetEventLogTarget(out IEventLog eventLog)
-        {
+        protected EventLogTarget GetEventLogTarget(out IEventLog eventLog) {
             eventLog = A.Fake<IEventLog>();
             var target = new EventLogTarget(eventLog);
             return target;

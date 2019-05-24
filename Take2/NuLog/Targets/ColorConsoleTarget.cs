@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,13 +6,13 @@ using NuLog.Configuration;
 using NuLog.LogEvents;
 using System;
 
-namespace NuLog.Targets
-{
+namespace NuLog.Targets {
+
     /// <summary>
     /// A target that writes to console, and can have custom colors.
     /// </summary>
-    public class ColorConsoleTarget : LayoutTargetBase
-    {
+    public class ColorConsoleTarget : LayoutTargetBase {
+
         /// <summary>
         /// Lock to keep colors straight during threaded writes.
         /// </summary>
@@ -33,18 +33,15 @@ namespace NuLog.Targets
         /// </summary>
         private ConsoleColor foregroundColor;
 
-        public ColorConsoleTarget() : base()
-        {
+        public ColorConsoleTarget() : base() {
             this.backgroundColor = Console.BackgroundColor;
             this.foregroundColor = Console.ForegroundColor;
         }
 
-        public override void Write(LogEvent logEvent)
-        {
+        public override void Write(LogEvent logEvent) {
             var message = Layout.Format(logEvent);
 
-            lock (consoleLock)
-            {
+            lock (consoleLock) {
                 Console.BackgroundColor = backgroundColor;
                 Console.ForegroundColor = foregroundColor;
                 Console.Write(message);
@@ -52,19 +49,16 @@ namespace NuLog.Targets
             }
         }
 
-        public override void Configure(TargetConfig config)
-        {
+        public override void Configure(TargetConfig config) {
             // Check for a background color in the config
             var bgColorName = GetProperty<string>(config, "background");
-            if (!string.IsNullOrEmpty(bgColorName))
-            {
+            if (!string.IsNullOrEmpty(bgColorName)) {
                 backgroundColor = (ConsoleColor)Enum.Parse(consoleColorType, bgColorName);
             }
 
             // Check for a foreground color in the config
             var fgColorName = GetProperty<string>(config, "foreground");
-            if (!string.IsNullOrEmpty(fgColorName))
-            {
+            if (!string.IsNullOrEmpty(fgColorName)) {
                 foregroundColor = (ConsoleColor)Enum.Parse(consoleColorType, fgColorName);
             }
 

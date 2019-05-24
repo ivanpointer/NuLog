@@ -1,24 +1,23 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
-{
+namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests {
+
     /// <summary>
     /// Tests around parsing out rules from XML.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class XmlConfigRuleParsingTests : XmlConfigurationProviderTestsBase
-    {
+    public class XmlConfigRuleParsingTests : XmlConfigurationProviderTestsBase {
+
         /// <summary>
         /// Rules should contain a rule with one include.
         /// </summary>
         [Fact(DisplayName = "Should_ContainOneInclude")]
-        public void Should_ContainOneInclude()
-        {
+        public void Should_ContainOneInclude() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule include=\"one_tag\" /></rules></nulog>");
 
@@ -35,8 +34,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a rule with multiple includes.
         /// </summary>
         [Fact(DisplayName = "Should_ContainMultipleIncludes")]
-        public void Should_ContainMultipleIncludes()
-        {
+        public void Should_ContainMultipleIncludes() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule include=\"one_tag,two_tag\" /></rules></nulog>");
 
@@ -54,8 +52,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a rule with one exclude.
         /// </summary>
         [Fact(DisplayName = "Should_ContainOneExclude")]
-        public void Should_ContainOneExclude()
-        {
+        public void Should_ContainOneExclude() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule exclude=\"one_tag\" /></rules></nulog>");
 
@@ -72,8 +69,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a rule with multiple excludes.
         /// </summary>
         [Fact(DisplayName = "Should_ContainMultipleExcludes")]
-        public void Should_ContainMultipleExcludes()
-        {
+        public void Should_ContainMultipleExcludes() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule exclude=\"one_tag,two_tag\" /></rules></nulog>");
 
@@ -91,8 +87,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a rule with one target.
         /// </summary>
         [Fact(DisplayName = "Should_ContainOneTarget")]
-        public void Should_ContainOneTarget()
-        {
+        public void Should_ContainOneTarget() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule targets=\"one_target\" /></rules></nulog>");
 
@@ -109,8 +104,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a rule with multiple targets.
         /// </summary>
         [Fact(DisplayName = "Should_ContainMultipleTargets")]
-        public void Should_ContainMultipleTargets()
-        {
+        public void Should_ContainMultipleTargets() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule targets=\"one_target,two_targets\" /></rules></nulog>");
 
@@ -128,8 +122,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a strict include flag that defaults to false.
         /// </summary>
         [Fact(DisplayName = "Should_ContainStrictIncludeFlagDefault")]
-        public void Should_ContainStrictIncludeFlagDefault()
-        {
+        public void Should_ContainStrictIncludeFlagDefault() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule /></rules></nulog>");
 
@@ -145,8 +138,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a strict include flag.
         /// </summary>
         [Fact(DisplayName = "Should_ContainStrictIncludeFlag")]
-        public void Should_ContainStrictIncludeFlag()
-        {
+        public void Should_ContainStrictIncludeFlag() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule strictInclude=\"true\" /></rules></nulog>");
 
@@ -162,8 +154,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a final flag that defaults to false.
         /// </summary>
         [Fact(DisplayName = "Should_ContainFinalFlagDefault")]
-        public void Should_ContainFinalFlagDefault()
-        {
+        public void Should_ContainFinalFlagDefault() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule /></rules></nulog>");
 
@@ -179,8 +170,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests
         /// Rules should contain a final flag.
         /// </summary>
         [Fact(DisplayName = "Should_ContainFinalFlag")]
-        public void Should_ContainFinalFlag()
-        {
+        public void Should_ContainFinalFlag() {
             // Setup
             var provider = GetConfigurationProvider("<nulog><rules><rule final=\"true\" /></rules></nulog>");
 

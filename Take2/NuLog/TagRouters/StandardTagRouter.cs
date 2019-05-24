@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -6,13 +6,13 @@ using NuLog.Dispatchers.TagRouters;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NuLog.TagRouters
-{
+namespace NuLog.TagRouters {
+
     /// <summary>
     /// The standard implementation of a tag router.
     /// </summary>
-    public class StandardTagRouter : ITagRouter
-    {
+    public class StandardTagRouter : ITagRouter {
+
         /// <summary>
         /// The rule processor for this router.
         /// </summary>
@@ -26,21 +26,18 @@ namespace NuLog.TagRouters
         /// <summary>
         /// Declares a new instance of this standard router, with the given rules.
         /// </summary>
-        public StandardTagRouter(IRuleProcessor ruleProcessor)
-        {
+        public StandardTagRouter(IRuleProcessor ruleProcessor) {
             this.ruleProcessor = ruleProcessor;
 
             this.routeCache = new Dictionary<string, IEnumerable<string>>();
         }
 
-        public IEnumerable<string> Route(IEnumerable<string> tags)
-        {
+        public IEnumerable<string> Route(IEnumerable<string> tags) {
             // Build our cache key
             var cacheKey = BuildTagsKey(tags);
 
             // Check to see if our route cache has the entry already
-            if (!routeCache.ContainsKey(cacheKey))
-            {
+            if (!routeCache.ContainsKey(cacheKey)) {
                 routeCache[cacheKey] = this.ruleProcessor.DetermineTargets(tags);
             }
 
@@ -51,11 +48,9 @@ namespace NuLog.TagRouters
         /// <summary>
         /// Build and return a string representation of the given tags.
         /// </summary>
-        private static string BuildTagsKey(IEnumerable<string> tags)
-        {
+        private static string BuildTagsKey(IEnumerable<string> tags) {
             var sb = new StringBuilder();
-            foreach (var tag in tags)
-            {
+            foreach (var tag in tags) {
                 sb.Append(tag + ";");
             }
             return sb.ToString();

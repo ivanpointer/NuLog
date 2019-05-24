@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -11,8 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the console target.
     ///
@@ -21,14 +21,13 @@ namespace NuLog.Tests.Unit.Targets
     /// </summary>
     [Collection("ColorConsoleTargetTests")]
     [Trait("Category", "Unit-Exclude")]
-    public class ColorConsoleTargetXCludeTests : ColorConsoleTargetTests
-    {
+    public class ColorConsoleTargetXCludeTests : ColorConsoleTargetTests {
+
         /// <summary>
         /// The console logger should set the background color, if configured.
         /// </summary>
         [Fact(DisplayName = "Should_SetBackgroundColor")]
-        public void Should_SetBackgroundColor()
-        {
+        public void Should_SetBackgroundColor() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -37,8 +36,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Green background!");
 
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = new Dictionary<string, object>
                 {
                     { "background", "DarkGreen" }
@@ -61,8 +59,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The console logger should set the foreground color, if configured.
         /// </summary>
         [Fact(DisplayName = "Should_SetForegroundColor")]
-        public void Should_SetForegroundColor()
-        {
+        public void Should_SetForegroundColor() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -71,8 +68,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("Red foreground!");
 
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = new Dictionary<string, object>
                 {
                     { "foreground", "Red" }

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -11,18 +11,16 @@ using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the text file target.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TextFileTargetTests : IDisposable
-    {
+    public class TextFileTargetTests : IDisposable {
         private readonly List<string> testFiles;
 
-        public TextFileTargetTests()
-        {
+        public TextFileTargetTests() {
             this.testFiles = new List<string>();
         }
 
@@ -30,8 +28,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The text file target should write the message to the file.
         /// </summary>
         [Fact(DisplayName = "Should_WriteText")]
-        public void Should_WriteText()
-        {
+        public void Should_WriteText() {
             // Setup
             var target = new TextFileTarget();
 
@@ -57,8 +54,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The text file target should use the layout.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
-        public void Should_UseLayout()
-        {
+        public void Should_UseLayout() {
             // Setup
             var target = new TextFileTarget();
 
@@ -86,8 +82,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The text file target should write multiple lines to the text file.
         /// </summary>
         [Fact(DisplayName = "Should_WriteMultipleLines")]
-        public void Should_WriteMultipleLines()
-        {
+        public void Should_WriteMultipleLines() {
             // Setup
             var target = new TextFileTarget();
 
@@ -96,12 +91,10 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layoutFactory.MakeLayout(A<string>.Ignored))
                 .Returns(layout);
 
-            var event1 = new LogEvent
-            {
+            var event1 = new LogEvent {
                 Message = "Event 1!"
             };
-            var event2 = new LogEvent
-            {
+            var event2 = new LogEvent {
                 Message = "Event 2!"
             };
 
@@ -124,12 +117,10 @@ namespace NuLog.Tests.Unit.Targets
             Assert.Contains("Event 2!", lines);
         }
 
-        private TargetConfig GetTargetConfig(string filePath)
-        {
+        private TargetConfig GetTargetConfig(string filePath) {
             testFiles.Add(filePath);
 
-            return new TargetConfig
-            {
+            return new TargetConfig {
                 Properties = new Dictionary<string, object>
                 {
                     { "path", filePath }
@@ -137,12 +128,9 @@ namespace NuLog.Tests.Unit.Targets
             };
         }
 
-        public void Dispose()
-        {
-            foreach (var file in testFiles)
-            {
-                if (File.Exists(file))
-                {
+        public void Dispose() {
+            foreach (var file in testFiles) {
+                if (File.Exists(file)) {
                     File.Delete(file);
                 }
             }

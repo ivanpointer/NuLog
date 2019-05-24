@@ -1,16 +1,16 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using NuLog.LogEvents;
 
-namespace NuLog.Targets
-{
+namespace NuLog.Targets {
+
     /// <summary>
     /// Defines the expected behavior of a layout.
     /// </summary>
-    public interface ILayout
-    {
+    public interface ILayout {
+
         /// <summary>
         /// Convert the given log event into a string representation.
         /// </summary>

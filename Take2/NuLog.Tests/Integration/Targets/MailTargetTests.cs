@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -10,27 +10,25 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NuLog.Tests.Integration.Targets
-{
+namespace NuLog.Tests.Integration.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the mail target.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class MailTargetTests
-    {
+    public class MailTargetTests {
+
         /// <summary>
         /// The mail target should use a default body layout.
         /// </summary>
         [Fact(DisplayName = "Should_DefaultBodyLayout")]
-        public void Should_DefaultBodyLayout()
-        {
+        public void Should_DefaultBodyLayout() {
             // Setup
             var properties = new Dictionary<string, object>
             {
                 { "subject", "Hello, Subject!" }
             };
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = properties
             };
             ISmtpClient smtpClient;
@@ -54,16 +52,14 @@ namespace NuLog.Tests.Integration.Targets
         /// The mail target should load the body layout from the config.
         /// </summary>
         [Fact(DisplayName = "Should_LoadBodyLayoutFromConfig")]
-        public void Should_LoadBodyLayoutFromConfig()
-        {
+        public void Should_LoadBodyLayoutFromConfig() {
             // Setup
             var properties = new Dictionary<string, object>
             {
                 { "body", "${Message}" },
                 { "subject", "Hello, Subject!" }
             };
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = properties
             };
             ISmtpClient smtpClient;
@@ -87,15 +83,13 @@ namespace NuLog.Tests.Integration.Targets
         /// The mail target should load the subject layout from the config.
         /// </summary>
         [Fact(DisplayName = "Should_LoadSubjectLayoutFromConfig")]
-        public void Should_LoadSubjectLayoutFromConfig()
-        {
+        public void Should_LoadSubjectLayoutFromConfig() {
             // Setup
             var properties = new Dictionary<string, object>
             {
                 { "subject", "Hello, Subject!" }
             };
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = properties
             };
             ISmtpClient smtpClient;
@@ -119,15 +113,12 @@ namespace NuLog.Tests.Integration.Targets
         /// The mail target should require the subject to be configured.
         /// </summary>
         [Fact(DisplayName = "Should_RequireSubjectInConfig")]
-        public void Should_RequireSubjectInConfig()
-        {
+        public void Should_RequireSubjectInConfig() {
             // Setup
-            var properties = new Dictionary<string, object>
-            {
+            var properties = new Dictionary<string, object> {
                 // Intentionally empty
             };
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = properties
             };
             ISmtpClient smtpClient;
@@ -141,20 +132,17 @@ namespace NuLog.Tests.Integration.Targets
                 .Returns(layout);
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () =>
-            {
+            Assert.Throws(typeof(InvalidOperationException), () => {
                 target.Configure(config, layoutFactory);
             });
         }
 
-        protected MailTarget GetMailTarget()
-        {
+        protected MailTarget GetMailTarget() {
             ISmtpClient smtpClient;
             return GetMailTarget(out smtpClient);
         }
 
-        protected MailTarget GetMailTarget(out ISmtpClient smtpClient)
-        {
+        protected MailTarget GetMailTarget(out ISmtpClient smtpClient) {
             smtpClient = A.Fake<ISmtpClient>();
             var target = new MailTarget(smtpClient);
             return target;

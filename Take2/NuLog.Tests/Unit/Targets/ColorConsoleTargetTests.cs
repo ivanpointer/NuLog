@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -12,15 +12,14 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Targets
-{
+namespace NuLog.Tests.Unit.Targets {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the console target.
     /// </summary>
     [Collection("ColorConsoleTargetTests")]
     [Trait("Category", "Unit")]
-    public class ColorConsoleTargetTests : IDisposable
-    {
+    public class ColorConsoleTargetTests : IDisposable {
         protected readonly DummyTextWriter textWriter;
 
         private readonly TextWriter consoleTextWriter;
@@ -29,8 +28,7 @@ namespace NuLog.Tests.Unit.Targets
 
         private readonly ConsoleColor defaultForegroundColor;
 
-        public ColorConsoleTargetTests()
-        {
+        public ColorConsoleTargetTests() {
             this.textWriter = new DummyTextWriter();
             this.consoleTextWriter = Console.Out;
             Console.SetOut(this.textWriter);
@@ -43,8 +41,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should write to the console.
         /// </summary>
         [Fact(DisplayName = "Should_WriteToConsole")]
-        public void Should_WriteToConsole()
-        {
+        public void Should_WriteToConsole() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -57,8 +54,7 @@ namespace NuLog.Tests.Unit.Targets
             logger.Configure(null, layoutFactory);
 
             // Execute
-            logger.Write(new LogEvent
-            {
+            logger.Write(new LogEvent {
                 Message = "Write to console!"
             });
 
@@ -70,8 +66,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The target should use the layout when writing to console.
         /// </summary>
         [Fact(DisplayName = "Should_UseLayout")]
-        public void Should_UseLayout()
-        {
+        public void Should_UseLayout() {
             // Setup
             var logger = new ColorConsoleTarget();
 
@@ -85,8 +80,7 @@ namespace NuLog.Tests.Unit.Targets
             logger.Configure(null, layoutFactory);
 
             // Execute
-            logger.Write(new LogEvent
-            {
+            logger.Write(new LogEvent {
                 Message = "Write to console!"
             });
 
@@ -99,8 +93,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The default background color should be used, when not explicitly set.
         /// </summary>
         [Fact(DisplayName = "Should_UseDefaultBackgroud")]
-        public void Should_UseDefaultBackgroud()
-        {
+        public void Should_UseDefaultBackgroud() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -123,8 +116,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The default foreground color should be used, when no foreground color is configured.
         /// </summary>
         [Fact(DisplayName = "Should_UseDefaultForeground")]
-        public void Should_UseDefaultForeground()
-        {
+        public void Should_UseDefaultForeground() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -147,8 +139,7 @@ namespace NuLog.Tests.Unit.Targets
         /// The console colors should be reset, after writing.
         /// </summary>
         [Fact(DisplayName = "Should_ResetColorAfterWrite")]
-        public void Should_ResetColorAfterWrite()
-        {
+        public void Should_ResetColorAfterWrite() {
             // Setup
             var layout = A.Fake<ILayout>();
             var layoutFactory = A.Fake<ILayoutFactory>();
@@ -157,8 +148,7 @@ namespace NuLog.Tests.Unit.Targets
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored))
                 .Returns("White and Blue!");
 
-            var config = new TargetConfig
-            {
+            var config = new TargetConfig {
                 Properties = new Dictionary<string, object>
                 {
                     { "foreground", "White" },
@@ -178,8 +168,7 @@ namespace NuLog.Tests.Unit.Targets
             Assert.Equal(defaultForegroundColor, Console.ForegroundColor);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Console.SetOut(this.consoleTextWriter);
         }
     }

@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -15,13 +15,13 @@ using System.Linq;
 
 #endif
 
-namespace NuLog.Layouts
-{
+namespace NuLog.Layouts {
+
     /// <summary>
     /// The standard implementation of a layout.
     /// </summary>
-    public class StandardLayout : ILayout
-    {
+    public class StandardLayout : ILayout {
+
         /// <summary>
         /// The IEnumerable type, for checking when formatting values.
         /// </summary>
@@ -45,8 +45,7 @@ namespace NuLog.Layouts
         /// <summary>
         /// Constructs a new instance of this standard layout, with the given parameters and property parser.
         /// </summary>
-        public StandardLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser)
-        {
+        public StandardLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser) {
             this.layoutParameters = layoutParameters;
 
             this.propertyParser = propertyParser;
@@ -54,12 +53,10 @@ namespace NuLog.Layouts
             this.splitPathCache = new Dictionary<string, string[]>();
         }
 
-        public string Format(LogEvent logEvent)
-        {
+        public string Format(LogEvent logEvent) {
             var messageBuilder = new StringBuilder();
 
-            foreach (var parameter in this.layoutParameters)
-            {
+            foreach (var parameter in this.layoutParameters) {
                 messageBuilder.Append(FormatParameter(logEvent, parameter));
             }
 
@@ -69,22 +66,17 @@ namespace NuLog.Layouts
         /// <summary>
         /// Return a formatted string for the given parameter, on the given log event.
         /// </summary>
-        private string FormatParameter(LogEvent logEvent, LayoutParameter parameter)
-        {
-            if (parameter.StaticText)
-            {
+        private string FormatParameter(LogEvent logEvent, LayoutParameter parameter) {
+            if (parameter.StaticText) {
                 return parameter.Text;
-            }
-            else
-            {
+            } else {
                 // The parameter is not static text, let's grab the property
 
                 // Check for special parameters
                 var parameterValue = GetSpecialParameter(logEvent, parameter);
 
                 // If we don't yet have the value, try to recurse it
-                if (parameterValue == null)
-                {
+                if (parameterValue == null) {
                     // Split out our path
                     var path = GetSplitPath(parameter.Path);
 
@@ -107,10 +99,8 @@ namespace NuLog.Layouts
         /// <summary>
         /// Gets the split path. The "split" operation is so expensive, that we should cache this.
         /// </summary>
-        private string[] GetSplitPath(string path)
-        {
-            if (splitPathCache.ContainsKey(path))
-            {
+        private string[] GetSplitPath(string path) {
+            if (splitPathCache.ContainsKey(path)) {
                 return splitPathCache[path];
             }
 
@@ -123,10 +113,8 @@ namespace NuLog.Layouts
         /// Checks for and returns special parameters. For example, the "Tags" parameter is returned
         /// as a CSV list of tags, Exceptions receive special formatting, etc.
         /// </summary>
-        protected virtual object GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter)
-        {
-            switch (parameter.Path)
-            {
+        protected virtual object GetSpecialParameter(LogEvent logEvent, LayoutParameter parameter) {
+            switch (parameter.Path) {
                 case "Tags":
 #if PRENET4
                     return logEvent.Tags != null ? string.Join(",", logEvent.Tags.ToArray()) : string.Empty;
@@ -145,14 +133,12 @@ namespace NuLog.Layouts
         /// <summary>
         /// Formats an exception, recursing down the causing exceptions.
         /// </summary>
-        private static string FormatException(Exception exception)
-        {
+        private static string FormatException(Exception exception) {
             var sb = new StringBuilder();
 
             var depth = 0;
             bool inner = false;
-            while (exception != null && depth++ < 10)
-            {
+            while (exception != null && depth++ < 10) {
                 sb.Append(string.Format("{0}{1}: {2}\r\n", inner ? "Caused by " : "", exception.GetType().FullName, exception.Message));
                 sb.Append(string.Format("{0}\r\n", exception.StackTrace));
                 exception = exception.InnerException;
@@ -165,8 +151,7 @@ namespace NuLog.Layouts
         /// <summary>
         /// Null-safe, string-converting null and empty check.
         /// </summary>
-        private static bool IsNullOrEmptyString(object value)
-        {
+        private static bool IsNullOrEmptyString(object value) {
             return value == null
                 || (value is string && string.IsNullOrEmpty((string)value));
         }
@@ -174,33 +159,25 @@ namespace NuLog.Layouts
         /// <summary>
         /// Uses the property format to format the given value.
         /// </summary>
-        private static string GetFormattedValue(object value, string format)
-        {
+        private static string GetFormattedValue(object value, string format) {
             // If the value is null, return an empty string
-            if (value == null)
-            {
+            if (value == null) {
                 return string.Empty;
             }
 
             // If we have a string format, use that.
-            if (!string.IsNullOrEmpty(format))
-            {
+            if (!string.IsNullOrEmpty(format)) {
                 return string.Format(format, value);
             }
 
             // If not, check to see if it's enumerable (but not a string).
             var stringValue = value as string;
-            if (stringValue != null)
-            {
+            if (stringValue != null) {
                 return stringValue;
-            }
-            else if (!iEnumerableType.IsAssignableFrom(value.GetType()))
-            {
+            } else if (!iEnumerableType.IsAssignableFrom(value.GetType())) {
                 // It's not enumerable, just convert it to a string.
                 return Convert.ToString(value);
-            }
-            else
-            {
+            } else {
                 // It's enumerable, enumerate it and wrap in brackets.
                 return string.Format("[{0}]", string.Join(",", EnumerateValues((IEnumerable)value)));
             }
@@ -209,12 +186,10 @@ namespace NuLog.Layouts
         /// <summary>
         /// Enumerates the values in the given enumerable value.
         /// </summary>
-        private static string[] EnumerateValues(IEnumerable items)
-        {
+        private static string[] EnumerateValues(IEnumerable items) {
             var list = new List<string>();
 
-            foreach (var item in items)
-            {
+            foreach (var item in items) {
                 list.Add(Convert.ToString(item));
             }
 

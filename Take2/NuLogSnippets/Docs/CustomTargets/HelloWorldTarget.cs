@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -7,33 +7,28 @@ using NuLog.Configuration;
 using NuLog.LogEvents;
 using System.Diagnostics;
 
-namespace NuLogSnippets.Docs.CustomTargets
-{
+namespace NuLogSnippets.Docs.CustomTargets {
+
     // start_snippet
-    public class HelloWorldTarget : ITarget
-    {
+    public class HelloWorldTarget : ITarget {
         public string Name { get; set; }
 
-        public void Configure(TargetConfig config)
-        {
+        public void Configure(TargetConfig config) {
             // Nothing to do
         }
 
-        public void Write(LogEvent logEvent)
-        {
+        public void Write(LogEvent logEvent) {
             Debug.WriteLine(logEvent.Message);
         }
 
         #region IDisposable Support
 
-        protected virtual void Dispose(bool disposing)
-        {
+        protected virtual void Dispose(bool disposing) {
             // Nothing to do
         }
 
         // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
         }
 

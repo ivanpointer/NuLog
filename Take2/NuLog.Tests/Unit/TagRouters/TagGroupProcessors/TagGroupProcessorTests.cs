@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -8,20 +8,19 @@ using NuLog.TagRouters.TagGroupProcessors;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NuLog.Tests.Unit.TagRouters.TagGroupProcessors
-{
+namespace NuLog.Tests.Unit.TagRouters.TagGroupProcessors {
+
     /// <summary>
     /// Documents the expected behavior of a tag group processor.
     /// </summary>
     [Trait("Category", "Unit")]
-    public class TagGroupProcessorTests
-    {
+    public class TagGroupProcessorTests {
+
         /// <summary>
         /// The tag group processor should always include the tag itself.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeSelf")]
-        public void Should_IncludeSelf()
-        {
+        public void Should_IncludeSelf() {
             // Setup
             var processor = GetTagGroupProcessor(null);
 
@@ -36,8 +35,7 @@ namespace NuLog.Tests.Unit.TagRouters.TagGroupProcessors
         /// Check one simple rule.
         /// </summary>
         [Fact(DisplayName = "Should_IncludeSimpleAlias")]
-        public void Should_IncludeSimpleAlias()
-        {
+        public void Should_IncludeSimpleAlias() {
             // Setup
             var tagGroups = new List<TagGroup>
             {
@@ -60,8 +58,7 @@ namespace NuLog.Tests.Unit.TagRouters.TagGroupProcessors
         /// Check multiple rules.
         /// </summary>
         [Fact(DisplayName = "Should_ReturnMultipleAliases")]
-        public void Should_ReturnMultipleAliases()
-        {
+        public void Should_ReturnMultipleAliases() {
             // Setup
             var tagGroups = new List<TagGroup>
             {
@@ -91,8 +88,7 @@ namespace NuLog.Tests.Unit.TagRouters.TagGroupProcessors
         /// <summary>
         /// Provides a new instance of the tag group processor under test.
         /// </summary>
-        protected ITagGroupProcessor GetTagGroupProcessor(IEnumerable<TagGroup> tagGroups)
-        {
+        protected ITagGroupProcessor GetTagGroupProcessor(IEnumerable<TagGroup> tagGroups) {
             return new StandardTagGroupProcessor(tagGroups);
         }
 

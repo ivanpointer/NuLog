@@ -1,4 +1,4 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
@@ -10,20 +10,19 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NuLog.Tests.Unit.Layouts.Standard
-{
+namespace NuLog.Tests.Unit.Layouts.Standard {
+
     /// <summary>
     /// Documents (and verifies) the expected behavior of the standard layout.
     /// </summary>
     [Trait("Category", "Integration")]
-    public class StandardLayoutTests
-    {
+    public class StandardLayoutTests {
+
         /// <summary>
         /// The layout should render simple, static text.
         /// </summary>
         [Fact(DisplayName = "Should_RenderStaticText")]
-        public void Should_RenderStaticText()
-        {
+        public void Should_RenderStaticText() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -47,8 +46,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should render a parameter from the log event.
         /// </summary>
         [Fact(DisplayName = "Should_RenderParameter")]
-        public void Should_RenderParameter()
-        {
+        public void Should_RenderParameter() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -84,8 +82,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should render a piece of meta data from the log event.
         /// </summary>
         [Fact(DisplayName = "Should_RenderMetaData")]
-        public void Should_RenderMetaData()
-        {
+        public void Should_RenderMetaData() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -116,8 +113,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// override log event properties).
         /// </summary>
         [Fact(DisplayName = "Should_RenderMetaDataFirst")]
-        public void Should_RenderMetaDataFirst()
-        {
+        public void Should_RenderMetaDataFirst() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -149,8 +145,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should render a parameter using its format
         /// </summary>
         [Fact(DisplayName = "Should_RenderParameterFormatted")]
-        public void Should_RenderParameterFormatted()
-        {
+        public void Should_RenderParameterFormatted() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -187,8 +182,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should render a contingent parameter
         /// </summary>
         [Fact(DisplayName = "Should_RenderContingentParameter")]
-        public void Should_RenderContingentParameter()
-        {
+        public void Should_RenderContingentParameter() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -225,8 +219,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should exclude a null/empty contingent parameter
         /// </summary>
         [Fact(DisplayName = "Should_ExcludeMissingContingentParameter")]
-        public void Should_ExcludeMissingContingentParameter()
-        {
+        public void Should_ExcludeMissingContingentParameter() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -265,8 +258,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// Tags are treated special as a parameter - they should be printed as a CSV, with no white space.
         /// </summary>
         [Fact(DisplayName = "Should_FormatTagsSpecial")]
-        public void Should_FormatTagsSpecial()
-        {
+        public void Should_FormatTagsSpecial() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -275,8 +267,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
                     Path = "Tags"
                 }
             };
-            var logEvent = new LogEvent
-            {
+            var logEvent = new LogEvent {
                 Tags = new string[] { "one_tag", "two_tag", "red_tag", "blue_tag" }
             };
             var paramParser = A.Fake<IPropertyParser>();
@@ -299,8 +290,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The formatter should be able to handle a null list of tags.
         /// </summary>
         [Fact(DisplayName = "Should_IgnoreNullTagsSpecial")]
-        public void Should_IgnoreNullTagsSpecial()
-        {
+        public void Should_IgnoreNullTagsSpecial() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -309,8 +299,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
                     Path = "Tags"
                 }
             };
-            var logEvent = new LogEvent
-            {
+            var logEvent = new LogEvent {
                 Tags = null // Explicitly null
             };
             var paramParser = A.Fake<IPropertyParser>();
@@ -333,8 +322,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// An exception is handled as a special parameter.
         /// </summary>
         [Fact(DisplayName = "Should_FormatExceptionSpecial")]
-        public void Should_FormatExceptionSpecial()
-        {
+        public void Should_FormatExceptionSpecial() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -343,8 +331,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
                     Path = "Exception"
                 }
             };
-            var logEvent = new LogEvent
-            {
+            var logEvent = new LogEvent {
                 Exception = new Exception("Ha! A test exception!")
             };
             var paramParser = A.Fake<IPropertyParser>();
@@ -367,8 +354,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// An exception is handled as a special parameter. Inner exceptions should also be included.
         /// </summary>
         [Fact(DisplayName = "Should_FormatInnerExceptionSpecial")]
-        public void Should_FormatInnerExceptionSpecial()
-        {
+        public void Should_FormatInnerExceptionSpecial() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -377,8 +363,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
                     Path = "Exception"
                 }
             };
-            var logEvent = new LogEvent
-            {
+            var logEvent = new LogEvent {
                 Exception = new Exception("Uh, something broke!", new Exception("Freaking segfault!"))
             };
             var paramParser = A.Fake<IPropertyParser>();
@@ -402,8 +387,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// An enumerable list of objects should be concatenated into a CSV list.
         /// </summary>
         [Fact(DisplayName = "Should_CSVEnumerable")]
-        public void Should_CSVEnumerable()
-        {
+        public void Should_CSVEnumerable() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -442,8 +426,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// The layout should be able to handle a null-valued property
         /// </summary>
         [Fact(DisplayName = "Should_HandleNullPropertyValue")]
-        public void Should_HandleNullPropertyValue()
-        {
+        public void Should_HandleNullPropertyValue() {
             // Setup
             var parms = new List<LayoutParameter>
             {
@@ -472,8 +455,7 @@ namespace NuLog.Tests.Unit.Layouts.Standard
         /// <summary>
         /// Get a new instance of the layout under test.
         /// </summary>
-        protected ILayout GetLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser)
-        {
+        protected ILayout GetLayout(IEnumerable<LayoutParameter> layoutParameters, IPropertyParser propertyParser) {
             return new StandardLayout(layoutParameters, propertyParser);
         }
     }
@@ -481,12 +463,10 @@ namespace NuLog.Tests.Unit.Layouts.Standard
     /// <summary>
     /// A test class for testing the formatting functionality of the layout.
     /// </summary>
-    internal sealed class ToStringTestClass
-    {
+    internal sealed class ToStringTestClass {
         public string MyString { get; set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return string.Format("To String: \"{0}\"", MyString);
         }
     }

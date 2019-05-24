@@ -1,18 +1,18 @@
-﻿/* © 2017 Ivan Pointer
+﻿/* © 2019 Ivan Pointer
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using System;
 
-namespace NuLog.Loggers
-{
+namespace NuLog.Loggers {
+
     /// <summary>
     /// Defines the expected behavior of a log event dispatcher.
     ///
     /// Dispatchers are responsible for dispatching log events to a list of targets (presumably).
     /// </summary>
-    public interface IDispatcher : IDisposable
-    {
+    public interface IDispatcher : IDisposable {
+
         /// <summary>
         /// Dispatch the given log event out to the log event targets, immediately. A call to
         /// </summary>
