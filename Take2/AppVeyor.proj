@@ -33,6 +33,9 @@
         <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">1.0.0.0</APPVEYOR_BUILD_VERSION>
         <APPVEYOR_REPO_TAG_NAME Condition="'$(APPVEYOR_REPO_TAG_NAME)' == ''">$(APPVEYOR_BUILD_VERSION)</APPVEYOR_REPO_TAG_NAME>
 
+        <APPVEYOR_REPO_COMMIT_MESSAGE Condition="'$(APPVEYOR_REPO_COMMIT_MESSAGE)' == ''">The 2nd generation of NuLog!</APPVEYOR_REPO_COMMIT_MESSAGE>
+        <RELEASE_NOTES Condition="'$(RELEASE_NOTES)' == ''">$(APPVEYOR_REPO_COMMIT_MESSAGE)</RELEASE_NOTES>
+
         <ASSEMBLY_COPYRIGHT Condition="'$(ASSEMBLY_COPYRIGHT)' == ''">© 2019 Ivan Andrew Pointer</ASSEMBLY_COPYRIGHT>
 
         <TESTS_DLL Condition="'$(TESTS_DLL)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll</TESTS_DLL>
@@ -85,9 +88,6 @@
             <NuspecFiles Include="**\*.nuspec" />
         </ItemGroup>
 
-        <Message
-            Text = "Nuspec File Identity: %(NuspecFiles.Identity) -- Full Path: %(NuspecFiles.FullPath)" />
-
         <ReplaceFileText
             InputFilename="%(AssemblyInfoFiles.Identity)"
             OutputFilename="%(AssemblyInfoFiles.Identity)"
@@ -106,21 +106,13 @@
             MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
             ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-        <!--<AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-              AssemblyCopyright="$(ASSEMBLY_COPYRIGHT)"
-              AssemblyVersion="$(APPVEYOR_BUILD_VERSION)"
-              AssemblyFileVersion="$(APPVEYOR_BUILD_VERSION)" />-->
-
         <MSBuild Projects="@(ProjectToBuild)" />
 
         <ReplaceFileText
             InputFilename="%(NuspecFiles.Identity)"
             OutputFilename="%(NuspecFiles.Identity)"
             MatchExpression="\$releaseNotes\$"
-            ReplacementText="Hello, world!" />
-
-        <!--<Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
-        <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />-->
+            ReplacementText="$(RELEASE_NOTES)" />
 
         <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -version $(APPVEYOR_REPO_TAG_NAME)" />
 
