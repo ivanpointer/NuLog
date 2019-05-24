@@ -476,6 +476,25 @@ namespace NuLog.Tests.Unit.Factories {
             // Verify
             Assert.True(this.traceListener.Messages.Any(m => m.Contains("Failed to get fallback logger for cause: ")), "No message was traced warning of the failed construction of the fallback logger.");
         }
+
+        [Fact(DisplayName = "Should_NotAllowGetLoggerAfterDispose")]
+        public void Should_NotAllowGetLoggerAfterDispose() {
+            // Setup
+            var targetConfig = new TargetConfig {
+                Name = "broken",
+                Type = "NuLog.Tests.Unit.Factories.BrokenTarget, NuLog.Tests"
+            };
+            var configs = new List<TargetConfig> { targetConfig };
+            var config = new Config {
+                Targets = configs
+            };
+
+            var factory = GetLogFactory(config);
+            factory.Dispose();
+
+            // Execute/Validate
+            Assert.Throws<InvalidOperationException>(() => factory.GetLogger(null, null));
+        }
     }
 
     /// <summary>
