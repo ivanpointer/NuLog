@@ -48,7 +48,7 @@ namespace NuLog.Tests.Unit {
         [InlineData(" \r\n\t")]
         public void Should_DisallowEmptyTags(string tag) {
             // Execute
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 tagNormalizer.NormalizeTag(tag);
             });
         }
@@ -84,7 +84,7 @@ namespace NuLog.Tests.Unit {
                 if (shouldBeValid) {
                     tagNormalizer.NormalizeTag(chrStr);
                 } else {
-                    Assert.Throws(typeof(InvalidOperationException), () => {
+                    Assert.Throws<InvalidOperationException>(() => {
                         tagNormalizer.NormalizeTag(chrStr);
                     });
                 }

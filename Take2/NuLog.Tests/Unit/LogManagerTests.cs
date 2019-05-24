@@ -105,7 +105,7 @@ namespace NuLog.Tests.Unit {
             A.CallTo(() => factory.GetLogger(A<IMetaDataProvider>.Ignored, A<IEnumerable<string>>.That.Contains("NuLog.Tests.Unit.LogManagerTests")))
                 .MustHaveHappened();
             A.CallTo(() => factory.GetLogger(A<IMetaDataProvider>.Ignored, A<IEnumerable<string>>.Ignored))
-                .MustHaveHappened(Repeated.Exactly.Once);
+                .MustHaveHappened(1, Times.Exactly);
         }
 
         /// <summary>

@@ -80,7 +80,7 @@ namespace NuLog.Tests.Unit.Targets {
             var config = BuildTargetConfigProperty(invalidObject);
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidCastException), () => {
+            Assert.Throws<InvalidCastException>(() => {
                 target.GetPropertyInternal<ComplexObject>(config);
             });
         }

@@ -51,7 +51,7 @@ namespace NuLog.Tests.Integration.TagRouters {
             var targets = tagRouter.Route(new string[] { "orange" });
 
             // Verify
-            Assert.Equal(1, targets.Count());
+            Assert.Single(targets);
             Assert.Contains("mytarget", targets);
         }
     }

@@ -97,7 +97,7 @@ namespace NuLog.Tests.Integration.Factories {
             var targets = ruleProcessor.DetermineTargets(new string[] { "red_tag" });
 
             // Verify
-            Assert.Equal(1, targets.Count());
+            Assert.Single(targets);
             Assert.Contains("fake_target", targets);
         }
 
@@ -119,7 +119,7 @@ namespace NuLog.Tests.Integration.Factories {
             var targets = tagRouter.Route(new string[] { "one_tag" });
 
             // Verify
-            Assert.Equal(1, targets.Count());
+            Assert.Single(targets);
             Assert.Contains("fake_target", targets);
         }
 
@@ -368,7 +368,7 @@ namespace NuLog.Tests.Integration.Factories {
             factory.Dispose();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 logger.Log("Hello, world!");
             });
         }

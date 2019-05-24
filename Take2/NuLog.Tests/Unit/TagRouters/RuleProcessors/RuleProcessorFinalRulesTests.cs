@@ -83,7 +83,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors {
             var targets = processor.DetermineTargets(new string[] { "hello_tag" });
 
             // Verify
-            Assert.Equal(1, targets.Count());
+            Assert.Single(targets);
             Assert.Contains("duper_target", targets);
         }
     }

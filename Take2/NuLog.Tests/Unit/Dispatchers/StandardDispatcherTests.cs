@@ -104,7 +104,7 @@ namespace NuLog.Tests.Unit.Dispatchers {
             dispatcher.Dispose();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 dispatcher.EnqueueForDispatch(logEvent);
             });
         }

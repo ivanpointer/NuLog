@@ -132,7 +132,7 @@ namespace NuLog.Tests.Integration.Targets {
                 .Returns(layout);
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 target.Configure(config, layoutFactory);
             });
         }

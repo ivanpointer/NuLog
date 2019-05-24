@@ -43,8 +43,8 @@ namespace NuLog.Tests.Unit.FallbackLoggers {
             fallbackLogger.Log(null, target, new LogEvent { Message = "Hello, StandardTraceFallbackLogger Line Two!" });
 
             // Verify
-            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, StandardTraceFallbackLogger!")));
-            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, StandardTraceFallbackLogger Line Two!")));
+            Assert.Contains(this.traceListener.Messages, m => m.Contains("Hello, StandardTraceFallbackLogger!"));
+            Assert.Contains(this.traceListener.Messages, m => m.Contains("Hello, StandardTraceFallbackLogger Line Two!"));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers {
             fallbackLogger.Log("Hello, Simple Message!");
 
             // Verify
-            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, Simple Message!")));
+            Assert.Contains(this.traceListener.Messages, m => m.Contains("Hello, Simple Message!"));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace NuLog.Tests.Unit.FallbackLoggers {
             fallbackLogger.Log("Hello, Formatted {0}!", "Message");
 
             // Verify
-            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Hello, Formatted Message!")));
+            Assert.Contains(this.traceListener.Messages, m => m.Contains("Hello, Formatted Message!"));
         }
     }
 }

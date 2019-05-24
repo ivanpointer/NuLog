@@ -92,7 +92,7 @@ namespace NuLog.Tests.Unit.Targets {
             var target = new TraceTarget();
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 target.Write(new LogEvent {
                     Message = "hello, world!"
                 });

@@ -36,7 +36,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEventLater = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal("Hello, World!", logEventLater.Message);
         }
@@ -54,7 +54,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEventNow = dispatcher.DispatchNowEvents.Single();
             Assert.Equal("Hello, World!", logEventNow.Message);
         }
@@ -196,7 +196,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!", metaData);
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -222,7 +222,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!", metaData);
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -248,7 +248,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -274,7 +274,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -799,7 +799,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!");
 
             // Validate
-            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(1, Times.Exactly);
         }
 
         /// <summary>
@@ -817,7 +817,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!");
 
             // Validate
-            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(1, Times.OrMore);
         }
 
         /// <summary>
@@ -835,7 +835,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!", "red_tag", "blue_tag");
 
             // Validate
-            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(1, Times.OrMore);
         }
 
         /// <summary>
@@ -853,7 +853,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!", "red_tag", "blue_tag");
 
             // Validate
-            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(Repeated.AtLeast.Once);
+            A.CallTo(() => fakeNormalizer.NormalizeTags(A<IEnumerable<string>>.Ignored)).MustHaveHappened(1, Times.OrMore);
         }
 
         #endregion Tags - Advanced Tests
@@ -885,7 +885,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -917,7 +917,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -951,7 +951,7 @@ namespace NuLog.Tests.Unit.Loggers {
             });
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(3, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -987,7 +987,7 @@ namespace NuLog.Tests.Unit.Loggers {
             });
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(3, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -1023,7 +1023,7 @@ namespace NuLog.Tests.Unit.Loggers {
             });
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -1058,7 +1058,7 @@ namespace NuLog.Tests.Unit.Loggers {
             });
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(2, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -1095,7 +1095,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.Log("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.EnqueueForDispatchEvents.Count);
+            Assert.Single(dispatcher.EnqueueForDispatchEvents);
             var logEvent = dispatcher.EnqueueForDispatchEvents.Single();
             Assert.Equal(3, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);
@@ -1133,7 +1133,7 @@ namespace NuLog.Tests.Unit.Loggers {
             logger.LogNow("Hello, World!");
 
             // Validate
-            Assert.Equal(1, dispatcher.DispatchNowEvents.Count);
+            Assert.Single(dispatcher.DispatchNowEvents);
             var logEvent = dispatcher.DispatchNowEvents.Single();
             Assert.Equal(3, logEvent.MetaData.Keys.Count);
             Assert.Equal(dob, logEvent.MetaData["MyDOB"]);

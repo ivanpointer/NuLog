@@ -214,8 +214,8 @@ namespace NuLog.Tests.Unit.Factories {
 
             // Validate
             Assert.Equal(2, targets.Count);
-            Assert.True(targets.Any(t => typeof(DummyTarget).IsAssignableFrom(t.GetType())));
-            Assert.True(targets.Any(t => typeof(TraceTarget).IsAssignableFrom(t.GetType())));
+            Assert.Contains(targets, t => typeof(DummyTarget).IsAssignableFrom(t.GetType()));
+            Assert.Contains(targets, t => typeof(TraceTarget).IsAssignableFrom(t.GetType()));
         }
 
         /// <summary>

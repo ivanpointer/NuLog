@@ -275,7 +275,7 @@ namespace NuLog.Tests.Unit.Targets {
             var target = GetEventLogTarget(out eventLog);
 
             // Execute / Verify
-            Assert.Throws(typeof(InvalidOperationException), () => {
+            Assert.Throws<InvalidOperationException>(() => {
                 target.Configure(TargetConfigBuilder.Start()
                     .Add("sourceLog", "Hello")
                 .Build());

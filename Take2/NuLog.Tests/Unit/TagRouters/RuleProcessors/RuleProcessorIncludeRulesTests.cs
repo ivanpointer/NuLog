@@ -227,7 +227,7 @@ namespace NuLog.Tests.Unit.TagRouters.RuleProcessors {
             if (shouldMatch) {
                 Assert.Contains("super_target", targets);
             } else {
-                Assert.Equal(0, targets.Count());
+                Assert.Empty(targets);
             }
         }
 

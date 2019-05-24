@@ -9,7 +9,6 @@ using NuLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Xunit;
 
 namespace NuLog.Tests.Unit.Targets {
@@ -59,7 +58,7 @@ namespace NuLog.Tests.Unit.Targets {
             });
 
             // Validate
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Write to console!"));
+            Assert.Contains(this.textWriter.ConsoleMessages, m => m.Message == "Write to console!");
         }
 
         /// <summary>
@@ -86,7 +85,7 @@ namespace NuLog.Tests.Unit.Targets {
 
             // Validate
             A.CallTo(() => layout.Format(A<LogEvent>.Ignored)).MustHaveHappened();
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Write to console using layout!"));
+            Assert.Contains(this.textWriter.ConsoleMessages, m => m.Message == "Write to console using layout!");
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace NuLog.Tests.Unit.Targets {
             logger.Write(new LogEvent());
 
             // Validate
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Default background!" && m.BackgroundColor == defaultBackgroundColor));
+            Assert.Contains(this.textWriter.ConsoleMessages, m => m.Message == "Default background!" && m.BackgroundColor == defaultBackgroundColor);
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace NuLog.Tests.Unit.Targets {
             logger.Write(new LogEvent());
 
             // Validate
-            Assert.True(this.textWriter.ConsoleMessages.Any(m => m.Message == "Default foreground!" && m.ForegroundColor == defaultForegroundColor));
+            Assert.Contains(this.textWriter.ConsoleMessages, m => m.Message == "Default foreground!" && m.ForegroundColor == defaultForegroundColor);
         }
 
         /// <summary>
