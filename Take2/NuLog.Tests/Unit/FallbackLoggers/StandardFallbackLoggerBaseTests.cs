@@ -232,6 +232,20 @@ namespace NuLog.Tests.Unit.FallbackLoggers {
             Assert.Contains("Formatted message!", text);
         }
 
+        [Fact(DisplayName = "Should_NotFormatExceptionMessageForBogusLogMessage")]
+        public void Should_NotFormatExceptionMessageForBogusLogMessage() {
+            // Setup
+            var fallbackLogger = GetFallbackLogger();
+            var target = A.Fake<ITarget>();
+
+            // Execute
+            fallbackLogger.Log(new Exception("Some exception"), target, new BogusLogEvent());
+
+            // Verify
+            var text = fallbackLogger.LoggedMessages.Single();
+            Assert.Contains("Some exception", text);
+        }
+
         /// <summary>
         /// Gets the fallback logger under test.
         /// </summary>
@@ -258,6 +272,18 @@ namespace NuLog.Tests.Unit.FallbackLoggers {
         public override void Log(string message, params object[] args) {
             var formatted = FormatMessage(message, args);
             LoggedMessages.Add(formatted);
+        }
+    }
+
+    internal class BogusLogEvent : ILogEvent {
+        public ICollection<string> Tags { get; set; }
+
+        public void Dispose() {
+            // noop
+        }
+
+        public void WriteTo(ITarget target) {
+            // noop
         }
     }
 }
