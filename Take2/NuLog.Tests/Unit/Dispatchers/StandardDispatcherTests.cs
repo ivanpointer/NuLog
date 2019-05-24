@@ -10,6 +10,7 @@ using NuLog.Loggers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Xunit;
 
@@ -214,6 +215,78 @@ namespace NuLog.Tests.Unit.Dispatchers {
             // Verify
             A.CallTo(() => fallbackLogger.Log(A<Exception>.That.Matches(m => m.Message == "Uh, yer target done broke!"), target, A<LogEvent>.That.Matches(m => m.Message == "A doomed event.")))
                 .MustHaveHappened();
+        }
+
+        /// <summary>
+        /// When the fallback logger fails, we should fall back to trace.
+        /// </summary>
+        [Fact(DisplayName = "Should_FallbackLoggerFailFallbackToTrace")]
+        public void Should_FallbackLoggerFailFallbackToTrace() {
+            // Setup
+            var fallbackLogger = A.Fake<IFallbackLogger>();
+            A.CallTo(() => fallbackLogger.Log(A<Exception>._, A<ITarget>._, A<ILogEvent>._))
+                .Throws(new Exception("The fallback logger broke!"));
+
+            var target = FakeTarget("exceptional_target");
+            A.CallTo(() => target.Write(A<LogEvent>.Ignored)).Throws(new Exception("Uh, yer target done broke!"));
+
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Returns(new string[] { "exceptional_target" });
+
+            var dispatcher = GetDispatcher(new ITarget[] { target }, tagRouter, fallbackLogger);
+
+            TraceListener traceListener = A.Fake<TraceListener>();
+            Trace.Listeners.Add(traceListener);
+
+            // Execute
+            dispatcher.DispatchNow(new LogEvent {
+                Message = "A doomed event."
+            });
+
+            // Verify
+            A.CallTo(() => traceListener.TraceEvent(
+                A<TraceEventCache>._,
+                A<string>._,
+                A<TraceEventType>.That.IsEqualTo(TraceEventType.Error),
+                A<int>._,
+                A<string>.That.Contains("Failure writing exception to fallback logger:"),
+                A<object[]>._))
+                    .MustHaveHappened(1, Times.Exactly);
+        }
+
+        /// <summary>
+        /// When the fallback logger fails, we should fall back to trace - when there's an error in
+        /// the targets list.
+        /// </summary>
+        [Fact(DisplayName = "Should_FallbackLoggerFailFallbackToTrace_FailureInTargetsList")]
+        public void Should_FallbackLoggerFailFallbackToTrace_FailureInTargetsList() {
+            // Setup
+            var fallbackLogger = A.Fake<IFallbackLogger>();
+            A.CallTo(() => fallbackLogger.Log(A<string>._, A<object[]>._))
+                .Throws(new Exception("The fallback logger broke!"));
+
+            var tagRouter = FakeTagRouter();
+            A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Throws(new Exception("Broken tag router!"));
+
+            var dispatcher = GetDispatcher(null, tagRouter, fallbackLogger);
+
+            TraceListener traceListener = A.Fake<TraceListener>();
+            Trace.Listeners.Add(traceListener);
+
+            // Execute
+            dispatcher.DispatchNow(new LogEvent {
+                Message = "A doomed event."
+            });
+
+            // Verify
+            A.CallTo(() => traceListener.TraceEvent(
+                A<TraceEventCache>._,
+                A<string>._,
+                A<TraceEventType>.That.IsEqualTo(TraceEventType.Error),
+                A<int>._,
+                A<string>.That.Contains("Failure writing message to fallback logger for cause:"),
+                A<object[]>._))
+                    .MustHaveHappened(1, Times.Exactly);
         }
 
         /// <summary>
