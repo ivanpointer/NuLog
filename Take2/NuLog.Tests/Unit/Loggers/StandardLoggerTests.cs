@@ -1141,6 +1141,33 @@ namespace NuLog.Tests.Unit.Loggers {
             Assert.Equal(ConsoleColor.Blue, logEvent.MetaData["FavoriteColor"]);
         }
 
+        [Fact(DisplayName = "Should_CheckHasMetaDataNull")]
+        public void Should_CheckHasMetaDataTrue() {
+            StubStandardLogger logger = new StubStandardLogger(null, A.Fake<ITagNormalizer>(), null, null, null);
+
+            Assert.False(logger.CheckHasMetaData(null));
+        }
+
+        [Fact(DisplayName = "Should_CheckHasMetaDataEmpty")]
+        public void Should_CheckHasMetaDataEmpty() {
+            StubStandardLogger logger = new StubStandardLogger(null, A.Fake<ITagNormalizer>(), null, null, null);
+
+            IDictionary<string, object> metaData = new Dictionary<string, object>();
+
+            Assert.False(logger.CheckHasMetaData(metaData));
+        }
+
+        [Fact(DisplayName = "Should_CheckHasMetaDataNotEmpty")]
+        public void Should_CheckHasMetaDataNotEmpty() {
+            StubStandardLogger logger = new StubStandardLogger(null, A.Fake<ITagNormalizer>(), null, null, null);
+
+            IDictionary<string, object> metaData = new Dictionary<string, object> {
+                { "Hello", "World!" }
+            };
+
+            Assert.True(logger.CheckHasMetaData(metaData));
+        }
+
         #endregion Meta Data Provider Tests
 
         /// <summary>
@@ -1178,6 +1205,18 @@ namespace NuLog.Tests.Unit.Loggers {
 
         public void EnqueueForDispatch(ILogEvent logEvent) {
             EnqueueForDispatchEvents.Add((TLogEvent)logEvent);
+        }
+    }
+
+    internal class StubStandardLogger : StandardLogger {
+
+        public StubStandardLogger(IDispatcher dispatcher, ITagNormalizer tagNormalizer, IMetaDataProvider metaDataProvider, IEnumerable<string> defaultTags = null, IDictionary<string, object> defaultMetaData = null, bool includeStackFrame = false)
+            : base(dispatcher, tagNormalizer, metaDataProvider, defaultTags, defaultMetaData, includeStackFrame) {
+            // noop
+        }
+
+        public bool CheckHasMetaData(IDictionary<string, object> metaData) {
+            return StandardLogger.HasMetaData(metaData);
         }
     }
 }
