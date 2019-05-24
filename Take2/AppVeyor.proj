@@ -11,6 +11,8 @@
         </ParameterGroup>
         <Task>
             <Reference Include="System.Core" />
+            <Reference Include="System.Xml" />
+            <Reference Include="System.Xml.Linq"/>
             <Using Namespace="System" />
             <Using Namespace="System.IO" />
             <Using Namespace="System.Text.RegularExpressions" />
