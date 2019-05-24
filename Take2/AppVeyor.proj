@@ -7,18 +7,23 @@
             <OutputFilename ParameterType="System.String" Required="true" />
             <MatchExpression ParameterType="System.String" Required="true" />
             <ReplacementText ParameterType="System.String" Required="true" />
+            <XmlEncode ParameterType="System.Boolean" Required="false" />
         </ParameterGroup>
         <Task>
             <Reference Include="System.Core" />
             <Using Namespace="System" />
             <Using Namespace="System.IO" />
             <Using Namespace="System.Text.RegularExpressions" />
+            <Using Namespace="System.Xml" />
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
+                    var text = Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText);
+                    if(XmlEncode) {
+                        text = new XElement("t", text).LastNode.ToString();
+                    }
                     File.WriteAllText(
                         OutputFilename,
-                        Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText)
-                        );
+                        text);
                 ]]>
             </Code>
         </Task>
@@ -112,7 +117,8 @@
             InputFilename="%(NuspecFiles.Identity)"
             OutputFilename="%(NuspecFiles.Identity)"
             MatchExpression="\$releaseNotes\$"
-            ReplacementText="$(RELEASE_NOTES)" />
+            ReplacementText="$(RELEASE_NOTES)"
+            XmlEncode="True" />
 
         <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -version $(APPVEYOR_REPO_TAG_NAME)" />
 
