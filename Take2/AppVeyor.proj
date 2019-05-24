@@ -14,7 +14,7 @@
             <Using Namespace="System" />
             <Using Namespace="System.IO" />
             <Using Namespace="System.Text.RegularExpressions" />
-            <Using Namespace="System.Xml" />
+            <Using Namespace="System.Xml.Linq" />
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
                     var text = Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText);
