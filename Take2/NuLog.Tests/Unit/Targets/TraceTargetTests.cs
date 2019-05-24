@@ -100,11 +100,11 @@ namespace NuLog.Tests.Unit.Targets {
             });
         }
 
-        [Fact(DisplayName = "Should_BubbleExceptionThatIsntNRE")]
+        [Fact(DisplayName = "Should_BubbleExceptionThatIsntNullLayout")]
         public void Should_BubbleExceptionThatIsntNRE() {
             // Setup
             ILayout layout = A.Fake<ILayout>();
-            A.CallTo(() => layout.Format(A<LogEvent>._)).Throws(new NotSupportedException("Broken layout!!"));
+            A.CallTo(() => layout.Format(A<LogEvent>._)).Throws(new NullReferenceException("Broken layout!!"));
 
             ILayoutFactory layoutFactory = A.Fake<ILayoutFactory>();
             A.CallTo(() => layoutFactory.MakeLayout(A<string>._)).Returns(layout);
@@ -113,7 +113,7 @@ namespace NuLog.Tests.Unit.Targets {
             target.Configure(new TargetConfig(), layoutFactory);
 
             // Execute / Verify
-            Assert.Throws<NotSupportedException>(() => {
+            Assert.Throws<NullReferenceException>(() => {
                 target.Write(new LogEvent {
                     Message = "hello, world!"
                 });
