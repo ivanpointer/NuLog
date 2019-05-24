@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'NuLog'
-copyright = '2017, Ivan Pointer'
+copyright = '2019, Ivan Pointer'
 author = 'Ivan Pointer'
 
 # The version info for the project you're documenting, acts as replacement for
