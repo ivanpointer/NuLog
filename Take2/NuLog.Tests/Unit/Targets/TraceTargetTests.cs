@@ -3,6 +3,7 @@ MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
 using FakeItEasy;
+using NuLog.Configuration;
 using NuLog.LogEvents;
 using NuLog.Targets;
 using System;
@@ -93,6 +94,26 @@ namespace NuLog.Tests.Unit.Targets {
 
             // Execute / Verify
             Assert.Throws<InvalidOperationException>(() => {
+                target.Write(new LogEvent {
+                    Message = "hello, world!"
+                });
+            });
+        }
+
+        [Fact(DisplayName = "Should_BubbleExceptionThatIsntNRE")]
+        public void Should_BubbleExceptionThatIsntNRE() {
+            // Setup
+            ILayout layout = A.Fake<ILayout>();
+            A.CallTo(() => layout.Format(A<LogEvent>._)).Throws(new NotSupportedException("Broken layout!!"));
+
+            ILayoutFactory layoutFactory = A.Fake<ILayoutFactory>();
+            A.CallTo(() => layoutFactory.MakeLayout(A<string>._)).Returns(layout);
+
+            var target = new TraceTarget();
+            target.Configure(new TargetConfig(), layoutFactory);
+
+            // Execute / Verify
+            Assert.Throws<NotSupportedException>(() => {
                 target.Write(new LogEvent {
                     Message = "hello, world!"
                 });
