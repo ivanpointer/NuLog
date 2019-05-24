@@ -69,7 +69,7 @@
         
         <MSBuild Projects="@(ProjectToBuild)" />
 
-        <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateElement" File="@(NuspecFiles)" XPath="package/metadata/releaseNotes" InnerText="Hello, World!" />
+        <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateElement" File="%(NuspecFiles.Identity)" XPath="/package/metadata/releaseNotes" InnerText="Hello, World!" />
         
         <Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
         <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
