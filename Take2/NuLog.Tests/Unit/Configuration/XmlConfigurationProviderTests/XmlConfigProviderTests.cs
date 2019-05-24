@@ -151,7 +151,7 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests {
         /// The config provider should read the flag indicating to include stack frames in generated
         /// log events.
         /// </summary>
-        [Fact(DisplayName = "Should_ContainMultipleMetaDataEntries")]
+        [Fact(DisplayName = "Should_ReadIncludeStackFrameFlag")]
         public void Should_ReadIncludeStackFrameFlag() {
             // Setup
             var provider = GetConfigurationProvider("<nulog includeStackFrame=\"true\"></nulog>");
@@ -161,6 +161,22 @@ namespace NuLog.Tests.Unit.Configuration.XmlConfigurationProviderTests {
 
             // Validate
             Assert.True(config.IncludeStackFrame);
+        }
+
+        /// <summary>
+        /// The config provider should read the flag indicating to include stack frames in generated
+        /// log events.
+        /// </summary>
+        [Fact(DisplayName = "Should_ReadIncludeStackFrameFlag_BadValue")]
+        public void Should_ReadIncludeStackFrameFlag_BadValue() {
+            // Setup
+            var provider = GetConfigurationProvider("<nulog includeStackFrame=\"tubthumper\"></nulog>");
+
+            // Execute
+            var config = provider.GetConfiguration();
+
+            // Validate
+            Assert.False(config.IncludeStackFrame);
         }
 
         /// <summary>
