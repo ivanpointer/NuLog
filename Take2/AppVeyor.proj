@@ -82,8 +82,11 @@
         <ItemGroup>
             <AssemblyInfoFiles Include="**\NuLog*\**\AssemblyInfo.cs" />
             <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
-            <NuspecFiles Include="**\NuLog*\**\*.nuspec" />
+            <NuspecFiles Include="**\*.nuspec" />
         </ItemGroup>
+
+        <Message
+            Text = "Nuspec File Identity: %(NuspecFiles.Identity) -- Full Path: %(NuspecFiles.FullPath)" />
 
         <ReplaceFileText
             InputFilename="%(AssemblyInfoFiles.Identity)"
@@ -119,7 +122,7 @@
         <!--<Exec Command="nuget pack NuGet\NuLog.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />
         <Exec Command="nuget pack NuGet\NuLog.Configuration\NuLog.Configuration.nuspec -version $(APPVEYOR_REPO_TAG_NAME)" />-->
 
-        <Exec Command="nuget pack %(NuspecFiles.Identity) -version $(APPVEYOR_REPO_TAG_NAME)" />
+        <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -version $(APPVEYOR_REPO_TAG_NAME)" />
 
         <Delete Files="@(FilesToDelete)" />
     </Target>
