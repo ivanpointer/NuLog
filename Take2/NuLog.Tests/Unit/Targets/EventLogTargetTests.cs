@@ -304,6 +304,13 @@ namespace NuLog.Tests.Unit.Targets {
                 .MustHaveHappened();
         }
 
+        [Fact(DisplayName = "Should_NewEventLogTargetNotBlowUp")]
+        public void Should_NewEventLogTargetNotBlowUp() {
+            // This isn't really a unit test - we're only testing that the default constructor
+            // doesn't blow up.
+            EventLogTarget target = new EventLogTarget();
+        }
+
         protected EventLogTarget GetEventLogTarget(out IEventLog eventLog) {
             eventLog = A.Fake<IEventLog>();
             var target = new EventLogTarget(eventLog);
