@@ -268,7 +268,7 @@ namespace NuLog.Tests.Unit.Dispatchers {
             var tagRouter = FakeTagRouter();
             A.CallTo(() => tagRouter.Route(A<IEnumerable<string>>.Ignored)).Throws(new Exception("Broken tag router!"));
 
-            var dispatcher = GetDispatcher(null, tagRouter, fallbackLogger);
+            var dispatcher = GetDispatcher(new List<ITarget>(), tagRouter, fallbackLogger);
 
             TraceListener traceListener = A.Fake<TraceListener>();
             Trace.Listeners.Add(traceListener);
