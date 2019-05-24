@@ -23,11 +23,6 @@ namespace NuLog.Layouts {
     public class StandardLayout : ILayout {
 
         /// <summary>
-        /// The IEnumerable type, for checking when formatting values.
-        /// </summary>
-        private static readonly Type iEnumerableType = typeof(IEnumerable);
-
-        /// <summary>
         /// The layout parameters used to format a log event.
         /// </summary>
         private readonly IEnumerable<LayoutParameter> layoutParameters;
@@ -174,7 +169,7 @@ namespace NuLog.Layouts {
             var stringValue = value as string;
             if (stringValue != null) {
                 return stringValue;
-            } else if (!iEnumerableType.IsAssignableFrom(value.GetType())) {
+            } else if (!(value is IEnumerable)) {
                 // It's not enumerable, just convert it to a string.
                 return Convert.ToString(value);
             } else {

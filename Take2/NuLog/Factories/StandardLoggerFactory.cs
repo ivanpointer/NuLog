@@ -34,12 +34,6 @@ namespace NuLog.Factories {
         public const string DefaultLayoutFormat = "${DateLogged:'{0:MM/dd/yyyy hh:mm:ss.fff}'} | ${Thread.ManagedThreadId:'{0,4}'} | ${Tags} | ${Message}${?Exception:'\r\n{0}'}\r\n";
 
         /// <summary>
-        /// The type of the layout target interface - used to identify which targets we need to
-        /// configure for layouts.
-        /// </summary>
-        private static readonly Type ILayoutTargetType = typeof(ILayoutTarget);
-
-        /// <summary>
         /// The config for this standard logger factory.
         /// </summary>
         protected readonly Config Config;
@@ -350,7 +344,7 @@ namespace NuLog.Factories {
                     target.Name = targetConfig.Name;
 
                     // Check to see if the target is a layout target, and set its layout if so
-                    if (ILayoutTargetType.IsAssignableFrom(target.GetType())) {
+                    if(target is ILayoutTarget) {
                         var layoutTarget = (ILayoutTarget)target;
                         layoutTarget.Configure(targetConfig, this);
                     }

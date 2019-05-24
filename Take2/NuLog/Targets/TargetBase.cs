@@ -51,8 +51,8 @@ namespace NuLog.Targets {
 
             // The property exists, get it and see if we're compatible
             var obj = config.Properties[propertyName];
-            var targetType = typeof(TProperty);
-            if (!targetType.IsAssignableFrom(obj.GetType())) {
+            if (!(obj is TProperty)) {
+                // The property isn't compatible - return the default for the type
                 property = default(TProperty);
                 return false;
             }
