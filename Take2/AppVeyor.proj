@@ -19,7 +19,7 @@
                 <![CDATA[
                     var replace = ReplacementText;
                     if(XmlEncode) {
-                        replace = new XElement("t", text).LastNode.ToString();
+                        replace = new XElement("t", replace).LastNode.ToString();
                     }
                     File.WriteAllText(
                         OutputFilename,
