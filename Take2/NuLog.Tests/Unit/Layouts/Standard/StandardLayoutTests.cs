@@ -452,6 +452,28 @@ namespace NuLog.Tests.Unit.Layouts.Standard {
             Assert.Equal("", formatted);
         }
 
+        [Fact(DisplayName = "Should_LoadSplitPathFromCache")]
+        public void Should_LoadSplitPathFromCache() {
+            // Not really a unit test, but just "touches" a line of code that we'd otherwise not
+            // test. Setup
+            var parms = new List<LayoutParameter>
+            {
+                new LayoutParameter
+                {
+                    Path = "Enumerable"
+                }
+            };
+            var logEvent = new LogEvent();
+            var paramParser = A.Fake<IPropertyParser>();
+
+            // Build our layout
+            var layout = GetLayout(parms, paramParser);
+
+            // Execute, twice, so that we hit the cache
+            layout.Format(logEvent);
+            layout.Format(logEvent);
+        }
+
         /// <summary>
         /// Get a new instance of the layout under test.
         /// </summary>
