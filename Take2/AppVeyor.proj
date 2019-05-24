@@ -10,7 +10,7 @@
         <Task>
             <Reference Include="System.Core" />
             <Reference Include="System.Xml" />
-            <Reference Include="System.Xml.Linq"/>
+            <Reference Include="System.Xml.Linq" />
             <Using Namespace="System" />
             <Using Namespace="System.IO" />
             <Using Namespace="System.Text.RegularExpressions" />
@@ -129,21 +129,21 @@
     <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
     </Target>
     <Target Name="PrepareSonarQube">
-        <!--<Exec Command="$(SQ_PREPARE_COMMAND)" />-->
+        <Exec Command="$(SQ_PREPARE_COMMAND)" />
     </Target>
     <Target Name="SonarQubeBuild">
-        <!--<MSBuild Projects="@(SQ_PROJECT)" />-->
+        <MSBuild Projects="@(SQ_PROJECT)" />
     </Target>
     <Target Name="ExecuteXUnit">
-        <!--<Exec Command="$(XU_COMMAND)" />-->
+        <Exec Command="$(XU_COMMAND)" />
     </Target>
     <Target Name="ExecuteOpenCover">
-        <!--<Exec Command="$(OC_COMMAND)" />-->
+        <Exec Command="$(OC_COMMAND)" />
     </Target>
     <Target Name="FinalizeSonarQube">
-        <!--<Exec Command="$(SQ_END_COMMAND)" />-->
+        <Exec Command="$(SQ_END_COMMAND)" />
     </Target>
     <Target Name="CleanupSonarQube">
-        <!--<Delete Files="@(SQ_RESULTSFILES)" />-->
+        <Delete Files="@(SQ_RESULTSFILES)" />
     </Target>
 </Project>
