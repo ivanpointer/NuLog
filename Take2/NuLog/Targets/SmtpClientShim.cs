@@ -2,6 +2,7 @@
 MIT License: https://github.com/ivanpointer/NuLog/blob/master/LICENSE
 Source on GitHub: https://github.com/ivanpointer/NuLog */
 
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -41,6 +42,9 @@ namespace NuLog.Targets {
         public void Dispose() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
+
+            // Tell the GC that we've got it
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Support

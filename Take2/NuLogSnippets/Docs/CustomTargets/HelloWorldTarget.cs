@@ -5,6 +5,7 @@ Source on GitHub: https://github.com/ivanpointer/NuLog */
 using NuLog;
 using NuLog.Configuration;
 using NuLog.LogEvents;
+using System;
 using System.Diagnostics;
 
 namespace NuLogSnippets.Docs.CustomTargets {
@@ -30,6 +31,9 @@ namespace NuLogSnippets.Docs.CustomTargets {
         // This code added to correctly implement the disposable pattern.
         public void Dispose() {
             Dispose(true);
+
+            // Tell the GC that we've got it
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Support

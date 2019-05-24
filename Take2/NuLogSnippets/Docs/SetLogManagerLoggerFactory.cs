@@ -44,6 +44,9 @@ namespace NuLogSnippets.Docs {
         public void Dispose() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
+
+            // Tell the GC that we've got it
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Support
