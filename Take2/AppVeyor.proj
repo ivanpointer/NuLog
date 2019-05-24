@@ -1,6 +1,4 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
-    <!--<UsingTask AssemblyFile="packages\MSBuild.Extension.Pack.1.9.1\tools\net40\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo" />-->
-
     <UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
         <ParameterGroup>
             <InputFilename ParameterType="System.String" Required="true" />
@@ -19,13 +17,13 @@
             <Using Namespace="System.Xml.Linq" />
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
-                    var text = Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText);
+                    var replace = ReplacementText;
                     if(XmlEncode) {
-                        text = new XElement("t", text).LastNode.ToString();
+                        replace = new XElement("t", text).LastNode.ToString();
                     }
                     File.WriteAllText(
                         OutputFilename,
-                        text);
+                        Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, replace));
                 ]]>
             </Code>
         </Task>
