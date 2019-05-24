@@ -13,7 +13,7 @@ namespace NuLog.CLI.Benchmarking {
         private const string BENCHMARK_LOG_PATH = @"C:\Temp\benchmark.log";
         private const string BENCHMARK_COMMENTS = "Without";
 
-        private const int ITERATIONS = 10000;
+        private const int ITERATIONS = 10000000;
 
         private static void Main(string[] args) {
             Log();

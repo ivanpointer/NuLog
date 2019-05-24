@@ -56,7 +56,7 @@ The lowest level implementation of a target may look something like this:
 Using Your Custom Target
 ------------------------
 
-Once you've created your custom target, you need to reference it in your config:
+Once you've created your custom target, you need to reference it in your config.  **Important note:** When referencing a custom target, you must qualify the assembly name containing the class.  For example: `MyNamespace.CustomTargets.MyTarget, MyAssembly`.  *Note:* Your assembly is often the same as your root namespace.
 
 .. literalinclude:: /../../NuLogSnippets/HelloWorldTargetConfig.config
    :language: xml
