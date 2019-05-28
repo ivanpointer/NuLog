@@ -10,7 +10,17 @@
 
 ----
 
-Welcome to the NuLog documentation!  These docs are under heavy development, and will be finished soon.  Check back soon!
+NuLog is a Tag-Based Logging Framework
+======================================
+NuLog is a logging framework built for .NET, which uses tags to route log messages, instead of log levels.  It is simple, and performant, and highly extensible.  It is the next generation of logging.
+
+Dependencies and Requirements
+=============================
+The core NuLog library has no external dependencies and requirements, as a matter of rule (See (:ref:`arch_princ`)).  Extension libraries for NuLog may have their own dependencies, as needed.
+
+License - MIT
+=============
+NuLog is licensed with the MIT license, and copyleft licenses (and libraries with those licenses), such as GPL, are strictly prohibited by our (:ref:`arch_princ`).
 
 Martin's First Law of Documentation
 ===================================
