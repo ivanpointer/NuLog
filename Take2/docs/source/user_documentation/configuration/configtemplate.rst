@@ -25,7 +25,3 @@ Here's a bare-bones configuration for using NuLog.  This will direct all log eve
    :tab-width: 4
    :emphasize-lines: 4,6-21
    :linenos:
-
-NuGet Package
-=============
-**Not available yet.** There are plans to create a "development" NuGet package which will inject a sample NuLog configuration section into a :code:`web.config` or :code:`app.config`.

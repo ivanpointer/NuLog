@@ -12,7 +12,7 @@
 
 Introduction to Layouts
 =======================
-Layouts are a mechanism for converting log events into text, and are used by many of the built-int targets, such as the `ConsoleTarget`, `TextFileTarget` and even the `MailTarget`.  The default "standard" layout implementation uses a format string to define how the layouts are defined. Layouts are used by the standard text-based targets that are included with the framework (including the email target). Custom layouts can be implemented and used in the framework. This documentation focuses on the standard layout.
+Layouts are a mechanism for converting log events into text, and are used by many of the built-in targets, such as the `ConsoleTarget`, `TextFileTarget` and even the `MailTarget`.  The default "standard" layout implementation uses a format string to define how the layouts are defined. Layouts are used by the standard text-based targets that are included with the framework (including the email target). Custom layouts can be implemented and used in the framework. This documentation focuses on the standard layout.
 
 Layouts are a combination of static text and layout parameters. Static text is anything that is not wrapped in a property enclosure :code:`${}`. Static text will always show in a log event formatted by the layout. Escaped characters are supported, and *suggested*, as newline characters are not automatically included at the end when a log event is being printed.
 

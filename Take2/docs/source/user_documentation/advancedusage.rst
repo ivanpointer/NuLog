@@ -14,7 +14,7 @@ Shutting Down NuLog
 Standard method
 ---------------
 
-If for any reason you want to shut NuLog down before application exit, the most standard way to do this is using the `Shutdown` method
+**Please note that NuLog has implemented finalizers, so that shutting down NuLog is not necessary.  Your log messages will be flushed, and NuLog will exit cleanly automatically, on application exit.**  However, if for any reason you want to shut NuLog down before application exit, the most standard way to do this is using the `Shutdown` method
 of the `LogManager`.  You would do this if you are using the `LogManager` to manage your logging construction needs:
 
 .. literalinclude:: /../../NuLogSnippets/Docs/ShutdownLogManager.cs
@@ -29,7 +29,7 @@ The standard logger factory implementation has a finalizer, which disposes the a
 
 Disposing the Dispatcher
 ------------------------
-It is important to dispose the dispatcher, so that the queued log events can be sent to their targets before application exit.
+It is important to dispose the dispatcher, so that the queued log events can be sent to their targets before application exit.  `Again, this isn't necessary, as the finalizers will automatically do this for you on application exit.`
 
 Like the `StandardLoggerFactory` the `StandardDispatcher` also has a finalizer, which will dispose the dispatcher when disposed of by the garbage
 collector.

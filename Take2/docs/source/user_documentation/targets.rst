@@ -67,6 +67,13 @@ The console target has the following properties:
 
 ----
 
+Color Console Target
+====================
+
+Documentation coming soon.
+
+----
+
 Text File Target
 ================
 **NuLog.Targets.TextFileTarget**
@@ -116,3 +123,10 @@ The mail target has the following properties:
   * **smtpDeliveryMethod** - *Optional* - The `SMTP Delivery Method <https://msdn.microsoft.com/en-us/library/system.net.mail.smtpdeliverymethod(v=vs.110).aspx>`_ for sending the email through.  Defaults to :code:`Network`.
   * **pickupDirectory** - *Optional-ish* - Required if `SpecifiedPickupDirectory` is set for the `smtpDeliveryMethod`.  The path of the directory to which to write mail messages.
   * **timeout** - *Optional* - The timeout value, in milliseconds, for when connecting to the SMTP server to send a mail message.
+
+----
+
+Event Log Target
+================
+
+Logs to the Windows Event Log - documentation coming soon.

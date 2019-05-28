@@ -12,7 +12,7 @@
 
 Stack Frame
 ===========
-By default, the stack frame of the logging method is not included in log events.  This stack frame is needed if you want to log the name of the method which made the log call (see :ref:`standardlayout` for more information).
+By default, and for performance reasons, the stack frame of the logging method is not included in log events.  This stack frame is needed if you want to log the name of the method which made the log call (see :ref:`standardlayout` for more information).
 
 To include the calling stack frame in the log events, turn it on on the main :code:`<nulog>` element in the config:
 

@@ -22,7 +22,7 @@ Factory, Logger, Dispatcher and Targets
 Overview
 --------
 
-* **Factory** - Responsible for building loggers, the dispatcher, and everything the dispatcher depends on.  NuLog conforms to the 'Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>'_, forcing all the construction up to the factory.
+* **Factory** - Responsible for building loggers, the dispatcher, and everything the dispatcher depends on.  NuLog conforms to the `Dependency Inversion Principle <https://en.wikipedia.org/wiki/Dependency_inversion_principle>`_, forcing all the construction up to the factory.
 * **Logger** - Constructed by the factory, and given a reference to a dispatcher, the logger is responsible for building log events and passing them to the dispatcher.
 * **Dispatcher** - Responsible for receiving log events and managing them in a queue, telling them to log to certain targets at the appropriate times, based on the configured rules.
 * **Targets** - Targets are responsible for writing log events to their medium, such as trace, console, text file, or a plethora of others.
@@ -36,9 +36,9 @@ Log Event Lifecycle
 
   #. The `Dispatcher` receives the `LogEvent`, and either sends it immediately, or places it into a queue to be dispatched later.
 
-  #. The `Dispatcher`, either immediately, or as it works through its queue, figures out which targets each log event need to go to, based on the tags on the log event, and the configured rules.
+  #. The `Dispatcher`, either immediately, or as it works through its queue, figures out which targets each log event needs to go to, based on the tags on the log event, and the configured rules.
 
-  #. The `Dispatcher` then tells the `LogEvent` to present itself to the appropriate `Target` instances for writing.
+  #. The `Dispatcher` then tells the `LogEvent` to present itself to the appropriate `Target` instances for writing (observer pattern).
 
 .. _arch_princ:
 

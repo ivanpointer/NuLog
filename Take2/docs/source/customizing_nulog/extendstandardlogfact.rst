@@ -12,7 +12,7 @@ Introduction
 ============
 
 The "standard" logger factory is named such, because through the log mnanager, and a custom logger factory, you can change almost any part of NuLog.
-I suggest, however, only changing those parts which you need to change, the rest of NuLog is very carefully thought and thuroughly tested.
+I suggest, however, only changing those parts which you need to change, the rest of NuLog is very carefully thought out, implemented and thuroughly tested.
 
 To customize the behavior of NuLog, you would create your own implementation of certain parts of the NuLog system, extend the `StandardLoggerFactory`
 to leverage your custom implementation, then set your extension of the logger factory into the `LogManager`, as is discussed in :ref:`logfactman`.
@@ -70,6 +70,3 @@ MakeFallbackLogger()
 --------------------
 The fallback logger is used when a failure occurs during the NuLog lifecycle.  It is supposed to fail silently, as it is the fallback for other failures
 in the system.  Without a properly behaving fallback logger, NuLog may leak failures into the implementing code.
-
-Example Extension
-=================
