@@ -19,12 +19,33 @@ namespace NuLog.CLI.Benchmarking {
             // noop
         }
 
-        public void Dispose() {
-            // noop
-        }
-
         public void Write(LogEvent logEvent) {
             // noop
         }
+
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    // noop
+                }
+
+                // noop
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose() {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion IDisposable Support
     }
 }
