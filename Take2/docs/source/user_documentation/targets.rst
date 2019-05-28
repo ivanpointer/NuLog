@@ -62,8 +62,6 @@ The console target writes log events to `Console`:
 The console target has the following properties:
 
   * **layout** - *Optional* - Defines the layout format for the target.  By default, this is a standard layout, as documented in :ref:`standardlayout`.
-  * **background** - *Optional* - An optional override to the `Background Color <https://msdn.microsoft.com/en-us/library/system.consolecolor(v=vs.110).aspx>`_ of messages written to the console.
-  * **foreground** - *Optional* - An optional override to the `Foreground Color <https://msdn.microsoft.com/en-us/library/system.consolecolor(v=vs.110).aspx>`_ of messages written to the console.
 
 ----
 
@@ -71,6 +69,9 @@ Color Console Target
 ====================
 
 Documentation coming soon.
+
+  * **background** - *Optional* - An optional override to the `Background Color <https://msdn.microsoft.com/en-us/library/system.consolecolor(v=vs.110).aspx>`_ of messages written to the console.
+  * **foreground** - *Optional* - An optional override to the `Foreground Color <https://msdn.microsoft.com/en-us/library/system.consolecolor(v=vs.110).aspx>`_ of messages written to the console.
 
 ----
 
