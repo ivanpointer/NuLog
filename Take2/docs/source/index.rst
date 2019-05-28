@@ -17,7 +17,7 @@ NuLog is a logging framework built for .NET, which uses tags to route log messag
 Quick Start - Get Started
 =========================
 
-Get started now: :ref:`user_documentation/gettingstarted`.
+Get started now: :ref:`gettingstarted`.
 
 Dependencies and Requirements
 =============================

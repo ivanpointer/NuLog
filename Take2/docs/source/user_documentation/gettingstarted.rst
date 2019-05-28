@@ -4,6 +4,8 @@
 
 ----
 
+.. _gettingstarted:
+
 ###############################
   Getting Started (Quick Start)
 ###############################
