@@ -22,6 +22,10 @@ License - MIT
 =============
 NuLog is licensed with the MIT license, and copyleft licenses (and libraries with those licenses), such as GPL, are strictly prohibited by our (:ref:`arch_princ`).
 
+Source Code Repository
+======================
+NuLog is `hosted on GitHub (https://github.com/ivanpointer/NuLog)`.
+
 Martin's First Law of Documentation
 ===================================
 *Produce no document unless its need is immediate and significant.*
