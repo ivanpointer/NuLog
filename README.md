@@ -1,9 +1,9 @@
-**Build Status and Metrics ([AppVeyor](https://ci.appveyor.com/project/ivanpointer/nulog), [Sonar](https://sonarcloud.io/dashboard?id=NuLog) and [ReadTheDocs](http://nulog.readthedocs.io/en/latest/index.html)):**  
+**Build Status and Metrics ([AppVeyor](https://ci.appveyor.com/project/ivanpointer/nulog), [Sonar](https://sonarcloud.io/dashboard?id=NuLog) and [ReadTheDocs](http://docs.nulog.io)):**  
 [![Build status](https://ci.appveyor.com/api/projects/status/dubwfc9cr65dy866/branch/master?svg=true)](https://ci.appveyor.com/project/ivanpointer/nulog/branch/master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=NuLog&metric=alert_status)](https://sonarcloud.io/dashboard?id=NuLog) [![Documentation Status](https://readthedocs.org/projects/nulog/badge/?version=latest)](https://nulog.readthedocs.io/en/latest/?badge=latest)
 
 **Release Candidate NuGet Package Feed:** https://ci.appveyor.com/nuget/nulog-yw5ahjoihbcj
 
-**Read the Docs:** http://nulog.readthedocs.io/en/latest/index.html
+**Read the Docs:** http://docs.nulog.io
 
 # NuLog
 _Powerfully Simple Logging. Period._  
