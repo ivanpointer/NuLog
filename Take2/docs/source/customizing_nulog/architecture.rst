@@ -47,8 +47,6 @@ Architectural Principles
 
 Here are our guiding principles, for the NuLog project.  These principles come together to form the "philosophy" of the project:
 
-  #. **Honest Mistakes, and Honesty in General** - We tolerate people's honest mistakes.  In fact, we encourage them.  This means malicious finger-pointing is not tolerated, and may get you banned from the project.  It is up to me (Ivan Pointer), to decide if someone is being malicious, or not.  I want people to feel the freedom needed to take risks, honestly.  I expect high integrity of all our official members.
-  
   #. **Simple** - Period.  Avoid introducing complexity until it is *necessary*, and no sooner.  It is the simplicity of the framework that gives it power.
   
   #. **NuLog is a Logging Framework** -  Not a message bus or queue.  NuLog shouldn't be handling notifications out to your end users, or acting as a bus to deliver messages between your application's tiers.
@@ -67,11 +65,11 @@ Here are our guiding principles, for the NuLog project.  These principles come t
   
   #. **Perfromant** - Performance is a high priority of the NuLog project.  This said - code first for readability and maintainability.  After this, use performance analysis tools to identify hot-spots in the code, and very clearly document any "smells" that are *necessary* for performance.  If it isn't *necessary*, don't do it.
 
-  #. **No External Dependencies** - No third-party libraries should be required to use the core of NuLog.  A logging framework shouldn't pull in any other dependencies, and should be unassuming.  This means no *IoC* containers, or even a JSON parsing library.  The core project needs to only reference the standard .Net assemblies.
+  #. **No External Dependencies in the Core Library** - No third-party libraries should be required to use the core of NuLog.  A logging framework shouldn't pull in any other dependencies, and should be unassuming.  This means no *IoC* containers, or even a JSON parsing library.  The core project needs to only reference the standard .Net assemblies.
 
   #. **External Dependencies in Extension Libraries** - Extenral dependencies need to be brought in through extension libraries.  An example of this would be a separate project for a target which posts log events to a `Slack <https://slack.com/>`_ channel.
 
-  #. **NO TOLERANCE FOR GPL. PERIOD.** - GPL is not to come within 1,000 miles of NuLog.  GPL is a cancer the likes this world hasn't seen before, and as *mamma says, GPL is the devil*.  But-**NO.  PERIOD.**  We prefer MIT and Apache 2.0 around here.  This same policy applies for any *copyleft* style licenses, which are designed to restrict your freedom and rights, as opposed to protecting them.
+  #. **NO TOLERANCE FOR GPL. PERIOD.** - GPL is not to come within 1,000 miles of NuLog.  GPL is a cancer the likes this world hasn't seen before, and as *mamma says, GPL is the devil*.  But-**NO.  PERIOD.**  We prefer MIT and Apache 2.0 around here.  This same policy applies for any and all *copyleft* style licenses, which are designed to restrict your freedom and rights, as opposed to protecting them.
 
 ----
 
@@ -84,6 +82,6 @@ These policies are more fluid than the principles, and are therefore, more flexi
 
   #. **Using FakeItEasy for a mocking framework** - I was tempted to not even use a mocking framework, especially once I saw that Moq had a BSD license. After a little searching, I found FakeItEasy, which is under the MIT license, and has had a fairly active community. Adding a mocking framework won't add any dependencies to NuLog itself, as the tests aren't distributed with the library. FakeItEasy will definitely decrease complexity. Between the loose coupling, the reduction in complexity, and the friendly license, I've decided to leverage FakeItEasy for some of the more complex tests.
   
-  #. **Text File Target: No rotation/archiving** - There are a lot of different log aggregation frameworks that handle this, and, it's pretty easy to set this up with PowerShell, Batch, Shell, etc. This is generally something that system administrators prefer to manage externally. Because of this, the text file target's focus will be to be very "hands off" of the text file it produces - avoiding keeping file handles open, etc. - to play nicer with a separate process performing log management.
+  #. **Using XUnit for a testing framework** - XUnit has many advanced features, and many of them, before NUnit caught up.  XUnit is fast, and makes for effective and readable tests.
 
   #. **Simple Email Target: This is for logging, not message queuing** - Not only does it significantly increase the complexity of the target, but for a purpose I believe to be out of scope of the core purpose of NuLog. Adding "advanced" features would encourage the abuse of the logging system, as use as a notification engine - which NuLog is not. This doesn't prevent a later "extended" email target (as an add-on package, or 3rd party contribution, perhaps).
