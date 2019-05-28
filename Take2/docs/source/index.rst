@@ -14,23 +14,30 @@ NuLog is a Tag-Based Logging Framework
 ======================================
 NuLog is a logging framework built for .NET, which uses tags to route log messages, instead of log levels.  It is simple, and performant, and highly extensible.  It is the next generation of logging.
 
+Quick Start - Get Started
+=========================
+
+Get started now: :ref:`gettingstarted`.
+
 Dependencies and Requirements
 =============================
-The core NuLog library has no external dependencies and requirements, as a matter of rule (See (:ref:`arch_princ`)).  Extension libraries for NuLog may have their own dependencies, as needed.
+The core NuLog library has no external dependencies and requirements, as a matter of rule.  Extension libraries for NuLog may have their own dependencies, as needed.
+
+See our :ref:`arch_princ` for more information.
 
 License - MIT
 =============
-NuLog is licensed with the MIT license, and copyleft licenses (and libraries with those licenses), such as GPL, are strictly prohibited by our (:ref:`arch_princ`).
+NuLog is licensed with the MIT license, and copyleft licenses (and libraries with those licenses), such as GPL, are strictly prohibited by our :ref:`arch_princ`.
 
 Source Code Repository
 ======================
-NuLog is `hosted on GitHub (https://github.com/ivanpointer/NuLog)`.
+NuLog is `hosted on GitHub <https://github.com/ivanpointer/NuLog>`.
 
 Martin's First Law of Documentation
 ===================================
 *Produce no document unless its need is immediate and significant.*
 
-We feel that the best form of documentation for a software project, are well written business driven tests (:ref:`arch_princ`).
+We feel that the best form of documentation for a software project, are well written business driven tests.
 
 `Head over to GitHub <https://github.com/ivanpointer/NuLog/tree/master/Take2/NuLog.Tests>`_ to look through the unit and integration tests for the project.
 
@@ -42,7 +49,7 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
 
   * **Runtime Config Helpers** - The runtime config helpers haven't been built into version 2.  This doesn't mean they won't be added in the future, but that they just haven't been needed yet.
   * **MEF Deprecated** - MEF, while quite powerful, also leads to obfuscating functionality from the developer, which could lead to unexpected behavior (from the developer's perspective).  The rewrite of the framework allows for easier extension, using the *Dependency Inversion Principle*, and MEF is no longer needed.
-  * **Static Meta Data Providers Deprecated** - The static meta data providers haven't been shown to be needed yet.  They don't conflict with the new philosophy of NuLog, but are an example of complexity that hasn't been shown to be necessary yet, so they haven't been ported over - at least yet.  We still have static meta data avaialble, through the NuLog configuration, however.  See (:ref:`staticmetadata`) for more information.
+  * **Static Meta Data Providers Deprecated** - The static meta data providers haven't been shown to be needed yet.  They don't conflict with the new philosophy of NuLog, but are an example of complexity that hasn't been shown to be necessary yet, so they haven't been ported over - at least yet.  We still have static meta data avaialble, through the NuLog configuration, however.  See :ref:`staticmetadata` for more information.
   * **Configuration Changed from JSON to use standard XML-based config** - To better support standard CI processes, and to simplify the management of the configuration of the framework, the configuration has been moved away from a custom JSON based mechanism, to leverage the built-in configuration management.  The configuration is now stored as a custom configuration section, right in the app/web config files.
   * **Legacy Logging Extension Deprecated** - If neccessary, we can build this out as a separate package, but NuLog is a new approach to logging, and we encourage organizations to make the transition towards tag-based logging, as opposed to just emulating level-based logging, using a tag based framework.
   * **Configuration Extenders Deprecated** - Another example of complexity that isn't yet necessary - the configuration extenders haven't been ported over.  Again, if the need presents, we can build this out.
