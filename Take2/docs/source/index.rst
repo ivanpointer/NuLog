@@ -17,7 +17,7 @@ NuLog is a logging framework built for .NET, which uses tags to route log messag
 Quick Start - Get Started
 =========================
 
-Get started now: :ref:`gettingstarted`.
+Get started now: :ref:`user_documentation/gettingstarted`.
 
 Dependencies and Requirements
 =============================
@@ -31,7 +31,7 @@ NuLog is licensed with the MIT license, and copyleft licenses (and libraries wit
 
 Source Code Repository
 ======================
-NuLog is `hosted on GitHub <https://github.com/ivanpointer/NuLog>`.
+NuLog is `hosted on GitHub <https://github.com/ivanpointer/NuLog>`_.
 
 Martin's First Law of Documentation
 ===================================
@@ -55,7 +55,7 @@ Much of the functionality of version 1 has been rebuilt into version 2.  However
   * **Configuration Extenders Deprecated** - Another example of complexity that isn't yet necessary - the configuration extenders haven't been ported over.  Again, if the need presents, we can build this out.
   * **Target Configuration Simplified** - Target configuration has been simplified to a name, type and then a series of key/value pairs for configuration.  The complexity of the previous targets was unneccessary.  If needed, we can extend the target configuration to support storing the original XML configuration as a part of the TargetConfig class, but we'll refrain from adding this, until it is needed.
   * **Target Lifecycle Simplified** - Targets no longer are concerned with managing their own message queue.  The previous version of NuLog maintained a queue both in the dispatcher, and in each target.  Having queues in both places added complexity, but didn't add any convenience or performance.  The new version only has a queue in the dispatcher, targets are now "single threaded" in terms of lifecycle.  This does not prevent you from building your own custom targets that are internally asynchronous, if needed.
-  * **Observer Pattern for Configuration Removed** - The observer pattern for the previous system has been removed.  Changes to the web configuration are handled in IIS by performing a `blue/green <https://martinfowler.com/bliki/BlueGreenDeployment.html>` recycle of the application, removing the need to "watch" the configuration for changes.
+  * **Observer Pattern for Configuration Removed** - The observer pattern for the previous system has been removed.  Changes to the web configuration are handled in IIS by performing a `blue/green <https://martinfowler.com/bliki/BlueGreenDeployment.html>`_ recycle of the application, removing the need to "watch" the configuration for changes.
 
 ----
 
