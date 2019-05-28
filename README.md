@@ -10,6 +10,9 @@ _Powerfully Simple Logging. Period._
 _Written in C# for .NET_
 ***
 
+## 5/28/2019 - A lot of cleanup
+I've been doing a lot of cleanup to the codebase, and have made quite a few updates and improvements to the continuous integration/deploy pipeline for the project.  There are now no code smells, no code duplication, and 100% code coverage.  I really want to see this project grow, as I feel this is truly a superior way to log (and the performance is stupid good too).  Almost two years later and I still need to hit the forums to do some shameless plugging...
+
 ## 7/6/2017 - Doco done, now to promote NuLog
 I've got the documentation in a managable state.  It's now time to start getting some users!  I've written a blog post to announce NuLog, which I'll be sending to Hanselman, and it's time to start with the shameless plug.  I've also got to promote the latest build to the first official release.
 
