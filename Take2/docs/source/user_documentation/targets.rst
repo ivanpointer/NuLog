@@ -54,7 +54,7 @@ The console target writes log events to `Console`:
 
 .. literalinclude:: /../../NuLogSnippets/ConsoleTargetConfig.config
    :language: xml
-   :lines: 9-12
+   :lines: 9-10
    :tab-width: 4
    :dedent: 3
    :linenos:
