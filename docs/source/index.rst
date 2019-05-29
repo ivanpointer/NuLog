@@ -39,7 +39,7 @@ Martin's First Law of Documentation
 
 We feel that the best form of documentation for a software project, are well written business driven tests.
 
-`Head over to GitHub <https://github.com/ivanpointer/NuLog/tree/master/Take2/NuLog.Tests>`_ to look through the unit and integration tests for the project.
+`Head over to GitHub <https://github.com/ivanpointer/NuLog/tree/master/NuLog.Tests>`_ to look through the unit and integration tests for the project.
 
 What's Changed From Version 1
 =============================
