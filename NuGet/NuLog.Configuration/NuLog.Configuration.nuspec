@@ -7,14 +7,14 @@
         <authors>Ivan Andrew Pointer</authors>
         <owners>Ivan Andrew Pointer</owners>
         <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
-        <projectUrl>http://nulog.readthedocs.io/</projectUrl>
+        <projectUrl>http://www.nulog.io/</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <developmentDependency>true</developmentDependency>
         <description>A template/starter Web/App config for leveraging NuLog.</description>
         <summary>A template/starter Web/App config for leveraging NuLog.</summary>
         <releaseNotes>$releaseNotes$</releaseNotes>
-        <copyright>© 2019 Ivan Andrew Pointer</copyright>
+        <copyright>©2019 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag config</tags>
         <dependencies>
