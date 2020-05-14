@@ -78,7 +78,7 @@
       <Properties>Configuration=Debug</Properties>
     </SQ_PROJECT>
   </ItemGroup>
-  <Target Name="AppVeyor" DependsOnTargets="Inspect;AppVeyorBuild">
+  <Target Name="AppVeyor" DependsOnTargets="Restore;Inspect;AppVeyorBuild">
   </Target>
   <Target Name="AppVeyorBuild">
     <ItemGroup>
@@ -105,7 +105,7 @@
         MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
         ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-    <Exec Command="dotnet restore &quot;%(ProjectToBuild.FullPath)&quot;" />
+    <!--<Exec Command="dotnet restore &quot;%(ProjectToBuild.FullPath)&quot;" />-->
     
     <MSBuild Projects="@(ProjectToBuild)" />
 
@@ -120,9 +120,12 @@
 
     <Delete Files="@(FilesToDelete)" />
   </Target>
-  <Target Name="Inspect" DependsOnTargets="SonarQube">
+  <Target Name="Restore">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Restore" />
   </Target>
-  <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
+  <Target Name="Inspect" DependsOnTargets="Restore;SonarQube">
+  </Target>
+  <Target Name="SonarQube" DependsOnTargets="Restore;PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
   </Target>
   <Target Name="PrepareSonarQube">
     <Exec Command="$(SQ_PREPARE_COMMAND)" />
