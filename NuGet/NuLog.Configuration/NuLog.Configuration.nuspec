@@ -14,7 +14,7 @@
         <description>A template/starter Web/App config for leveraging NuLog.</description>
         <summary>A template/starter Web/App config for leveraging NuLog.</summary>
         <releaseNotes>$releaseNotes$</releaseNotes>
-        <copyright>©2019 Ivan Andrew Pointer</copyright>
+        <copyright>©2020 Ivan Andrew Pointer</copyright>
         <language>en-US</language>
         <tags>log logging nulog tag config</tags>
         <dependencies>

@@ -1,0 +1,1 @@
+msbuild AppVeyor.proj -target:Inspect

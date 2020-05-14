@@ -1,22 +1,22 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="AppVeyor">
-    <UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-        <ParameterGroup>
-            <InputFilename ParameterType="System.String" Required="true" />
-            <OutputFilename ParameterType="System.String" Required="true" />
-            <MatchExpression ParameterType="System.String" Required="true" />
-            <ReplacementText ParameterType="System.String" Required="true" />
-            <XmlEncode ParameterType="System.Boolean" Required="false" />
-        </ParameterGroup>
-        <Task>
-            <Reference Include="System.Core" />
-            <Reference Include="System.Xml" />
-            <Reference Include="System.Xml.Linq" />
-            <Using Namespace="System" />
-            <Using Namespace="System.IO" />
-            <Using Namespace="System.Text.RegularExpressions" />
-            <Using Namespace="System.Xml.Linq" />
-            <Code Type="Fragment" Language="cs">
-                <![CDATA[
+  <UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <InputFilename ParameterType="System.String" Required="true" />
+      <OutputFilename ParameterType="System.String" Required="true" />
+      <MatchExpression ParameterType="System.String" Required="true" />
+      <ReplacementText ParameterType="System.String" Required="true" />
+      <XmlEncode ParameterType="System.Boolean" Required="false" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Reference Include="System.Xml" />
+      <Reference Include="System.Xml.Linq" />
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Using Namespace="System.Xml.Linq" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
                     var replace = ReplacementText;
                     if(XmlEncode) {
                         replace = new XElement("t", replace).LastNode.ToString();
@@ -25,125 +25,126 @@
                         OutputFilename,
                         Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, replace));
                 ]]>
-            </Code>
-        </Task>
-    </UsingTask>
+      </Code>
+    </Task>
+  </UsingTask>
 
+  <ItemGroup>
+    <XU_RESULTSFILE Include="XUnitResults.xml" />
+    <OC_RESULTSFILE Include="opencover.xml" />
+    <SQ_RESULTSFILES Include="@(XU_RESULTSFILE);@(OC_RESULTSFILE)" />
+    <SQ_WORKDIR Include=".sonarqube" />
+  </ItemGroup>
+  <PropertyGroup>
+    <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">1.0.0.0</APPVEYOR_BUILD_VERSION>
+    <APPVEYOR_REPO_TAG_NAME Condition="'$(APPVEYOR_REPO_TAG_NAME)' == ''">$(APPVEYOR_BUILD_VERSION)</APPVEYOR_REPO_TAG_NAME>
+
+    <APPVEYOR_REPO_COMMIT_MESSAGE Condition="'$(APPVEYOR_REPO_COMMIT_MESSAGE)' == ''">The 2nd generation of NuLog!</APPVEYOR_REPO_COMMIT_MESSAGE>
+    <RELEASE_NOTES Condition="'$(RELEASE_NOTES)' == ''">$(APPVEYOR_REPO_COMMIT_MESSAGE)</RELEASE_NOTES>
+
+    <ASSEMBLY_COPYRIGHT Condition="'$(ASSEMBLY_COPYRIGHT)' == ''">© 2020 Ivan Andrew Pointer</ASSEMBLY_COPYRIGHT>
+
+    <TESTS_DLLS Condition="'$(TESTS_DLLS)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll NuLog.NetFramework.Tests\bin\Debug\NuLog.NetFramework.Tests.dll</TESTS_DLLS>
+
+    <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
+    <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.x86.exe</XU_RUNNER>
+    <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
+    <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLLS) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
+
+    <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
+    <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
+    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.NetFramework.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
+    <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
+    <!-- OC_SEARCHDIRS SHOULD BE SEMI-COLON DELIMITED -->
+    <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug</OC_SEARCHDIRS>
+    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:administrator -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:$(OC_SEARCHDIRS)</OC_COMMAND>
+
+    <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
+    <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\dotnet-framework-sonarscanner.$(SQ_VERSION)\tools\SonarScanner.MSBuild.exe</SQ_SCANNER>
+    <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
+    <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
+    <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
+    <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
+    <SQ_EXCL Condition="'$(SQ_EXCL)' == ''">NuLogSnippets/**/*,**/*Shim.cs,NuLog.CLI*/**/*,**/LogFactoryActivatorNull.cs</SQ_EXCL>
+
+    <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)" /d:sonar.coverage.exclusions="$(SQ_EXCL)" /d:sonar.cpd.exclusions="$(SQ_EXCL)"</SQ_PREPARE_COMMAND>
+    <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectToBuild Include="NuLog.sln">
+      <Properties>Configuration=Release</Properties>
+    </ProjectToBuild>
+
+    <SQ_PROJECT Include="NuLog.sln">
+      <Properties>Configuration=Debug</Properties>
+    </SQ_PROJECT>
+  </ItemGroup>
+  <Target Name="AppVeyor" DependsOnTargets="Restore;Inspect;AppVeyorBuild">
+  </Target>
+  <Target Name="AppVeyorBuild">
     <ItemGroup>
-        <XU_RESULTSFILE Include="XUnitResults.xml" />
-        <OC_RESULTSFILE Include="opencover.xml" />
-        <SQ_RESULTSFILES Include="@(XU_RESULTSFILE);@(OC_RESULTSFILE)" />
+      <AssemblyInfoFiles Include="**\NuLog*\**\AssemblyInfo.cs" />
+      <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
+      <NuspecFiles Include="**\*.nuspec" />
     </ItemGroup>
-    <PropertyGroup>
-        <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">1.0.0.0</APPVEYOR_BUILD_VERSION>
-        <APPVEYOR_REPO_TAG_NAME Condition="'$(APPVEYOR_REPO_TAG_NAME)' == ''">$(APPVEYOR_BUILD_VERSION)</APPVEYOR_REPO_TAG_NAME>
 
-        <APPVEYOR_REPO_COMMIT_MESSAGE Condition="'$(APPVEYOR_REPO_COMMIT_MESSAGE)' == ''">The 2nd generation of NuLog!</APPVEYOR_REPO_COMMIT_MESSAGE>
-        <RELEASE_NOTES Condition="'$(RELEASE_NOTES)' == ''">$(APPVEYOR_REPO_COMMIT_MESSAGE)</RELEASE_NOTES>
+    <ReplaceFileText
+        InputFilename="%(AssemblyInfoFiles.Identity)"
+        OutputFilename="%(AssemblyInfoFiles.Identity)"
+        MatchExpression="AssemblyCopyright\(&quot;[^&quot;]*&quot;\)"
+        ReplacementText="AssemblyCopyright(&quot;$(ASSEMBLY_COPYRIGHT)&quot;)" />
 
-        <ASSEMBLY_COPYRIGHT Condition="'$(ASSEMBLY_COPYRIGHT)' == ''">© 2019 Ivan Andrew Pointer</ASSEMBLY_COPYRIGHT>
+    <ReplaceFileText
+        InputFilename="%(AssemblyInfoFiles.Identity)"
+        OutputFilename="%(AssemblyInfoFiles.Identity)"
+        MatchExpression="AssemblyVersion\(&quot;[^&quot;]*&quot;\)"
+        ReplacementText="AssemblyVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-        <TESTS_DLL Condition="'$(TESTS_DLL)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll</TESTS_DLL>
+    <ReplaceFileText
+        InputFilename="%(AssemblyInfoFiles.Identity)"
+        OutputFilename="%(AssemblyInfoFiles.Identity)"
+        MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
+        ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-        <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
-        <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net46\xunit.console.x86.exe</XU_RUNNER>
-        <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
-        <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLL) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
+    <MSBuild Projects="@(ProjectToBuild)" />
 
-        <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
-        <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-        <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
-        <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
-        <OC_SEARCHDIR Condition="'$(OC_SEARCHDIR)' == ''">NuLog.Tests\bin\Debug</OC_SEARCHDIR>
-        <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLL) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIR)"</OC_COMMAND>
+    <ReplaceFileText
+        InputFilename="%(NuspecFiles.Identity)"
+        OutputFilename="%(NuspecFiles.Identity)"
+        MatchExpression="\$releaseNotes\$"
+        ReplacementText="$(RELEASE_NOTES)"
+        XmlEncode="True" />
 
-        <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.6.0</SQ_VERSION>
-        <SQ_MINOR_VERSION Condition="'$(SQ_MINOR_VERSION)' == ''">1930</SQ_MINOR_VERSION>
-        <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\sonar-scanner-msbuild-$(SQ_VERSION).$(SQ_MINOR_VERSION)-net46\SonarScanner.MSBuild.exe</SQ_SCANNER>
-        <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
-        <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
-        <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
-        <SQ_LOGIN Condition="'$(SQ_LOGIN)' == ''">58b6e7e4bd6e2e4dbd0dadce9c705646bf6449af</SQ_LOGIN>
-        <SQ_EXCL Condition="'$(SQ_EXCL)' == ''">NuLogSnippets/**/*,**/*Shim.cs,NuLog.CLI*/**/*,**/LogFactoryActivatorNull.cs</SQ_EXCL>
+    <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -version $(APPVEYOR_REPO_TAG_NAME)" />
 
-        <SQ_PREPARE_COMMAND Condition="'$(SQ_PREPARE_COMMAND)' == ''">$(SQ_SCANNER) begin /k:"$(SQ_PROJECT)" /v:"$(APPVEYOR_BUILD_VERSION)" /o:"$(SQ_ORG)" /d:"sonar.host.url=$(SQ_HOST)" /d:"sonar.login=$(SQ_LOGIN)" /d:sonar.cs.xunit.reportsPaths="@(XU_RESULTSFILE)" /d:sonar.cs.opencover.reportsPaths="@(OC_RESULTSFILE)" /d:sonar.coverage.exclusions="$(SQ_EXCL)" /d:sonar.cpd.exclusions="$(SQ_EXCL)"</SQ_PREPARE_COMMAND>
-        <SQ_END_COMMAND Condition="'$(SQ_END_COMMAND)' == ''">$(SQ_SCANNER) end /d:"sonar.login=$(SQ_LOGIN)"</SQ_END_COMMAND>
-    </PropertyGroup>
-    <ItemGroup>
-        <ProjectToBuild Include="NuLog.sln">
-            <Properties>Configuration=Release-3.5</Properties>
-        </ProjectToBuild>
-        <ProjectToBuild Include="NuLog.sln">
-            <Properties>Configuration=Release-4</Properties>
-        </ProjectToBuild>
-        <ProjectToBuild Include="NuLog.sln">
-            <Properties>Configuration=Release-4.5.2</Properties>
-        </ProjectToBuild>
-
-        <SQ_PROJECT Include="NuLog.sln">
-            <Properties>Configuration=Debug</Properties>
-        </SQ_PROJECT>
-    </ItemGroup>
-    <Target Name="AppVeyor" DependsOnTargets="Inspect;AppVeyorBuild">
-    </Target>
-    <Target Name="AppVeyorBuild">
-        <ItemGroup>
-            <AssemblyInfoFiles Include="**\NuLog*\**\AssemblyInfo.cs" />
-            <FilesToDelete Include="**\NuLog*0.0.0-rc0.nupkg" />
-            <NuspecFiles Include="**\*.nuspec" />
-        </ItemGroup>
-
-        <ReplaceFileText
-            InputFilename="%(AssemblyInfoFiles.Identity)"
-            OutputFilename="%(AssemblyInfoFiles.Identity)"
-            MatchExpression="AssemblyCopyright\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="AssemblyCopyright(&quot;$(ASSEMBLY_COPYRIGHT)&quot;)" />
-
-        <ReplaceFileText
-            InputFilename="%(AssemblyInfoFiles.Identity)"
-            OutputFilename="%(AssemblyInfoFiles.Identity)"
-            MatchExpression="AssemblyVersion\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="AssemblyVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
-
-        <ReplaceFileText
-            InputFilename="%(AssemblyInfoFiles.Identity)"
-            OutputFilename="%(AssemblyInfoFiles.Identity)"
-            MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
-            ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
-
-        <MSBuild Projects="@(ProjectToBuild)" />
-
-        <ReplaceFileText
-            InputFilename="%(NuspecFiles.Identity)"
-            OutputFilename="%(NuspecFiles.Identity)"
-            MatchExpression="\$releaseNotes\$"
-            ReplacementText="$(RELEASE_NOTES)"
-            XmlEncode="True" />
-
-        <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -version $(APPVEYOR_REPO_TAG_NAME)" />
-
-        <Delete Files="@(FilesToDelete)" />
-    </Target>
-    <Target Name="Inspect" DependsOnTargets="SonarQube">
-    </Target>
-    <Target Name="SonarQube" DependsOnTargets="PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
-    </Target>
-    <Target Name="PrepareSonarQube">
-        <Exec Command="$(SQ_PREPARE_COMMAND)" />
-    </Target>
-    <Target Name="SonarQubeBuild">
-        <MSBuild Projects="@(SQ_PROJECT)" />
-    </Target>
-    <Target Name="ExecuteXUnit">
-        <Exec Command="$(XU_COMMAND)" />
-    </Target>
-    <Target Name="ExecuteOpenCover">
-        <Exec Command="$(OC_COMMAND)" />
-    </Target>
-    <Target Name="FinalizeSonarQube">
-        <Exec Command="$(SQ_END_COMMAND)" />
-    </Target>
-    <Target Name="CleanupSonarQube">
-        <Delete Files="@(SQ_RESULTSFILES)" />
-    </Target>
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
+  <Target Name="Restore">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Restore" />
+  </Target>
+  <Target Name="Inspect" DependsOnTargets="Restore;SonarQube">
+  </Target>
+  <Target Name="SonarQube" DependsOnTargets="Restore;PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
+  </Target>
+  <Target Name="PrepareSonarQube">
+    <Delete Files="@(SQ_WORKDIR)" />
+    <Delete Files="@(SQ_RESULTSFILES)" />
+    <Exec Command="$(SQ_PREPARE_COMMAND)" />
+  </Target>
+  <Target Name="SonarQubeBuild">
+    <MSBuild Projects="@(SQ_PROJECT)" />
+  </Target>
+  <Target Name="ExecuteXUnit">
+    <Exec Command="$(XU_COMMAND)" />
+  </Target>
+  <Target Name="ExecuteOpenCover">
+    <Exec Command="$(OC_COMMAND)" />
+  </Target>
+  <Target Name="FinalizeSonarQube">
+    <Exec Command="$(SQ_END_COMMAND)" />
+  </Target>
+  <Target Name="CleanupSonarQube">
+    <!--<Delete Files="@(SQ_WORKDIR)" />-->
+    <!--<Delete Files="@(SQ_RESULTSFILES)" />-->
+  </Target>
 </Project>

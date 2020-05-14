@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>NuLog.NetFramework</id>
+    <version>0.0.0-rc0</version>
+    <title>NuLog .NET Framework Components</title>
+    <authors>Ivan Andrew Pointer</authors>
+    <owners>Ivan Andrew Pointer</owners>
+    <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
+    <projectUrl>http://www.nulog.io/</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The parts of NuLog that apply to .NET framework environments.</description>
+    <summary>Powerfully Simple Logging. Period.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <copyright>©2020 Ivan Andrew Pointer</copyright>
+    <language>en-US</language>
+    <tags>log logging nulog tag</tags>
+  </metadata>
+  <files>
+    <file src="..\NuLog.NetFramework\bin\Release\NuLog.NetFramework.dll" />
+    <file src="..\NuLog.NetFramework\bin\Release\NuLog.NetFramework.pdb" />
+  </files>
+</package>
