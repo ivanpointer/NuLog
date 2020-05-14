@@ -46,7 +46,7 @@
     <TESTS_DLL Condition="'$(TESTS_DLL)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll</TESTS_DLL>
 
     <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
-    <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net46\xunit.console.x86.exe</XU_RUNNER>
+    <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.exe</XU_RUNNER>
     <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
     <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLL) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
 
@@ -57,9 +57,8 @@
     <OC_SEARCHDIR Condition="'$(OC_SEARCHDIR)' == ''">NuLog.Tests\bin\Debug</OC_SEARCHDIR>
     <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLL) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIR)"</OC_COMMAND>
 
-    <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.6.0</SQ_VERSION>
-    <SQ_MINOR_VERSION Condition="'$(SQ_MINOR_VERSION)' == ''">1930</SQ_MINOR_VERSION>
-    <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\MSBuild.SonarQube.Runner.Tool.$(SQ_VERSION)\tools\sonar-scanner-msbuild-$(SQ_VERSION).$(SQ_MINOR_VERSION)-net46\SonarScanner.MSBuild.exe</SQ_SCANNER>
+    <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
+    <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\dotnet-framework-sonarscanner.$(SQ_VERSION)\tools\SonarScanner.MSBuild.exe</SQ_SCANNER>
     <SQ_PROJECT Condition="'$(SQ_PROJECT)' == ''">NuLog</SQ_PROJECT>
     <SQ_HOST Condition="'$(SQ_HOST)' == ''">https://sonarcloud.io</SQ_HOST>
     <SQ_ORG Condition="'$(SQ_ORG)' == ''">ivanpointer-github</SQ_ORG>
