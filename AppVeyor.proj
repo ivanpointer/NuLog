@@ -33,6 +33,7 @@
     <XU_RESULTSFILE Include="XUnitResults.xml" />
     <OC_RESULTSFILE Include="opencover.xml" />
     <SQ_RESULTSFILES Include="@(XU_RESULTSFILE);@(OC_RESULTSFILE)" />
+    <SQ_WORKDIR Include=".sonarqube" />
   </ItemGroup>
   <PropertyGroup>
     <APPVEYOR_BUILD_VERSION Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">1.0.0.0</APPVEYOR_BUILD_VERSION>
@@ -43,19 +44,22 @@
 
     <ASSEMBLY_COPYRIGHT Condition="'$(ASSEMBLY_COPYRIGHT)' == ''">© 2020 Ivan Andrew Pointer</ASSEMBLY_COPYRIGHT>
 
-    <TESTS_DLL Condition="'$(TESTS_DLL)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll</TESTS_DLL>
+    <TESTS_DLLS Condition="'$(TESTS_DLLS)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll NuLog.NetFramework.Tests\bin\Debug\NuLog.NetFramework.Tests.dll</TESTS_DLLS>
+
+    <SQ_CLEANUP Condition="'$(SQ_CLEANUP)' == ''">True</SQ_CLEANUP>
 
     <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
-    <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.exe</XU_RUNNER>
+    <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.x86.exe</XU_RUNNER>
     <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
-    <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLL) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
+    <XU_COMMAND Condition="'$(XU_COMMAND)' == ''">$(XU_RUNNER) $(TESTS_DLLS) $(XU_EXCLUDE) -xml "@(XU_RESULTSFILE)"</XU_COMMAND>
 
     <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
     <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
+    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog*.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
     <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
-    <OC_SEARCHDIR Condition="'$(OC_SEARCHDIR)' == ''">NuLog.Tests\bin\Debug</OC_SEARCHDIR>
-    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLL) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIR)"</OC_COMMAND>
+    <!-- OC_SEARCHDIRS SHOULD BE SEMI-COLON DELIMITED -->
+    <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug</OC_SEARCHDIRS>
+    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIRS)"</OC_COMMAND>
 
     <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
     <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\dotnet-framework-sonarscanner.$(SQ_VERSION)\tools\SonarScanner.MSBuild.exe</SQ_SCANNER>
@@ -105,7 +109,7 @@
         ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
     <!--<Exec Command="dotnet restore &quot;%(ProjectToBuild.FullPath)&quot;" />-->
-    
+
     <MSBuild Projects="@(ProjectToBuild)" />
 
     <ReplaceFileText
@@ -127,6 +131,7 @@
   <Target Name="SonarQube" DependsOnTargets="Restore;PrepareSonarQube;SonarQubeBuild;ExecuteXUnit;ExecuteOpenCover;FinalizeSonarQube;CleanupSonarQube">
   </Target>
   <Target Name="PrepareSonarQube">
+    <Delete Files="@(SQ_WORKDIR)" />
     <Exec Command="$(SQ_PREPARE_COMMAND)" />
   </Target>
   <Target Name="SonarQubeBuild">
@@ -141,7 +146,8 @@
   <Target Name="FinalizeSonarQube">
     <Exec Command="$(SQ_END_COMMAND)" />
   </Target>
-  <Target Name="CleanupSonarQube">
+  <Target Name="CleanupSonarQube" Condition="'$(SQ_CLEANUP)' == 'True'">
     <Delete Files="@(SQ_RESULTSFILES)" />
+    <Delete Files="@(SQ_WORKDIR)" />
   </Target>
 </Project>
