@@ -57,7 +57,7 @@
     <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
     <!-- OC_SEARCHDIRS SHOULD BE SEMI-COLON DELIMITED -->
     <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug</OC_SEARCHDIRS>
-    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:$(OC_SEARCHDIRS)</OC_COMMAND>
+    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:administrator -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:$(OC_SEARCHDIRS)</OC_COMMAND>
 
     <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
     <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\dotnet-framework-sonarscanner.$(SQ_VERSION)\tools\SonarScanner.MSBuild.exe</SQ_SCANNER>
