@@ -105,7 +105,7 @@
         MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
         ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-    <Exec Command="dotnet restore %(ProjectToBuild.FullPath)" />
+    <Exec Command="dotnet restore &quot;%(ProjectToBuild.FullPath)&quot;" />
     
     <MSBuild Projects="@(ProjectToBuild)" />
 
