@@ -46,8 +46,6 @@
 
     <TESTS_DLLS Condition="'$(TESTS_DLLS)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll NuLog.NetFramework.Tests\bin\Debug\NuLog.NetFramework.Tests.dll</TESTS_DLLS>
 
-    <SQ_CLEANUP Condition="'$(SQ_CLEANUP)' == ''">True</SQ_CLEANUP>
-
     <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
     <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.x86.exe</XU_RUNNER>
     <XU_EXCLUDE Condition="'$(XU_EXCLUDE)' == ''">-notrait Category=Unit-Exclude</XU_EXCLUDE>
@@ -55,11 +53,11 @@
 
     <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
     <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog*.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
+    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.NetFramework.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
     <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
     <!-- OC_SEARCHDIRS SHOULD BE SEMI-COLON DELIMITED -->
     <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug</OC_SEARCHDIRS>
-    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:"$(OC_SEARCHDIRS)"</OC_COMMAND>
+    <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:user -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:$(OC_SEARCHDIRS)</OC_COMMAND>
 
     <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
     <SQ_SCANNER Condition="'$(SQ_SCANNER)' == ''">packages\dotnet-framework-sonarscanner.$(SQ_VERSION)\tools\SonarScanner.MSBuild.exe</SQ_SCANNER>
@@ -108,8 +106,6 @@
         MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
         ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
-    <!--<Exec Command="dotnet restore &quot;%(ProjectToBuild.FullPath)&quot;" />-->
-
     <MSBuild Projects="@(ProjectToBuild)" />
 
     <ReplaceFileText
@@ -132,6 +128,7 @@
   </Target>
   <Target Name="PrepareSonarQube">
     <Delete Files="@(SQ_WORKDIR)" />
+    <Delete Files="@(SQ_RESULTSFILES)" />
     <Exec Command="$(SQ_PREPARE_COMMAND)" />
   </Target>
   <Target Name="SonarQubeBuild">
@@ -146,8 +143,8 @@
   <Target Name="FinalizeSonarQube">
     <Exec Command="$(SQ_END_COMMAND)" />
   </Target>
-  <Target Name="CleanupSonarQube" Condition="'$(SQ_CLEANUP)' == 'True'">
-    <Delete Files="@(SQ_RESULTSFILES)" />
-    <Delete Files="@(SQ_WORKDIR)" />
+  <Target Name="CleanupSonarQube">
+    <!--<Delete Files="@(SQ_WORKDIR)" />-->
+    <!--<Delete Files="@(SQ_RESULTSFILES)" />-->
   </Target>
 </Project>
