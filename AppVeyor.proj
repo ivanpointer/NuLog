@@ -105,6 +105,8 @@
         MatchExpression="AssemblyFileVersion\(&quot;[^&quot;]*&quot;\)"
         ReplacementText="AssemblyFileVersion(&quot;$(APPVEYOR_BUILD_VERSION)&quot;)" />
 
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Restore" />
+    
     <MSBuild Projects="@(ProjectToBuild)" />
 
     <ReplaceFileText
