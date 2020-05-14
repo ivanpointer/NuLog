@@ -1,0 +1,6 @@
+C:\Source2\NuLog\NuLog\bin\Debug\NuLog.dll
+C:\Source2\NuLog\NuLog\bin\Debug\NuLog.pdb
+C:\Source2\NuLog\NuLog\obj\Debug\NuLog.csprojAssemblyReference.cache
+C:\Source2\NuLog\NuLog\obj\Debug\NuLog.csproj.CoreCompileInputs.cache
+C:\Source2\NuLog\NuLog\obj\Debug\NuLog.dll
+C:\Source2\NuLog\NuLog\obj\Debug\NuLog.pdb

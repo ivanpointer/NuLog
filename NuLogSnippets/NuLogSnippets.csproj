@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NuLogSnippets</RootNamespace>
     <AssemblyName>NuLogSnippets</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -104,10 +105,13 @@
     <None Include="CopyPastaApp.config" />
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\NuLog.NetFramework\NuLog.NetFramework.csproj">
+      <Project>{24effdb9-fa40-41d1-885e-911b2886a27a}</Project>
+      <Name>NuLog.NetFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
-      <Project>{100467BE-E1B1-4D5A-A40B-CA633015EC42}</Project>
+      <Project>{9a062f61-209b-4ef0-8fe2-e9520aadf8cc}</Project>
       <Name>NuLog</Name>
     </ProjectReference>
   </ItemGroup>

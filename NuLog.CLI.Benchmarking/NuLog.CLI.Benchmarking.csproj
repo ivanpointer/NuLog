@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NuLog.CLI.Benchmarking</RootNamespace>
     <AssemblyName>NuLog.CLI.Benchmarking</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,8 +54,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NuLog.NetFramework\NuLog.NetFramework.csproj">
+      <Project>{24effdb9-fa40-41d1-885e-911b2886a27a}</Project>
+      <Name>NuLog.NetFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuLog\NuLog.csproj">
-      <Project>{100467be-e1b1-4d5a-a40b-ca633015ec42}</Project>
+      <Project>{9a062f61-209b-4ef0-8fe2-e9520aadf8cc}</Project>
       <Name>NuLog</Name>
     </ProjectReference>
   </ItemGroup>

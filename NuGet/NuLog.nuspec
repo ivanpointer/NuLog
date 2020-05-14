@@ -1,28 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
-    <metadata>
-        <id>NuLog</id>
-        <version>0.0.0-rc0</version>
-        <title>NuLog</title>
-        <authors>Ivan Andrew Pointer</authors>
-        <owners>Ivan Andrew Pointer</owners>
-        <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
-        <projectUrl>http://www.nulog.io/</projectUrl>
-        <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Powerfully Simple Logging. Period.</description>
-        <summary>Powerfully Simple Logging. Period.</summary>
-        <releaseNotes>$releaseNotes$</releaseNotes>
-        <copyright>©2019 Ivan Andrew Pointer</copyright>
-        <language>en-US</language>
-        <tags>log logging nulog tag</tags>
-    </metadata>
-    <files>
-        <file src="..\NuLog\bin\Release-3.5\NuLog.dll" target="lib\net35\NuLog.dll" />
-        <file src="..\NuLog\bin\Release-3.5\NuLog.pdb" target="lib\net35\NuLog.pdb" />
-        <file src="..\NuLog\bin\Release-4\NuLog.dll" target="lib\net40\NuLog.dll" />
-        <file src="..\NuLog\bin\Release-4\NuLog.pdb" target="lib\net40\NuLog.pdb" />
-        <file src="..\NuLog\bin\Release-4.5.2\NuLog.dll" target="lib\net452\NuLog.dll" />
-        <file src="..\NuLog\bin\Release-4.5.2\NuLog.pdb" target="lib\net452\NuLog.pdb" />
-    </files>
+  <metadata>
+    <id>NuLog</id>
+    <version>0.0.0-rc0</version>
+    <title>NuLog</title>
+    <authors>Ivan Andrew Pointer</authors>
+    <owners>Ivan Andrew Pointer</owners>
+    <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
+    <projectUrl>http://www.nulog.io/</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Powerfully Simple Logging. Period.</description>
+    <summary>Powerfully Simple Logging. Period.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <copyright>©2020 Ivan Andrew Pointer</copyright>
+    <language>en-US</language>
+    <tags>log logging nulog tag</tags>
+  </metadata>
+  <files>
+    <file src="..\NuLog\bin\Release\netstandard2.0\NuLog*" />
+  </files>
 </package>
