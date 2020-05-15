@@ -6,18 +6,19 @@
     <title>NuLog</title>
     <authors>Ivan Andrew Pointer</authors>
     <owners>Ivan Andrew Pointer</owners>
-    <licenseUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/LICENSE</licenseUrl>
-    <projectUrl>http://www.nulog.io/</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/ivanpointer/NuLog/master/Marketing/NuLog%20Favicon%20Large.png</iconUrl>
+    <license type="expression">MIT</license>
+    <projectUrl>http://docs.nulog.io/en/latest/?badge=latest</projectUrl>
+    <icon>images\icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Powerfully Simple Logging. Period.</description>
-    <summary>Powerfully Simple Logging. Period.</summary>
     <releaseNotes>$releaseNotes$</releaseNotes>
+    <repository type="git" url="https://github.com/ivanpointer/NuLog.git" branch="master" />
     <copyright>©2020 Ivan Andrew Pointer</copyright>
     <language>en-US</language>
     <tags>log logging nulog tag</tags>
   </metadata>
   <files>
-    <file src="..\NuLog\bin\Release\netstandard2.0\NuLog*" />
+    <file src="Marketing\NuLog Logo Large.png" target="images\icon.png" />
+    <file src="..\NuLog\bin\Release\**" target="lib/{framework name}[{version}]" />
   </files>
 </package>

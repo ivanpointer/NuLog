@@ -7,24 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.Tests", "NuLog.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.CLI.PerfTune", "NuLog.CLI.PerfTune\NuLog.CLI.PerfTune.csproj", "{40A62D51-DE30-4C8A-BD5F-157189E0C8B5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{7F39E91A-4770-41EC-AF98-D641C96A0933}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\NuLog.NetFramework.nuspec = NuGet\NuLog.NetFramework.nuspec
-		NuGet\NuLog.nuspec = NuGet\NuLog.nuspec
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLogSnippets", "NuLogSnippets\NuLogSnippets.csproj", "{20CE24C2-B082-4E01-9AC7-8BC9CA044532}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuLog.Configuration", "NuLog.Configuration", "{31DA7066-7937-4031-B5A7-8D9E955381A5}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\NuLog.Configuration\app.config.transform = NuGet\NuLog.Configuration\app.config.transform
-		NuGet\NuLog.Configuration\NuLog.Configuration.nuspec = NuGet\NuLog.Configuration\NuLog.Configuration.nuspec
-		NuGet\NuLog.Configuration\web.config.transform = NuGet\NuLog.Configuration\web.config.transform
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{52C6572A-BFEA-45F5-9897-1FB4B89C07DD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Assets", "Build Assets", "{52C6572A-BFEA-45F5-9897-1FB4B89C07DD}"
 	ProjectSection(SolutionItems) = preProject
 		AppVeyor.proj = AppVeyor.proj
+		NuLog.NetFramework.nuspec = NuLog.NetFramework.nuspec
+		NuLog.nuspec = NuLog.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.CLI.Benchmarking", "NuLog.CLI.Benchmarking\NuLog.CLI.Benchmarking.csproj", "{C4C56EC4-0EDC-4DDF-879E-E96251C3BACF}"
@@ -33,11 +22,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.CLI.Benchmarking.Log4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.CLI.Benchmarking.NLog", "NuLog.CLI.Benchmarking.NLog\NuLog.CLI.Benchmarking.NLog.csproj", "{1C544723-B43F-4101-AC63-C0AA95B94598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog", "NuLog\NuLog.csproj", "{9A062F61-209B-4EF0-8FE2-E9520AADF8CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuLog", "NuLog\NuLog.csproj", "{9A062F61-209B-4EF0-8FE2-E9520AADF8CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.NetFramework", "NuLog.NetFramework\NuLog.NetFramework.csproj", "{24EFFDB9-FA40-41D1-885E-911B2886A27A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.NetCore", "NuLog.NetCore\NuLog.NetCore.csproj", "{0BF853DC-7708-4F35-BC58-014D9E396F07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuLog.NetCore", "NuLog.NetCore\NuLog.NetCore.csproj", "{0BF853DC-7708-4F35-BC58-014D9E396F07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.NetFramework.Tests", "NuLog.NetFramework.Tests\NuLog.NetFramework.Tests.csproj", "{00ED43A3-E965-464D-8528-311F876CE9B2}"
 EndProject
@@ -153,9 +142,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{31DA7066-7937-4031-B5A7-8D9E955381A5} = {7F39E91A-4770-41EC-AF98-D641C96A0933}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A20401C5-466D-4567-8427-6C6E674AD592}
