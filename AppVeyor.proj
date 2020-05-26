@@ -50,7 +50,7 @@
 
     <ASSEMBLY_COPYRIGHT Condition="'$(ASSEMBLY_COPYRIGHT)' == ''">© 2020 Ivan Andrew Pointer</ASSEMBLY_COPYRIGHT>
 
-    <TESTS_DLLS Condition="'$(TESTS_DLLS)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll NuLog.NetFramework.Tests\bin\Debug\NuLog.NetFramework.Tests.dll NuLog.NetCore.Tests\bin\Debug\netcoreapp3.1\NuLog.NetCore.Tests.dll</TESTS_DLLS>
+    <TESTS_DLLS Condition="'$(TESTS_DLLS)' == ''">NuLog.Tests\bin\Debug\NuLog.Tests.dll NuLog.NetFramework.Tests\bin\Debug\NuLog.NetFramework.Tests.dll</TESTS_DLLS>
 
     <XU_VERSION Condition="'$(XU_VERSION)' == ''">2.4.1</XU_VERSION>
     <XU_RUNNER Condition="'$(XU_RUNNER)' == ''">packages\xunit.runner.console.$(XU_VERSION)\tools\net472\xunit.console.x86.exe</XU_RUNNER>
@@ -60,10 +60,10 @@
     <OC_REGISTER Condition="'$(OC_REGISTER)' == ''">user</OC_REGISTER>
     <OC_VERSION Condition="'$(OC_VERSION)' == ''">4.7.922</OC_VERSION>
     <OC_RUNNER Condition="'$(OC_RUNNER)' == ''">packages\OpenCover.$(OC_VERSION)\tools\OpenCover.Console.exe</OC_RUNNER>
-    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.NetFramework.Tests]* -[NuLog.NetCore.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
+    <OC_FILTER Condition="'$(OC_FILTER)' == ''">+[NuLog*]* -[NuLog.Tests]* -[NuLog.NetFramework.Tests]* -[NuLog.CLI*]* -[NuLogSnippets*]*</OC_FILTER>
     <OC_EXCLUDEFILES Condition="'$(OC_EXCLUDEFILES)' == ''">*Shim.cs</OC_EXCLUDEFILES>
     <!-- OC_SEARCHDIRS SHOULD BE SEMI-COLON DELIMITED -->
-    <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug;NuLog.NetCore.Tests\bin\Debug\netcoreapp3.1</OC_SEARCHDIRS>
+    <OC_SEARCHDIRS Condition="'$(OC_SEARCHDIRS)' == ''">NuLog.Tests\bin\Debug;NuLog.NetFramework.Tests\bin\Debug</OC_SEARCHDIRS>
     <OC_COMMAND>$(OC_RUNNER) -output:"@(OC_RESULTSFILE)" -register:$(OC_REGISTER) -target:"$(XU_RUNNER)" -targetargs:"$(TESTS_DLLS) $(XU_EXCLUDE)" -filter:"$(OC_FILTER)" -excludebyfile:"$(OC_EXCLUDEFILES)" -searchdirs:$(OC_SEARCHDIRS)</OC_COMMAND>
 
     <SQ_VERSION Condition="'$(SQ_VERSION)' == ''">4.9.0</SQ_VERSION>
