@@ -2,10 +2,34 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>NuLog.NetCore</PackageId>
+    <Version>2.1.3</Version>
+    <Authors>Ivan Andrew Pointer</Authors>
+    <Company>Ivan Andrew Pointer</Company>
+    <Product>NuLog</Product>
+    <Description>The .Net Core components of NuLog.</Description>
+    <Copyright>©2020 Ivan Andrew Pointer</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ivanpointer/NuLog</PackageProjectUrl>
+    <PackageIcon>NuLog Logo Large.png</PackageIcon>
+    <RepositoryUrl>https://github.com/ivanpointer/NuLog</RepositoryUrl>
+    <PackageTags>log logging nulog tag</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NuLog\NuLog.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Marketing\NuLog Logo Large.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
