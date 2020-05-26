@@ -14,6 +14,7 @@
     <PackageIcon>NuLog Logo Large.png</PackageIcon>
     <RepositoryUrl>https://github.com/ivanpointer/NuLog</RepositoryUrl>
     <PackageTags>log logging nulog tag</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
