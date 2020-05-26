@@ -104,6 +104,7 @@
     <Compile Include="StandardLoggerFactoryTestsBase.cs" />
     <Compile Include="TargetConfigBuilder.cs" />
     <Compile Include="TraceListenerTestsBase.cs" />
+    <Compile Include="Unit\Configuration\TargetConfigTests.cs" />
     <Compile Include="Unit\Dispatchers\StandardDispatcherTests.cs" />
     <Compile Include="Unit\Factories\StandardLoggerFactoryUnitTests.cs" />
     <Compile Include="Unit\FallbackLoggers\StandardFallbackLoggerBaseTests.cs" />

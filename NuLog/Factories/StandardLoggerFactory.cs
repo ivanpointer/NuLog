@@ -39,7 +39,7 @@ namespace NuLog.Factories {
         protected readonly Config Config;
 
         /// <summary>
-        /// The fallback logger to use for the logger factory.
+        /// The fall-back logger to use for the logger factory.
         /// </summary>
         private IFallbackLogger _fallbackLogger;
 
@@ -78,7 +78,7 @@ namespace NuLog.Factories {
                             _fallbackLogger = MakeFallbackLogger();
                         } catch (Exception cause) {
                             _fallbackLogger = new StandardTraceFallbackLogger();
-                            _fallbackLogger.Log("Failed to get fallback logger for cause: {0}", cause);
+                            _fallbackLogger.Log("Failed to get fall-back logger for cause: {0}", cause);
                         }
                     }
                 }

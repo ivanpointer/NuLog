@@ -381,7 +381,7 @@ namespace NuLog.Tests.Unit.Factories {
         }
 
         /// <summary>
-        /// The factory should build a trace fallback logger when a fallback log (file path) isn't configured.
+        /// The factory should build a trace fall-back logger when a fall-back log (file path) isn't configured.
         /// </summary>
         [Fact(DisplayName = "Should_BuildTraceFallbackLoggerDefault")]
         public void Should_BuildTraceFallbackLoggerDefault() {
@@ -397,7 +397,7 @@ namespace NuLog.Tests.Unit.Factories {
         }
 
         /// <summary>
-        /// When a fallback path is configured, the factory should build the file fallback logger.
+        /// When a fall-back path is configured, the factory should build the file fall-back logger.
         /// </summary>
         [Fact(DisplayName = "Should_BuildFileFallbackLoggerWhenConfigured")]
         public void Should_BuildFileFallbackLoggerWhenConfigured() {
@@ -464,8 +464,8 @@ namespace NuLog.Tests.Unit.Factories {
         }
 
         /// <summary>
-        /// The factory shouldn't throw an exception when there's a failure in getting the fallback
-        /// logger. It should instead, fallback to a trace fallback logger, and report the error there.
+        /// The factory shouldn't throw an exception when there's a failure in getting the fall-back
+        /// logger. It should instead, fall-back to a trace fall-back logger, and report the error there.
         /// </summary>
         [Fact(DisplayName = "Should_NotThrowExceptionForBadFallbackLogger")]
         public void Should_NotThrowExceptionForBadFallbackLogger() {
@@ -474,7 +474,7 @@ namespace NuLog.Tests.Unit.Factories {
             var fallback = factory.GetFallbackLogger();
 
             // Verify
-            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Failed to get fallback logger for cause: ")), "No message was traced warning of the failed construction of the fallback logger.");
+            Assert.True(this.traceListener.Messages.Any(m => m.Contains("Failed to get fall-back logger for cause: ")), "No message was traced warning of the failed construction of the fall-back logger.");
         }
 
         [Fact(DisplayName = "Should_NotAllowGetLoggerAfterDispose")]
@@ -521,7 +521,7 @@ namespace NuLog.Tests.Unit.Factories {
     }
 
     /// <summary>
-    /// A broken standard logger factory, which throws an exception when getting the fallback logger.
+    /// A broken standard logger factory, which throws an exception when getting the fall-back logger.
     /// </summary>
     internal class BrokenFactoryFallbackLogger : StandardLoggerFactory {
 
@@ -529,7 +529,7 @@ namespace NuLog.Tests.Unit.Factories {
         }
 
         public override IFallbackLogger MakeFallbackLogger() {
-            // Deliberate - to test the "fallback" of the fallback logger, in the logger factory constructor.
+            // Deliberate - to test the "fall-back" of the fall-back logger, in the logger factory constructor.
             throw new NotImplementedException();
         }
     }
