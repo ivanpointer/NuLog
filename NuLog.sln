@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLogSnippets", "NuLogSnipp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Assets", "Build Assets", "{52C6572A-BFEA-45F5-9897-1FB4B89C07DD}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		AppVeyor.proj = AppVeyor.proj
 		NuLog.NetFramework.nuspec = NuLog.NetFramework.nuspec
 		NuLog.nuspec = NuLog.nuspec
@@ -30,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuLog.NetCore", "NuLog.NetC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.NetFramework.Tests", "NuLog.NetFramework.Tests\NuLog.NetFramework.Tests.csproj", "{00ED43A3-E965-464D-8528-311F876CE9B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuLog.NetCore.Tests", "NuLog.NetCore.Tests\NuLog.NetCore.Tests.csproj", "{6C81EEE0-902D-424A-8E64-7F3A45E3FEA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuLog.NetCore.Tests", "NuLog.NetCore.Tests\NuLog.NetCore.Tests.csproj", "{6C81EEE0-902D-424A-8E64-7F3A45E3FEA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
