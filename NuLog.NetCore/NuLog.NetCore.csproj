@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>NuLog.NetCore</PackageId>
-    <Version>2.1.3</Version>
+    <Version>2.1.4.0</Version>
     <Authors>Ivan Andrew Pointer</Authors>
     <Company>Ivan Andrew Pointer</Company>
     <Product>NuLog</Product>
