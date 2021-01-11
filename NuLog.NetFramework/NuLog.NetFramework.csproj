@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NuLog, Version=2.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuLog.2.1.3\lib\netstandard2.0\NuLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -51,11 +54,7 @@
     <Compile Include="Targets\IEventLog.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NuLog\NuLog.csproj">
-      <Project>{9a062f61-209b-4ef0-8fe2-e9520aadf8cc}</Project>
-      <Name>NuLog</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
